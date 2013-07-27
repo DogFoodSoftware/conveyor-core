@@ -1,0 +1,319 @@
+<?php
+   global $extraHeader;
+   $extraHeader = <<<EOT
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>;
+    <style type="text/css">
+/* style notes:
+   - would like to better disinguish 'artifact' from 'human tasks'; shapes?
+     (Did try to knock this out, isn't trivially straightforward though the
+     basic idea is clear enough.)
+   - would like way to denote 'scheduled' items triggered regularly by
+     calender / time; different circle border?
+   - need to review all colors; I like the links OK, but the nodes have no
+     thought
+   - indicate semi- or possibly automated items?
+   - right now, we don't show automated nodes... may want to in larger diagram
+*/
+path.link {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px;
+}
+
+marker#closes {
+  fill: green;
+}
+
+path.link.closes {
+  stroke: green;
+}
+
+marker#updates {
+  fill: #0cc;
+}
+
+path.link.updates {
+  stroke: #0cc;
+  stroke-dasharray: 5, 1;
+}
+
+marker#informs {
+  fill: #cc0;
+}
+
+path.link.informs {
+  stroke: #cc0;
+  stroke-dasharray: 0,2 1;
+}
+
+circle {
+  fill: #ccc;
+  stroke: #333;
+  stroke-width: 1.5px;
+}
+
+circle.all {
+  fill: #d00;
+}
+
+circle.vision {
+  fill: #0d0;
+}
+
+circle.management {
+  fill: #00d;
+}
+
+circle.implementation {
+  fill: #88f;
+}
+
+circle.finance {
+  fill: #262;
+}
+
+circle.operations {
+  fill: #a22;
+}
+
+circle.externality {
+  fill: #000;
+}
+
+circle.support {
+  fill: #f82;
+}
+
+circle.sales {
+  fill: #ff0;
+}
+
+circle.artifact {
+  fill: #c0c;
+}
+
+text {
+  font: 10px sans-serif;
+  pointer-events: none;
+}
+
+text.shadow {
+  stroke: #fff;
+  stroke-width: 3px;
+  stroke-opacity: .8;
+}
+
+    </style>
+EOT
+?>
+<div id="viz" class="grid_12"></div>
+    <script type="text/javascript">
+
+/* Basic idea is you start with tasks that generate plans. The plans are
+ * themselves expressed as tasks. Completion of a task may generate follow on
+ * tasks. Some tasks are triggered periodically, some tasks are event
+ * driven. */
+
+var links = [
+    /* In practice, all 'triggers' events are mediated by /tasks
+     * items. Because of the universality, we do not show the events as
+     * 'updating' tasks, and then processed from tasks (which would visuall
+     * break the link in our simple diagram). Instead, we let the /tasks
+     * involvement be implied except when directly updating tasks for the
+     * purposes of planning.
+     */
+    /* priorities */
+    {source: "propose/revise priorities", type: "triggers", target: "priorities feedback"},
+    {source: "priorities feedback", type: "triggers", target: "propose/revise priorities"},
+    {source: "propose/revise priorities", type: "updates", target: "/priorities"},
+    {source: "/priorities", type: "informs", target: "priorities feedback"},
+    {source: "/priorities", type: "informs", target: "/milestones"},
+    /* budget */
+    {source: "propose/revise budget", type: "triggers", target: "budget feedback"},
+    {source: "budget feedback", type: "triggers", target: "propose/revise budget"},
+    {source: "propose/revise budget", type: "updates", target: "/budget-items"},
+    {source: "/budget-items", type: "informs", target: "budget feedback"},
+    /* HR */
+    {source: "propose/revise hr plan", type: "triggers", target: "hr plan feedback"},
+    {source: "hr plan feedback", type: "triggers", target: "propose/revise hr plan"},
+    {source: "propose/revise hr plan", type: "updates", target: "/tasks"},
+    {source: "/people", type: "informs", target: "/budget-items"},
+    /* HR activities */
+    {source: "/tasks", type: "triggers", target: "acquire resource"},
+    {source: "/tasks", type: "triggers", target: "release resource"},
+    {source: "acquire resource", type: "triggers", target: "/people"},
+    {source: "release resource", type: "triggers", target: "/people"},
+    /* milestones */
+    {source: "propose/revise milestones", type: "triggers", target: "milestones feedback"},
+    {source: "milestones feedback", type: "triggers", target: "propose/revise milestones"},
+    {source: "propose/revise milestones", type: "updates", target: "/milestones"},
+    {source: "/milestones", type: "informs", target: "milestones feedback"},
+    {source: "/milestones", type: "informs", target: "/budget-items"},
+    /* implementation plan */
+    {source: "propose/revise implementation tasks", type: "triggers", target: "implementation feedback"},
+    {source: "implementation feedback", type: "triggers", target: "propose/revise implementation tasks"},
+    {source: "propose/revise implementation tasks", type: "updates", target: "/tasks"},
+    {source: "/milestones", type: "informs", target: "propose/revise implementation tasks"},
+    /* implementation */
+    {source: "/tasks", type: "triggers", target: "implementation tasks"},
+    {source: "implementation tasks", type: "updates", target: "/tasks"},
+    /* fund raising */
+    {source: "/budget-items", type: "triggers", target: "fund raising"},
+    {source: "fund raising", type: "triggers", target: "/accounts"},
+    /* accounting and cash management*/
+    {source: "accounting", type: "updates", target: "/accounts"},
+    {source: "/accounts", type: "informs", target: "budget tracking"},
+    {source: "/budget-items", type: "informs", target: "budget tracking"},
+    {source: "budget tracking", type: "triggers", target: "fund raising"},
+    {source: "budget tracking", type: "triggers", target: "cash management"},
+    {source: "cash management", type: "updates", target: "/accounts"},
+    /* operations */
+    {source: "production planning", type: "updates", target: "/budget-items"},
+    {source: "/milestones", type: "triggers", target: "production deploys"},
+    {source: "disaster", type: "triggers", target: "disaster recovery"},
+    /* support */
+    {source: "process user reports", type: "updates", target: "/tasks"},
+    {source: "/tasks", type: "triggers", target: "follow up with users"},
+    /* sales & marketing */
+    {source: "propose/revise marketing plan", type: "triggers", target: "marketing plan feedback"},
+    {source: "marketing plan feedback", type: "triggers", target: "propose/revise marketing plan"},
+    {source: "propose/revise marketing plan", type: "updates", target: "/tasks"},
+];
+
+var nodes = {
+    /* priorities */
+    "propose/revise priorities": { name: "propose/revise priorities", department: "vision"},
+    "priorities feedback": {name: "priorities feedback", department: "all"},
+    /* budget */
+    "propose/revise budget": { name: "propose/revise budget", department: "management"},
+    "budget feedback": {name: "budget feedback", department: "all"},
+    /* HR */
+    "propose/revise hr plan": { name: "propose/revise hr plan", department: "management"},
+    "hr plan feedback": {name: "hr plan feedback", department: "all"},
+    /* HR activities */
+    "acquire resource": { name: "acquire resource", department: "management"},
+    "release resource": { name: "release resource", department: "management"},
+    /* milestones */
+    "propose/revise milestones": { name: "propose/revise milestones", department: "management"},
+    "milestones feedback": {name: "milestones feedback", department: "all"},
+    /* implementation */
+    "propose/revise implementation tasks": { name: "propose/revise implementation tasks", department: "implementation"},
+    "implementation feedback": {name: "implementation feedback", department: "all"},
+    "implementation tasks": {name: "implementation tasks", department: "implementation"},
+    /* fund raising */
+    "fund raising": {name: "fund raising", department: "finance"},
+    /* accounting */
+    "accounting": {name: "accounting", department: "finance"},
+    "budget tracking": {name: "budget tracking", department: "finance"},
+    "cash management": {name: "cash management", department: "finance"},
+    /* operations */
+    "production planning": {name: "production planning", department: "operations"},
+    "production deploys": {name: "production deploys", department: "operations"},
+    "disaster": {name: "disaster", department: "externality"},    
+    "disaster recovery" : {name: "disaster recovery", department: "operations"},
+    /* suspport */
+    "process user reports": {name: "proces user reports", department: "support"},
+    "follow up with users": {name: "follow up with users", department: "support"},
+    /* sales & marketing */
+    "propose/revise marketing plan": {name: "propose/revise marketing plan", department: "sales"},
+    "marketing plan feedback": {name: "marketing plan feedback", department: "all"},
+
+    /* artifacts */
+    "/priorities": {name: "/priorities", department: "artifact"},
+    "/budget-items": {name: "/budget-items", department: "artifact"},
+    "/people": {name: "/people", department: "artifact"},
+    "/milestones": {name: "/milestones", department: "artifact"},
+    /* tasks are so central, we break it up */
+    "/tasks": {name: "/tasks", department: "artifact"},
+    "/accounts": {name: "/accounts", department: "artifact"},
+};
+
+// Typos in the node names will result in a creation of grey links which can
+// be visually identified and corrected.
+
+// Compute the distinct nodes from the links.
+links.forEach(function(link) {
+  link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
+  link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
+});
+
+var w = 960,
+    h = 500;
+
+var force = d3.layout.force()
+    .nodes(d3.values(nodes))
+    .links(links)
+    .size([w, h])
+    .linkDistance(60)
+    .charge(-300)
+    .on("tick", tick)
+    .start();
+
+var svg = d3.select("#viz").append("svg:svg")
+    .attr("width", w)
+    .attr("height", h);
+
+// Per-type markers, as they don't inherit styles.
+svg.append("svg:defs").selectAll("marker")
+    .data(["triggers", "closes", "informs", "updates"])
+  .enter().append("svg:marker")
+    .attr("id", String)
+    .attr("viewBox", "0 -5 10 10")
+    .attr("refX", 15)
+    .attr("refY", -1.5)
+    .attr("markerWidth", 6)
+    .attr("markerHeight", 6)
+    .attr("orient", "auto")
+  .append("svg:path")
+    .attr("d", "M0,-5L10,0L0,5");
+
+var path = svg.append("svg:g").selectAll("path")
+    .data(force.links())
+  .enter().append("svg:path")
+    .attr("class", function(d) { return "link " + d.type; })
+    .attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
+
+var node = svg.append("svg:g").selectAll("circle")
+    .data(force.nodes())
+  .enter().append("svg:circle")
+    /* added */
+    .attr("class", function(d) { return d.department })
+    .attr("r", 6)
+    .call(force.drag);
+
+var text = svg.append("svg:g").selectAll("g")
+    .data(force.nodes())
+  .enter().append("svg:g");
+
+// A copy of the text with a thick white stroke for legibility.
+text.append("svg:text")
+    .attr("x", 8)
+    .attr("y", ".31em")
+    .attr("class", "shadow")
+    .text(function(d) { return d.name; });
+
+text.append("svg:text")
+    .attr("x", 8)
+    .attr("y", ".31em")
+    .text(function(d) { return d.name; });
+
+// Use elliptical arc path segments to doubly-encode directionality.
+function tick() {
+  path.attr("d", function(d) {
+    var dx = d.target.x - d.source.x,
+        dy = d.target.y - d.source.y,
+        dr = Math.sqrt(dx * dx + dy * dy);
+    return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+  });
+
+  node.attr("transform", function(d) {
+    return "translate(" + d.x + "," + d.y + ")";
+  });
+
+  text.attr("transform", function(d) {
+    return "translate(" + d.x + "," + d.y + ")";
+  });
+}
+
+    </script>
+
