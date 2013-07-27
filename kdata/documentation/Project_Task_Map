@@ -121,16 +121,28 @@ EOT;
  * The spec is still a work in process. At the moment, we're going with the
  * following:
  * <ol>
- *   <li>There are three fundamental node types: 'actors', 'resources', and
- *   'events'.</li>
-
+ *   <li>There are three fundamental node types: 'activities', 'resources',
+ *   and 'events'.</li>
  *   <li>The fundamental node types are further decomposed into one and only
  *   one of the following contrete types:
  *     <ol>
- *       <li>Actors are </li>
- *       <li>A resource may be updated by an actor or another resource</li>
- *       <li>An actor may be informed by a resource.</li>
+ *       <li>Activities are organized by the <href="TODO">department</a>:
+ *         <ol>
+ *           <li>'<a href="TODO">vision</a>',</li>
+ *           <li>'<a href="TODO">management</a>',</li>
+ *           <li>'<a href="TODO">implementation</a>',</li>
+ *           <li>'<a href="TODO">operations</a>',</li>
+ *           <li>'<a href="TODO">sales</a>',</li>
+ *           <li>'<a href="TODO">support</a>', and</li>
+ *           <li>'<a href="TODO">finance</a>'.</li>
+ *         </ol></li>
+ *       <li>Resources are one of the <a href="TODO">Conveyor basic
+ *       resources<a>. (Will list and link after we develop the map a bit
+ *       further.)</li>
+ *       <li>Events are either 'interupts' or 'scheduled'.</li>
  *     </ol></li>
+ *   <li>An update or triggers emanating from a resource represents automated
+ *   action by Conveyor logic.</li>
  *   <li>There are three fundamental node interactions (captured as node
  *   paths): 'trigger', 'update', and 'informs'.</li>
  *   <li>The following interaction list is exhaustive of all valid interactions:
@@ -139,29 +151,11 @@ EOT;
  *       <li>A resource may be updated by an actor or another resource</li>
  *       <li>An actor may be informed by a resource.</li>
  *     </ol></li>
- *   <li></li>
- *   <li></li>
- *   <li></li>
- *   <li></li>
- *   <li></li>
- *   <li></li>
- *   <li></li>
- *   <li></li>
- *   <li></li>
- *   <li></li>
- *   <li></li>
  * </ol>
  * </div>
 */
 
 var links = [
-    /* In practice, all 'triggers' events are mediated by /tasks
-     * items. Because of the universality, we do not show the events as
-     * 'updating' tasks, and then processed from tasks (which would visuall
-     * break the link in our simple diagram). Instead, we let the /tasks
-     * involvement be implied except when directly updating tasks for the
-     * purposes of planning.
-     */
     /* priorities */
     {source: "propose/revise priorities", interaction: "triggers", target: "priorities feedback"},
     {source: "priorities feedback", interaction: "triggers", target: "propose/revise priorities"},
