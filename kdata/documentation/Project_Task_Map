@@ -109,10 +109,50 @@ EOT;
 <div id="viz" class="grid_12"></div>
     <script type="text/javascript">
 
-/* Basic idea is you start with tasks that generate plans. The plans are
+/**
+ * <div class="p">
+ * Basic idea is you start with tasks that generate plans. The plans are
  * themselves expressed as tasks. Completion of a task may generate follow on
  * tasks. Some tasks are triggered periodically, some tasks are event
- * driven. */
+ * driven. 
+ * </div>
+ * <div id="" class="subHeader">Working Spec<span>
+ * <div class="p">
+ * The spec is still a work in process. At the moment, we're going with the
+ * following:
+ * <ol>
+ *   <li>There are three fundamental node types: 'actors', 'resources', and
+ *   'events'.</li>
+
+ *   <li>The fundamental node types are further decomposed into one and only
+ *   one of the following contrete types:
+ *     <ol>
+ *       <li>Actors are </li>
+ *       <li>A resource may be updated by an actor or another resource</li>
+ *       <li>An actor may be informed by a resource.</li>
+ *     </ol></li>
+ *   <li>There are three fundamental node interactions (captured as node
+ *   paths): 'trigger', 'update', and 'informs'.</li>
+ *   <li>The following interaction list is exhaustive of all valid interactions:
+ *     <ol>
+ *       <li>An actor may be triggered by another actor or resource.</li>
+ *       <li>A resource may be updated by an actor or another resource</li>
+ *       <li>An actor may be informed by a resource.</li>
+ *     </ol></li>
+ *   <li></li>
+ *   <li></li>
+ *   <li></li>
+ *   <li></li>
+ *   <li></li>
+ *   <li></li>
+ *   <li></li>
+ *   <li></li>
+ *   <li></li>
+ *   <li></li>
+ *   <li></li>
+ * </ol>
+ * </div>
+*/
 
 var links = [
     /* In practice, all 'triggers' events are mediated by /tasks
@@ -123,109 +163,109 @@ var links = [
      * purposes of planning.
      */
     /* priorities */
-    {source: "propose/revise priorities", type: "triggers", target: "priorities feedback"},
-    {source: "priorities feedback", type: "triggers", target: "propose/revise priorities"},
-    {source: "propose/revise priorities", type: "updates", target: "/priorities"},
-    {source: "/priorities", type: "informs", target: "priorities feedback"},
-    {source: "/priorities", type: "informs", target: "/milestones"},
+    {source: "propose/revise priorities", interaction: "triggers", target: "priorities feedback"},
+    {source: "priorities feedback", interaction: "triggers", target: "propose/revise priorities"},
+    {source: "propose/revise priorities", interaction: "updates", target: "/priorities"},
+    {source: "/priorities", interaction: "informs", target: "priorities feedback"},
+    {source: "/priorities", interaction: "informs", target: "/milestones"},
     /* budget */
-    {source: "propose/revise budget", type: "triggers", target: "budget feedback"},
-    {source: "budget feedback", type: "triggers", target: "propose/revise budget"},
-    {source: "propose/revise budget", type: "updates", target: "/budget-items"},
-    {source: "/budget-items", type: "informs", target: "budget feedback"},
+    {source: "propose/revise budget", interaction: "triggers", target: "budget feedback"},
+    {source: "budget feedback", interaction: "triggers", target: "propose/revise budget"},
+    {source: "propose/revise budget", interaction: "updates", target: "/budget-items"},
+    {source: "/budget-items", interaction: "informs", target: "budget feedback"},
     /* HR */
-    {source: "propose/revise hr plan", type: "triggers", target: "hr plan feedback"},
-    {source: "hr plan feedback", type: "triggers", target: "propose/revise hr plan"},
-    {source: "propose/revise hr plan", type: "updates", target: "/tasks"},
-    {source: "/people", type: "informs", target: "/budget-items"},
+    {source: "propose/revise hr plan", interaction: "triggers", target: "hr plan feedback"},
+    {source: "hr plan feedback", interaction: "triggers", target: "propose/revise hr plan"},
+    {source: "propose/revise hr plan", interaction: "updates", target: "/tasks"},
+    {source: "/people", interaction: "updates", target: "/budget-items"},
     /* HR activities */
-    {source: "/tasks", type: "triggers", target: "acquire resource"},
-    {source: "/tasks", type: "triggers", target: "release resource"},
-    {source: "acquire resource", type: "triggers", target: "/people"},
-    {source: "release resource", type: "triggers", target: "/people"},
+    {source: "/tasks", interaction: "triggers", target: "acquire resource"},
+    {source: "/tasks", interaction: "triggers", target: "release resource"},
+    {source: "acquire resource", interaction: "triggers", target: "/people"},
+    {source: "release resource", interaction: "triggers", target: "/people"},
     /* milestones */
-    {source: "propose/revise milestones", type: "triggers", target: "milestones feedback"},
-    {source: "milestones feedback", type: "triggers", target: "propose/revise milestones"},
-    {source: "propose/revise milestones", type: "updates", target: "/milestones"},
-    {source: "/milestones", type: "informs", target: "milestones feedback"},
-    {source: "/milestones", type: "informs", target: "/budget-items"},
+    {source: "propose/revise milestones", interaction: "triggers", target: "milestones feedback"},
+    {source: "milestones feedback", interaction: "triggers", target: "propose/revise milestones"},
+    {source: "propose/revise milestones", interaction: "updates", target: "/milestones"},
+    {source: "/milestones", interaction: "informs", target: "milestones feedback"},
     /* implementation plan */
-    {source: "propose/revise implementation tasks", type: "triggers", target: "implementation feedback"},
-    {source: "implementation feedback", type: "triggers", target: "propose/revise implementation tasks"},
-    {source: "propose/revise implementation tasks", type: "updates", target: "/tasks"},
-    {source: "/milestones", type: "informs", target: "propose/revise implementation tasks"},
+    {source: "propose/revise implementation tasks", interaction: "triggers", target: "implementation feedback"},
+    {source: "implementation feedback", interaction: "triggers", target: "propose/revise implementation tasks"},
+    {source: "propose/revise implementation tasks", interaction: "updates", target: "/tasks"},
+    {source: "/milestones", interaction: "informs", target: "propose/revise implementation tasks"},
     /* implementation */
-    {source: "/tasks", type: "triggers", target: "implementation tasks"},
-    {source: "implementation tasks", type: "updates", target: "/tasks"},
+    {source: "/tasks", interaction: "triggers", target: "implementation tasks"},
+    {source: "implementation tasks", interaction: "updates", target: "/tasks"},
     /* fund raising */
-    {source: "/budget-items", type: "triggers", target: "fund raising"},
-    {source: "fund raising", type: "triggers", target: "/accounts"},
+    {source: "/tasks", interaction: "updates", target: "/budget-items"},
+    {source: "/budget-items", interaction: "triggers", target: "fund raising"},
+    {source: "fund raising", interaction: "triggers", target: "/accounts"},
     /* accounting and cash management*/
-    {source: "accounting", type: "updates", target: "/accounts"},
-    {source: "/accounts", type: "informs", target: "budget tracking"},
-    {source: "/budget-items", type: "informs", target: "budget tracking"},
-    {source: "budget tracking", type: "triggers", target: "fund raising"},
-    {source: "budget tracking", type: "triggers", target: "cash management"},
-    {source: "cash management", type: "updates", target: "/accounts"},
+    {source: "accounting", interaction: "updates", target: "/accounts"},
+    {source: "/accounts", interaction: "informs", target: "budget tracking"},
+    {source: "/budget-items", interaction: "informs", target: "budget tracking"},
+    {source: "budget tracking", interaction: "triggers", target: "fund raising"},
+    {source: "budget tracking", interaction: "triggers", target: "cash management"},
+    {source: "cash management", interaction: "updates", target: "/accounts"},
     /* operations */
-    {source: "production planning", type: "updates", target: "/budget-items"},
-    {source: "/milestones", type: "triggers", target: "production deploys"},
-    {source: "disaster", type: "triggers", target: "disaster recovery"},
+    {source: "production planning", interaction: "updates", target: "/tasks"},
+    {source: "/milestones", interaction: "triggers", target: "production deploys"},
+    {source: "disaster", interaction: "triggers", target: "disaster recovery"},
     /* support */
-    {source: "process user reports", type: "updates", target: "/tasks"},
-    {source: "/tasks", type: "triggers", target: "follow up with users"},
+    {source: "process user reports", interaction: "updates", target: "/tasks"},
+    {source: "/tasks", interaction: "triggers", target: "follow up with users"},
     /* sales & marketing */
-    {source: "propose/revise marketing plan", type: "triggers", target: "marketing plan feedback"},
-    {source: "marketing plan feedback", type: "triggers", target: "propose/revise marketing plan"},
-    {source: "propose/revise marketing plan", type: "updates", target: "/tasks"},
+    {source: "propose/revise marketing plan", interaction: "triggers", target: "marketing plan feedback"},
+    {source: "marketing plan feedback", interaction: "triggers", target: "propose/revise marketing plan"},
+    {source: "propose/revise marketing plan", interaction: "updates", target: "/tasks"},
 ];
 
 var nodes = {
     /* priorities */
-    "propose/revise priorities": { name: "propose/revise priorities", department: "vision"},
-    "priorities feedback": {name: "priorities feedback", department: "all"},
+    "propose/revise priorities": { name: "propose/revise priorities", type: "vision"},
+    "priorities feedback": {name: "priorities feedback", type: "all"},
     /* budget */
-    "propose/revise budget": { name: "propose/revise budget", department: "management"},
-    "budget feedback": {name: "budget feedback", department: "all"},
+    "propose/revise budget": { name: "propose/revise budget", type: "management"},
+    "budget feedback": {name: "budget feedback", type: "all"},
     /* HR */
-    "propose/revise hr plan": { name: "propose/revise hr plan", department: "management"},
-    "hr plan feedback": {name: "hr plan feedback", department: "all"},
+    "propose/revise hr plan": { name: "propose/revise hr plan", type: "management"},
+    "hr plan feedback": {name: "hr plan feedback", type: "all"},
     /* HR activities */
-    "acquire resource": { name: "acquire resource", department: "management"},
-    "release resource": { name: "release resource", department: "management"},
+    "acquire resource": { name: "acquire resource", type: "management"},
+    "release resource": { name: "release resource", type: "management"},
     /* milestones */
-    "propose/revise milestones": { name: "propose/revise milestones", department: "management"},
-    "milestones feedback": {name: "milestones feedback", department: "all"},
+    "propose/revise milestones": { name: "propose/revise milestones", type: "management"},
+    "milestones feedback": {name: "milestones feedback", type: "all"},
     /* implementation */
-    "propose/revise implementation tasks": { name: "propose/revise implementation tasks", department: "implementation"},
-    "implementation feedback": {name: "implementation feedback", department: "all"},
-    "implementation tasks": {name: "implementation tasks", department: "implementation"},
+    "propose/revise implementation tasks": { name: "propose/revise implementation tasks", type: "implementation"},
+    "implementation feedback": {name: "implementation feedback", type: "all"},
+    "implementation tasks": {name: "implementation tasks", type: "implementation"},
     /* fund raising */
-    "fund raising": {name: "fund raising", department: "finance"},
+    "fund raising": {name: "fund raising", type: "finance"},
     /* accounting */
-    "accounting": {name: "accounting", department: "finance"},
-    "budget tracking": {name: "budget tracking", department: "finance"},
-    "cash management": {name: "cash management", department: "finance"},
+    "accounting": {name: "accounting", type: "finance"},
+    "budget tracking": {name: "budget tracking", type: "finance"},
+    "cash management": {name: "cash management", type: "finance"},
     /* operations */
-    "production planning": {name: "production planning", department: "operations"},
-    "production deploys": {name: "production deploys", department: "operations"},
-    "disaster": {name: "disaster", department: "externality"},    
-    "disaster recovery" : {name: "disaster recovery", department: "operations"},
+    "production planning": {name: "production planning", type: "operations"},
+    "production deploys": {name: "production deploys", type: "operations"},
+    "disaster": {name: "disaster", type: "externality"},    
+    "disaster recovery" : {name: "disaster recovery", type: "operations"},
     /* suspport */
-    "process user reports": {name: "proces user reports", department: "support"},
-    "follow up with users": {name: "follow up with users", department: "support"},
+    "process user reports": {name: "proces user reports", type: "support"},
+    "follow up with users": {name: "follow up with users", type: "support"},
     /* sales & marketing */
-    "propose/revise marketing plan": {name: "propose/revise marketing plan", department: "sales"},
-    "marketing plan feedback": {name: "marketing plan feedback", department: "all"},
+    "propose/revise marketing plan": {name: "propose/revise marketing plan", type: "sales"},
+    "marketing plan feedback": {name: "marketing plan feedback", type: "all"},
 
     /* artifacts */
-    "/priorities": {name: "/priorities", department: "artifact"},
-    "/budget-items": {name: "/budget-items", department: "artifact"},
-    "/people": {name: "/people", department: "artifact"},
-    "/milestones": {name: "/milestones", department: "artifact"},
+    "/priorities": {name: "/priorities", type: "artifact"},
+    "/budget-items": {name: "/budget-items", type: "artifact"},
+    "/people": {name: "/people", type: "artifact"},
+    "/milestones": {name: "/milestones", type: "artifact"},
     /* tasks are so central, we break it up */
-    "/tasks": {name: "/tasks", department: "artifact"},
-    "/accounts": {name: "/accounts", department: "artifact"},
+    "/tasks": {name: "/tasks", type: "artifact"},
+    "/accounts": {name: "/accounts", type: "artifact"},
 };
 
 // Typos in the node names will result in a creation of grey links which can
@@ -270,14 +310,14 @@ svg.append("svg:defs").selectAll("marker")
 var path = svg.append("svg:g").selectAll("path")
     .data(force.links())
   .enter().append("svg:path")
-    .attr("class", function(d) { return "link " + d.type; })
-    .attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
+    .attr("class", function(d) { return "link " + d.interaction; })
+    .attr("marker-end", function(d) { return "url(#" + d.interaction + ")"; });
 
 var node = svg.append("svg:g").selectAll("circle")
     .data(force.nodes())
   .enter().append("svg:circle")
     /* added */
-    .attr("class", function(d) { return d.department })
+    .attr("class", function(d) { return d.type })
     .attr("r", 6)
     .call(force.drag);
 
