@@ -40,10 +40,44 @@
 <div id="Environment-Updates" class="blurbSummary grid_12">
   <div class="blurbTitle">Environment Updates</div>
   <div class="p">
-    
-
-    To update an environment, simply run
-    the <code>~/playground/conveyor/bin/sevice-update</code> script. This will
-    update environment configuration based on your environment
+    One can view an environment as a collection of specific project versions,
+    checked out, built, and running. The specific versions are specified in
+    the project subscription. When an environment is updated, all services are
+    temporarily shut down (making the environment inactive), the environment
+    subscription is updated, any updated entries in the subscription file are
+    updated, any new update scripts are run, and then all services are
+    restarted.  This process can be initiated via the web service (TODO: how?)
+    or via the <code>~/playground/conveyor/bin/sevice-update</code> script.
   </div>
 </div><!-- .blurbSummary#Environment-Updates -->
+<div id="Run-Time-Status" class="blurbSummary grid_12"
+     data-perspective="operations">
+  <div class="blurbTitle">Run Time Status</div>
+  <div class="p">
+    An environment may generally be in one of three states:
+    <ul>
+      <li><code>UNAVAILABLE</code>: meaning the core web server is not running
+      or web services are otherwise unavailable,</li>
+      <li><code>PARTIALLY_AVAILABLE</code>: meaning core web services are
+      available, but subscribed services specific to the particular
+      environment may not be available,</li>
+      <li><code>AVAILABLE<code>: meaning core web services and all subscribed
+      services are available.</li>
+    </ul>
+    An <code>UNAVAILABLE</code> envorironment cannot be reached through normal
+    means (REST-y HTTP web services). A <code>PARTIALLY_AVAILABLE</code>
+    environment can be reached, but may not be prepared to to successfuly
+    respond to all service requests. In this state, certain core service
+    requests&mdash;such as requests to the
+    for <code>/conveyor-environment</code> resource&mdash;should function
+    properly. All other requests are safe, in the sense that
+    requests<span data-prespective="detailed operations"> (in the absence of
+    bugs)</span> pose no threat to system or data integrity, though a request
+    may result in an HTTP <code>503 Service Unavailable</code> response.
+  </div>
+  <div class="p">
+    Note, the subscription determines what a service should look like, and all
+    projects must be up to date in order for the system to be
+    considered <code>AVAILABLE</code>.
+  </div>
+</div><!-- .blurbSummary#Run-Time-Status -->
