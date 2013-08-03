@@ -36,4 +36,14 @@
     environment. The specific host services vary from environment to
     environment, but must, at a minumum, include a web server.
   </div>
-</div>
+</div><!-- .blurbSummary#Environment-Management -->
+<div id="Environment-Updates" class="blurbSummary grid_12">
+  <div class="blurbTitle">Environment Updates</div>
+  <div class="p">
+    
+
+    To update an environment, simply run
+    the <code>~/playground/conveyor/bin/sevice-update</code> script. This will
+    update environment configuration based on your environment
+  </div>
+</div><!-- .blurbSummary#Environment-Updates -->
