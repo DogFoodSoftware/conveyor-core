@@ -1,0 +1,19 @@
+<div class="lexicon-entry">
+  <div class="term">Conveyor environment</div>
+  <div class="definition">
+    <div class="p">
+      A Conveyor environment is the primary unit of operation; environments
+      provide services; authenication, data, and operations are primarily
+      defined in terms of
+      environments. Any given <a href="/documentation/conveyor/lexicon/service-request">service
+      request</a> is directed at and  handled by a single
+      <a href="/documentation/conveyor/lexicon/responsible-environment">responsible
+      environment</a>.
+    </div>
+    <div class="p">
+      Authorized users may access Conveyor environments through the
+      as <a href="/conveyor-environments"><code>/conveyor-enviroment</code>
+      resource</a> from within an active Conveyor enviroment.
+    </div>
+  </div>
+</div>

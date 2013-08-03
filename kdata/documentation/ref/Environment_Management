@@ -1,0 +1,10 @@
+<div id="Overview" class="blurbSummary grid_12">
+  <div class="p">
+    <span data-lexicon-ref="/documentation/conveyor/lexicon/Conveyor-environment"><!-- We
+    use this embedded/fallback syntax because the 'references' widget has not
+    been developed or even specced, though the purpose should be obvious. This
+    comment and embedded ref may be removed once the plugin is
+    done. --><a href="/documentation/conveyor/lexicon/Conveyor-environment">Conveyor
+    environments...</a></span> Environments are
+  </div>
+</div>
