@@ -1,0 +1,39 @@
+<div id="Overview" class="blurbSummary grid_12">
+  <div class="p">
+    <span data-lexicon-ref="/documentation/conveyor/lexicon/Conveyor-environment"><!-- We
+    use this embedded/fallback syntax because the 'references' widget has not
+    been developed or even specced, though the purpose should be obvious. This
+    comment and embedded ref may be removed once the plugin is
+    done. --><a href="/documentation/conveyor/lexicon/Conveyor-environment">Conveyor
+    environments...</a></span> <a href="/documentation/conveyor/ref/Projects">Conveyor
+    projects</a>, and environments are the two primary nominal concepts of
+    Conveyor.
+  </div>
+</div><!-- .blurbSummary#Overview -->
+<div id="Environment-Management" class="blurbSummary grid_12">
+  <div class="blurbTitle">Environment Management</div>
+  <div class="p">
+    Authorized users may access Conveyor environments through the
+    as <a href="/conveyor-environments"><code>/conveyor-enviroment</code>
+    resource</a> from within an active Conveyor enviroment and manage the
+    local and foreign environments through as one would with any other
+    resource through standard
+    HTTP <a href="/documentation/conveyor/lexicon/service-request">service
+    requests</a>. The Conveyor environment itself is also a stack component
+    and host service and supports standard bash-based script management as
+    well.
+  </div>
+  <div class="p">
+    Of course, as the environment is also the primary unit of operation, the
+    environment is a bit special since you have to have an active, running
+    environment in order to do 'everything else'. Luckily, starting an
+    environment is as easy as running
+    the <code>~/playground/conveyor/bin/service-start</code> script.
+  </div>
+  <div class="p" data-perspective="operations">
+    Under (the very thin) covers, the environment service simply passes
+    through commands to the underlying host services required for the
+    environment. The specific host services vary from environment to
+    environment, but must, at a minumum, include a web server.
+  </div>
+</div>
