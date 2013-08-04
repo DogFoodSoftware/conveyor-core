@@ -10,10 +10,20 @@
     Conveyor.
   </div>
   <div class="p">
-    SAY SOMETHING ABOUT THE CENTRALITY OF SUBSCRIPTIONS...
+    Under normal operations, the bulk of environmental management is handled
+    automatically by the system. The majority of users need never really
+    bother with this stuff, Conveyor does a good job of
+    self-managing. Securing the services of an operator is not necessary, but
+    if nothing else, getting a low cost 3rd party support contract does make
+    sense. TODO: I think we need to redirect this idea to an operations manual
+    document. Discuss how Dog Food Software&mdash;the producers of
+    Conveyor&mdash;do provide certification, but that certification is
+    expensive and there are certainly good, uncertified technicians out
+    there. The majority of this information is addressed to operators and
+    developers.
   </div>
 </div><!-- .blurbSummary#Overview -->
-<div id="Environment-Management" class="blurbSummary grid_12">
+<div id="Environment-Management" class="blurbSummary grid_12" data-perspective="operations">
   <div class="blurbTitle">Environment Management</div>
   <div class="p">
     Authorized users may access Conveyor environments through the
