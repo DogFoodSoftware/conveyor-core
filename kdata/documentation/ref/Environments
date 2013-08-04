@@ -221,6 +221,18 @@ unset $SUBSCRIPTIONS
     However, we intentionally want to push this idea of using plain old git,
     combined with specific branch management and deployment strategies. With a
     few small tweaks, we can cover all the features we need with nothing but
-    standard git. Many users will never dig that deep into the 
+    standard git. It's not something that will surface for most users, but
+    the technical or curious, the good news and a nice feature about Conveyor
+    is that you can really manage your deployments quite effectively, with the
+    ability to roll back, isolate changes for testing, and ensure auditable
+    processes all by just using git&mdash;which isn't the simplest application
+    in the world, but is just about no more complex than really necessary.
+  </div>
+  <div class="p">
+    To turn it around, we think that git is a good example of an application
+    that just gets it right. We've worked with CVS, SVN, a couple proprietary
+    systems, and git isn't the conceptually simplest of the group, but we feel
+    git is clearly the most bang for the buck. It does almost everything we
+    need it too, right out the box
   </div>
 </div><!-- .blurbSummary#Organizing-Subscriptions [data-Perspective="implementation operations"] -->
