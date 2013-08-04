@@ -76,8 +76,35 @@
     may result in an HTTP <code>503 Service Unavailable</code> response.
   </div>
   <div class="p">
-    Note, the subscription determines what a service should look like, and all
-    projects must be up to date in order for the system to be
-    considered <code>AVAILABLE</code>.
+    An <code>AVAILABLE</code> system is one in which all projects source code is
+    up-to-date with regards to the environment subscription and in which all
+    project run times are built and operational. An <code>AVAILABLE</code>
+    system services should<span data-perspective="detailed"> (in the absence
+    of bugs)</span> match the services advertised in the subscription file.
   </div>
 </div><!-- .blurbSummary#Run-Time-Status -->
+<div id="Subscription-Implementation" class="blurbSummary grid_12"
+     data-Perspective="implementation operations">
+  <div class="blurbTitle">Subscription Implementation</div>
+  <div class="p">
+    In the 0.1 version, an environment is tied to a host. In future versions,
+    environments will transcend individual hosts, supportinga and potentially
+    manifesting in multi-host arrangements. For the time being, however,
+    for each Conveyor environment, there is a singel host.
+  </div>
+  <div class="p">
+    Thus, for any given environment hosted on a particular host, the
+    individual project descriptions are determined as follows:
+    <ul>
+      <li>The configuration
+      in <code>~/playground/conveyor/runnable/standard-conveyor-environment.conf</code> <!--  -->
+      is processed.</li>
+      <li>If
+      present, <code>~/playground/conveyor/data/local-convyeor-environment.conf</code>
+      is processed, and any values therein will override those in the standard
+      Conveyor environment configuration file.
+    </ul>
+    The resultiing effective environment configuartion specifies specific
+    versions of each project to which to subscribe to.
+  </div>
+</div><!-- .blurbSummary#Subscription-Implementation -->
