@@ -54,7 +54,7 @@
      data-perspective="operations">
   <div class="blurbTitle">Run Time Status</div>
   <div class="p">
-    An environment may generally be in one of three states:
+    An environment may generally be in one of three 'readiness states':
     <ul>
       <li><code>UNAVAILABLE</code>: meaning the core web server is not running
       or web services are otherwise unavailable,</li>
