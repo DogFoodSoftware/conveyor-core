@@ -9,6 +9,9 @@
     projects</a>, and environments are the two primary nominal concepts of
     Conveyor.
   </div>
+  <div class="p">
+    SAY SOMETHING ABOUT THE CENTRALITY OF SUBSCRIPTIONS...
+  </div>
 </div><!-- .blurbSummary#Overview -->
 <div id="Environment-Management" class="blurbSummary grid_12">
   <div class="blurbTitle">Environment Management</div>
@@ -123,6 +126,24 @@
     in <a href="#Organizing-Subscriptions">it's own section</a>.
   </div>
   <div class="p">
+    The effective subscriptions are determining by first reading te
+    subscriptions from the standard subscriptions and then processing the
+    subscriptions in the local subscription file, if any. Entries are
+    organized by local repo name, and any entry in the local file resolving to
+    the same name will override the value defined in the standard
+    subscriptions.
+  </div>
+  <div class="p">
+    The subscriptions are members of an array
+    named <code>$SUBSCRIPTIONS</code>. In order to reset the standard
+    subscriptions (rather than augment and override), simply add the line:
+    <pre><code>
+unset $SUBSCRIPTIONS
+    </code></pre>
+    Then, re-initialize the <code>$SUBSCRIPTIONS</code> array with whatever
+    you like.
+  </div>
+  <div class="p">
     The global options modify behavior and set useful defaults. The file is
     interpretted with standard bash variable support, so you are free to
     create and use bash variables (like <code>$THIS</code>) freely within the
@@ -142,6 +163,8 @@
       <li><code>$DEFAULT_REPO</code>: an alias defined in the standard
       Conveyor subscription. Currently points to the Dog Food Software GitHub
       repos.</li>
+      <li><code>$SUBSCRIPTIONS</code>: the array of subscription entries,
+      discussed above.</li>
       <li><code>$OVERRIDE_VERSION_REF</code>: if set, this value is used in
       place for all version/branch references unless itself overriden by a
       repo specific override. It is used primarily to save
@@ -152,5 +175,23 @@
       effective subscription.</li>
     </ul>
   </div>
-</div><!-- .blurbSummary#Subscription-Implementation [data-Perspective="implementation operations"] -->
-
+  <div class="p">
+    It is possible to break up the local configuration into sub-files and
+    import third party subscriptions using the <code>source</code>
+    command.<span class="note">Those who know bash may be aware that
+    '<code>.</code>' is an alias for '<code>source</code>'. We explicitly
+    don't want to keep subscription files approachable and easy to understand,
+    so though it would function fine in the current implementation, the use of
+    the period alias for <code>source</code> is forbidden.</span> To do so,
+    simply add '<code>source &lt;file path&gt;</code>' at the appropriate spot
+    and it will be as if the contents of the source file were placed verbatim
+    at that point in the sourcing file.
+  </div>
+</div><!-- .blurbSummary#Subscription-Implementation --
+	-- [data-Perspective="implementation operations"] -->
+<div id="Organizing-Subscriptions" class="blurbSummary grid_12"
+     data-Perspective="implementation operations">
+  <div class="blurbTitle">Organizing Subscriptions</div>
+  <div class="p">
+  </div>
+</div><!-- .blurbSummary#Organizing-Subscriptions [data-Perspective="implementation operations"] -->
