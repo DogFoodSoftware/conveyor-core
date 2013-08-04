@@ -205,3 +205,21 @@ unset $SUBSCRIPTIONS
   <div class="p">
   </div>
 </div><!-- .blurbSummary#Organizing-Subscriptions [data-Perspective="implementation operations"] -->
+<div id="Minimal-Packaging" class="blurbSummary grid_12"
+     data-Perspective="detailed implementation operations">
+  <div class="blurbTitle">Minimal Packaging</div>
+  <div class="p">
+    A Conveyor environment is at any one point in time, conceptually the
+    composition of project snapshots. We implement this idea very directly by
+    implementing subscriptions as nothing more than a git
+    URL.<span data-perspective="detailed"> Though it hasn't been implement in
+    with the standard implementation, the design is meant to add support for
+    any versioning system supporting URLs and specific snapshots and/or
+    branches could be quickly implemented.
+  </div>
+  <div class="p">
+    However, we intentionally want to push this idea of using plain old git,
+    combined with specific branch management and deployment strategies such
+    that you don't need another layer. Or rather, 
+  </div>
+</div><!-- .blurbSummary#Organizing-Subscriptions [data-Perspective="implementation operations"] -->
