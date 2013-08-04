@@ -219,7 +219,8 @@ unset $SUBSCRIPTIONS
   </div>
   <div class="p">
     However, we intentionally want to push this idea of using plain old git,
-    combined with specific branch management and deployment strategies such
-    that you don't need another layer. Or rather, 
+    combined with specific branch management and deployment strategies. With a
+    few small tweaks, we can cover all the features we need with nothing but
+    standard git. Many users will never dig that deep into the 
   </div>
 </div><!-- .blurbSummary#Organizing-Subscriptions [data-Perspective="implementation operations"] -->
