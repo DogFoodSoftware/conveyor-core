@@ -86,6 +86,7 @@
 <div id="Subscription-Implementation" class="blurbSummary grid_12"
      data-Perspective="implementation operations">
   <div class="blurbTitle">Subscription Implementation</div>
+  <div class="subHeader"><span>Subscription Processing</span></div>
   <div class="p">
     In the 0.1 version, an environment is tied to a host. In future versions,
     environments will transcend individual hosts, supportinga and potentially
@@ -97,7 +98,7 @@
     individual project descriptions are determined as follows:
     <ul>
       <li>The configuration
-      in <code>~/playground/conveyor/runnable/standard-conveyor-environment.conf</code> <!--  -->
+      in <code>~/playground/conveyor/runnable/standard-conveyor-environment.conf</code>
       is processed.</li>
       <li>If
       present, <code>~/playground/conveyor/data/local-convyeor-environment.conf</code>
@@ -105,6 +106,51 @@
       Conveyor environment configuration file.
     </ul>
     The resultiing effective environment configuartion specifies specific
-    versions of each project to which to subscribe to.
+    versions of each project to which to subscribe to. The idea is to provide
+    a standard subscription built in and ready to go, but make it easy to
+    customizer or replace.
   </div>
-</div><!-- .blurbSummary#Subscription-Implementation -->
+  <div class="subHeader"><span>Subscription File Format</span></div>
+  <div class="p">
+    The basic subscription entry is of the form:
+    <pre><code>
+&lt;git URL spec&gt;#&lt;git version or branch&gt;[#&lt;local playground name&gt;]
+    </code></pre>
+    The format is most self-explanatory. The 'local playground name' is the
+    name given directory under <code>~/playground</code> where the repo is to
+    be cloned. Understanding the use of version vs. branch references is
+    critically important and discussed specifically
+    in <a href="#Organizing-Subscriptions">it's own section</a>.
+  </div>
+  <div class="p">
+    The global options modify behavior and set useful defaults. The file is
+    interpretted with standard bash variable support, so you are free to
+    create and use bash variables (like <code>$THIS</code>) freely within the
+    file. The most common use is to improve readability of long and commonly
+    used git repo names.
+  </div>
+  <div class="p">
+    Files may define a number of special variables. The script is effectively
+    processed line by line, and so some variables must appear at the top of
+    the file. The suggested outline o the file is special global configuration
+    variables, followed by script specific convenience variables, followed by
+    the subscription entries.
+  </div>
+  <div class="p">
+    The special global configuration variables are:
+    <ul>
+      <li><code>$DEFAULT_REPO</code>: an alias defined in the standard
+      Conveyor subscription. Currently points to the Dog Food Software GitHub
+      repos.</li>
+      <li><code>$OVERRIDE_VERSION_REF</code>: if set, this value is used in
+      place for all version/branch references unless itself overriden by a
+      repo specific override. It is used primarily to save
+      the trouble of overwritting or rewriting all the subscriptions in
+      development and testing branches.</li>
+      <li><code>$OVERRIDE_&lt;local repo name&gt;_VERSION_REF</code>: if set,
+      this value is used in place of the versio/branch ref specified in the
+      effective subscription.</li>
+    </ul>
+  </div>
+</div><!-- .blurbSummary#Subscription-Implementation [data-Perspective="implementation operations"] -->
+
