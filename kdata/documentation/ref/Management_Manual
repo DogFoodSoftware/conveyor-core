@@ -1,0 +1,61 @@
+<div id="Resourcing" class="blurbSummary">
+  <div class="blurbTitle">Resourcing</div>
+  <div class="p">
+    Every task genarted in a Conveyor project could potentially be executed by
+    an employee, a contractor, or some third party
+    service.<span class="note">1.0 will certainly add the idea of an automated
+    'agent' to this list. An idea which may be mentioned or alluded to
+    elswhere, but which has not yet been fully developed.</span> The
+    result&mdash;by design&mdash;is a large potential pool of solution
+    providers. Here we describe three basic talent options: employee, 'hired
+    guns', and 'service providers'.
+  </div>
+  <div class="subHeader"><span>Employees</span></div>
+  <div class="p">
+    Employees work for the company. Their work products belong to the
+    company. The empployer is responsible for providing the employee with
+    everything needed to accomplish a task. The relationship between employer
+    and employee is relatively close and this is generally the least liquid
+    relationship, though in the US at least, shedding and hiring employees is
+    not particularly onerous. Employees make sense for tasks involving a
+    business' core competency and other areas where work is steady and
+    predictable. Employees are also important as investments.
+  </div>
+  <div class="subHeader"><span>Hired Guns</span></div>
+  <div class="p">
+    Hired guns are typically contractors, though some legal employees may act
+    essentially as hired guns. There is relatively little investment on either
+    side of the employer-employee relationship. The employee is typically
+    responsible for provding all or some of the necessary task
+    infrastructure. The employee generally owns work product outright, but
+    details may vary and certain work products&mdash;especially
+    graphics&mdash; may be subject to different default treatment. The
+    employee has less responsibility and less input into task
+    fulfillment. Hired guns are generally regarded as cheaper, though this is
+    not universal and the most competent technical professionals often prefer
+    to act as hired guns, and compensation generally breaks down into average
+    and elite. Employers will want to consider elite guns for the most
+    critical pieces of work (which may or may not overlap with 'core
+    competency').
+  </div>
+  <div class="subHeader"><span>Service Providers</span></div>
+  <div class="p">
+    The service provider relationship is the most distant. The service
+    provider fulfills a relatively narrow contract.
+  </div>
+  <div class="subHeader"><span>Certified Solutionts</span></div>
+  <div class="p">
+    Certification is a technique usedmost often in the hired gun and service
+    provider markets to mediate the tension between employees who "just want
+    someone who can do it" and a wide market of diverse capabilities. Rather
+    that evaluating candidates on individual merits, the employer relies on a
+    known certifier.
+  </div>
+  <div class="p">
+    The public may be a certifier... reviews and such.
+  </div>
+  <div class="p">
+    You pay more for certification. Good certification in low overhead, such
+    that the price increase is small and easily offset by risk reduction.
+  </div>
+</div><!-- .blurbSummary#Resourcing -->

@@ -1,0 +1,8 @@
+Conveyor project management requires proficiency in git. This is intentional:
+our functional requirements all map easily to git:
+
+- Version specific repo references are better than idiomatic version
+  specifications.
+- Branch specific repo references provide a simple method of reliable update
+  management.
+

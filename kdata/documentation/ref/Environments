@@ -13,14 +13,12 @@
     Under normal operations, the bulk of environmental management is handled
     automatically by the system. The majority of users need never really
     bother with this stuff, Conveyor does a good job of
-    self-managing. Securing the services of an operator is not necessary, but
-    if nothing else, getting a low cost 3rd party support contract does make
-    sense. TODO: I think we need to redirect this idea to an operations manual
-    document. Discuss how Dog Food Software&mdash;the producers of
-    Conveyor&mdash;do provide certification, but that certification is
-    expensive and there are certainly good, uncertified technicians out
-    there. The majority of this information is addressed to operators and
-    developers.
+    self-managing and many users may rely entirely on the automated
+    systems. Businesses or power users may want to
+    consider <a href="/documentation/conveyor/ref/Management_Manual">resourcing</a>
+    <a href="/documentation/conveyor/ref/Operations_Manual">operational
+    support</a>. The majority of the remaining information is addressed to
+    operators and developers.
   </div>
 </div><!-- .blurbSummary#Overview -->
 <div id="Environment-Management" class="blurbSummary grid_12" data-perspective="operations">
@@ -227,12 +225,5 @@ unset $SUBSCRIPTIONS
     ability to roll back, isolate changes for testing, and ensure auditable
     processes all by just using git&mdash;which isn't the simplest application
     in the world, but is just about no more complex than really necessary.
-  </div>
-  <div class="p">
-    To turn it around, we think that git is a good example of an application
-    that just gets it right. We've worked with CVS, SVN, a couple proprietary
-    systems, and git isn't the conceptually simplest of the group, but we feel
-    git is clearly the most bang for the buck. It does almost everything we
-    need it too, right out the box
   </div>
 </div><!-- .blurbSummary#Organizing-Subscriptions [data-Perspective="implementation operations"] -->
