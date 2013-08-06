@@ -109,7 +109,7 @@
     individual project descriptions are determined as follows:
     <ul>
       <li>The configuration
-      in <code>~/playground/conveyor/runnable/standard-conveyor-environment.conf</code>
+      in <code>~/playground/conveyor/kdata/standard-conveyor-environment.conf</code>
       is processed.</li>
       <li>If
       present, <code>~/playground/conveyor/data/local-convyeor-environment.conf</code>
