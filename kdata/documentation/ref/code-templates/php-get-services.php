@@ -3,7 +3,7 @@
  * <div id="progenitor-reference" class="p">
  *   This file derived from template
  *   <code>~/conveyor/kdata/documentation/ref/code-templates/php-get-services.php</code>
- *   last udptaed 2013-08-10 14:45 GMT.
+ *   last udptaed 2013-08-10 16:01 GMT.
  * </div>
  * <div id="Implementation" data-perspective="implementation" class="blurbSummary grid_12">
  *  <div class="blurbTitle">Implementation</div>
@@ -40,7 +40,9 @@ $rest_id = preg_replace('/\?.*$/', '', $_SERVER['REQUEST_URI']);
  */
 if (respond_in_html()) {
     // Build up $interface_html.
-    $interface_html = "<code>php-get-services.php</code> template";
+    $interface_html = <<<EOT
+<code>php-get-services.php</code> template
+EOT;
 
     require('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
    echo_interface($interface_html, false);
@@ -48,7 +50,9 @@ if (respond_in_html()) {
 // We would handle other special response formats.
 else if (respond_in_json()) {
     if (count($request_errors) == 0) {
-	$data = "php-get-services.php data";
+	$data = <<<EOT
+php-get-services.php data
+EOT;
 	final_result_ok('Template code accessed.', $data);
     }
     else final_result_bad_request(join("\n", $request_errors));

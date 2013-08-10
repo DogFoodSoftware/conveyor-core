@@ -40,7 +40,9 @@ $rest_id = preg_replace('/\?.*$/', '', $_SERVER['REQUEST_URI']);
  */
 if (respond_in_html()) {
     // Build up $interface_html.
-    $interface_html = "<code>php-get-services.php</code> template";
+    $interface_html = <<<EOT
+get all demo
+EOT;
 
     require('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
    echo_interface($interface_html, false);
