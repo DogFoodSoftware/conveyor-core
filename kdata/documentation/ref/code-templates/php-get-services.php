@@ -3,7 +3,7 @@
  * <div id="progenitor-reference" class="p">
  *   This file derived from template
  *   <code>~/conveyor/kdata/documentation/ref/code-templates/php-get-services.php</code>
- *   last udptaed 2013-08-10 16:01 GMT.
+ *   last udptaed 2013-08-10 16:19 GMT.
  * </div>
  * <div id="Implementation" data-perspective="implementation" class="blurbSummary grid_12">
  *  <div class="blurbTitle">Implementation</div>
@@ -45,7 +45,7 @@ if (respond_in_html()) {
 EOT;
 
     require('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
-   echo_interface($interface_html, false);
+   echo_interface($interface_html);
 }
 // We would handle other special response formats.
 else if (respond_in_json()) {

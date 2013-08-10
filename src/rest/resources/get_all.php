@@ -45,7 +45,7 @@ get all demo
 EOT;
 
     require('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
-   echo_interface($interface_html, false);
+   echo_interface($interface_html);
 }
 // We would handle other special response formats.
 else if (respond_in_json()) {
