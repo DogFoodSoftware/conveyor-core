@@ -12,8 +12,9 @@
  *  Standard <code>GET</code> handling starts with processing the HTTP
  *  'Accept' headers. The script will bail out at
  *  <code>process_accept_header()</code> if the client requires a response
- *  format which we don't provide; the default being JSON or HTML support. If
- *  the client does not specify response format, we respond in HTML.
+ *  format which we don't provide; the default is to accept JSON or HTML. In
+ *  no 'Accept' headers are defined, <code>GET</code> requests default to
+ *  HTML.
  * </div>
  * <div class="p">
  *   We declare the <code>$request_errors</code> as required by the standard
@@ -37,21 +38,22 @@ $rest_id = preg_replace('/\?.*$/', '', $_SERVER['REQUEST_URI']);
  *   formats supported by the service, and to finally default to HTML.
  * </div>
  */
-if (respond_in_json()) {
-    if (count($request_errors) == 0) {
-	$data = "php-get-services.php data";
-	final_result_ok('Template code accessed.', $data);
-    }
-    else final_result_bad_request(join("\n", $request_errors));
-}
-// Add other special response formats.
-else { // HTML is usually the default
+if (respond_in_html()) {
     // Build up $interface_html.
     $interface_html = "<code>php-get-services.php</code> template";
 
     require('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
    echo_interface($interface_html, false);
 }
+// We would handle other special response formats.
+else if (respond_in_json()) {
+    if (count($request_errors) == 0) {
+	$data = "php-get-services.php data";
+	final_result_ok('Template code accessed.', $data);
+    }
+    else final_result_bad_request(join("\n", $request_errors));
+}
+else final_result_internal_error('Configured service accept mismatch.');
 ?>
 <?php /**
 </div><!-- .descirption -->
