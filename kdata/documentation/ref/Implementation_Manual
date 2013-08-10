@@ -1,3 +1,24 @@
+<div id="Creating-Resource-Demos" class="blurbSummary grid_12"
+     data-perspective="implementation">
+  <div class="blurbTitle">Creating Resource Demos</div>
+  <div class="p">
+    Creating a resource demo involves sketching in the
+    resource <code>GET</code> request handlers, which generate the HTML that
+    defines resource user interface. This involves inserting HTML code into
+    the service request handler and primarily requires knowledge of UI
+    convetion and HTML+CSS. Novel interface may require a UI designer as well.
+  </div>
+  <div class="p">
+    The assignee should first check that the resource directory exists in the
+    within the local project repository. Unless specific instructions are
+    provided, the assignee should
+    copy <a href="/documentation/conveyor/ref/code-templates/php-get-services.php"><code>~/conveyor/kdata/documentation/ref/code-templates/php-get-services.php</code></a>
+    to <code>get.php</code> and <code>get_all.php</code> if not already
+    done. HTML coders for whom that sounds like a daunting task may bounce the
+    task to a PHP coder for standard setup as a pre-defined support request.
+  </div>
+</div><!-- .blurbSummary#Creating-Resource-Demos -->
+
 <div id="Code-Templates" class="blurbSummary grid_12"
      data-perspective="implementation">
   <div class="blurbTitle">Code Templates</div>
