@@ -1,0 +1,43 @@
+<div id="Code-Templates" class="blurbSummary grid_12"
+     data-perspective="implementation">
+  <div class="blurbTitle">Code Templates</div>
+  <div class="p">
+    The following code templates are provided for developer convenience. They
+    are normative rather than prescriptive. Developers are free to use them or
+    not. Remember to include <a href="#Progenitor-Notes">progenitor notes</a>
+    on any custom files.
+  </div>
+  <div class="subHeader"><span>PHP Templates</span></div>
+  <ul>
+    <li><a href="/documentation/conveyor/ref/code-templates/php-get-services.php"><code>GET</code>
+    template for collection browser (<code>get_all.php</code>) and item detail
+    (<code>get.php</code>) web service scripts.</li>
+  </ul>
+</div><!-- .blurbSummary#Code-Templates" -->
+<div id="Coding-Standards-and-Conventions" class="blurbSummary grid_12"
+     data-perspective="implementation">
+  <div class="blurbTitle">Coding Standards and Conventions</div>
+  <div id="Progenitor-Notes" class="subHeader"><span>Progenitor Notes</span></div>
+  <div class="p">
+    If a file is derived from a template, it should make reference to the
+    template from which it is derived. The reference should include the URL
+    for the repository and the 'last update reference' for the
+    template. <span class="spec-assertion">The 'last update
+    reference' <em>must</em> be noted where conveniant near the top of a
+    template file following the form:
+<pre><code>
+ &lt;div id="progenitor-reference" class="p"&gt;
+   This file derived from template
+   &lt;code&gt;&amp;lt;git URL reference&amp;gt;&lt;/code&gt;
+   last udptaed &amp;lt;YYYY-MM-DD H24:mm GMT&amp;gt;.
+ &lt;/div&gt;
+</code></pre> The reference notes the date and time the template was last
+    updated in the form <code>YYY-MM-DD H24 GMT</code>. The standard Conveyor
+    VMs provided by <a href="http://dogfoodsoftware.com">Dog Food Software</a>
+    are configured to GMT. The time need not be exact and should be updated by
+    the author shortly before publishing the
+    file.</span><span class="note">The idea of the dates is we need something
+    to enable us to identify a template version. A 'more or less' timestamp is
+    easy for the developer and fairly robust against collision.</span>
+  </div>
+</div><!-- .blurbSummary#Coding-Standards-and-Conventions" -->
