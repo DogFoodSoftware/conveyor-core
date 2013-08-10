@@ -14,7 +14,13 @@
     provided, the assignee should
     copy <a href="/documentation/conveyor/ref/code-templates/php-get-services.php"><code>~/conveyor/kdata/documentation/ref/code-templates/php-get-services.php</code></a>
     to <code>get.php</code> and <code>get_all.php</code> if not already
-    done. HTML coders for whom that sounds like a daunting task may bounce the
+    done.
+<pre data-perspective="detailed"><code>
+mkdir -p ~/playground/&lt;projec&gt;/src/rest/&lt;REST service directory&gt;
+cp ~/playground/conveyor/kdata/documentation/ref/code-templates/php-get-services.php \
+  &lt;REST service directory&gt;
+</code></pre>
+    HTML coders for whom that sounds like a daunting task may bounce the
     task to a PHP coder for standard setup as a pre-defined support request.
   </div>
 </div><!-- .blurbSummary#Creating-Resource-Demos -->
