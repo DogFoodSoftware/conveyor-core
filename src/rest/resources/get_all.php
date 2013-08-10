@@ -41,7 +41,21 @@ $rest_id = preg_replace('/\?.*$/', '', $_SERVER['REQUEST_URI']);
 if (respond_in_html()) {
     // Build up $interface_html.
     $interface_html = <<<EOT
-get all demo
+<div class="p">
+Next steps:
+<ol>
+  <li>Transfer the resource discovery logic to the JSON clause of this
+  file.</li>
+  <li>Remove old Kibbles resource <code>get_all.php</code> script.</li>
+  <li>Do zero-sketch for general resources browsing widget. Initially, just
+  general list with inactive paging controls.</li>
+  <li>Support self-demo documentation wherein we provide 'examples' section
+  that generates widget off DIV elements with general purpose collection
+  viewer class with self-contained JSON to allow in place demonstration and
+  human verification of correct pager control activation, basic layout, search
+  option handling, and page count display.</li>
+</ol>
+</div>
 EOT;
 
     require('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
