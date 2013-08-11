@@ -3,7 +3,7 @@
  * <div id="progenitor-reference" class="p">
  *   This file derived from template
  *   <code>~/conveyor/kdata/documentation/ref/code-templates/php-get-services.php</code>
- *   last udptaed 2013-08-10 16:19 GMT.
+ *   last udptaed 2013-08-11 02:24 GMT.
  * </div>
  * <div id="Implementation" data-perspective="implementation" class="blurbSummary grid_12">
  *  <div class="blurbTitle">Implementation</div>
@@ -23,7 +23,7 @@
  *   formats, these are checked at the end of the this section.
  * </div>
  */
-require('/home/user/playground/kibbles/runnable/lib/accept-processing-lib.php');
+require('/home/user/playground/kibbles/runnable/lib/kibbles-rest-scaffold.php');
 process_accept_header();
 
 global $request_errors;
@@ -44,7 +44,6 @@ if (respond_in_html()) {
 <code>php-get-services.php</code> template
 EOT;
 
-    require('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
    echo_interface($interface_html);
 }
 // We would handle other special response formats.

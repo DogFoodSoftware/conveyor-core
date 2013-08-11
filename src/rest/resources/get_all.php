@@ -23,8 +23,7 @@
  *   formats, these are checked at the end of the this section.
  * </div>
  */
-require('/home/user/playground/kibbles/runnable/lib/accept-processing-lib.php');
-process_accept_header();
+require('/home/user/playground/kibbles/runnable/lib/kibbles-rest-scaffold.php');
 
 global $request_errors;
 $rest_id = preg_replace('/\?.*$/', '', $_SERVER['REQUEST_URI']);
@@ -44,9 +43,6 @@ if (respond_in_html()) {
 <div class="p">
 Next steps:
 <ol>
-  <li>Transfer the resource discovery logic to the JSON clause of this
-  file.</li>
-  <li>Remove old Kibbles resource <code>get_all.php</code> script.</li>
   <li>Do zero-sketch for general resources browsing widget. Initially, just
   general list with inactive paging controls.</li>
   <li>Support self-demo documentation wherein we provide 'examples' section
@@ -58,14 +54,23 @@ Next steps:
 </div>
 EOT;
 
-    require('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
    echo_interface($interface_html);
 }
 // We would handle other special response formats.
 else if (respond_in_json()) {
     if (count($request_errors) == 0) {
-	$data = "php-get-services.php data";
-	final_result_ok('Template code accessed.', $data);
+	$project_path = '/home/user/playground';
+	$dh = @opendir($project_path);
+	$resources = array();
+	while (false !== ($file = readdir($dh))) {
+	    $rest_dir = "$project_path/$file/runnable/rest/*";
+	    foreach (glob($rest_dir, GLOB_ONLYDIR) as $resource) {
+		array_push($resources, basename($resource).'/');
+	    }
+	}
+	sort($resources);
+
+	final_result_ok('Template code accessed.', $resources);
     }
     else final_result_bad_request(join("\n", $request_errors));
 }
