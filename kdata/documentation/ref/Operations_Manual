@@ -1,8 +1,77 @@
 <div id="Backup-Protocol" class="blurbSummary grid_12"
-     data-perspective="operations">
+     data-perspective="implementation">
   <div class="blurbTitle">Backup Protocol</div>
   <div class="p">
-    
+    The backup protocol determine what gets backed up, when, and how. The
+    answer to "what gets backed up" is "everything". With storage costs what
+    they are, it's easier and cheaper to back up everything than to deal with
+    the extra cost of trying to separate out bits and pieces.
+  </div>
+  <div class="p">
+    To answer the 'when' and the 'how', we find it useful to break up the data
+    into four groups:
+    <ul>
+      <li>physical host / distro software,</li>
+      <li>physical host logs,</li>
+      <li>Conveyor VMs, and</li>
+      <li>Conveyor data.</li>
+    </ul>
+    This breaks the total 'universe of bits' into four categories which
+    determine the method and options available. These being:
+    <ul>
+      </ul>
+  </div>
+  <div class="subHeader"><span>Physical vs Virtual Hosts</span></div>
+  <div class="p">
+    In practice, there are real operational differences between backing up
+    software on a physical machine and the software on a virtual machine. To
+    wit, any modern virtual machine management system allows one to snapshot
+    running VMs and thereby get a consistent snapshot of the whole system,
+    even while the VM continues to operate. This makes it fairly easy to get a
+    relatively reliable, if not terribly fine grained backup of the entire
+    machine imagine at a given point in time.
+  </div>
+  <div class="p">
+    It is not currently practical to do the same with a physical
+    host. There are methods which would enable one to snapshot a running
+    physical host in much the same way, but in our experience they are not
+    practical. Instead, in situations where 'real time' backups are worth the
+    time and expense, hardware should be deployed with RAID 1 options for the
+    root volume.
+  </div>
+  <div class="p">
+    For hosts which can be taken offline, periodic disc images may be created
+    at a third option. However, this option is discouraged unless the project
+    involves modifications and customizations to the distro itself which are
+    not easily recreated through a re-install process.
+  </div>
+  <div class="p">
+    Workstations, in-office servers, test environments, and others which have
+    a higher tolerance for downtime should generally stick with the first
+    option. It is the least work and the least cost. Especially since a
+    mirrored drive into the mix doesn't change the amount of work you do, it
+    just allows you to defer the work to a more convenient time.
+  </div>
+  <div class="p">
+    In other words, when one mirror goes down, policy requires that the
+    machine be brought down and a new disk installed. So the machine still has
+    to go down due to the failure, it just doesn't necessarily go down right
+    when the failure occurs, as would be the case in a single disk /
+    re-install scenario. Using RAID can slightly improve recovery time as well
+    as the new disk generally needs to be 'merely' installed, after which it
+    will automatically sync with the good disk.
+  </div>
+  <div class="subHeader"><span>Backing Up Physical Host / Distro Software</span></div>
+  <div class="p">
+    The physical host / distro software is the operating system and
+    libraries installed and managed by the distro on a physical host. There
+    are three backup options available for these bits. The first option is
+    're-install'. These bits are entirely derived from the distro, so if bits
+    are lost, they can be recovered by re-installing.
+  </div>
+  <div class="p">
+    'Reinstallation' more or less addresses the problem of disaster recovery,
+    but it does not provide complete 
   </div>
 </div><!-- .blurbSummary#Backup-Protocol -->
 

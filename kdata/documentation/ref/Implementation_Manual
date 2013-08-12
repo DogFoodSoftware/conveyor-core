@@ -73,7 +73,9 @@ cp ~/playground/conveyor/kdata/documentation/ref/code-templates/php-get-services
   <div class="p">
     Installed software is managed at the project level. Inter-project
     dependencies are therefore specified via reference to specific project
-    version.
+    version. The subscription file is one of the few bits of code which is
+    changed in downstream branches without the changes being merged. In other
+    words, dependencies are explicitly managed on a per-branch basis.
   </div>
   <div class="Branch-Versions"><span>Branch Versions</span></div>
   <div class="p">
