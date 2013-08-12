@@ -66,4 +66,15 @@ cp ~/playground/conveyor/kdata/documentation/ref/code-templates/php-get-services
     to enable us to identify a template version. A 'more or less' timestamp is
     easy for the developer and fairly robust against collision.</span>
   </div>
-</div><!-- .blurbSummary#Coding-Standards-and-Conventions" -->
+</div><!-- .blurbSummary#Coding-Standards-and-Conventions -->
+<div id="Managing-Project-Depedencies" class="blurbSummary grid_12"
+     data-perspective="implementation">
+Conveyor project management requires proficiency in git. This is intentional:
+our functional requirements all map easily to git:
+
+- Version specific repo references are better than idiomatic version
+  specifications.
+- Branch specific repo references provide a simple method of reliable update
+  management.
+
+</div><!-- .blurbSummary#Managing-Project-Dependencies -->
