@@ -67,14 +67,25 @@ cp ~/playground/conveyor/kdata/documentation/ref/code-templates/php-get-services
     easy for the developer and fairly robust against collision.</span>
   </div>
 </div><!-- .blurbSummary#Coding-Standards-and-Conventions -->
-<div id="Managing-Project-Depedencies" class="blurbSummary grid_12"
+<div id="Project-Depedencies" class="blurbSummary grid_12"
      data-perspective="implementation">
-Conveyor project management requires proficiency in git. This is intentional:
-our functional requirements all map easily to git:
+  <div class="blurbTitle">Project Dependincies</div>
+  <div class="p">
+    Installed software is managed at the project level. Inter-project
+    dependencies are therefore specified via reference to specific project
+    version.
+  </div>
+  <div class="Branch-Versions"><span>Branch Versions</span></div>
+  <div class="p">
+    Branch versions are used to 'subscribe' to a particular project
+    branch. Projects will typically want to subscribe to
+    a <a href="/documentation/conveyor/lexicon/supported-project-branch">supported
+    project branch</a>.
+  </div>
 
 - Version specific repo references are better than idiomatic version
   specifications.
 - Branch specific repo references provide a simple method of reliable update
   management.
-
-</div><!-- .blurbSummary#Managing-Project-Dependencies -->
+  </div>
+</div><!-- .blurbSummary#Project-Dependencies -->
