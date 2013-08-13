@@ -88,8 +88,76 @@
     manager, allowing one to take a consistent point-in-time snapshot of a
     running VM.
   </div>
+  <div id="Disks-and-Volumes" class="subHeader"><span>Disks and Volumes</span></div>
+  <div class="p">
+    Disks are really big. At the sweet spot for $/byte for static drives is
+    around 128-256GB. For 3.5, it's 3TB. For the majority of profitable web
+    apps, that's more data than they need; and for many of them, capacity will
+    improve faster than data accumulates.
+  </div>
+  <div class="p">
+    Those kinds of volumes are big enough such that most environments will
+    never need to create multi-drive volumes. As far as applications may
+    utilize multi-volume data storage, even "big data" applications need not
+    necessarily deal with multi-drive volumes, which reduces complexity.
+  </div>
+  <div class="p">
+    The goal is to keep the backup policy simple for those that end up running
+    their own physical machines in a production. Once you get into multi-drive
+    volumes, you can't do disk-by-disk backup. As the fundamental physical
+    unit of storage, the disk is itself the easiest thing to plan backups
+    around.
+  </div>
+  <div class="subHeader"><span>RAID Policy</span></div>
+  <div class="p">
+    As discussed under <a href="#Disks-and-Volumes">Disks and
+      Volumes</a>, there is often no need for multi-drive volumes in many
+    environments. Which leaves 'performance' and 'reliability' as possible
+    reasons to use RAID.
+  </div>
+  <div class="p">
+    First, WRT to performance, SSDs are pretty fast. In fact, if you really
+    need performance,
+    it's <a href="http://www.mysqlperformanceblog.com/2010/01/18/fast-storage-8-ssd-intel-x-25m-80gb-benchmarks/">PCI-based
+    SSDs you'll
+    want</a>. Any RAID system adds significant complexity, and with
+    SSDs <a href="http://research.microsoft.com/en-us/um/people/maheshba/papers/hotstorage09-raid.pdf">there's
+    even more to worry about</a>. So start simple and move to RAID only if
+    necessary. Remember, to benefit from a high performance ceiling, you need
+    to be operating under sufficient demand to actually tax the
+    system. Network transfer times are going to quast any micro-second
+    improvements under unloaded scenarios. Many environments would not exhibit
+    any observable benefits from a complex RAID system when compared to a
+    single SSD volume.
+  </div>
+  <div class="p">
+  </div>
+
+
+
+
+    With SSDs, we can ignore arguments for RAID as a way to boost
+    performance,<span class="note">This needs to be sourced. I recall seeing
+    some tests on SSD RAID, and it the increase wasn't much. Certainly not
+    worth the added complexity and failure points.</span> there's not much
+    reason to use RAID. It's simpler and effective. In practice, our
+    experience has been that small RAID installations, unless actively
+    monitored and maintained, are more problematic than plain old disks with
+    good back up.
+
+
+    Boy, there are lots of really good volume managers out there, and if
+    you've got huge data sets to manage,<span class="note">Today, 2013-08-12,
+    
+  </div>
   <div class="subHeader"><span>Backing Up Physical Hosts</span></div>
   <div class="p">
+    Backing up a Mac is easy. Use TimeMachine.
+  </div>
+  <div class="p">
+    Dedicated Linux workstations should partition the 
+  </div>
+
     Physical boxes are employed exclusively for the purpose of hosting virtual
     machines and local network storage volumes. Physical boxes may host a
     Conveyor instance, by which administrators may manage virtual machines and
