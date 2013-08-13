@@ -68,7 +68,7 @@
     scenario. <a href="#Future-Considerations">Future considerations</a> are
     discussed later.
   </div>
-  <div id="Periodic-Snapshots" class="blurbSummary grid_12">
+  <div id="Periodic-Snapshots" class="subHeader"><span>Periodic Snapshots</span></div>
     A periodic snapshot is just what it says. A snapshot of bits at a
     particular point in time. Snapshots may be taken at the volume or image
     level, or in a file-by-file manner.
@@ -97,36 +97,12 @@
     physical boxes.
   </div>
   <div class="p">
-    As such, the backupt assumptions are rather thin for the host software. 
+    Physical hosts are generally restored through re-installation. They may
+    employ disk level mirroring as well. Linux OS machines are restored by
+    installation. Mac based machines are restored from TimeMachine snapshots.
   </div>
+  <div class="subHeader"><span>Physical Host Logs</span></div>
+  
 
-
-  <div class="p">
-    Workstations, in-office servers, test environments, and others which have
-    a higher tolerance for downtime should generally stick with the first
-    option. It is the least work and the least cost. Especially since a
-    mirrored drive into the mix doesn't change the amount of work you do, it
-    just allows you to defer the work to a more convenient time.
-  </div>
-  <div class="p">
-    In other words, when one mirror goes down, policy requires that the
-    machine be brought down and a new disk installed. So the machine still has
-    to go down due to the failure, it just doesn't necessarily go down right
-    when the failure occurs, as would be the case in a single disk /
-    re-install scenario. Using RAID can slightly improve recovery time as well
-    as the new disk generally needs to be 'merely' installed, after which it
-    will automatically sync with the good disk.
-  </div>
-  <div class="subHeader"><span>Backing Up Physical Host / Distro Software</span></div>
-  <div class="p">
-    The physical host / distro software is the operating system and
-    libraries installed and managed by the distro on a physical host. There
-    are three backup options available for these bits. The first option is
-    're-install'. These bits are entirely derived from the distro, so if bits
-    are lost, they can be recovered by re-installing.
-  </div>
-  <div class="p">
-
-  </div>
 </div><!-- .blurbSummary#Backup-Protocol -->
 
