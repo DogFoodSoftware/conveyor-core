@@ -161,6 +161,5 @@
     the volume is lost.
   </div>
   <div class="subHeader"><span>Backing Up VMs</span></div>
-  <div class="subHeader"><span>Backing Up Data Volumes</span></div>
-</div><!-- .blurbSummary#Backup-Protocol -->
+  <div class="subHeader"><span>Backing Up Data Volumes</span></div>><!-- .blurbSummary#Backup-Protocol -->
 
