@@ -19,32 +19,88 @@
     This breaks the total 'universe of bits' into four categories which
     determine the method and options available. These being:
     <ul>
-      </ul>
-  </div>
-  <div class="subHeader"><span>Physical vs Virtual Hosts</span></div>
-  <div class="p">
-    In practice, there are real operational differences between backing up
-    software on a physical machine and the software on a virtual machine. To
-    wit, any modern virtual machine management system allows one to snapshot
-    running VMs and thereby get a consistent snapshot of the whole system,
-    even while the VM continues to operate. This makes it fairly easy to get a
-    relatively reliable, if not terribly fine grained backup of the entire
-    machine imagine at a given point in time.
+      <li>re-installation,</li>
+      <li>disk level mirroring, and</li>
+      <li>periodic snapshots.</li>
+    </ul>
   </div>
   <div class="p">
-    It is not currently practical to do the same with a physical
-    host. There are methods which would enable one to snapshot a running
-    physical host in much the same way, but in our experience they are not
-    practical. Instead, in situations where 'real time' backups are worth the
-    time and expense, hardware should be deployed with RAID 1 options for the
-    root volume.
+    Of course, other bit-divisions and methods are possible and, in future may
+    even be necessary. However, for the current goals, the proposed divisions
+    and methods are deems sufficient in terms of functionality and minimal in
+    terms of complexity.
+  </div>
+  <div class="subHeader"><span>Re-Installation</span></div>
+  <div class="p">
+    Re-installation means the bits are not explicitly backed up. Rather, we
+    trust to the original installation as being reliable. Re-installation
+    is&mdash;on it's own&mdash;is essentially incompatible with
+    customization. It also presents problems where it is necessary to back up
+    to a specific version as generally one would re-install and patch, and the
+    patches available at the time of install may be newer than the patches
+    last applied to the software being restored.
+  </div>
+  <div class="subHeader"><span>Disk Level Mirroring</span></div>
+  <div class="p">
+    Disk level mirroring, or RAID 1, creates a live copy of the disk. Under
+    certain failure scenarios in which one hard drive detectably fails while
+    the other remains operational, the 'mirrored' image remains functionally
+    unaffected and the mirror array is able to operate normally, except that
+    of course further failure cannot be tolerated.
   </div>
   <div class="p">
-    For hosts which can be taken offline, periodic disc images may be created
-    at a third option. However, this option is discouraged unless the project
-    involves modifications and customizations to the distro itself which are
-    not easily recreated through a re-install process.
+    Mirroring increases cost and complexity in order to make downtime more
+    predictible. Depending on the hardware configuration and the nature of the
+    error, mirroing may or may not increase overall uptime. That is, in the
+    face of the clean failure of a disk, the first benefit is that one need
+    not deal with the failure immediately because current operations array is
+    not immediately effected. The disk still must be replaced (and as there
+    are more disks, it's not clear that this creates less work), but the work
+    need not be performed immediately and may be scheduled with greater
+    flexibility.
   </div>
+  <div class="p">
+    It is possible to use disk arrays for other purposes, such as improved
+    performance and as a tool to create large volumes. Given current
+    mainstream technologies and our primary target market we opt
+    to <a href="#Keep-It-Simple">keep it simple</a> and just consider the
+    single, disk-to-disk mirroring
+    scenario. <a href="#Future-Considerations">Future considerations</a> are
+    discussed later.
+  </div>
+  <div id="Periodic-Snapshots" class="blurbSummary grid_12">
+    A periodic snapshot is just what it says. A snapshot of bits at a
+    particular point in time. Snapshots may be taken at the volume or image
+    level, or in a file-by-file manner.
+  </div>
+  <div class="p">
+    A volume snapshot requires a compatible volume management system which can
+    gurantee that all bits recorderd in the backup reflect the state of the
+    volume as a whole at a given point in time even if some of the bits are
+    changed before they are recorded. In the background, the volume manager
+    tracks changes to volume bits in order to allow the original volume to
+    continue functioning normally, but still provide a correct answer as to
+    "what any given bit was" at the time of the snapshot to the backup.
+  </div>
+  <div class="p">
+    Image snapshots work in a similar manner, but rather than a volume
+    manager, the 'snapshot' capability is provided by the virtual machine
+    manager, allowing one to take a consistent point-in-time snapshot of a
+    running VM.
+  </div>
+  <div class="subHeader"><span>Backing Up Physical Hosts</span></div>
+  <div class="p">
+    Physical boxes are employed exclusively for the purpose of hosting virtual
+    machines and local network storage volumes. Physical boxes may host a
+    Conveyor instance, by which administrators may manage virtual machines and
+    volumes. Conveyor does not support hosting public services directly on
+    physical boxes.
+  </div>
+  <div class="p">
+    As such, the backupt assumptions are rather thin for the host software. 
+  </div>
+
+
   <div class="p">
     Workstations, in-office servers, test environments, and others which have
     a higher tolerance for downtime should generally stick with the first
@@ -70,8 +126,7 @@
     are lost, they can be recovered by re-installing.
   </div>
   <div class="p">
-    'Reinstallation' more or less addresses the problem of disaster recovery,
-    but it does not provide complete 
+
   </div>
 </div><!-- .blurbSummary#Backup-Protocol -->
 
