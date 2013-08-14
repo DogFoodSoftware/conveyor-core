@@ -1,3 +1,269 @@
+<?php
+   global $extraHeader;
+   $extraHeader = <<<EOT
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <style type="text/css">
+/* style notes:
+   - would like to better disinguish 'artifact' from 'human tasks'; shapes?
+     (Did try to knock this out, isn't trivially straightforward though the
+     basic idea is clear enough.)
+   - would like way to denote 'scheduled' items triggered regularly by
+     calender / time; different circle border?
+   - need to review all colors; I like the links OK, but the nodes have no
+     thought
+   - indicate semi- or possibly automated items?
+   - right now, we don't show automated nodes... may want to in larger diagram
+*/
+path.link {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px;
+}
+
+marker#live-sync {
+  fill: #0cc;
+}
+
+path.link.live-sync {
+  stroke: #0cc;
+  stroke-dasharray: 5, 1;
+}
+
+marker#has-a {
+  fill: #cc0;
+}
+
+path.link.has-a {
+  stroke: #cc0;
+  stroke-dasharray: 0,2 1;
+}
+
+circle {
+  fill: #ccc;
+  stroke: #333;
+  stroke-width: 1.5px;
+}
+
+circle.physical-host {
+  fill: #d00;
+}
+
+circle.drive {
+  fill: #0d0;
+}
+
+circle.ext4-volume {
+  fill: #00d;
+}
+
+circle.lvm-volume {
+  fill: #88f;
+}
+
+circle.virtual-host {
+  fill: #262;
+}
+
+/*
+circle.operations {
+  fill: #a22;
+}
+
+circle.externality {
+  fill: #000;
+}
+
+circle.support {
+  fill: #f82;
+}
+
+circle.sales {
+  fill: #ff0;
+}
+
+circle.artifact {
+  fill: #c0c;
+}
+*/
+
+text {
+  font: 10px sans-serif;
+  pointer-events: none;
+}
+
+text.shadow {
+  stroke: #fff;
+  stroke-width: 3px;
+  stroke-opacity: .8;
+}
+
+    </style>
+EOT;
+?>
+<div id="viz" class="grid_12"></div>
+    <script type="text/javascript">
+
+/**
+ * <div class="p">
+ * Basic idea is you start with tasks that generate plans. The plans are
+ * themselves expressed as tasks. Completion of a task may generate follow on
+ * tasks. Some tasks are triggered periodically, some tasks are event
+ * driven. 
+ * </div>
+ * <div id="" class="subHeader">Working Spec<span>
+ * <div class="p">
+ * The spec is still a work in process. At the moment, we're going with the
+ * following:
+ * <ol>
+ *   <li>There are three fundamental node types: 'activities', 'resources',
+ *   and 'events'.</li>
+ *   <li>The fundamental node types are further decomposed into one and only
+ *   one of the following contrete types:
+ *     <ol>
+ *       <li>Activities are organized by the <href="TODO">department</a>:
+ *         <ol>
+ *           <li>'<a href="TODO">vision</a>',</li>
+ *           <li>'<a href="TODO">management</a>',</li>
+ *           <li>'<a href="TODO">implementation</a>',</li>
+ *           <li>'<a href="TODO">operations</a>',</li>
+ *           <li>'<a href="TODO">sales</a>',</li>
+ *           <li>'<a href="TODO">support</a>', and</li>
+ *           <li>'<a href="TODO">finance</a>'.</li>
+ *         </ol></li>
+ *       <li>Resources are one of the <a href="TODO">Conveyor basic
+ *       resources<a>. (Will list and link after we develop the map a bit
+ *       further.)</li>
+ *       <li>Events are either 'interupts' or 'scheduled'.</li>
+ *     </ol></li>
+ *   <li>An update or triggers emanating from a resource represents automated
+ *   action by Conveyor logic.</li>
+ *   <li>There are three fundamental node interactions (captured as node
+ *   paths): 'trigger', 'update', and 'informs'.</li>
+ *   <li>The following interaction list is exhaustive of all valid interactions:
+ *     <ol>
+ *       <li>An actor may be triggered by another actor or resource.</li>
+ *       <li>A resource may be updated by an actor or another resource</li>
+ *       <li>An actor may be informed by a resource.</li>
+ *     </ol></li>
+ * </ol>
+ * </div>
+*/
+
+var links = [
+    /* physical back up map */
+    {source: "VM host", interaction: "has-a", target: "physical root drive"},
+    {source: "VM host", interaction: "has-a", target: "physical root drive mirror"},
+    {source: "physical root drive", interaction: "live-sync", target: "physical root drive mirror"},
+    {source: "physical root drive mirror", interaction: "live-sync", target: "physical root drive"},
+];
+
+var nodes = {
+    /* physical hosts, drives, and volumes */
+    "VM host": { name: "VM host", type: "physical-host" },
+    "physical root drive": { name: "physical root drive", type: "drive" },
+    "physical root drive mirror": { name: "physical root drive mirror", type: "drive" },
+    "root volume - /": { name: "root volume - /", type: "ext4-volume" },
+    "log volume - /var": { name: "log volume - /var", type: "lvm-volume" },
+    "home volume - /home": { name: "home volume - /home", type: "lvm-volume"},
+
+    "Mac workstation" : { name: "Mac workstation", type: "physical-host" },
+    "Mac drive": { name: "Mac drive", type: "drive" },
+    "Mac Time Machine drive": { name: "Mac Time Machine drive", type: "drive"},
+    /* virtual hosts */
+    "production host": { name: "production server", type: "virtual-host" },
+    "stateless host": { name: "stateless host", type: "virtual-host" },
+    "virtual workstation": { name: "virtual workstation", type: "virtual-host" }
+};
+
+// Typos in the node names will result in a creation of grey links which can
+// be visually identified and corrected.
+
+// Compute the distinct nodes from the links.
+links.forEach(function(link) {
+  link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
+  link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
+});
+
+var w = 960,
+    h = 500;
+
+var force = d3.layout.force()
+    .nodes(d3.values(nodes))
+    .links(links)
+    .size([w, h])
+    .linkDistance(60)
+    .charge(-300)
+    .on("tick", tick)
+    .start();
+
+var svg = d3.select("#viz").append("svg:svg")
+    .attr("width", w)
+    .attr("height", h);
+
+// Per-type markers, as they don't inherit styles.
+svg.append("svg:defs").selectAll("marker")
+    .data(["has-a", "live-sync"])
+  .enter().append("svg:marker")
+    .attr("id", String)
+    .attr("viewBox", "0 -5 10 10")
+    .attr("refX", 15)
+    .attr("refY", -1.5)
+    .attr("markerWidth", 6)
+    .attr("markerHeight", 6)
+    .attr("orient", "auto")
+  .append("svg:path")
+    .attr("d", "M0,-5L10,0L0,5");
+
+var path = svg.append("svg:g").selectAll("path")
+    .data(force.links())
+  .enter().append("svg:path")
+    .attr("class", function(d) { return "link " + d.interaction; })
+    .attr("marker-end", function(d) { return "url(#" + d.interaction + ")"; });
+
+var node = svg.append("svg:g").selectAll("circle")
+    .data(force.nodes())
+  .enter().append("svg:circle")
+    /* added */
+    .attr("class", function(d) { return d.type })
+    .attr("r", 6)
+    .call(force.drag);
+
+var text = svg.append("svg:g").selectAll("g")
+    .data(force.nodes())
+  .enter().append("svg:g");
+
+// A copy of the text with a thick white stroke for legibility.
+text.append("svg:text")
+    .attr("x", 8)
+    .attr("y", ".31em")
+    .attr("class", "shadow")
+    .text(function(d) { return d.name; });
+
+text.append("svg:text")
+    .attr("x", 8)
+    .attr("y", ".31em")
+    .text(function(d) { return d.name; });
+
+// Use elliptical arc path segments to doubly-encode directionality.
+function tick() {
+  path.attr("d", function(d) {
+    var dx = d.target.x - d.source.x,
+        dy = d.target.y - d.source.y,
+        dr = Math.sqrt(dx * dx + dy * dy);
+    return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+  });
+
+  node.attr("transform", function(d) {
+    return "translate(" + d.x + "," + d.y + ")";
+  });
+
+  text.attr("transform", function(d) {
+    return "translate(" + d.x + "," + d.y + ")";
+  });
+}
+
+    </script>
+
 <div id="Backup-Protocol" class="blurbSummary grid_12"
      data-perspective="implementation">
   <div class="blurbTitle">Backup Protocol</div>
@@ -12,7 +278,7 @@
     into four groups:
     <ul>
       <li>physical host / distro software,</li>
-      <li>physical host logs,</li>
+      <li>physical host <code>/var</code> and <code>/home</code>,</li>
       <li>Conveyor VMs, and</li>
       <li>Conveyor data.</li>
     </ul>
@@ -69,6 +335,7 @@
     discussed later.
   </div>
   <div id="Periodic-Snapshots" class="subHeader"><span>Periodic Snapshots</span></div>
+  <div class="p">
     A periodic snapshot is just what it says. A snapshot of bits at a
     particular point in time. Snapshots may be taken at the volume or image
     level, or in a file-by-file manner.
