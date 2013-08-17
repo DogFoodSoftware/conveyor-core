@@ -1,7 +1,4 @@
 .controls{
-	display: inline-block;
-	/*width: 180px;*/
-	/*margin: 0 0 30px;*/
 	vertical-align: top;
 }
 
@@ -10,12 +7,12 @@
     text-indent: 0;
 }
 
+
+
 .controls li{
     position: relative;
     display: inline-block;
     list-style-type: none;
-    /* padding: 10px 5px; */
-    /* width: 48%; */
     margin-bottom: 4%;
     background: #222;
     cursor: pointer;
@@ -83,5 +80,4 @@ hr{
 
 #Grid .gap{
 	display: inline-block;
-	/* width: 200px; */
 }

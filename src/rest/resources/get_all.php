@@ -46,24 +46,17 @@ if (respond_in_html()) {
      $('#Grid').mixitup();
      $('#toList').click(function() {
        $('#Grid').mixitup('toList');
-  });
+     });
      $('#toGrid').click(function() {
        $('#Grid').mixitup('toGrid');
-  });
+     });
   });
 </script>
 <div class="grid_12">
 <div class="wrapper">
-			
-  <h1><strong>MixItUp</strong> Boilerplate Template</h1>
-			
-  <p>This template is intended as a simple, barebones starting place for 
-    any MixItUp project, without advanced features or fancy responsive styling.</p>
-  
   <!-- FILTER CONTROLS -->
-  
-  <div class="controls alpha grid_3">	
-    <h3>Filter Controls</h3>
+  <div class="controls alpha grid_3">
+    <div class="subHeader"><span>Filter</span></div>
     <ul>
       <li class="filter grid_1 alpha" data-filter="all">Show All</li>
       <li class="filter grid_1" data-filter="category_1">Category 1</li>
@@ -74,69 +67,64 @@ if (respond_in_html()) {
     </ul>
   </div>
 			
-			<!-- SORT CONTROLS -->
-				
-			<div class="controls">
-				<h3>Sort Controls</h3>
-				<ul>
-					<li class="sort" data-sort="data-cat" data-order="desc">Descending</li>
-					<li class="sort" data-sort="data-cat" data-order="asc">Ascending</li>
-					<li class="sort active" data-sort="default" data-order="desc">Default</li>
-				</ul>
-			</div>
-			<div class="controls">
-			  <h3>Layout Controls</h3>
-			  <ul>
-			    <li class="layout" id="toList">List</li>
-			    <li class="layout" id="toGrid">Grid</li>
-			  </ul>
-			</div>
-			
-			<hr/>
-			
-			<!-- GRID -->
-			
-			<ul id="Grid">
-				<li class="mix category_1" data-cat="1">
-				  <div class="title">/tasks</div>
-				  <div class="summary">
-				    Stuff that needs to be done.
-				  </div>
-				</li>
-				<li class="mix category_3" data-cat="3">
-				  <div class="title">/resources</div>
-				  <div class="summary">
-				    System nouns.
-				  </div>
-				</li>
-				<li class="mix category_2" data-cat="2">
-				  <div class="title">/documentation</div>
-				  <div class="summary">
-				    Documentation.
-				  </div>
-				</li>
-				<li class="mix category_3" data-cat="3">
-				  <div class="title">/demos</div>
-				  <div class="summary">
-				    Demo view of system resources.
-				  </div>
-				</li>
-				<li class="mix category_2" data-cat="2">
-				  <div class="title">/media</div>
-				  <div class="summary">
-				    Images, music, video, etc.
-				  </div>
-				</li>
-				<li class="mix category_1" data-cat="1">
-				  <div class="title">/files</div>
-				  <div class="summary">
-				    Low level file access.
-				  </div>
-				</li>
-				<li class="gap"></li> <!-- "gap" elements fill in the gaps in justified grid -->
-			</ul>
-			
-		</div>
+  <div class="controls grid_3">
+    <div class="subHeader"><span>Sort</span></div>
+    <ul>
+      <li class="sort" data-sort="data-cat" data-order="desc">Descending</li>
+      <li class="sort" data-sort="data-cat" data-order="asc">Ascending</li>
+      <li class="sort active" data-sort="default" data-order="desc">Default</li>
+    </ul>
+  </div>
+  <div class="controls">
+    <h3>Layout Controls</h3>
+    <ul>
+      <li class="layout" id="toList">List</li>
+      <li class="layout" id="toGrid">Grid</li>
+    </ul>
+  </div>
+  <div class="clear"></div>
+  
+  <ul id="Grid" class="collection-list">
+    <li class="mix category_1" data-cat="1">
+      <div class="title">/resources</div>
+      <div class="summary">
+	System nouns.
+      </div>
+    </li>
+    <li class="mix category_3" data-cat="3">
+      <div class="title">/tasks</div>
+      <div class="summary">
+	Stuff that needs to be done.
+      </div>
+    </li>
+    <li class="mix category_2" data-cat="2">
+      <div class="title">/documentation</div>
+      <div class="summary">
+	Documentation.
+      </div>
+    </li>
+    <li class="mix category_3" data-cat="3">
+      <div class="title">/demos</div>
+      <div class="summary">
+	Demo view of system resources.
+      </div>
+    </li>
+    <li class="mix category_2" data-cat="2">
+      <div class="title">/media</div>
+      <div class="summary">
+	Images, music, video, etc.
+      </div>
+    </li>
+    <li class="mix category_1" data-cat="1">
+      <div class="title">/files</div>
+      <div class="summary">
+	Low level file access.
+      </div>
+    </li>
+    <li class="gap"></li> <!-- "gap" elements fill in the gaps in justified grid -->
+  </ul>
+  
+</div>
 
 <div class="p">
 Next steps:
@@ -152,6 +140,9 @@ Next steps:
 </div>
 </div><!-- .grid_12 -->
 EOT;
+
+   global $pageTitle, $headerTitle;
+   $pageTitle = $headerTitle = '/resources';
 
    echo_interface($interface_html);
 }
