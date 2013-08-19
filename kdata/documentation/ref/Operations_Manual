@@ -428,5 +428,67 @@ function tick() {
     the volume is lost.
   </div>
   <div class="subHeader"><span>Backing Up VMs</span></div>
-  <div class="subHeader"><span>Backing Up Data Volumes</span></div>><!-- .blurbSummary#Backup-Protocol -->
-
+  <div class="subHeader"><span>Backing Up Data Volumes</span></div>
+</div><!-- .blurbSummary#Backup-Protocol -->
+<div id="Host-Upgrades" class="blurbSummary grid_12">
+  <div class="blurbTitle">Host Upgrades</div>
+  <div class="p">
+    Hosts components are normally updated on a regular, scheduled basis and as
+    needed in response to hardware failures or data loss. The infrastructure
+    is designed to allow this constant update process to proceed with minimal
+    service interruptions while keeping things simple. Because it is often
+    easier and ultimately more reliable to plan for short offline periods
+    rather than attempt 'zero-interruption', operational components, and
+    especially <a href="/documenation/kibbles/ref/Web_Services">web
+    services</a> should support user notifications / warnings and graceful
+    downtime entry.
+  </div>
+  <div class="subHeader"><span>Hardware Component Upgrades</span></div>
+  <div class="p">
+    Host component upgrades, such as additional memory or upgraded power
+    supplies are handled during planned downtime. Component upgrades are
+    generally done in reaction to ad hoc developments. Installers should be
+    prepared to respond if the new components indicate fault on reboot and the
+    components should be removed. If possible, backup components should be on
+    hand. If not, then the host may be returned to the pre-updgrade state.
+  </div>
+  <div class="subHeader"><span>Hardware Replacement</span></div>
+  <div class="p">
+    In some ways, hardware replacement is the most straightforward. Full
+    replacement is on a 3 (preferred) or 4.5 (standard) year schedule. Hardware
+    replacement is generally timed to coincide with OS updates or replacements
+    as well. Recall that physical hosts are used exclusively as VM and data
+    volume hosts. So, the new host is prepared, and VMs are teleported to the
+    new host. Volumes data is copied, or the physical volume media is
+    transferred as appropriate. Coordinating the teleport with the data
+    transfer may not be possible in all cases, in which some VMs may be
+    shutdown and the images copied to the new host. Certain long lived
+    components, esp. memory, may be transfered to new hosts. Some hosts may
+    also be down-cycled and re-used with new disks.
+  </div>
+  <div class="subHeader"><span>OS Update</span></div>
+  <div class="p">
+    OS updates occur 18 months after the last update and with every hardware
+    replacement. This means that every other update should occur with hardware
+    replacement on the preferred schedlue and with every third update on a
+    standard schedule, and that at any given time there are at most 3 OS
+    versions (not counting workstation OSes). According to the
+    <a href="http://en.wikipedia.org/wiki/SUSE_Linux_distributions#History">openSUSE
+      distro release history</a> each upgrade should advance one or two distro
+      versions.
+  </div>
+  <div class="p">
+    OS updates must all be checked before released. With hardware replacement,
+    this is easy because you've got a new machine not initially used, and so
+    it's easy to test it. When updating a physical host in a non-replacement
+    cycle or whenever updating a virtual host, it is necessary to clone the
+    machine first. Because of this requirement, physical hosts may, when times
+    are tough and/or the updside is not considered siginificant, skip
+    non-replacement upgrades (because in such situation there may no be desire
+    or ability to invest in the necessary capitacl resources in order to
+    create a testable clone). With VMs, it is unclear yet whether we prefer to
+    update the clone, and then sync data and let the clone replace the
+    original, or if the clone is just to test an update which is then run on
+    the original. The latter seems the most likely.
+  </div>
+</div><!-- .blurbSummary#Host-Upgrades -->
