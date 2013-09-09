@@ -4,10 +4,18 @@
     Conveyor is a high level specification dealing with the capture and
     implementation of workflows, especially for the purpose of automating and
     improving efficiencies within a project or organization. Conveyor embeds a
-    broad range of business activity from conception through implementation
-    and operations within a supporting infrastructure in much the same way
-    that an assembly lines emded physical manufacture processes within a
-    supporting infrastructure.
+    broad range of business activity within a supporting infrastructure in
+    much the same way that an assembly lines emded physical manufacture
+    processes within a supporting infrastructure.
+  </div>
+  <div class="p">
+    Just as 'the assembly line' was not a single thing, but rather the
+    synthesis of many existing ideas with a few technical innovations and a
+    lot of trial and error, Conveyor organizes existing technologies and ideas
+    into a system derived as much from experience as theory with the goal of
+    making the overall process more transparent, testable, and iterable as
+    well as opening the process to broader engagement by simplifying
+    individual touch points.
 
 , automating certain rote tasks
     and and makin the entire process more transparent, testable, and iterable.
