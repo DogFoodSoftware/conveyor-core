@@ -27,19 +27,54 @@
     synthesis of many existing ideas with a few technical innovations and a
     lot of trial and error, Conveyor organizes existing technologies and ideas
     into a system derived as much from experience as theory with the goal of
-    making the overall process more transparent, testable, and iterable as
-    well as opening the process to broader engagement by simplifying
-    individual touch points.
-
-, automating certain rote tasks
-    and and makin the entire process more transparent, testable, and iterable.
+    making the overall process more transparent, testable, iterable and
+    opening the process to broader engagement by simplifying individual touch
+    points.
   </div>
-
   <div class="p">
-    Conveyor incorporates the ideas
-    of <a href="/documentation/literate-development/Primer">Literate
-    Development</a> with a high
-    level <a href="#Conveyor-Workflow-Model">workflow model</a> and
-    <span data-todo="Link this somewhere.">implementation guidlines</span>.
+    An explicit note on usage: when introducing Conveyor specific technical
+    terms, the 'Conveyor' association <em>should</em> be explictly stated in
+    the first usage in the page, section, or if reasonably distant from the
+    last such fully qualified usage. After establishing intent,
+    'Conveyor' <em>should</em> be dropped from further references unless an
+    explicit distinction needs to be made against usage of the term in another
+    sense such as "the Conveyor Ecosystems themselves form a
+    'super-ecosystem'". Otherwise, we would refer to the Conveyor Ecosystems
+    simply as 'Ecosystems' after the initial introduction.
   </div>
+  <div class="subHeader"><span>Literate Development</span></div>
+  <div class="p">
+    Conveyor incorporates
+    <a href="/documentation/literate-development/Primer">Literate
+    Development</a> and techniques to construct documentation that is both
+    comprehensive and approachable. Conveyor applies these standards to itself
+    and <span data-todo="Expand on this point.">Conveyor derived
+    products</span>.
+  </div>
+  <div class="subHeader"><span>Ecosystems</span></div>
+  <div class="p">
+    A Conveyor Ecosystem is a sovereign virtual space composed of
+    infrastructure and <a href="#Actors">Actors</a> collectively contributing
+    talents and capabilities towards the achievement of declared
+    goals. Ecosystems are most typically organized around legal entities and
+    are may be categorized as personal Ecosystems, corporate ecosystems,
+    organizational ecosystems, etc. Ecosystems themselves can interactive
+    amongst themselves, and you could for instance have a contract developer's
+    personal Ecosystem engaged with multiple employer's corporate ecosystems,
+    which may themselves be divided into departmental ecosystems for lager
+    firms.
+  </div>
+  <div class="subHeader"><span>Hosts</span></div>
+  <div class="p">
+    A Conveyor Host is a computer set up to enable it to host Conveyor
+    services. Hosts may be categorized as 'physical' or 'virtual' as well as
+    by function.
+  </div>
+  <div class="subHeader"><span>Actors</span></div>
+  <div class="p">
+    Actors can be categorized as 'autonomous actors' and 'automated
+    agents'.
+  </div>
+  <div class="subHeader"><span>Project</span></div>
+  <div class="subHeader"><span>Work Product</span></div>
 </div><!-- #High-Level-Components.blurbSummary -->
