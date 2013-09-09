@@ -1,0 +1,19 @@
+<div id="Overview" class="blurbSummary grid_12">
+  <div class="blurbTitle">Overview</div>
+  <div class="p">
+    Conveyor is a high level specification dealing with the capture and
+    implementation of workflows, especially for the purpose of automating and
+    improving efficiencies within a project or business. Conveyor itself is a
+    foundational technology used by <span data-todo="Link this line to a
+    page... /dossier/?tag=conveyor-users or something that will list known
+    companies and projects.">companies to build consumer products and
+    services.</span>
+  </div>
+  <div class="p">
+    Conveyor incorporates the ideas
+    of <a href="/documentation/literate-development/Primer">Literate
+    Development</a> with a high
+    level <a href="#Conveyor-Workflow-Model">workflow model</a> and
+    <span data-todo="Link this somewhere.">implementation guidlines</span>.
+  </div>
+</div><!-- #Overview.blurbSummary -->
