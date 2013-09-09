@@ -9,6 +9,20 @@
     processes within a supporting infrastructure.
   </div>
   <div class="p">
+    Conveyor itself is a foundational technology used <span data-todo="Link
+    this line to a page... /dossier/?tag=conveyor-users or something that will
+    list known companies and projects.">to build consumer products and
+    services.</span> In this sense, Conveyor is like injection-molding. It's
+    an important technology used in millions of toys and gadgets, but not
+    something most consumers concern themseles with.<span data-todo="Address
+    to general audience only."> The remainder of the Conveyor documentation
+    digs into the technical aspects of Conveyor and is addressed primarily to
+    Conveyor developers.</span>
+  </div>
+</div><!-- #Overview.blurbSummary -->
+<div id="High-Level-Components" class="blurbSummary grid_12">
+  <div class="blurbTitle">High Level Components</div>
+  <div class="p">
     Just as 'the assembly line' was not a single thing, but rather the
     synthesis of many existing ideas with a few technical innovations and a
     lot of trial and error, Conveyor organizes existing technologies and ideas
@@ -20,12 +34,7 @@
 , automating certain rote tasks
     and and makin the entire process more transparent, testable, and iterable.
   </div>
-  <div class="p">
-    Conveyor itself is a foundational technology used by <span data-todo="Link
-    this line to a page... /dossier/?tag=conveyor-users or something that will
-    list known companies and projects.">companies to build consumer products
-    and services.</span>
-  </div>
+
   <div class="p">
     Conveyor incorporates the ideas
     of <a href="/documentation/literate-development/Primer">Literate
@@ -33,4 +42,4 @@
     level <a href="#Conveyor-Workflow-Model">workflow model</a> and
     <span data-todo="Link this somewhere.">implementation guidlines</span>.
   </div>
-</div><!-- #Overview.blurbSummary -->
+</div><!-- #High-Level-Components.blurbSummary -->
