@@ -108,6 +108,13 @@
   </div>
   <div class="subHeader"><span>Work Product</span></div>
   <div class="p">
-    Work products are the output of projects.
+    Work products are the output of projects. Many work proudcts exist
+    entirely within the Conveyor universe as documentation or code artifacts
+    and such. The final work product may also be a physical thing, like a
+    chair or car or a printed book, etc. In this case, the project will track
+    or otherwise retain information about these physical products so the
+    Conveyor process may continue to work with the items throughout their
+    life. This may include tracking serial numbers and attaching them to
+    warranties or repair history, etc.
   </div>
 </div><!-- #High-Level-Components.blurbSummary -->
