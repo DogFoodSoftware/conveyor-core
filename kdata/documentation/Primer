@@ -4,16 +4,16 @@
     Conveyor is a high level specification dealing with the capture and
     implementation of workflows, especially for the purpose of automating and
     improving efficiencies within a project or organization. Conveyor embeds a
-    broad range of business activity within a supporting infrastructure in
-    much the same way that an assembly lines emded physical manufacture
-    processes within a supporting infrastructure.
+    broad range of business activity in program logic in much the same way
+    that an assembly lines emded physical manufacture processes within capital
+    equipment and physical layout.
   </div>
   <div class="p">
     Conveyor itself is a foundational technology used <span data-todo="Link
     this line to a page... /dossier/?tag=conveyor-users or something that will
     list known companies and projects.">to build consumer products and
     services.</span> In this sense, Conveyor is like injection-molding. It's
-    an important technology used in millions of toys and gadgets, but not
+    an important technology usable in millions of toys and gadgets, but not
     something most consumers concern themseles with.<span data-todo="Address
     to general audience only."> The remainder of the Conveyor documentation
     digs into the technical aspects of Conveyor and is addressed primarily to
@@ -70,11 +70,44 @@
     services. Hosts may be categorized as 'physical' or 'virtual' as well as
     by function.
   </div>
+  <div class="p">
+    The particular use and function of hosts is determined by the ecosystem to
+    which it is attached and therefore out of scope of this
+    documentation. (TODO: It's an open question whether a given host willb e
+    strictly limited to a single ecosystem, or whether it may act in multilpe
+    ecosystems and merely 'belong' in some sense to a primary ecosystem). In
+    most cases, the 'best pracitce' would be to use physical hosts to host
+    virtual hosts and networked data volumes, with all further operations (web
+    servers, mail servers, ecosystem agents, etc.) handled by virtual
+    hosts. This approach generally works well operations and turns out to be
+    useful WRT to scaling, disaster recovery, and general host management.
+  </div>
   <div class="subHeader"><span>Actors</span></div>
   <div class="p">
-    Actors can be categorized as 'autonomous actors' and 'automated
-    agents'.
+    An 'actor' may be a human or virtual entity, and is generally regarded as
+    anything which may makes decisions. Actors may be further categorized as
+    internal or external to the ecosystem. Internal actors, also called
+    'agents', are always automated virtual entities. Essentially, bits of code
+    empowered to make decisions according to ecosystem conditions and their
+    own internal logic.  An external actor may be a human or virtual entity,
+    though as far as the ecosystem is concerned, it doesn't matter
+    much.<span class="note">Functionally, any entity which can authenticate to
+    the ecosystem can do whatever it's authorizations allows. Ecosystem policy
+    may define limitations or differences between human and virtual entities
+    as a matter of policy.</span>
   </div>
   <div class="subHeader"><span>Project</span></div>
+  <div class="p">
+    Ecosystems are potentially long lived entities, generally associated to a
+    company or person and embodying long term goals, policy, and
+    knowledge. The ecosystem is a soveriegn area, subject to a certain set of
+    laws and regulations. Hosts are like virtual real estate and capital
+    equipment; hosts are where things happen, where data is stored. Actors do
+    things within the ecosystem.  Projects are where specific hosts and actors
+    are organized towards specific goals which are realized as work products.
+  </div>
   <div class="subHeader"><span>Work Product</span></div>
+  <div class="p">
+    
+  </div>
 </div><!-- #High-Level-Components.blurbSummary -->
