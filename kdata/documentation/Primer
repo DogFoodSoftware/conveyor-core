@@ -118,3 +118,37 @@
     warranties or repair history, etc.
   </div>
 </div><!-- #High-Level-Components.blurbSummary -->
+<div id="Tiered-Knowledge" class="blurbSummary grid_12">
+  <div class="blurbTitle">Tiered Knowledge</div>
+  <div class="p">
+    'Knowledge' here refers to facts as well as documented process and
+    standards and broadly refers to the corpus of everything known or knowable
+    within an ecosystem. Of course, the full volume of such knowledge is
+    immense, and so we break it down into three tiers.
+  </div>
+  <div class="p">
+    The first tier consists of the fundamental Conveyor models, the five key
+    nouns discussed above and other concepts which define the lexicon and
+    bondaries of discourse. This foundational knowledge is fully defined and
+    articulated within the Conveyor project.
+  </div>
+  <div class="p">
+    The second tier of knowledge is captured within Conveyor compliant
+    projects which document the high level goals, process, and knowledge
+    within a particular ecosystem. This tier is associated with and bound to
+    the <span data-todo"Link.">ecosystem manuals</span>
+  </div>
+  <div class="p">
+    The final, most detailed tier is captured within ecosystem logic and
+    manifested through tasks. This layer is more or less uniquely directly
+    actionable.
+  </div>
+  <div class="p">
+    Viewing the tiers whollistically, we may characterize the first Conveyor
+    tier as defining what can be described and how it is described. The
+    second, manuals is aimed primarily at humans and provides context for
+    actions and logic as well as criteria by which the actionable knowledge
+    may be judged. The detailed actionable knowledge is where theory meets
+    practice and things actually get done.
+  </div>
+</div><!-- #Tiered-Knowledge.blurbSummary -->
