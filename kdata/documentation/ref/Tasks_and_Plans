@@ -22,7 +22,9 @@
 
 
 Plan cluster: divide plans by project. An ecosystem is created by selecting a
-    number of base level projects, sufficient to keep things self contained.
+    number of base level projects, sufficient to keep things self
+    contained. Base projects are those which rely only base resources. (They
+    may define additional resources.)
 
 
     Each <code>instruction</code> is like a page in that. Writing a good plan
