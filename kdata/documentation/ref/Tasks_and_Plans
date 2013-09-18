@@ -28,10 +28,38 @@ Plan cluster: divide plans by project. An ecosystem is created by selecting a
 
 Ecosystem map shows 1-degree from each resource...
 
-Each plan refers to a 'this' which is some 'thing', either
+    Each instruction refers to a 'this' which is some 'thing', either
     a <code>resource</code> or a <code>resource</code>
     item. E.g., <code>/tasks<code> or a <code>task</code>. In any
-    case, <code>plans</code> are about things. 
+    case, <code>instructions</code> always deal with a thing. The instruction
+    is matched by the thing and method: GET, PUT, POST, and DELETE, optional
+    system telemetry, and&mdash;for GET and POST&mdash;the before and after
+    data snapshots.
+
+    Critically instructions are always executed after the operation
+    itself.<span class="note">We considered allowing pre-action instructions a
+    well, inline with the <a href="http://spring.io">Spring</a> framework's
+    'veto' methods. However, we decided that <code>plans</code> are going to
+    be complicated enough if they just focus on defining operational process
+    flow, for which post-action processing is sufficient. Pre-processing would
+    allow us to take care of technical concerns
+    with <code>instructions</code>, and thereby
+    complicate <code>instructions</code> with technical ideas.</span> It is
+    possible that a change in system state occurs, but the follow
+    on <code>instructions</code> matching that change are not executed for
+    whatever reason.
+
+    For this reason, an <code>instruction</code> may implement 'double check'
+    logic. For instance, there may be an instruction triggered
+    when the special resource <code>/time</code> is updated with a value of
+    midnight, first of the month. I.e., a monthly instruction. This will
+    generate a <code>task</code>. If the instruction fails,
+    the <code>task</code> won't be created. If we ask
+    the <code>instruction</code> to check itself at a minute past midnight, it
+    can tell that there absolutely should be a <code>task</code>, and so if
+    there isn't it may go ahead and create one now. This logic can specify
+    automatic remediation, or request authorization from user, or even
+    generate a task for resolution.
 
 
     Each <code>instruction</code> is like a page in that. Writing a good plan
