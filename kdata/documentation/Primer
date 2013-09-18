@@ -108,8 +108,9 @@
   </div>
   <div class="subHeader"><span>Tasks and Plans</span></div>
   <div class="p">
-    A 'task' is a unit of work which produces definite and actionable
-    results. A 'plan' is the logic underlying the tasks.
+    A 'task' is a unit of work which produces definite and potentiall
+    actionable results. A 'task plan', or just 'plan', is the logic which (in
+    part) drives task creation.
   </div>
   <div class="subHeader"><span>Work Product</span></div>
   <div class="p">

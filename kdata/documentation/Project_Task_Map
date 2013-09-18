@@ -122,7 +122,19 @@ EOT;
  * following:
  * <ol>
  *   <li>There are three fundamental node types: 'activities', 'resources',
- *   and 'events'.</li>
+ *   and 'events'.
+ *     <ol>
+ *       <li>Activities are things actors do.</li>
+ *       <li>Resources are the REST resources.</li>
+ *       <li>Events are extra-system ocurrances which we must react to.</li>
+ *     </ol>
+ *   </li>
+ *   <li>There are three fundamental interaction types: 'triggers', 'updates',
+ *   and 'informs'.
+ *     <ol>
+ *       <li>Activities are organized by the <href="TODO">department</a></li>
+ *     </ol>
+ *   </li>
  *   <li>The fundamental node types are further decomposed into one and only
  *   one of the following contrete types:
  *     <ol>
@@ -141,7 +153,7 @@ EOT;
  *       further.)</li>
  *       <li>Events are either 'interupts' or 'scheduled'.</li>
  *     </ol></li>
- *   <li>An update or triggers emanating from a resource represents automated
+ *   <li>Updates and triggers emanating from a resource represents automated
  *   action by Conveyor logic.</li>
  *   <li>There are three fundamental node interactions (captured as node
  *   paths): 'trigger', 'update', and 'informs'.</li>
@@ -156,6 +168,8 @@ EOT;
 */
 
 var links = [
+    /* auto */
+    {source: "/instructions", interaction: "updates", target: "/tasks" },
     /* priorities */
     {source: "propose/revise priorities", interaction: "triggers", target: "priorities feedback"},
     {source: "priorities feedback", interaction: "triggers", target: "propose/revise priorities"},
@@ -258,6 +272,7 @@ var nodes = {
     "/people": {name: "/people", type: "artifact"},
     "/milestones": {name: "/milestones", type: "artifact"},
     /* tasks are so central, we break it up */
+    "/instructions": {name: "/instructions", type: "artifact"},
     "/tasks": {name: "/tasks", type: "artifact"},
     "/accounts": {name: "/accounts", type: "artifact"},
 };

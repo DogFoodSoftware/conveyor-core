@@ -1,0 +1,45 @@
+<div id="Overview" class="blurbSummary grid_12">
+  <div class="p">
+    A 'task' is a unit of work which produces definite and potentially
+    actionable results. A 'task plan', or just 'plan', is the logic which (in
+    part) drives task creation.
+  </div>
+</div><!-- .blurbSummary#Overview -->
+
+
+<div id="Instructions" class="blurbSummary grid_12">
+  <div class="blurbTitle">Instructions</div>
+  <div class="p">
+    An <code>/instructions</code> item encodes a 
+  </div>
+</div><!-- #Instructions.blurbSummary -->
+<div id="Organizing-Subscriptions" class="blurbSummary grid_12"
+     data-Perspective="implementation operations">
+  <div class="blurbTitle">Organizing Subscriptions</div>
+  <div class="p">
+  </div>
+</div><!-- .blurbSummary#Organizing-Subscriptions [data-Perspective="implementation operations"] -->
+<div id="Minimal-Packaging" class="blurbSummary grid_12"
+     data-Perspective="detailed implementation operations">
+  <div class="blurbTitle">Minimal Packaging</div>
+  <div class="p">
+    A Conveyor environment is at any one point in time, conceptually the
+    composition of project snapshots. We implement this idea very directly by
+    implementing subscriptions as nothing more than a git
+    URL.<span data-perspective="detailed"> Though it hasn't been implement in
+    with the standard implementation, the design is meant to add support for
+    any versioning system supporting URLs and specific snapshots and/or
+    branches could be quickly implemented.
+  </div>
+  <div class="p">
+    However, we intentionally want to push this idea of using plain old git,
+    combined with specific branch management and deployment strategies. With a
+    few small tweaks, we can cover all the features we need with nothing but
+    standard git. It's not something that will surface for most users, but
+    the technical or curious, the good news and a nice feature about Conveyor
+    is that you can really manage your deployments quite effectively, with the
+    ability to roll back, isolate changes for testing, and ensure auditable
+    processes all by just using git&mdash;which isn't the simplest application
+    in the world, but is just about no more complex than really necessary.
+  </div>
+</div><!-- .blurbSummary#Organizing-Subscriptions [data-Perspective="implementation operations"] -->
