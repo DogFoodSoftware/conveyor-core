@@ -1,10 +1,33 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    A 'task' is a unit of work which produces definite and potentially
+    A <code>task</code> is a unit of work which produces definite and potentially
     actionable results. A 'task plan', or just 'plan', is the logic which (in
-    part) drives task creation.
+    part) drives task creation. The plan is the driver of any project and
+    represents the concrete knowledge of an ecosystem.
   </div>
 </div><!-- .blurbSummary#Overview -->
+<div id="Life-of-a-Task" class="blurbSummary grid_12">
+  <div class="blurbTitle">Life of a Task</div>
+  <div class="p">
+    Looking at all the <code>instructions</code> in a full
+    blown <code>plan</code> can be daunting and we usually deal with plaans by
+    zooming in on a particular area, or even just a single interaction. You
+    can think of the <code>plan</code> as one of
+    those <a href="http://en.wikipedia.org/wiki/Choose_Your_Own_Adventure">Choose
+    Your Own Adventure</a> books.<span class="note">Zane wonders if these
+    books taught him coding. Probably not, but good myth.</span> It's
+    interesting, bec
+
+
+    Each <code>instruction</code> is like a page in that. Writing a good plan
+    is very much like writing a good
+    story.<span class="note">The <code>plan</code> is not the story itself,
+    but rather describes many potential stories.</span>
+  </div>
+  <div class="p">
+    The story is an ongoing series of tasks. 
+  </div>
+</div><!-- #Life-of-a-Task.blurbSummary -->
 
 
 <div id="Instructions" class="blurbSummary grid_12">

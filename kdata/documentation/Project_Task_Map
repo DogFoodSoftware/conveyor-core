@@ -111,6 +111,10 @@ EOT;
 
 /**
  * <div class="p">
+
+ *   This is a map of potential actions. The central 
+
+ * <div class="p">
  * Basic idea is you start with tasks that generate plans. The plans are
  * themselves expressed as tasks. Completion of a task may generate follow on
  * tasks. Some tasks are triggered periodically, some tasks are event
@@ -132,7 +136,12 @@ EOT;
  *   <li>There are three fundamental interaction types: 'triggers', 'updates',
  *   and 'informs'.
  *     <ol>
- *       <li>Activities are organized by the <href="TODO">department</a></li>
+ *       <li>Actions are 'triggered'. In Conveyor, this is equivalent to
+ *       saying "a <code>/tasks</code> item is created.</li>
+
+ *       <li>An update is an explicit change in the resource. From the plan perspective, 
+ *       saying "a <code>/tasks</code> item is created.</li>
+
  *     </ol>
  *   </li>
  *   <li>The fundamental node types are further decomposed into one and only
@@ -171,10 +180,11 @@ var links = [
     /* auto */
     {source: "/instructions", interaction: "updates", target: "/tasks" },
     /* priorities */
-    {source: "propose/revise priorities", interaction: "triggers", target: "priorities feedback"},
-    {source: "priorities feedback", interaction: "triggers", target: "propose/revise priorities"},
     {source: "propose/revise priorities", interaction: "updates", target: "/priorities"},
-    {source: "/priorities", interaction: "informs", target: "priorities feedback"},
+    /* on change */ {source: "/priorities", interaction: "informs", target: "priorities feedback"},
+    
+
+    {source: "priorities feedback", interaction: "triggers", target: "propose/revise priorities"},
     {source: "/priorities", interaction: "informs", target: "/milestones"},
     /* budget */
     {source: "propose/revise budget", interaction: "triggers", target: "budget feedback"},
