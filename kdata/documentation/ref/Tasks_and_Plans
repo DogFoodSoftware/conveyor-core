@@ -26,6 +26,13 @@ Plan cluster: divide plans by project. An ecosystem is created by selecting a
     contained. Base projects are those which rely only base resources. (They
     may define additional resources.)
 
+Ecosystem map shows 1-degree from each resource...
+
+Each plan refers to a 'this' which is some 'thing', either
+    a <code>resource</code> or a <code>resource</code>
+    item. E.g., <code>/tasks<code> or a <code>task</code>. In any
+    case, <code>plans</code> are about things. 
+
 
     Each <code>instruction</code> is like a page in that. Writing a good plan
     is very much like writing a good
