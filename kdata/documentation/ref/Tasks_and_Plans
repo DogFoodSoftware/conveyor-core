@@ -16,7 +16,13 @@
     those <a href="http://en.wikipedia.org/wiki/Choose_Your_Own_Adventure">Choose
     Your Own Adventure</a> books.<span class="note">Zane wonders if these
     books taught him coding. Probably not, but good myth.</span> It's
-    interesting, bec
+    interesting, because it represents not a single story, but many potential
+    stories. In the same way, a <code>plan</code> lays out the kind of things
+    a project may do.
+
+
+Plan cluster: divide plans by project. An ecosystem is created by selecting a
+    number of base level projects, sufficient to keep things self contained.
 
 
     Each <code>instruction</code> is like a page in that. Writing a good plan
