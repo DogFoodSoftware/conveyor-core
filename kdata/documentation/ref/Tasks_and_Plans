@@ -49,18 +49,21 @@ Ecosystem map shows 1-degree from each resource...
     on <code>instructions</code> matching that change are not executed for
     whatever reason.
 
-    For this reason, an <code>instruction</code> may implement 'double check'
-    logic. For instance, there may be an instruction triggered
-    when the special resource <code>/time</code> is updated with a value of
-    midnight, first of the month. I.e., a monthly instruction. This will
-    generate a <code>task</code>. If the instruction fails,
-    the <code>task</code> won't be created. If we ask
-    the <code>instruction</code> to check itself at a minute past midnight, it
-    can tell that there absolutely should be a <code>task</code>, and so if
-    there isn't it may go ahead and create one now. This logic can specify
-    automatic remediation, or request authorization from user, or even
-    generate a task for resolution.
-
+    Each <code>instruction</code> remembers whatever is important about the
+    universe, and is able to react to changes at any point. When a resource
+    changes,<span class="note">Recall that when any item within a resource
+    changes, the resource is said to change as well.</span> we proactively
+    ping all known instructions associated with the
+    resource.<span class="note">These are the instructions tracked in the
+    resource item itself, with <code>resources</code> tracked
+    as <code>resource</code> items
+    (including <code>/resources/resources</code>).</span> However, these
+    alerts may fail or be incomplete, which is fine, because the instruction
+    is able to tell at any point whether the resource has changed. The item
+    will actually be locked against further changes until
+    requried <code>instructions</code> are
+    executed. Thus, the actual decision is always lazy, and asynchronous,
+    though we can initiate the lazy check with a poke.
 
     Each <code>instruction</code> is like a page in that. Writing a good plan
     is very much like writing a good
