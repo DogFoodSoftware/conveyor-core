@@ -106,6 +106,17 @@
     developing a <code>plan</code> is complex, so we wanted to keep
     the <code>instructions</code> themselves as simple as possible.
   </div>
+  <div class="p">
+    Note that of course one could conceive of implementing new features or
+    adding technical capabilities using <code>instructions</code>; it's
+    certainly possible; we're just saying don't do it. If there's need, we may
+    look at pulling out some of the logic into a lower level library, so that
+    other resources can easily adapt their own version
+    of <code>instruction</code> processing semantics, or
+    use <code>instructions</code> as a model for a similar system, or
+    whatever. The point is, please don't abuse <code>instructions</code>, we
+    want to keep it simple.
+  </div>
   <div class="subHeader"><span><code>Instructions</code> are Reactionary</span></div>
   <div class="p">
     Instructions are executed after a valid change in state. A call that
