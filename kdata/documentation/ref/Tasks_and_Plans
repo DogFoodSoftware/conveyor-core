@@ -110,8 +110,18 @@
   </div>
   <div class="subHeader"><span>User Stories</span></div>
   <div class="p">
-    User stories are often a useful lens creating and
-    managing <code>instructions</code>. We don't see any need to impose formal story analysis and the like; rather we recommend that each <code>instruction</code> document it's semantic purpose
+    Each <code>instruction</code> <em>should</em> document it's semantic
+    purpose and ground itself fully it's it's own raison d'être, which should
+    most often ground itself in a user story. This should not be taken to mean
+    that a formal user story must procede creation of an instruction, but
+    rather that mature <code>instructions</code> are expected to be able to
+    explain themselves.
+  </div>
+  <div class="p">
+    For larger projects, a more formal connection between instructions and
+    user stories may be useful. Though the relation may not be 1-1, user
+    stories are a useful lens for understanding and
+    implementing <code>instructions</code>.
   </div>
 
 
