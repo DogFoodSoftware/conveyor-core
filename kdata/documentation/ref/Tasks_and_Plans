@@ -84,11 +84,41 @@ Ecosystem map shows 1-degree from each resource...
     noted in the documentation, but the instruction itself is reacting the
     internal resource change itself.
 
+    Let's look at a few examples:
+
+    Base Level Audits
+    - trigger: 15th day of quarter
+    - result: creates new task to manually audit that all books have a
+    quarterly audit instruction scheduled
+
+    Setup Accounting
+    - trigger event: PUT /books
+    - result: creates new task to create all new accounts
+
+    - trigger event: PUT /books
+    - result: creates new instruction to review /books/{new ID} in one
+    quarter-annual.*(The DELETE action automatically clears any instructions
+    bound to the item. Asynchronous instructions should delete themselves when
+    'Item not found or deleted' is returned.)
+
+     - trigger event: put /accounts
+     - result: create task to verify required information positively attested
+     by qualified operator.
+
+     NOTE: I think we can get rid of the 'task chain' above. Maybe we talk
+     about general 'user case' narratives as a good starting point for task
+     implementation.
+
+
+
 <div id="Instructions" class="blurbSummary grid_12">
   <div class="blurbTitle">Instructions</div>
   <div class="p">
     An <code>/instructions</code> item encodes a 
   </div>
+
+Break out trigger talk. Trigger is matched by call URL and call results. An
+  instruction may have multilpe triggers.
 
   <div class="p">
     <ul>
@@ -96,19 +126,17 @@ Ecosystem map shows 1-degree from each resource...
 	<ul>
 	  <li>Trigger resource URL.</li>
 	  <li>Trigger HTTP method.</li>
-	  <li>(FUTURE) Special environment variables such as 
+	  <li>(FUTURE) For collection POST and DELETE, collection, summary
+	  field values are provided.</li>
 	  <li>(FUTURE) For collection GET,POST, or DELETE include
 	  standard search mask and set comparison function.</li>
-	  <li>(FUTURE) For collection POST include triggering field set and
-	  set comparison function.</li>
-	  <li>(Future) 
-
-	  
-	  
-      <li>The resource URL to which we react.</li>
-      <li>The HTTP M
-      <li>Initial state data.</li>
-      
+	  <li>(FUTURE) For collection POST triggering field name set
+	  and set comparison function.</li>
+	  <li>For an item resource POST triggering field names and set comparison
+	  function.</li>
+	  <li>The resource URL to which we react.</li>
+	  <li>The HTTP method.</li>
+	</ul>
     </ul>
 	The set comparison functions are: DISJOINT, UNION, EQUAL, SUBSET,
 	SUPERSET.
