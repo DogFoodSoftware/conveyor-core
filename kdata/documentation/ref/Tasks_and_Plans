@@ -96,7 +96,7 @@ Ecosystem map shows 1-degree from each resource...
 	<ul>
 	  <li>Trigger resource URL.</li>
 	  <li>Trigger HTTP method.</li>
-	  <li>
+	  <li>(FUTURE) Special environment variables such as 
 	  <li>(FUTURE) For collection GET,POST, or DELETE include
 	  standard search mask and set comparison function.</li>
 	  <li>(FUTURE) For collection POST include triggering field set and
