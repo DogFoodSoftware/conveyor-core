@@ -94,7 +94,7 @@ Ecosystem map shows 1-degree from each resource...
   </div>
   <div class="p">
     The default settings for the special <code>/users/initial-user</code> set
-    <code>auto-stream-tasks=true</code>, which means that immediately after
+    <code>tasks.auto-stream=true</code>, which means that immediately after
     login, the user will be taken to their first
     task&mdash;to name the ecosystem<span data-perspective="!implementation">.</span><span data-perspective="implementation">&mdash;
     which might be defined as:
@@ -103,7 +103,9 @@ Ecosystem map shows 1-degree from each resource...
   "satisfied_by" : "/simple-questions/_setup-001-ecosystem-name",
   "satisfied_when" : "is_answered",
   "assigned_to" : "/users/initial-user",
-  "status" : "pending" }
+  "status" : "pending",
+  "value" : "HIGH",
+  "manual_order" : 1 }
     </code></pre>
     </span>
   </div>
@@ -121,7 +123,8 @@ Ecosystem map shows 1-degree from each resource...
   "i18n_text" : "/messages/default_What_is_the_ecosystems_name?field=text-for-browser-l10n",
   "default" : "What is the ecosystem name?",
   "input_type" : "string",
-  "answer" : NULL }
+  "answer" : NULL,
+  "response_call" : "POST:/ecosystem/?name={{this.answer}}" }
       </code></pre> which is presented to the user as a basic text input
       box.</span> When the question is answered, this updates the <code>simple
       question</code> resource,
@@ -131,7 +134,7 @@ Ecosystem map shows 1-degree from each resource...
       and <code>satisfied_when</code> fields</span>.
   </div>
   <div class="p">
-    
+    As configured, the user will go
   </div>
   
     
