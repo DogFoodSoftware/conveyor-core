@@ -88,7 +88,13 @@ Ecosystem map shows 1-degree from each resource...
       <li>Initial <code>instructions</code> read from
       the <code>&lt;project&gt;/kdata/initial/instructions</code>
       directories.</li>
-      
+    </ol>
+    <pre><code>
+      { "self URL" : : "/tasks/_setup-001-get-ecosystem-name"
+        "satisfied by" : "/simple-questions/_setup-001-ecosystem-name"
+        "satisfied when" : "is_answered" }
+    </code></pre>
+    
       <li>{ "self URL" : "/tasks/_setup-001-size-business"
             "satisfied by" : "/
 
