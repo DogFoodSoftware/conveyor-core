@@ -100,8 +100,9 @@ Ecosystem map shows 1-degree from each resource...
     which might be defined as:
     <pre><code>
 { "self_URL" : : "/tasks/_setup-001-get-ecosystem-name",
-  "satisfied_by" : "/simple-questions/_setup-001-ecosystem-name",
-  "satisfied_when" : "is_answered",
+  "satisfied_by" : "/simple-question/_setup-001-get-ecosystem-name",
+  "check_URL" : "/ecosystem/?fields=name",
+  "check_condition" : "name",
   "assigned_to" : "/users/initial-user",
   "status" : "pending",
   "value" : "HIGH",
