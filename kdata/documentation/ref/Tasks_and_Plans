@@ -1,11 +1,66 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    A <code>task</code> is a unit of work which produces definite and potentially
-    actionable results. A 'task plan', or just 'plan', is the logic which (in
-    part) drives task creation. The plan is the driver of any project and
-    represents the concrete knowledge of an ecosystem.
+    A <code>task</code> is a unit of work which produces definite and
+    potentially actionable results. In the Conveyor
+    universe, <code>tasks</code> are most often generated
+    by <code>instructions</code>. Each <code>instruction</code> is member of
+    a <code>plan</code>.
   </div>
 </div><!-- .blurbSummary#Overview -->
+<div id="Example-Task-Sequence" class="blurbSummary grid_12">
+  <div class="blurbTitle">Example Task Sequence</div>
+  <div class="p">
+    When you create
+    an <code>ecosystem</code>, <span data-perspective="!detailed">it should
+    come pre-loaded with some initial
+    setup <code>tasks</code>.</span><span data-perspective="detailed">you will
+    select a template ecosystem to copy. Ideally, the cloned ecosystem will
+    include initial <code>tasks</code> related to completing or at least
+    confirming the
+    ecosystem.</span> <span data-perspective="implementation">Recall the
+    initial data is read from
+    the <code>&lt;projects&gt;/kdata/initial/&lt;resources&gt;</code>
+    directory.</span> The ecosystem itself is referenced through the
+    special <code>/ecosystem</code> resource, and the initial
+    user <span data-perspective="detailed">(responsible for further setup and
+    customization) </span>is referenced
+    by <code>/users/initial</code>.
+  </div>
+  <div class="p">
+    The <code>/users/initial</code><span data-perspective="!detailed"> is
+    normally </span><span data-perspective="detailed">'s configuration option 
+    <code>tasks.auto-stream</code> is set <code>true</code>, which&mdash;among
+    other things&mdash;</span>sends the user straight to their first task: to
+    name the
+    ecosystem<span data-perspective="!implementation">.</span><span data-perspective="implementation">&mdash;
+    which might be defined as:
+    <pre><code>
+{ "self_URL" : : "/tasks/_setup-001-get-ecosystem-name",
+  "satisfied_by" : "/simple-question/_setup-001-get-ecosystem-name",
+  "check_URL" : "/ecosystem/?fields=name",
+  "check_condition" : "name",
+  "assigned_to" : "/users/initial",
+  "status" : "pending",
+  "value" : "HIGH",
+  "manual_order" : 1,
+  "pass_status" : "closed" }
+    </code></pre>
+    </span>
+  </div>
+  <div class="p">
+    The task is satisfied by a <code>simple-question</code> which, once
+    answered, triggers an update to the <code>/ecosystem</code> 'name'
+    field. This in turn causes the <code>task</code>'s self-check to pass,
+    which 'closes' the <code>task</code>.
+  </div>
+  <div class="p">
+    
+  </div>
+</div><!-- #Example-Task-Sequence.blurbSummary -->
+<div id="Life-of-a-Task" class="blurbSummary grid_12">
+  <div class="blurbTitle">Life of a Task</div>
+  <div class="p">
+
 <div id="Life-of-a-Task" class="blurbSummary grid_12">
   <div class="blurbTitle">Life of a Task</div>
   <div class="p">
@@ -30,7 +85,7 @@ Ecosystem map shows 1-degree from each resource...
 
     Each instruction refers to a 'this' which is some 'thing', either
     a <code>resource</code> or a <code>resource</code>
-    item. E.g., <code>/tasks<code> or a <code>task</code>. In any
+    item. E.g., <code>/tasks</code> or a <code>task</code>. In any
     case, <code>instructions</code> always deal with a thing. The instruction
     is matched by the thing and method: GET, PUT, POST, and DELETE, optional
     system telemetry, and&mdash;for GET and POST&mdash;the before and after
@@ -74,66 +129,7 @@ Ecosystem map shows 1-degree from each resource...
     The story is an ongoing series of tasks. 
   </div>
 </div><!-- #Life-of-a-Task.blurbSummary -->
-<div id="Example-Task-Sequence" class="blurbSummary grid_12">
-  <div class="blurbTitle">Example Task Sequence</div>
-  <div class="p">
-    When you create an <code>ecosystem</code>, you will select a template
-    ecosystem to copy. Ideally, the cloned ecosystem will set up some
-    initial <code>tasks</code>
-    and <code>instructions</code>. <span data-perspective="implementation">Recall
-    the initial data is read from
-    the <code>&lt;projects&gt;/kdata/initial/&lt;resources&gt;</code>
-    directory.</span> This might set up the following story:
-  </div>
-  <div class="p">
-    The system is set up and ready to go. That
-    means <code>/users/initial-user</code> has been aliased to the user
-    account created as part of the low level bootstrap. You now have a fully
-    functional, though still very bare bones ecosystem. The first thing the
-    ecosystem does is take you on a voyage of self discovery.
-  </div>
-  <div class="p">
-    The default settings for the special <code>/users/initial-user</code> set
-    <code>tasks.auto-stream=true</code>, which means that immediately after
-    login, the user will be taken to their first
-    task&mdash;to name the ecosystem<span data-perspective="!implementation">.</span><span data-perspective="implementation">&mdash;
-    which might be defined as:
-    <pre><code>
-{ "self_URL" : : "/tasks/_setup-001-get-ecosystem-name",
-  "satisfied_by" : "/simple-question/_setup-001-get-ecosystem-name",
-  "check_URL" : "/ecosystem/?fields=name",
-  "check_condition" : "name",
-  "assigned_to" : "/users/initial-user",
-  "status" : "pending",
-  "value" : "HIGH",
-  "manual_order" : 1 }
-    </code></pre>
-    </span>
-  </div>
-  <div class="p">
-    <span data-perspective="!implementation">The <code>task</code> is said to
-    be satisfied by </span><span data-perspective="implementation">As you can
-    see in the task definition, it is "<code>satisfied by</code>"</span> a
-    specific <code>simple question</code>, which is a basic resource used to
-    pose simple questions to human and automated
-    operators<span data-perspective="!implementation">. In this case, it asks
-    what to name the
-    ecosystem.</span><span data-perspective="implementation">:
-      <pre><code>
-{ "self_URL" : "/simple-questions/_setup-001-get-ecosystem-name",
-  "i18n_text" : "/messages/default_What_is_the_ecosystems_name?field=text-for-browser-l10n",
-  "default" : "What is the ecosystem name?",
-  "input_type" : "string",
-  "answer" : NULL,
-  "response_call" : "POST:/ecosystem/?name={{this.answer}}" }
-      </code></pre> which is presented to the user as a basic text input
-      box.</span> When the question is answered, this updates the <code>simple
-      question</code> resource,
-      which <span data-perspective="!implementation">satisfies the
-      task</span><span data-perspective="implementation">finds the
-      original <code>task</code> based on the <code>satisfied_by</code>
-      and <code>satisfied_when</code> fields</span>.
-  </div>
+
   <div class="p">
     As configured, the user will go
   </div>
