@@ -98,26 +98,36 @@
     situation is "noticed" by an <code>instruction</code>, which generates
     the <code>task</code> to remedy or advance the state.
   </div>
+  <div class="subHeader"><span><code>Instructions</code> are Single Minded</span></div>
   <div class="p">
     <code>Instructions</code> are intended to implement human scale process
-    logic. It is not a general purpose bus or extension point. The limitations on how <code>instructions</code> are entirely intentional because developing instructions is complex, so we wanted 
+    logic. It is not a general purpose bus or extension point. The limitations
+    on how <code>instructions</code> are entirely intentional because
+    developing a <code>plan</code> is complex, so we wanted to keep
+    the <code>instructions</code> themselves as simple as possible.
   </div>
-  <div data-perspective="implementation">
-    <div class="subHeader"><span></span></div>
-    <div class="p">
+  <div class="subHeader"><span><code>Instructions</code> are Reactionary</span></div>
+  <div class="p">
+    Instructions are executed after a valid change in state. A call that
+    results in a FORBIDDEN or fails due to server error will never directly
+    trigger an <code>instruction</code> because these calls cannot result in
+    valid state changes.<span class="note">The term 'valid state change' is
+    used here to mean a change it data&mdash;or state&mdash;which is 'valid as
+    designed'. Neither FORBIDDEN nor failed requests should never result in
+    state change; because of bugs or hardware failures, they may of course
+    result in state change, but there's nothing we can do about that and we do
+    our best to ignore it. Note there is one exception where rejected and
+    failed calls may trigger instructions: the logs themselves may be surfaced
+    as a resource, and <code>instructions</code> would be written about the
+    logs. This is why we say 'never result in <em>direct</em> change', as we
+    consider the case mentioned here to be very much indirect.</span>
+  </div>
+  <div class="subHeader"><span><code>Instructions</code> are Serial</span></div>
+  <div class="p">
+    
+  </div>
 
-    Critically instructions are always executed after the operation
-    itself.<span class="note">We considered allowing pre-action instructions a
-    well, inline with the <a href="http://spring.io">Spring</a> framework's
-    'veto' methods. However, we decided that <code>plans</code> are going to
-    be complicated enough if they just focus on defining operational process
-    flow, for which post-action processing is sufficient. Pre-processing would
-    allow us to take care of technical concerns
-    with <code>instructions</code>, and thereby
-    complicate <code>instructions</code> with technical ideas.</span> It is
-    possible that a change in system state occurs, but the follow
-    on <code>instructions</code> matching that change are not executed for
-    whatever reason.
+
 
     Each <code>instruction</code> remembers whatever is important about the
     universe, and is able to react to changes at any point. When a resource
