@@ -98,36 +98,13 @@
     situation is "noticed" by an <code>instruction</code>, which generates
     the <code>task</code> to remedy or advance the state.
   </div>
-</div><!-- #Instructions.blurbSummary -->
-<div id="Planning" class="blurbSummary grid_12">
-  <div class="blurbTitle">Planning</div>
   <div class="p">
-    <code>Instructions</code> are the end product of planning out and
-    capturing institution process and knowledge. Looking at all
-    the <code>instructions</code> and considering all the
-    potential <code>tasks</code> in a full blown <code>plan</code> can be
-    daunting.
+    <code>Instructions</code> are intended to implement human scale process
+    logic. It is not a general purpose bus or extension point. The limitations on how <code>instructions</code> are entirely intentional because developing instructions is complex, so we wanted 
   </div>
-  <div class="subHeader"><span>User Stories</span></div>
-  <div class="p">
-    Each <code>instruction</code> <em>should</em> document it's semantic
-    purpose and ground itself fully it's it's own raison d'être, which should
-    most often ground itself in a user story. This should not be taken to mean
-    that a formal user story must procede creation of an instruction, but
-    rather that mature <code>instructions</code> are expected to be able to
-    explain themselves.
-  </div>
-  <div class="p">
-    For larger projects, a more formal connection between instructions and
-    user stories may be useful. Though the relation may not be 1-1, user
-    stories are a useful lens for understanding, implementing, and
-    verifying <code>instructions</code>.
-  </div>
-
-
-
-
-
+  <div data-perspective="implementation">
+    <div class="subHeader"><span></span></div>
+    <div class="p">
 
     Critically instructions are always executed after the operation
     itself.<span class="note">We considered allowing pre-action instructions a
@@ -162,6 +139,39 @@
     is very much like writing a good
     story.<span class="note">The <code>plan</code> is not the story itself,
     but rather describes many potential stories.</span>
+    </div>
+  </div>
+</div><!-- #Instructions.blurbSummary -->
+<div id="Planning" class="blurbSummary grid_12">
+  <div class="blurbTitle">Planning</div>
+  <div class="p">
+    <code>Instructions</code> are the end product of planning out and
+    capturing institution process and knowledge. Looking at all
+    the <code>instructions</code> and considering all the
+    potential <code>tasks</code> in a full blown <code>plan</code> can be
+    daunting.
+  </div>
+  <div class="subHeader"><span>User Stories</span></div>
+  <div class="p">
+    Each <code>instruction</code> <em>should</em> document it's semantic
+    purpose and ground itself fully it's it's own raison d'être, which should
+    most often ground itself in a user story. This should not be taken to mean
+    that a formal user story must procede creation of an instruction, but
+    rather that mature <code>instructions</code> are expected to be able to
+    explain themselves.
+  </div>
+  <div class="p">
+    For larger projects, a more formal connection between instructions and
+    user stories may be useful. Though the relation may not be 1-1, user
+    stories are a useful lens for understanding, implementing, and
+    verifying <code>instructions</code>.
+  </div>
+
+
+
+
+
+
   </div>
   <div class="p">
     The story is an ongoing series of tasks. 
