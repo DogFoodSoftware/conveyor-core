@@ -76,10 +76,42 @@ Ecosystem map shows 1-degree from each resource...
 </div><!-- #Life-of-a-Task.blurbSummary -->
 
 
+    Though not itself a separate resource, all <code>instructions</code> form
+    chains and all <code>plans</code> are made entirely of these chains. Every
+    change has an anchoring action in an internal state change. The state
+    change itself may have it's roots in user input, reflect the march
+    of time, be triggered by an automated agent, or whatever, and this will be
+    noted in the documentation, but the instruction itself is reacting the
+    internal resource change itself.
+
 <div id="Instructions" class="blurbSummary grid_12">
   <div class="blurbTitle">Instructions</div>
   <div class="p">
     An <code>/instructions</code> item encodes a 
+  </div>
+
+  <div class="p">
+    <ul>
+      <li>The instruction triggers:
+	<ul>
+	  <li>Trigger resource URL.</li>
+	  <li>Trigger HTTP method.</li>
+	  <li>
+	  <li>(FUTURE) For collection GET,POST, or DELETE include
+	  standard search mask and set comparison function.</li>
+	  <li>(FUTURE) For collection POST include triggering field set and
+	  set comparison function.</li>
+	  <li>(Future) 
+
+	  
+	  
+      <li>The resource URL to which we react.</li>
+      <li>The HTTP M
+      <li>Initial state data.</li>
+      
+    </ul>
+	The set comparison functions are: DISJOINT, UNION, EQUAL, SUBSET,
+	SUPERSET.
   </div>
 </div><!-- #Instructions.blurbSummary -->
 <div id="Organizing-Subscriptions" class="blurbSummary grid_12"
