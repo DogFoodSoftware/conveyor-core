@@ -117,14 +117,21 @@ Ecosystem map shows 1-degree from each resource...
     what to name the
     ecosystem.</span><span data-perspective="implementation">:
       <pre><code>
-{ "self URL" : : "/simple-questions/_setup-001-get-ecosystem-name",
-  "text" : "{/messages/default_What_is_the_ecosystems_name",
+{ "self_URL" : "/simple-questions/_setup-001-get-ecosystem-name",
+  "i18n_text" : "/messages/default_What_is_the_ecosystems_name?field=text-for-browser-l10n",
   "default" : "What is the ecosystem name?",
-  "is
-  "satisfied when" : "is_answered",
-  "assigned to" : "/users/initial-user",
-  "status" : "pending" }
-      </code></pre>
+  "input_type" : "string",
+  "answer" : NULL }
+      </code></pre> which is presented to the user as a basic text input
+      box.</span> When the question is answered, this updates the <code>simple
+      question</code> resource,
+      which <span data-perspective="!implementation">satisfies the
+      task</span><span data-perspective="implementation">finds the
+      original <code>task</code> based on the <code>satisfied_by</code>
+      and <code>satisfied_when</code> fields</span>.
+  </div>
+  <div class="p">
+    
   </div>
   
     
