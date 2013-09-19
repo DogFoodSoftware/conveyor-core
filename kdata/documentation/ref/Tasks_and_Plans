@@ -74,15 +74,29 @@ Ecosystem map shows 1-degree from each resource...
     The story is an ongoing series of tasks. 
   </div>
 </div><!-- #Life-of-a-Task.blurbSummary -->
+<div id="Example-Task-Sequence" class="blurbSummary grid_12">
+  <div class="blurbTitle">Example Task Sequence</div>
+  <div class="p">
+    When you create an <code>ecosystem</code>, you will select a template
+    ecosystem to copy, which should provide you with a series of initial tasks
+    to walk you through the remainder of the setup. If we look at the timeline
+    of REST events and instructions, we might see something like the following
+    sequence:
+    <ol>
+      <li>Initial <code>tasks</code> read from
+      the <code>&lt;project&gt;/kdata/initial/tasks</code> directories.</li>
+      <li>Initial <code>instructions</code> read from
+      the <code>&lt;project&gt;/kdata/initial/instructions</code>
+      directories.</li>
+      
+      <li>{ "self URL" : "/tasks/_setup-001-size-business"
+            "satisfied by" : "/
 
-
-    Though not itself a separate resource, all <code>instructions</code> form
-    chains and all <code>plans</code> are made entirely of these chains. Every
-    change has an anchoring action in an internal state change. The state
-    change itself may have it's roots in user input, reflect the march
-    of time, be triggered by an automated agent, or whatever, and this will be
-    noted in the documentation, but the instruction itself is reacting the
-    internal resource change itself.
+Task <code>_setup-01-size</code> might 
+      <li>If the user has cloned a business ecosystem template, then one of the
+      pre-existing tasks is likely to be something satisfied
+      by <code>/books/?field=total-count > 0</code>.</li>
+      <li>The task is assigned to the initia
 
     Let's look at a few examples:
 
