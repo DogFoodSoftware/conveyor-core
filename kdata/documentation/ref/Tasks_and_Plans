@@ -1,10 +1,12 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    A <code>task</code> is a unit of work which produces definite and
-    potentially actionable results. In the Conveyor
-    universe, <code>tasks</code> are most often generated
-    by <code>instructions</code>. Each <code>instruction</code> is member of
-    a <code>plan</code>.
+    Here's the basic idea: <code>plans</code> tell us how to both react to
+    input and move forward towards goals. 
+    <code>Plan</code> <code>instructions</code> (non-exclusively)
+    generate <code>tasks</code>. The <code>task</code> is a unit of work which
+    produces definite results which the, for which the system can
+    check. Satisfying a <code>task</code> involves changes to the system,
+    which trigger new <code>instructions</code>, and so on and so on.
   </div>
 </div><!-- .blurbSummary#Overview -->
 <div id="Example-Task-Sequence" class="blurbSummary grid_12">
@@ -20,15 +22,9 @@
     ecosystem.</span> <span data-perspective="implementation">Recall the
     initial data is read from
     the <code>&lt;projects&gt;/kdata/initial/&lt;resources&gt;</code>
-    directory.</span> The ecosystem itself is referenced through the
-    special <code>/ecosystem</code> resource, and the initial
-    user <span data-perspective="detailed">(responsible for further setup and
-    customization) </span>is referenced
-    by <code>/users/initial</code>.
-  </div>
-  <div class="p">
+    directory.</span>
     The <code>/users/initial</code><span data-perspective="!detailed"> is
-    normally </span><span data-perspective="detailed">'s configuration option 
+    normally </span><span data-perspective="detailed">'s configuration option
     <code>tasks.auto-stream</code> is set <code>true</code>, which&mdash;among
     other things&mdash;</span>sends the user straight to their first task: to
     name the
@@ -45,51 +41,83 @@
   "manual_order" : 1,
   "pass_status" : "closed" }
     </code></pre>
+    The ecosystem itself is referenced through the
+    special <code>/ecosystem</code> resource, and the initial
+    user <span data-perspective="detailed">(responsible for further setup and
+    customization) </span>is referenced by <code>/users/initial</code>.
     </span>
   </div>
   <div class="p">
     The task is satisfied by a <code>simple-question</code> which, once
     answered, triggers an update to the <code>/ecosystem</code> 'name'
     field. This in turn causes the <code>task</code>'s self-check to pass,
-    which 'closes' the <code>task</code>.
-  </div>
-  <div class="p">
-    
+    which 'closes' the <code>task</code>. The user then moves onto the
+    next <code>task</code> until they exit the 'process task' loop or complete
+    the system setup.<span data-perspective="detailed implementation
+    operations"> Refer
+    to <a href="/documentation/conveyor/ref/Ecosystem#Setup-Tasks">Ecosystem
+    setup tasks section</a> for information and best practices regarding
+    ecosystem setup.</span>
   </div>
 </div><!-- #Example-Task-Sequence.blurbSummary -->
-<div id="Life-of-a-Task" class="blurbSummary grid_12">
-  <div class="blurbTitle">Life of a Task</div>
+<div id="Instructions" class="blurbSummary grid_12">
+  <div class="blurbTitle">Instructions</div>
   <div class="p">
-
-<div id="Life-of-a-Task" class="blurbSummary grid_12">
-  <div class="blurbTitle">Life of a Task</div>
+    <code>Instructions</code> are triggered by system
+    state. Our <a href="Example-Task-Sequence">example task above</a> would
+    have been created by an <code>instruction</code> triggered by an empty
+    ecosystem name
+    field<span data-perspective="!implementation">.</span><span data-perspective="implementation">
+    such as this:
+    <pre><code>
+{ "self_URL" : : "/instruction/_ll-smb-template-ensure-ecosystem-name",
+  "trigger_URL" : "/ecosystem/?fields=name",
+  "check_condition" : "name == null || name.isEmpty()",
+  "auto_assign" : true,
+  "task" : {
+              "self_URL" : : "/tasks/_setup-001-get-ecosystem-name",
+              "satisfied_by" : "/simple-question/_setup-001-get-ecosystem-name",
+              "check_URL" : "/ecosystem/?fields=name",
+              "check_condition" : "name",
+              "value" : "HIGH",
+              "manual_order" : 1,
+              "pass_status" : "closed"
+           }
+}
+    </code></pre></span>
+  </div>
   <div class="p">
-    Looking at all the <code>instructions</code> in a full
-    blown <code>plan</code> can be daunting and we usually deal with plaans by
-    zooming in on a particular area, or even just a single interaction. You
-    can think of the <code>plan</code> as one of
-    those <a href="http://en.wikipedia.org/wiki/Choose_Your_Own_Adventure">Choose
-    Your Own Adventure</a> books.<span class="note">Zane wonders if these
-    books taught him coding. Probably not, but good myth.</span> It's
-    interesting, because it represents not a single story, but many potential
-    stories. In the same way, a <code>plan</code> lays out the kind of things
-    a project may do.
+    Notice that the <code>instruction</code> and the <code>task</code> it
+    creates are symetric. The <code>instruction</code> is triggered by the
+    empty name, and the <code>task</code> is satisfied by a non-empty
+    name.<span data-perspective="future"> In the current implementation, this
+    relationship may be expressed, but is not technically necessary. In future
+    versions, we may modify the design such that <code>task</code>
+    satisfaction is essentially tied to the <code>instruction</code>
+    trigger.</span> This is generally how the system is designed to work. A
+    situation is "noticed" by an <code>instruction</code>, which generates
+    the <code>task</code> to remedy or advance the state.
+  </div>
+</div><!-- #Instructions.blurbSummary -->
+<div id="Planning" class="blurbSummary grid_12">
+  <div class="blurbTitle">Planning</div>
+  <div class="p">
+    <code>Instructions</code> are the end product of planning out and
+    capturing institution process and knowledge. Looking at all
+    the <code>instructions</code> and considering all the
+    potential <code>tasks</code> in a full blown <code>plan</code> can be
+    daunting.
+  </div>
+  <div class="subHeader"><span>User Stories</span></div>
+  <div class="p">
+    User stories are often a useful lens creating and
+    managing <code>instructions</code>. We don't see any need to impose formal story analysis and the like; rather we recommend that each <code>instruction</code> document it's semantic purpose
+  </div>
 
 
-Plan cluster: divide plans by project. An ecosystem is created by selecting a
-    number of base level projects, sufficient to keep things self
-    contained. Base projects are those which rely only base resources. (They
-    may define additional resources.)
 
-Ecosystem map shows 1-degree from each resource...
 
-    Each instruction refers to a 'this' which is some 'thing', either
-    a <code>resource</code> or a <code>resource</code>
-    item. E.g., <code>/tasks</code> or a <code>task</code>. In any
-    case, <code>instructions</code> always deal with a thing. The instruction
-    is matched by the thing and method: GET, PUT, POST, and DELETE, optional
-    system telemetry, and&mdash;for GET and POST&mdash;the before and after
-    data snapshots.
+
 
     Critically instructions are always executed after the operation
     itself.<span class="note">We considered allowing pre-action instructions a
