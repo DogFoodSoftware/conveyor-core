@@ -1,16 +1,14 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    Here's the basic idea: <code>plans</code> tell us how to both react to
-    input and move forward towards goals. 
-    <code>Plan</code> <code>instructions</code> (non-exclusively)
-    generate <code>tasks</code>. The <code>task</code> is a unit of work which
-    produces definite results which the, for which the system can
-    check. Satisfying a <code>task</code> involves changes to the system,
-    which trigger new <code>instructions</code>, and so on and so on.
+    Here's the basic idea: <code>plans</code> encode institutional
+    knowledge. This include both how to react to situations as well as how to
+    specify and attain goals. <code>Instructions</code> are the individual
+    steps in <code>plans</code>. <code>Tasks</code> are the mechanism by which
+    a <code>plan</code> is implemented.
   </div>
 </div><!-- .blurbSummary#Overview -->
 <div id="Example-Task-Sequence" class="blurbSummary grid_12">
-  <div class="blurbTitle">Example Task Sequence</div>
+  <div class="blurbTitle">Example Sequence</div>
   <div class="p">
     When you create
     an <code>ecosystem</code>, <span data-perspective="!detailed">it should
