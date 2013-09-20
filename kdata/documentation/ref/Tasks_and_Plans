@@ -34,7 +34,7 @@
 { "self_URL" : : "/tasks/liquid-labs.com/setup/get-ecosystem-name",
   "satisfied_by" : "/simple-question/liquid-labs.com/setup/get-ecosystem-name",
   "check_URL" : "/ecosystem/?fields=name",
-  "check_condition" : "name",
+  "check_condition" : "name != null && !name.isEmpty()",
   "assigned_to" : "/users/initial",
   "status" : "pending",
   "value" : "HIGH",
@@ -74,9 +74,8 @@
     <pre><code>
 { "self_URL" : : "/instruction/liquid-labs.com/setup/ensure-ecosystem-name",
   "trigger_URL" : "/ecosystem/?fields=name",
-  "check_condition" : "name == null || name.isEmpty()",
+  "trigger_condition" : "name == null || name.isEmpty()",
   "auto_assign" : true,
-  "lazy" : false,
   "task" : {
               "self_URL" : : "/tasks/liquid-labs.com/setup/get-ecosystem-name",
               "satisfied_by" : "/simple-question/liquid-labs.com/setup/get-ecosystem-name",
@@ -110,58 +109,73 @@
     scope.
   </div>
   <div class="p">
-    One could also conceive of implementing new technical features, like an
-    audit system or, if we allowed pre-state change <code>instructions</code>,
-    you could do tie authorizations into the system. We're intentionally
-    trying to keep things simple here. By the time an <code>instruction</code>
-    is executed, the system state may have changed, and so long
-    as <code>instructions</code> deal with <code>tasks</code>, that's fine. If
-    the <code>instruction</code>/<code>task</code> system were deputized for
-    other purposes, those other uses would start to make demands on the system
-    and push the system towards greater complication.
+    One simple idea is to use <code>instructions</code> to implement automatic
+    action, such as sending a text message (via REST call) when we see the
+    error rates above a certain threshold. In the current system, we are
+    limited to tasking an actor to look into it.<span class="note">There's
+    nothing to stop <code>tasks</code> from supporting text messaging, which
+    would be our suggested approach to this feature.</span>  But this isn't
+    straightforward because <code>tasks</code> are part of how we make sure
+    someone takes responsibilities for issues. The user has to acknowledge
+    a <code>task</code>, but not a text message, so now we have to think a lot
+    more abet the implications of instructions because we've removed the
+    guaranteed involvement of the intelligent actor in resolving the situation
+    that triggered the <code>instruction</code>.
   </div>
+  <div class="p">
+    With many "other ways" to use instructions, you run into problems
+    regarding guaranteed delivery, the possibility of state change between
+    trigger and resolution, etc. It's great to automate stuff, we just don't
+    want to do it through the <code>instruction</code>/<code>task</code>
+    system.
   </div>
-  <div class="subHeader"><span><code>Instructions</code> are Reactionary</span></div>
+  </div><!-- [data-perspectives="detailed implementation operations"] -->
+  <div id="Instructions-are-Reactions-to-Valid-Changes"
+  class="subHeader"><span><code>Instructions</code> are Reactions to Valid
+  Changes</span></div>
   <div class="p">
     Instructions are executed after a valid change in state. A call that
     results in a FORBIDDEN or fails due to server error will never directly
     trigger an <code>instruction</code> because these calls cannot result in
     valid state changes.<span class="note">The term 'valid state change' is
-    used here to mean a change it data&mdash;or state&mdash;which is 'valid as
-    designed'. Neither FORBIDDEN nor failed requests should never result in
-    state change; because of bugs or hardware failures, they may of course
-    result in state change, but there's nothing we can do about that and we do
-    our best to ignore it. Note there is one exception where rejected and
-    failed calls may trigger instructions: the logs themselves may be surfaced
-    as a resource, and <code>instructions</code> would be written about the
-    logs. This is why we say 'never result in <em>direct</em> change', as we
-    consider the case mentioned here to be very much indirect.</span>
+    used here to mean a change in data&mdash;or state&mdash;which is 'valid as
+    designed'. Neither FORBIDDEN nor failed requests should ever result in
+    state change. Due to bugs or hardware failures, they may of course result
+    in state change, but that state change is considered invalid with respect
+    to the design. Rejected or failed update a logging or audit resource,
+    which itself may trigger instructions; e.g., task an admin to look into
+    the logs whenever there's an error reported. This is why we say 'never
+    result in <em>direct</em> change', as we consider the case mentioned here
+    to be very much indirect.</span>
   </div>
-  <div class="subHeader"><span>Lazy vs. Proactive Instructions</span></div>
-
-
-
-    Each <code>instruction</code> remembers whatever is important about the
-    universe, and is able to react to changes at any point. When a resource
-    changes,<span class="note">Recall that when any item within a resource
-    changes, the resource is said to change as well.</span> we proactively
-    ping all known instructions associated with the
-    resource.<span class="note">These are the instructions tracked in the
-    resource item itself, with <code>resources</code> tracked
-    as <code>resource</code> items
-    (including <code>/resources/resources</code>).</span> However, these
-    alerts may fail or be incomplete, which is fine, because the instruction
-    is able to tell at any point whether the resource has changed. The item
-    will actually be locked against further changes until
-    requried <code>instructions</code> are
-    executed. Thus, the actual decision is always lazy, and asynchronous,
-    though we can initiate the lazy check with a poke.
-
-    Each <code>instruction</code> is like a page in that. Writing a good plan
-    is very much like writing a good
-    story.<span class="note">The <code>plan</code> is not the story itself,
-    but rather describes many potential stories.</span>
-    </div>
+  <div class="subHeader"><span><code>Instructions</code> Verify the Human Scale</div>
+  <div class="p">
+    While <a href="#Instructions-are-Reactions-to-Valid-Changes"><code>instructions</code>
+    are recations to valid changes</a>, <code>instructions</code> are
+    fundamentally encoded knowledge. Our example instruction from above
+    encodes the idea that the ecosystem should have a name. The instruction
+    can be run at any time, and an ecosystem is constantly running through
+    it's set of instructions to see what needs to be done.
+  </div>
+  <div class="p" data-perspective="detailed implementation operations">
+    You may think this sounds innefficient, and from the standpoint of
+    'minimizing REST calls', it certainly is. You might check an instruction
+    hundreds of time before detecting a change. You could therefore think it
+    reasonable to trigger instructions, like event handlers, and avoid all the
+    unecessary checks. The big problem here is that because we don't assume
+    all <code>instructions</code> effecting a system to be on the same
+    ecosystem, let alone the same host, it would be very costly to guarantee
+    all <code>instructions</code> get the message regarding the change in a
+    timely fashion. This would make instructions more complex, because they
+    now need to deal with late alerts. As is, the idea would be that if the
+    ecosystem name were deleted, and then immediately re-entered, the 'ensure
+    ecosystem has a name' <code>instruction</code> mightnever be triggered,
+    but so what? It's fine for instructions, so long as you remember it's not
+    an event processing framework. It's more like constant unit tests fro the
+    business.
+  </div>
+  <div class="subHeader"><span>Lazy vs. Proactive <code>Instructions</code></span></div>
+  <div class="p">
   </div>
 </div><!-- #Instructions.blurbSummary -->
 <div id="Planning" class="blurbSummary grid_12">
