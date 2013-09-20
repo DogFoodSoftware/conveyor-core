@@ -76,7 +76,7 @@
   "trigger_URL" : "/ecosystem/?fields=name",
   "check_condition" : "name == null || name.isEmpty()",
   "auto_assign" : true,
-  "immediate" : true,
+  "lazy" : false,
   "task" : {
               "self_URL" : : "/tasks/liquid-labs.com/setup/get-ecosystem-name",
               "satisfied_by" : "/simple-question/liquid-labs.com/setup/get-ecosystem-name",
@@ -137,10 +137,7 @@
     logs. This is why we say 'never result in <em>direct</em> change', as we
     consider the case mentioned here to be very much indirect.</span>
   </div>
-  <div class="subHeader"><span><code>Instructions</code> are Sloppy</span></div>
-  <div class="p">
-    A big reason why we say 
-  </div>
+  <div class="subHeader"><span>Lazy vs. Proactive Instructions</span></div>
 
 
 
