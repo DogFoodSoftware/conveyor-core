@@ -31,8 +31,8 @@
     ecosystem<span data-perspective="!implementation">.</span><span data-perspective="implementation">&mdash;
     which might be defined as:
     <pre><code>
-{ "self_URL" : : "/tasks/_setup-001-get-ecosystem-name",
-  "satisfied_by" : "/simple-question/_setup-001-get-ecosystem-name",
+{ "self_URL" : : "/tasks/liquid-labs.com/setup/get-ecosystem-name",
+  "satisfied_by" : "/simple-question/liquid-labs.com/setup/get-ecosystem-name",
   "check_URL" : "/ecosystem/?fields=name",
   "check_condition" : "name",
   "assigned_to" : "/users/initial",
@@ -70,13 +70,13 @@
     field<span data-perspective="!implementation">.</span><span data-perspective="implementation">
     such as this:
     <pre><code>
-{ "self_URL" : : "/instruction/_ll-smb-template-ensure-ecosystem-name",
+{ "self_URL" : : "/instruction/liquid-labs.com/setup/ensure-ecosystem-name",
   "trigger_URL" : "/ecosystem/?fields=name",
   "check_condition" : "name == null || name.isEmpty()",
   "auto_assign" : true,
   "task" : {
-              "self_URL" : : "/tasks/_setup-001-get-ecosystem-name",
-              "satisfied_by" : "/simple-question/_setup-001-get-ecosystem-name",
+              "self_URL" : : "/tasks/liquid-labs.com/setup/get-ecosystem-name",
+              "satisfied_by" : "/simple-question/liquid-labs.com/setup/get-ecosystem-name",
               "check_URL" : "/ecosystem/?fields=name",
               "check_condition" : "name",
               "value" : "HIGH",
@@ -135,7 +135,9 @@
   </div>
   <div class="subHeader"><span><code>Instructions</code> are Serial</span></div>
   <div class="p">
-    
+    Here's the rule: no resource may be updated till all
+    required <code>instructions</code> acknowledge processing of the last
+    state.
   </div>
 
 
