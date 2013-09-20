@@ -1,32 +1,32 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
     Here's the basic idea: <code>plans</code> encode institutional
-    knowledge. This include both how to react to situations as well as how to
-    specify and attain goals. <code>Instructions</code> are the individual
-    steps in <code>plans</code>. <code>Tasks</code> are the mechanism by which
-    a <code>plan</code> is implemented.
+    knowledge. <code>Instructions</code> are the individual steps
+    in <code>plans</code>. <code>Tasks</code> are the mechanism by which
+    a <code>plan</code> is implemented. Together, the Plan/Instruction/Task
+    resources, referenced collectively as PIT, are the central idea in the
+    Conveyor system.
+  </div>
+  <div class="p">
+    PIT is capable of capturing a broad range of institutional
+    knowlede. Current <code>plans</code> range from corporate accounting to
+    marketing to product development and personal excercise programs.
   </div>
 </div><!-- .blurbSummary#Overview -->
 <div id="Example-Task-Sequence" class="blurbSummary grid_12">
   <div class="blurbTitle">Example Sequence</div>
   <div class="p">
-    When you create
-    an <code>ecosystem</code>, <span data-perspective="!detailed">it should
-    come pre-loaded with some initial
-    setup <code>tasks</code>.</span><span data-perspective="detailed">you will
-    select a template ecosystem to copy. Ideally, the cloned ecosystem will
-    include initial <code>tasks</code> related to completing or at least
-    confirming the
-    ecosystem.</span> <span data-perspective="implementation">Recall the
-    initial data is read from
+    If you ever create
+    an <code>ecosystem</code><span data-perspective="detailed" data-todo="Link
+    to some info about setting up your own ecosystem."> (something we
+    encourage you to do)</span>, <span data-perspective="!detailed">it will
+    come pre-loaded with a <code>plan</code> on how to complete the
+    setup. <span data-perspective="implementation" data-todo="Link
+    this">Recall, the initial data is read from
     the <code>&lt;projects&gt;/kdata/initial/&lt;resources&gt;</code>
-    directory.</span>
-    The <code>/users/initial</code><span data-perspective="!detailed"> is
-    normally </span><span data-perspective="detailed">'s configuration option
-    <code>tasks.auto-stream</code> is set <code>true</code>, which&mdash;among
-    other things&mdash;</span>sends the user straight to their first task: to
-    name the
-    ecosystem<span data-perspective="!implementation">.</span><span data-perspective="implementation">&mdash;
+    directory.</span> The <code>plan</code> will most likely include
+    an <code>instruction</code> to handle getting the ecosystem
+    named<span data-perspective="!implementation">.</span><span data-perspective="implementation">&mdash;
     which might be defined as:
     <pre><code>
 { "self_URL" : : "/tasks/liquid-labs.com/setup/get-ecosystem-name",
@@ -39,10 +39,10 @@
   "manual_order" : 1,
   "pass_status" : "closed" }
     </code></pre>
-    The ecosystem itself is referenced through the
-    special <code>/ecosystem</code> resource, and the initial
+    <span data-todo="link"> Recal the ecosystem itself is referenced through
+    the special <code>/ecosystem</code> resource, and the initial
     user <span data-perspective="detailed">(responsible for further setup and
-    customization) </span>is referenced by <code>/users/initial</code>.
+    customization) </span>is referenced by <code>/users/initial</code>.</span>
     </span>
   </div>
   <div class="p">
