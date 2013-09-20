@@ -74,6 +74,7 @@
   "trigger_URL" : "/ecosystem/?fields=name",
   "check_condition" : "name == null || name.isEmpty()",
   "auto_assign" : true,
+  "required" : true,
   "task" : {
               "self_URL" : : "/tasks/liquid-labs.com/setup/get-ecosystem-name",
               "satisfied_by" : "/simple-question/liquid-labs.com/setup/get-ecosystem-name",
@@ -137,7 +138,10 @@
   <div class="p">
     Here's the rule: no resource may be updated till all
     required <code>instructions</code> acknowledge processing of the last
-    state.
+    state. This ensures that when an instruction is run, the system state that
+    triggered the instruction is still valid. This requirements allows
+    instructions to be much simpler.<span data-perspective="detailed">
+    Otherwise, each instruction would need logic to deal
   </div>
 
 
