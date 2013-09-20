@@ -63,6 +63,8 @@
 <div id="Instructions" class="blurbSummary grid_12">
   <div class="blurbTitle">Instructions</div>
   <div class="p">
+    <code>Instructions</code> generate <code>tasks</code> are consumed by
+    intelligent agents to implement real world processes.
     <code>Instructions</code> are triggered by system
     state. Our <a href="Example-Task-Sequence">example task above</a> would
     have been created by an <code>instruction</code> triggered by an empty
@@ -74,7 +76,7 @@
   "trigger_URL" : "/ecosystem/?fields=name",
   "check_condition" : "name == null || name.isEmpty()",
   "auto_assign" : true,
-  "required" : true,
+  "immediate" : true,
   "task" : {
               "self_URL" : : "/tasks/liquid-labs.com/setup/get-ecosystem-name",
               "satisfied_by" : "/simple-question/liquid-labs.com/setup/get-ecosystem-name",
@@ -99,24 +101,34 @@
     situation is "noticed" by an <code>instruction</code>, which generates
     the <code>task</code> to remedy or advance the state.
   </div>
-  <div class="subHeader"><span><code>Instructions</code> are Single Minded</span></div>
+  <div class="detailed implementation operations">
+  <div class="subHeader"><span><code>Instructions</code> are Only for <code>Tasks</code></span></div>
   <div class="p">
-    <code>Instructions</code> are intended to implement human scale process
-    logic. It is not a general purpose bus or extension point. The limitations
-    on how <code>instructions</code> are entirely intentional because
-    developing a <code>plan</code> is complex, so we wanted to keep
-    the <code>instructions</code> themselves as simple as possible.
+    One could conceive of implementing new features or adding technical
+    capabilities using <code>instructions</code>; it's certainly possible;
+    we're just saying don't do it. When we talk
+    about <a href="#Instructions-are-Sloppy"><code>instructions</code> being
+    sloppy</a>, we're able to say this because a <code>task</code> is consumed by an intelligent agent by which we mean an entity&mdash;concious or automated&mdash;which is responsible for ascertaining the context of the task and deciding whether it's still valild or not. The <code>task</code> may contain additional information beyond the simple satisfaction checks, or the original state may have changed. <code>Instructions</code> and <code>tasks</code>
   </div>
+
   <div class="p">
-    Note that of course one could conceive of implementing new features or
-    adding technical capabilities using <code>instructions</code>; it's
-    certainly possible; we're just saying don't do it. If there's need, we may
-    look at pulling out some of the logic into a lower level library, so that
-    other resources can easily adapt their own version
-    of <code>instruction</code> processing semantics, or
-    use <code>instructions</code> as a model for a similar system, or
-    whatever. The point is, please don't abuse <code>instructions</code>, we
-    want to keep it simple.
+    One could
+
+
+It is not a general purpose bus
+    or extension point. The limitations on how <code>instructions</code> are
+    entirely intentional because developing a <code>plan</code> is complex, so
+    we wanted to keep the <code>instructions</code> themselves as simple as
+    possible.
+  </div>
+
+
+If there's need, we may look at pulling out
+    some of the logic into a lower level library, so that other resources can
+    easily adapt their own version of <code>instruction</code> processing
+    semantics, or use <code>instructions</code> as a model for a similar
+    system, or whatever. The point is, please don't
+    abuse <code>instructions</code>, we want to keep it simple.
   </div>
   <div class="subHeader"><span><code>Instructions</code> are Reactionary</span></div>
   <div class="p">
@@ -134,14 +146,9 @@
     logs. This is why we say 'never result in <em>direct</em> change', as we
     consider the case mentioned here to be very much indirect.</span>
   </div>
-  <div class="subHeader"><span><code>Instructions</code> are Serial</span></div>
+  <div class="subHeader"><span><code>Instructions</code> are Sloppy</span></div>
   <div class="p">
-    Here's the rule: no resource may be updated till all
-    required <code>instructions</code> acknowledge processing of the last
-    state. This ensures that when an instruction is run, the system state that
-    triggered the instruction is still valid. This requirements allows
-    instructions to be much simpler.<span data-perspective="detailed">
-    Otherwise, each instruction would need logic to deal
+    A big reason why we say 
   </div>
 
 
