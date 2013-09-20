@@ -100,7 +100,7 @@
     situation is "noticed" by an <code>instruction</code>, which generates
     the <code>task</code> to remedy or advance the state.
   </div>
-  <div class="detailed implementation operations">
+  <div data-perspective="detailed implementation operations">
   <div class="subHeader"><span><code>Instructions</code> are Only for <code>Tasks</code></span></div>
   <div class="p">
     The <code>instruction</code>/<code>task</code> system is certainly capable
@@ -148,8 +148,10 @@
     result in <em>direct</em> change', as we consider the case mentioned here
     to be very much indirect.</span>
   </div>
-  <div class="subHeader"><span><code>Instructions</code> Verify the Human Scale</div>
+  <div class="subHeader"><span><code>Instructions</code> Verify Knowledge</div>
   <div class="p">
+    <code>Plans
+
     While <a href="#Instructions-are-Reactions-to-Valid-Changes"><code>instructions</code>
     are recations to valid changes</a>, <code>instructions</code> are
     fundamentally encoded knowledge. Our example instruction from above
