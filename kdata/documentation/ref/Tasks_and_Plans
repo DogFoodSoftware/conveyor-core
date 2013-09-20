@@ -104,31 +104,22 @@
   <div class="detailed implementation operations">
   <div class="subHeader"><span><code>Instructions</code> are Only for <code>Tasks</code></span></div>
   <div class="p">
-    One could conceive of implementing new features or adding technical
-    capabilities using <code>instructions</code>; it's certainly possible;
-    we're just saying don't do it. When we talk
-    about <a href="#Instructions-are-Sloppy"><code>instructions</code> being
-    sloppy</a>, we're able to say this because a <code>task</code> is consumed by an intelligent agent by which we mean an entity&mdash;concious or automated&mdash;which is responsible for ascertaining the context of the task and deciding whether it's still valild or not. The <code>task</code> may contain additional information beyond the simple satisfaction checks, or the original state may have changed. <code>Instructions</code> and <code>tasks</code>
+    The <code>instruction</code>/<code>task</code> system is certainly capable
+    of asynchronous message passing to automated agents and such, and forms
+    the basis of many interesting systems. This use falls within the design
+    scope.
   </div>
-
   <div class="p">
-    One could
-
-
-It is not a general purpose bus
-    or extension point. The limitations on how <code>instructions</code> are
-    entirely intentional because developing a <code>plan</code> is complex, so
-    we wanted to keep the <code>instructions</code> themselves as simple as
-    possible.
+    One could also conceive of implementing new technical features, like an
+    audit system or, if we allowed pre-state change <code>instructions</code>,
+    you could do tie authorizations into the system. We're intentionally
+    trying to keep things simple here. By the time an <code>instruction</code>
+    is executed, the system state may have changed, and so long
+    as <code>instructions</code> deal with <code>tasks</code>, that's fine. If
+    the <code>instruction</code>/<code>task</code> system were deputized for
+    other purposes, those other uses would start to make demands on the system
+    and push the system towards greater complication.
   </div>
-
-
-If there's need, we may look at pulling out
-    some of the logic into a lower level library, so that other resources can
-    easily adapt their own version of <code>instruction</code> processing
-    semantics, or use <code>instructions</code> as a model for a similar
-    system, or whatever. The point is, please don't
-    abuse <code>instructions</code>, we want to keep it simple.
   </div>
   <div class="subHeader"><span><code>Instructions</code> are Reactionary</span></div>
   <div class="p">
