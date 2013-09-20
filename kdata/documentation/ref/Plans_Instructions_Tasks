@@ -3,9 +3,9 @@
     Here's the basic idea: <code>plans</code> encode institutional
     knowledge. <code>Instructions</code> are the individual steps
     in <code>plans</code>. <code>Tasks</code> are the mechanism by which
-    a <code>plan</code> is implemented. Together, the Plan/Instruction/Task
-    resources, referenced collectively as PIT, are the central idea in the
-    Conveyor system.
+    a <code>instructions</code> are carried out. Together, the
+    Plan/Instruction/Task resources, referenced collectively as PIT, are the
+    central idea in the Conveyor system.
   </div>
   <div class="p">
     PIT is capable of capturing a broad range of institutional
@@ -14,61 +14,20 @@
   </div>
 </div><!-- .blurbSummary#Overview -->
 <div id="Example-Task-Sequence" class="blurbSummary grid_12">
-  <div class="blurbTitle">Example Sequence</div>
+  <div class="blurbTitle">Example PIT Cycle</div>
   <div class="p">
     If you ever create
     an <code>ecosystem</code><span data-perspective="detailed" data-todo="Link
     to some info about setting up your own ecosystem."> (something we
     encourage you to do)</span>, <span data-perspective="!detailed">it will
-    come pre-loaded with a <code>plan</code> on how to complete the
-    setup. <span data-perspective="implementation" data-todo="Link
+    come pre-loaded with a <code>plan</code> on how to complete the ecosystem
+    setup.<span data-perspective="implementation"><span class="note" data-todo="Link
     this">Recall, the initial data is read from
     the <code>&lt;projects&gt;/kdata/initial/&lt;resources&gt;</code>
-    directory.</span> The <code>plan</code> will most likely include
-    an <code>instruction</code> to handle getting the ecosystem
+    directory.</span></span> The <code>plan</code> will most likely include
+    an <code>instruction</code> to make sure the ecosystem gets
     named<span data-perspective="!implementation">.</span><span data-perspective="implementation">&mdash;
     which might be defined as:
-    <pre><code>
-{ "self_URL" : : "/tasks/liquid-labs.com/setup/get-ecosystem-name",
-  "satisfied_by" : "/simple-question/liquid-labs.com/setup/get-ecosystem-name",
-  "check_URL" : "/ecosystem/?fields=name",
-  "check_condition" : "name != null && !name.isEmpty()",
-  "assigned_to" : "/users/initial",
-  "status" : "pending",
-  "value" : "HIGH",
-  "manual_order" : 1,
-  "pass_status" : "closed" }
-    </code></pre>
-    <span data-todo="link"> Recal the ecosystem itself is referenced through
-    the special <code>/ecosystem</code> resource, and the initial
-    user <span data-perspective="detailed">(responsible for further setup and
-    customization) </span>is referenced by <code>/users/initial</code>.</span>
-    </span>
-  </div>
-  <div class="p">
-    The task is satisfied by a <code>simple-question</code> which, once
-    answered, triggers an update to the <code>/ecosystem</code> 'name'
-    field. This in turn causes the <code>task</code>'s self-check to pass,
-    which 'closes' the <code>task</code>. The user then moves onto the
-    next <code>task</code> until they exit the 'process task' loop or complete
-    the system setup.<span data-perspective="detailed implementation
-    operations"> Refer
-    to <a href="/documentation/conveyor/ref/Ecosystem#Setup-Tasks">Ecosystem
-    setup tasks section</a> for information and best practices regarding
-    ecosystem setup.</span>
-  </div>
-</div><!-- #Example-Task-Sequence.blurbSummary -->
-<div id="Instructions" class="blurbSummary grid_12">
-  <div class="blurbTitle">Instructions</div>
-  <div class="p">
-    <code>Instructions</code> generate <code>tasks</code> are consumed by
-    intelligent agents to implement real world processes.
-    <code>Instructions</code> are triggered by system
-    state. Our <a href="Example-Task-Sequence">example task above</a> would
-    have been created by an <code>instruction</code> triggered by an empty
-    ecosystem name
-    field<span data-perspective="!implementation">.</span><span data-perspective="implementation">
-    such as this:
     <pre><code>
 { "self_URL" : : "/instruction/liquid-labs.com/setup/ensure-ecosystem-name",
   "trigger_URL" : "/ecosystem/?fields=name",
@@ -85,6 +44,46 @@
            }
 }
     </code></pre></span>
+  </div>
+  <div class="p">
+    That <code>instruction</code> will be triggered when the ecosystem has no
+    name.<span data-perspective="detailed implementation operations"> Specifically, when
+    the <code>name</code> field of the special <code>/ecosystem</code>
+    resource is null.</span> This will generate
+    a <code>task</code><span data-perspecive="!implementation">.</span><span data-perspective="implementation">
+    <pre><code>
+{ "self_URL" : : "/tasks/liquid-labs.com/setup/get-ecosystem-name",
+  "satisfied_by" : "/simple-question/liquid-labs.com/setup/get-ecosystem-name",
+  "check_URL" : "/ecosystem/?fields=name",
+  "check_condition" : "name != null && !name.isEmpty()",
+  "assigned_to" : "/users/initial",
+  "status" : "pending",
+  "value" : "HIGH",
+  "manual_order" : 1,
+  "pass_status" : "closed" }
+    </code></pre></span>
+  </div>
+  <div class="p">
+    The task is satisfied by a <code>simple-question</code> which, once
+    answered, triggers an update to the <code>/ecosystem</code> 'name'
+    field. This in turn causes the <code>task</code>'s self-check to pass,
+    which 'closes' the <code>task</code>. The user then moves onto the
+    next <code>task</code> until they exit the 'process task' loop or complete
+    the ecosystem setup.
+  </div>
+</div><!-- #Example-Task-Sequence.blurbSummary -->
+<div id="Instructions" class="blurbSummary grid_12">
+  <div class="blurbTitle">Instructions</div>
+  <div class="p">
+    <code>Instructions</code> generate <code>tasks</code> are consumed by
+    intelligent agents to implement real world processes.
+    <code>Instructions</code> are triggered by system
+    state. Our <a href="Example-Task-Sequence">example task above</a> would
+    have been created by an <code>instruction</code> triggered by an empty
+    ecosystem name
+    field<span data-perspective="!implementation">.</span><span data-perspective="implementation">
+    such as this:
+</span>
   </div>
   <div class="p">
     Notice that the <code>instruction</code> and the <code>task</code> it
