@@ -4,7 +4,7 @@
     knowledge. <code>Instructions</code> are the individual steps
     in <code>plans</code>. <code>Tasks</code> are the mechanism by which
     a <code>instructions</code> are carried out. Together, the
-    Plan/Instruction/Task resources, referenced collectively as PIT, are the
+    Plan/Instruction/Task resources, referenced collectively as PIT, are a
     central idea in the Conveyor system.
   </div>
   <div class="p">
@@ -52,7 +52,7 @@
     resource is null.</span> This will generate
     a <code>task</code><span data-perspecive="!implementation">.</span><span data-perspective="implementation">
     <pre><code>
-{ "self_URL" : : "/tasks/liquid-labs.com/setup/get-ecosystem-name",
+{ "self_URL" : "/tasks/liquid-labs.com/setup/get-ecosystem-name",
   "satisfied_by" : "/simple-question/liquid-labs.com/setup/get-ecosystem-name",
   "check_URL" : "/ecosystem/?fields=name",
   "check_condition" : "name != null && !name.isEmpty()",
@@ -62,28 +62,29 @@
   "manual_order" : 1,
   "pass_status" : "closed" }
     </code></pre></span>
+    The <code>task</code> is satisfied when the ecosystem is named. This
+    closes the loop.
   </div>
+</div><!-- #Example-PIT-Cycle.blurbSummary -->
+<div id="Plans" class="blurbSummary grid_12">
+  <div class="blurbTitle">Plans</div>
   <div class="p">
-    The task is satisfied by a <code>simple-question</code> which, once
-    answered, triggers an update to the <code>/ecosystem</code> 'name'
-    field. This in turn causes the <code>task</code>'s self-check to pass,
-    which 'closes' the <code>task</code>. The user then moves onto the
-    next <code>task</code> until they exit the 'process task' loop or complete
-    the ecosystem setup.
+    <code>Plans</code> organize instructions according to a purpose. The scope
+    of a <code>plan</code> is defined by the <code>plan</code> author(s) and
+    may be very narrow or quite broad. <code>Plans</code> cover technical
+    issues, like how data backup procedures, as well as 'human' level
+    processes, such as product ideation. <code>Plans</code> are created and
+    maintained as <code>projects</code> artifacts.
   </div>
-</div><!-- #Example-Task-Sequence.blurbSummary -->
+</div><!-- #Plans.blurbSummary -->
 <div id="Instructions" class="blurbSummary grid_12">
   <div class="blurbTitle">Instructions</div>
   <div class="p">
-    <code>Instructions</code> generate <code>tasks</code> are consumed by
-    intelligent agents to implement real world processes.
-    <code>Instructions</code> are triggered by system
-    state. Our <a href="Example-Task-Sequence">example task above</a> would
-    have been created by an <code>instruction</code> triggered by an empty
-    ecosystem name
-    field<span data-perspective="!implementation">.</span><span data-perspective="implementation">
-    such as this:
-</span>
+    When triggered, an <code>instruction</code> generates a single
+    task.<span data-perspective="detailed future implementation"> There's a
+    strong possibility that we will add support for generating
+    multiple <code>tasks</code> from a single <code>instruction</code>, we're
+    just waiting for a compelling use case.</span> 
   </div>
   <div class="p">
     Notice that the <code>instruction</code> and the <code>task</code> it
