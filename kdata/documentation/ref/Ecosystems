@@ -35,11 +35,10 @@
 </div><!-- .blurbSummary#Projects-and-Ecosystems -->
 <div id="Projects-and-Policy" class="blurbSummary grid_12">
   <div class="blurbTitle">Projects and Policy</div>
-  <div class="p" data-todo="Address lexical issues here.">
-    This section is quite awkward. The point is important, but needs a fair
-    amount of polishing.
-  </div>
   <div class="p">
-    As a rule of thumb, ecosystems generally provide a complete policy set.
+    <span data-todo="test this statement">An ecosystem <em>must</em> provide a
+    complete set of policies.</span> <span data-todo="test the
+    enforcement">Projects may override these policies with the permission of
+    the ecosystem.</span>
   </div>
 </div><!-- #Projects-and-Policy.blurbSummary -->
