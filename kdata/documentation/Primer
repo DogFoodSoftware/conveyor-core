@@ -42,14 +42,10 @@
     'super-ecosystem'". Otherwise, we would refer to the Conveyor Ecosystems
     simply as 'Ecosystems' after the initial introduction.
   </div>
-  <div class="subHeader"><span>Literate Development</span></div>
+  <div class="subHeader"><span>Resources</span></div>
   <div class="p">
-    Conveyor incorporates
-    <a href="/documentation/literate-development/Primer">Literate
-    Development</a> and techniques to construct documentation that is both
-    comprehensive and approachable. Conveyor applies these standards to itself
-    and <span data-todo="Expand on this point.">Conveyor derived
-    products</span>.
+    A Conveyor resource is a directly addressable entity within a Conveyor
+    ecosystem. 
   </div>
   <div class="subHeader"><span>Ecosystems</span></div>
   <div class="p">
