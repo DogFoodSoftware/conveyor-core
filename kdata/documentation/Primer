@@ -42,11 +42,6 @@
     'super-ecosystem'". Otherwise, we would refer to the Conveyor Ecosystems
     simply as 'Ecosystems' after the initial introduction.
   </div>
-  <div class="subHeader"><span>Resources</span></div>
-  <div class="p">
-    A Conveyor resource is a directly addressable entity within a Conveyor
-    ecosystem. 
-  </div>
   <div class="subHeader"><span>Ecosystems</span></div>
   <div class="p">
     A Conveyor Ecosystem is a sovereign virtual space composed of
@@ -59,6 +54,30 @@
     personal Ecosystem engaged with multiple employer's corporate ecosystems,
     which may themselves be divided into departmental ecosystems for lager
     firms.
+  </div>
+  <div class="subHeader"><span>Resources</span></div>
+  <div class="p">
+    A Conveyor resource is a directly addressable entity within a Conveyor
+    ecosystem; loosley, resources are the main nouns within the system. A
+    resource is rendered according to the effective template. The effective
+    template is:
+    <ol>
+      <li>If an application is currently active:
+	<ol>
+	  <li>the user's application preference, if present, or</li>
+	  <li>the applications's resource template, if present.</li>
+	</ol>
+      </li>
+      <li>Otherwise, the user's default resource preference is used, if
+      defined.</li>
+      <li>Otherwise, the universal resource template is used.</li>
+    </ol>
+    This is an area which may become more sophisticated in future.
+  </div>
+  <div class="p">
+    This section should move. The template uses mustache/HTML. It expects to
+    be sandwiched between an optional site header and footer, but should not
+    rely on that for navigation. All pages should provide internal navigation.
   </div>
   <div class="subHeader"><span>Hosts</span></div>
   <div class="p">
