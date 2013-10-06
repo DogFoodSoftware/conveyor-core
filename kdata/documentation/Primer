@@ -59,22 +59,11 @@
   <div class="p">
     Ultimately site by site rules. 'Standard rules...': Might not be
     necessary... working this out. Maybe just site by site? ...
-    A Conveyor
-    resource is a directly addressable entity within a Conveyor ecosystem;
-    loosley, resources are the main nouns within the system. A resource is
-    rendered according to the effective template. The effective template is:
     <ol>
-      <li>If an application is currently active:
-	<ol>
-	  <li>the user's application preference, if present, or</li>
-	  <li>the applications's resource template, if present.</li>
-	</ol>
-      </li>
-      <li>Otherwise, the user's default resource preference is used, if
-      defined.</li>
-      <li>Otherwise, the universal resource template is used.</li>
+      <li>site resource template</li>
+      <li>universal resource template</li>
     </ol>
-    This is an area which may become more sophisticated in future.
+    For personal preferences, create your own site. It's easy!
   </div>
   <div class="p">
     This section should move. The template uses mustache/HTML. It expects to
