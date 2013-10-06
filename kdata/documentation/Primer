@@ -57,10 +57,12 @@
   </div>
   <div class="subHeader"><span>Resources</span></div>
   <div class="p">
-    A Conveyor resource is a directly addressable entity within a Conveyor
-    ecosystem; loosley, resources are the main nouns within the system. A
-    resource is rendered according to the effective template. The effective
-    template is:
+    Ultimately site by site rules. 'Standard rules...': Might not be
+    necessary... working this out. Maybe just site by site? ...
+    A Conveyor
+    resource is a directly addressable entity within a Conveyor ecosystem;
+    loosley, resources are the main nouns within the system. A resource is
+    rendered according to the effective template. The effective template is:
     <ol>
       <li>If an application is currently active:
 	<ol>
