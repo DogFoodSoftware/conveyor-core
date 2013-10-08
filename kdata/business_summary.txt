@@ -6,9 +6,10 @@ that they are most burdensome exactly when the business is mature.
 Not only is there more 'must do' work to be done, but the lost billable time
 is worth more than ever. Among the consultants and entrepreneur's I've talked
 to non-value add, 'must do' work can consume anywhere from 10%-25% of the raw
-time, and many feel that overall the cost of context switching and the feeling
-of stress from being 'spread thin' makes the perceived opportunity cost much
-higher.
+time, which translates into between $500-$2,000 in lost opportunity costs per
+month. Many feel that overall the cost of context switching and the feeling
+of stress from being 'spread thin' makes the perceived cost much higher at one
+to five thousand dollars per month.
 
 The
 successful professional must spend more time on taxes, business development,
@@ -34,6 +35,12 @@ We all face time management problems. For the freelance professional
 and small business, there is a particularly pernicious problem where
 the things you 'must do' in order to maintain the busineess grow to
 impose an appreciable cost in time and lost opportunity, The in
+
+-----
+
+At $100 for SaaS users and $250 for fully private users, if we assume an 80/20
+mix, we would need ~130 customers to cover the $16K nut: $12K expense, $2K
+operations budget and $2K profit.
 
 
 What is the value proposition?
