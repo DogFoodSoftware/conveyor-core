@@ -1,18 +1,11 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="blurbTitle">Overview</div>
   <div class="p">
-    Conveyor combines people, computers, and process to get things done. In
-    the same way that the conveyor belt in an assembly line automates the
-    movement of parts between workstations and encodes concrete steps in an
-    assembly line, the Conveyor system 
-
-
-is a high level specification dealing with the capture and
-    implementation of workflows, especially for the purpose of automating and
-    improving efficiencies within a project or organization. Conveyor embeds a
-    broad range of business activity in program logic in much the same way
-    that an assembly lines emded physical manufacture processes within capital
-    equipment and physical layout.
+    Conveyor combines people, computers, and process to get things done. Like
+    a conveyor belt in an assemply line, the Conveyor system orchestrates the
+    transfer of inputs and outputs between different stages, automating much
+    of the process and dramatically increasing the productivity of both
+    individuals and business.
   </div>
   <div class="p">
     Conveyor itself is a foundational technology used <span data-todo="Link
