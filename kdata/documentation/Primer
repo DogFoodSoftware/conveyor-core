@@ -1,7 +1,13 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="blurbTitle">Overview</div>
   <div class="p">
-    Conveyor is a high level specification dealing with the capture and
+    Conveyor describes a method to combine people, computers, and process to
+    get things done. In the same way that the conveyor belt in an assembly
+    line automates the movement of parts between workstations and encodes
+    concrete steps in an assembly line, Conveyor 
+
+
+is a high level specification dealing with the capture and
     implementation of workflows, especially for the purpose of automating and
     improving efficiencies within a project or organization. Conveyor embeds a
     broad range of business activity in program logic in much the same way
