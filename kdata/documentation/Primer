@@ -2,34 +2,33 @@
   <div class="blurbTitle">Overview</div>
   <div class="p">
     Conveyor combines people, computers, and process to get things done. Like
-    a conveyor belt in an assemply line, the Conveyor system orchestrates the
-    transfer of inputs and outputs between different stages, automating much
-    of the process and dramatically increasing the productivity of both
-    individuals and business.
+    a conveyor belt in an assemply line, the Conveyor system manages inputs
+    and outputs between different stages, automating much of the process and
+    dramatically increasing the productivity of both individuals and business.
+  </div>
+  <div class="p">
+    <span data-perspective="detailed">Just as 'the assembly line' was not a
+    single thing, but rather the synthesis of many existing ideas with a few
+    technical innovations and a lot of trial and error, </span>Conveyor
+    organizes existing technologies and ideas into a system derived as much
+    from experience as theory with the goal of making the overall process more
+    transparent, testable, iterable and opening the process to broader
+    engagement by simplifying individual touch points.
   </div>
   <div class="p">
     Conveyor itself is a foundational technology used <span data-todo="Link
     this line to a page... /dossier/?tag=conveyor-users or something that will
     list known companies and projects.">to build consumer products and
-    services.</span> In this sense, Conveyor is like injection-molding. It's
-    an important technology usable in millions of toys and gadgets, but not
-    something most consumers concern themseles with.<span data-todo="Address
-    to general audience only."> The remainder of the Conveyor documentation
-    digs into the technical aspects of Conveyor and is addressed primarily to
-    Conveyor developers.</span>
+    services.</span> The remainder of this documents begins unfolding the key
+    concepts of the Conveyor system. Consumers may be more interested
+    in <a href="/documentation/conveyor/ref/Understanding_the_Conveyor_Brand">understanding
+    the Conveyor brand</a> while individuals involved with a Conveyor project
+    might want to begin by taking a look at the section
+    on <a href="/documentation/conveyor/ref/Actors#Workerss">workers</a>.
   </div>
 </div><!-- #Overview.blurbSummary -->
 <div id="High-Level-Components" class="blurbSummary grid_12">
   <div class="blurbTitle">High Level Components</div>
-  <div class="p">
-    Just as 'the assembly line' was not a single thing, but rather the
-    synthesis of many existing ideas with a few technical innovations and a
-    lot of trial and error, Conveyor organizes existing technologies and ideas
-    into a system derived as much from experience as theory with the goal of
-    making the overall process more transparent, testable, iterable and
-    opening the process to broader engagement by simplifying individual touch
-    points.
-  </div>
   <div class="p">
     An explicit note on usage: when introducing Conveyor specific technical
     terms, the 'Conveyor' association <em>should</em> be explictly stated in
@@ -87,7 +86,7 @@
     hosts. This approach generally works well operations and turns out to be
     useful WRT to scaling, disaster recovery, and general host management.
   </div>
-  <div class="subHeader"><span>Actors</span></div>
+  <div id="Actors" class="subHeader"><span>Actors</span></div>
   <div class="p">
     An 'actor' may be a human or virtual entity, and is generally regarded as
     anything which may makes decisions. Actors may be further categorized as
