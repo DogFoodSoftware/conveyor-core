@@ -4,16 +4,11 @@
     Conveyor combines people, computers, and process to get things done. Like
     a conveyor belt in an assemply line, the Conveyor system manages inputs
     and outputs between different stages, automating much of the process and
-    dramatically increasing the productivity of both individuals and business.
-  </div>
-  <div class="p">
-    <span data-perspective="detailed">Just as 'the assembly line' was not a
-    single thing, but rather the synthesis of many existing ideas with a few
-    technical innovations and a lot of trial and error, </span>Conveyor
-    organizes existing technologies and ideas into a system derived as much
-    from experience as theory with the goal of making the overall process more
-    transparent, testable, iterable and opening the process to broader
-    engagement by simplifying individual touch points.
+    dramatically increasing the productivity of both individuals and
+    business. Conveyor processes
+    are <a href="/documentation/conveyor/ref/Goals#Selective-Transparency">selectively
+    transparent</a>, <a href="/documentation/conveyor/ref/Goals#Quantification">quantifiable</a>,
+    and <a href="/documentation/conveyor/ref/Goals#Process-Iteration">iterable</a>.
   </div>
   <div class="p">
     Conveyor itself is a foundational technology used <span data-todo="Link
