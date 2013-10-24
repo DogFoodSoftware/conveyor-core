@@ -19,29 +19,26 @@
     If you ever create
     an <code>ecosystem</code><span data-perspective="detailed" data-todo="Link
     to some info about setting up your own ecosystem."> (something we
-    encourage you to do)</span>, <span data-perspective="!detailed">it will
-    come pre-loaded with a <code>plan</code> on how to complete the ecosystem
-    setup.<span data-perspective="implementation"><span class="note" data-todo="Link
-    this">Recall, the initial data is read from
+    encourage you to do)</span>, it will come pre-loaded with
+    a <code>plan</code> on how to complete the ecosystem
+    setup.<span data-perspective="implementation"><span class="note"
+    data-todo="Link this">Recall, the initial data is read from
     the <code>&lt;projects&gt;/kdata/initial/&lt;resources&gt;</code>
     directory.</span></span> The <code>plan</code> will most likely include
     an <code>instruction</code> to make sure the ecosystem gets
     named<span data-perspective="!implementation">.</span><span data-perspective="implementation">&mdash;
     which might be defined as:
     <pre><code>
-{ "self_URL" : : "/instruction/liquid-labs.com/setup/ensure-ecosystem-name",
-  "trigger_URL" : "/ecosystem/?fields=name",
-  "trigger_condition" : "name == null || name.isEmpty()",
-  "auto_assign" : true,
-  "task" : {
-              "self_URL" : : "/tasks/liquid-labs.com/setup/get-ecosystem-name",
-              "satisfied_by" : "/simple-question/liquid-labs.com/setup/get-ecosystem-name",
-              "check_URL" : "/ecosystem/?fields=name",
-              "check_condition" : "name",
-              "value" : "HIGH",
-              "manual_order" : 1,
-              "pass_status" : "closed"
-           }
+{ "id" : "/tasks/liquid-labs.com/ecosystem-setup/ensure-name",
+  "state" : "potential",
+  "status" : "open",
+  "aliases" : [{ "name" : "name",
+                 "value" : "(/ecosystem/this?fields=name).name" }],
+  "trigger" : "name == null || name.isEmpty()",
+  "assign-to" : "ecosystem admin",
+  "value" : "HIGH",
+  "cardnality" : "one-at-a-time"
+  "description" : "Please add a name to the &lt;a href=\"/ecosystem/this\"&gt;ecosystem&lt;/a&gt;." 
 }
     </code></pre></span>
   </div>
