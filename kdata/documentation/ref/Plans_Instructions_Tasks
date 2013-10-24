@@ -1,43 +1,58 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    Here's the basic idea: <code>plans</code> encode institutional
-    knowledge. <code>Instructions</code> are the individual steps
-    in <code>plans</code>. <code>Tasks</code> are the mechanism by which
-    a <code>instructions</code> are carried out. Together, the
-    Plan/Instruction/Task resources, referenced collectively as PIT, are a
-    central idea in the Conveyor system.
+    A <code>plan</code> encodes institutional knowledge. <code>Plans</code>
+    can conceivably cover almost any activity and range from bookkeeping and
+    product development for a business to personal excercise programs.
   </div>
   <div class="p">
-    PIT is capable of capturing a broad range of institutional
-    knowlede. Current <code>plans</code> range from corporate accounting to
-    marketing to product development and personal excercise programs.
+    A <code>task</code> encodes a single, concrete action; a step in
+    a <code>plan</code>. Users may create their own <code>tasks</code> (and
+    build their own <code>plans</code>) or import
+    ready-made <code>plans</code>.
   </div>
 </div><!-- .blurbSummary#Overview -->
-<div id="Example-Task-Sequence" class="blurbSummary grid_12">
-  <div class="blurbTitle">Example PIT Cycle</div>
+<div id="Plans" class="blurbSummary grid_12">
+  <div class="blurbTitle">Plans</div>
   <div class="p">
-    If you ever create
-    an <code>ecosystem</code><span data-perspective="detailed" data-todo="Link
-    to some info about setting up your own ecosystem."> (something we
-    encourage you to do)</span>, it will come pre-loaded with
-    a <code>plan</code> on how to complete the ecosystem
-    setup.<span data-perspective="implementation"><span class="note"
-    data-todo="Link this">Recall, the initial data is read from
-    the <code>&lt;projects&gt;/kdata/initial/&lt;resources&gt;</code>
-    directory.</span></span> The <code>plan</code> will most likely include
-    an <code>instruction</code> to make sure the ecosystem gets
-    named<span data-perspective="!implementation">.</span><span data-perspective="implementation">&mdash;
-    which might be defined as:
+    <code>Plans</code> organize <code>tasks</code> toward a declared set of
+    goals. <code>Plans</code> may address almost any activity, from product
+    ideation to data backup.
+  </div>
+  <div class="p">
+    <code>Plans</code> are created and maintained as <code>project</code>
+    artifacts. <code>Plans</code> activated by first cloning the appropriate
+    project repository, and then importing the plan into the ecosystem
+    runtime.
+  </div>
+  <div class="p">
+    The plan project consists of a static plan document such
+    as:<span class="note">The following example has been truncated for
+    readability.</span>
     <pre><code>
-{ "id" : "/tasks/liquid-labs.com/ecosystem-setup/ensure-name",
+{
+  "id" : "/plans/liquid-labs.com/ecosystem-maintenance",
+  "project" : "/projects/liquid-labs.com/operations-manual",
+  "description" : "Plan to setup and maintain a Conveyor &lt;a
+                   href=\"/documentation/ref/Ecosystem\"&gt;, provided by
+                   &lt;a href=\"http://liquid-labs.com\"&gt;Liquid
+                   Labs&lt;a&gt;."
+}
+    </code></pre>
+  </div>
+</div><!-- #Plans.blurbSummary -->
+<div id="Task" class="blurbSummary grid_12">
+  <div class="blurbTitle">Task</div>
+  <div class="p">
+    <pre><code>
+{ 
+  "id" : "/tasks/liquid-labs.com/ecosystem-maintenance/ensure-name",
   "state" : "potential",
-  "status" : "open",
   "aliases" : [{ "name" : "name",
                  "value" : "(/ecosystem/this?fields=name).name" }],
   "trigger" : "name == null || name.isEmpty()",
   "assign-to" : "ecosystem admin",
   "value" : "HIGH",
-  "cardnality" : "one-at-a-time"
+  "cardnality" : "one-at-a-time",
   "description" : "Please add a name to the &lt;a href=\"/ecosystem/this\"&gt;ecosystem&lt;/a&gt;." 
 }
     </code></pre></span>
@@ -62,18 +77,7 @@
     The <code>task</code> is satisfied when the ecosystem is named. This
     closes the loop.
   </div>
-</div><!-- #Example-PIT-Cycle.blurbSummary -->
-<div id="Plans" class="blurbSummary grid_12">
-  <div class="blurbTitle">Plans</div>
-  <div class="p">
-    <code>Plans</code> organize instructions according to a purpose. The scope
-    of a <code>plan</code> is defined by the <code>plan</code> author(s) and
-    may be very narrow or quite broad. <code>Plans</code> cover technical
-    issues, like how data backup procedures, as well as 'human' level
-    processes, such as product ideation. <code>Plans</code> are created and
-    maintained as <code>projects</code> artifacts.
-  </div>
-</div><!-- #Plans.blurbSummary -->
+</div><!-- #Task.blurbSummary -->
 <div id="Instructions" class="blurbSummary grid_12">
   <div class="blurbTitle">Instructions</div>
   <div class="subHeader"><span>Each <code>Instructions</code> Creates a
