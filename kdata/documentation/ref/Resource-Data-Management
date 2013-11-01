@@ -1,0 +1,25 @@
+The Conveyor data management recommendations are normative and not required. 
+
+Each essentially stores a single type of data. The typing is primarily
+semantic and addresses a human level view of the system. The
+<code>/people</code> and <code>/files</code> resources are more or less
+self-explanatory. While there are technical resources, like
+<code>/authorizations</code>, whose exact nature may not be famililar to the
+average user, the basic idea is more or less appearent.
+
+A resource may optionally define data requirements, which vets all new data as
+well as modifications to determine whether or not the data is correct.
+
+Any user can make any number of changes at any time because data is always
+changed on an (effectively) systemwide branch. The changes may or may not be
+accepted onto master. Though subject to legal restrictions, there is always
+the technical possibility of forking data at any point, keeping the original
+data unchanged, and also allowing the fork owner to make all the changes they
+want to the same source data set.
+
+With proper authorizations, a user may preemptively lock all merges, ensuring
+their own work, no matter how long running, can be made, while still allolwing
+other users to continue to make changes in their own forks. (Of course, there
+are usability limits on this kind of situation and in some systems, the
+feature might be very limited or the lock times relatively short while on
+others, essentially indefinite lock times would be relatively common.)
