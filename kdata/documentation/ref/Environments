@@ -15,8 +15,8 @@
     bother with this stuff, Conveyor does a good job of
     self-managing and many users may rely entirely on the automated
     systems. Businesses or power users may want to
-    consider <a href="/documentation/conveyor/ref/Management_Manual">resourcing</a>
-    <a href="/documentation/conveyor/ref/Operations_Manual">operational
+    consider <a href="/documentation/this-site/ref/Management_Manual">resourcing</a>
+    <a href="/documentation/this-site/ref/Operations_Manual">operational
     support</a>. The majority of the remaining information is addressed to
     operators and developers.
   </div>
@@ -34,11 +34,11 @@
   <div class="blurbTitle">Environment Management</div>
   <div class="p">
     Authorized users may access Conveyor environments through the
-    as <a href="/conveyor-environments"><code>/conveyor-enviroment</code>
-    resource</a> from within an active Conveyor enviroment and manage the
+    as <span data-todo="implement and link"><code>/enviroments</code>
+    resource</span> from within an active Conveyor enviroment and manage the
     local and foreign environments through as one would with any other
     resource through standard
-    HTTP <a href="/documentation/conveyor/lexicon/service-request">service
+    HTTP <a href="/documentation/kibbles/Web_Services#Requests">service
     requests</a>. The Conveyor environment itself is also a stack component
     and host service and supports standard bash-based script management as
     well.
