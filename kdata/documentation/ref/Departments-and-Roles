@@ -1,0 +1,65 @@
+<div id="Overview" class="blurbSummary grid_12">
+  <div class="p">
+    Departments and roles are useful for dividing up the creation and
+    assignment of tasks. A <code>/tasks</code> item must assert a role,
+    department, or both a role and department to which the task should be
+    assigned.
+  </div>
+</div><!-- #Overview.blurbSummary -->
+<div id="Departments" class="blurbSummary grid_12">
+  <div class="blurbTitle">Departments</div>
+  <div class="p">
+    Departments organize related worker and tasks within a project. Here we
+    lay out a specific departmental structure, the Standard Conveyor
+    Departments. This particular departmental structure is not essential to
+    Conveyor, but is proposed as a general purpose breakdown that's both
+    sufficient and natural for many projects. Future Conveyor versions will
+    likely do something different with this section, possibly removing it to a
+    loadable module and tweaking the department definitions. We plan to
+    maintain the 'Standard Conveyor Departments' in some form.
+  </div>
+  <div id="Vision" class="subHeader"><span>Vision</span></div>
+  <div class="p">
+    The 'vision' department is responsible for the highest level decisions
+    within an organization. These decisions would typically be handled by the
+    board, CXOs, or even the organization as a whole depending on the
+    structure of the organization.
+  </div>
+  <!-- #Departments #Vision -->
+  <div id="Management" class="subHeader"><span>Management</span></div>
+  <div class="p">
+    'Management' is reseponsible for progress. This means coordinating
+    resources (capital and human), verifying process adherance, and dealing
+    with any process related issues that crop up.
+  </div>
+  <!-- #Departments #Management -->
+  <div id="Implementation" class="subHeader"><span>Implementation</span></div>
+  <div class="p">
+    'Implementation' is responsible for implenting final product. This often
+    includes the construction of prototypes, as well as testing and
+    verification.
+  </div>
+  <!-- #Departments #Implemenation -->
+  <div id="Operations" class="subHeader"><span>Operations</span></div>
+  <div class="p">
+    'Operations' manages project infrastructure. This includes both 'internal'
+    and 'production' infrastructure.
+  </div>
+  <!-- #Departments #Operations -->
+  <div id="Sales-and-Marketing" class="subHeader"><span>Sales and Marketing</span></div>
+  <div class="p">
+    'Sales and Marketing' gets the word out and signs up customers. 
+  </div>
+  <!-- #Departments #Sales-and-Marketing -->
+  <div id="Support" class="subHeader"><span>Support</span></div>
+  <div class="p">
+    'Support' is the customer advocate and support within the company.
+  </div>
+  <!-- #Departments #Support -->
+  <div id="Finance" class="subHeader"><span>Finance</span></div>
+  <div class="p">
+    'Finance' makes sure there's enough money to cover expenses and oversees
+    fiscal targets.
+  </div>
+  <!-- #Departments #Finance -->
+</div><!-- #Implementation.blurbSummary -->

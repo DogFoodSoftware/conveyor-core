@@ -21,6 +21,15 @@
     operators and developers.
   </div>
 </div><!-- .blurbSummary#Overview -->
+<div id="Environments-and-Services" class="blurbSummary grid_12">
+  <div class="blurbTitle">Environments and Services</div>
+  <div class="p">
+    All service requests are conceptually and actually directed at a
+    particular environment. This 'fulfilling environment' is responsible for
+    the service result, even if other environments are involved in the
+    fulfilment.
+  </div>
+</div><!-- #Environment-and-Services.blurbSummary -->
 <div id="Environment-Management" class="blurbSummary grid_12" data-perspective="operations">
   <div class="blurbTitle">Environment Management</div>
   <div class="p">
@@ -72,7 +81,7 @@
       <li><code>PARTIALLY_AVAILABLE</code>: meaning core web services are
       available, but subscribed services specific to the particular
       environment may not be available,</li>
-      <li><code>AVAILABLE<code>: meaning core web services and all subscribed
+      <li><code>AVAILABLE</code>: meaning core web services and all subscribed
       services are available.</li>
     </ul>
     An <code>UNAVAILABLE</code> envorironment cannot be reached through normal

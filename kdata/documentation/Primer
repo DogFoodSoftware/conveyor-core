@@ -19,7 +19,7 @@
     in <a href="/documentation/conveyor/ref/Understanding_the_Conveyor_Brand">understanding
     the Conveyor brand</a> while individuals involved with a Conveyor project
     might want to begin by taking a look at the section
-    on <a href="/documentation/conveyor/ref/Actors#Workerss">workers</a>.
+    on <a href="/documentation/conveyor/ref/Actors#Workers">workers</a>.
   </div>
 </div><!-- #Overview.blurbSummary -->
 <div id="High-Level-Components" class="blurbSummary grid_12">
@@ -81,19 +81,15 @@
     hosts. This approach generally works well operations and turns out to be
     useful WRT to scaling, disaster recovery, and general host management.
   </div>
-  <div id="Actors" class="subHeader"><span>Actors</span></div>
+  <div id="Actors" class="subHeader"><span><a href="/documentation/conveyor/ref/Actors">Actors</a></span></div>
   <div class="p">
-    An 'actor' may be a human or virtual entity, and is generally regarded as
-    anything which may makes decisions. Actors may be further categorized as
-    internal or external to the ecosystem. Internal actors, also called
-    'agents', are always automated virtual entities. Essentially, bits of code
-    empowered to make decisions according to ecosystem conditions and their
-    own internal logic.  An external actor may be a human or virtual entity,
-    though as far as the ecosystem is concerned, it doesn't matter
-    much.<span class="note">Functionally, any entity which can authenticate to
-    the ecosystem can do whatever it's authorizations allows. Ecosystem policy
-    may define limitations or differences between human and virtual entities
-    as a matter of policy.</span>
+    Within a Conveyor ecosystem, an actor is any entity capable of independent
+    action<span data-perspective="detailed"> with respect to the
+    ecosystem</span>. An actor may
+    be <a href="/documentation/conveyor/ref/Actors#Human-and-Software-Actors">human
+    or a software entity</a>. Software actors may also be classified
+    as <a href="/documentation/conveyor/ref/Actors#Internal-and-External-Actors">internal
+    or external</a> to the environment.
   </div>
   <div class="subHeader"><span>Projects</span></div>
   <div class="p">

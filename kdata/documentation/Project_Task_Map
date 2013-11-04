@@ -147,18 +147,19 @@ EOT;
  *   <li>The fundamental node types are further decomposed into one and only
  *   one of the following contrete types:
  *     <ol>
- *       <li>Activities are organized by the <href="TODO">department</a>:
+ *       <li>Activities are organized by <href="/documentation/conveyor/ref/Departments-and-Roles#Departments">department</a>:
  *         <ol>
- *           <li>'<a href="TODO">vision</a>',</li>
- *           <li>'<a href="TODO">management</a>',</li>
- *           <li>'<a href="TODO">implementation</a>',</li>
- *           <li>'<a href="TODO">operations</a>',</li>
- *           <li>'<a href="TODO">sales</a>',</li>
- *           <li>'<a href="TODO">support</a>', and</li>
- *           <li>'<a href="TODO">finance</a>'.</li>
+ *           <li>'<a href="/documentation/conveyor/ref/Departments-and-Roles#Vision">vision</a>',</li>
+ *           <li>'<a href="/documentation/conveyor/ref/Departments-and-Roles#Management">management</a>',</li>
+ *           <li>'<a href="/documentation/conveyor/ref/Departments-and-Roles#Implementation">implementation</a>',</li>
+ *           <li>'<a href="/documentation/conveyor/ref/Departments-and-Roles#Operations">operations</a>',</li>
+ *           <li>'<a href="/documentation/conveyor/ref/Departments-and-Roles#Sales-and-Marketing">sales and marketing</a>',</li>
+ *           <li>'<a href="/documentation/conveyor/ref/Departments-and-Roles#Support">support</a>', and</li>
+ *           <li>'<a href="/documentation/conveyor/ref/Departments-and-Roles#Finance">finance</a>'.</li>
  *         </ol></li>
- *       <li>Resources are one of the <a href="TODO">Conveyor basic
- *       resources<a>. (Will list and link after we develop the map a bit
+ *       <li>Resources are one of the <span data-todo="Develop this idea and
+ *   link to documentation">Conveyor basic
+ *       resources</span>. (Will list and link after we develop the map a bit
  *       further.)</li>
  *       <li>Events are either 'interupts' or 'scheduled'.</li>
  *     </ol></li>

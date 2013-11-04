@@ -1,0 +1,33 @@
+<div id="Overview" class="blurbSummary grid_12">
+  <div class="p">
+    An actor may be <a href="#Human-and-Software-Actors">human or a software
+    entity</a>. Software actors may also be classified
+    as <a href="#Internal-and-External-Actors">internal or external</a> to the
+    environment.
+  </div>
+  <div class="p">
+    The capabilities of any given actor are determined by their authorizations
+    and Convyeor itself does not often take note of these distinctions, which
+    are of primary concern for resource planners.
+  </div>
+</div><!-- #Overview.blurbSummary -->
+<div id="Human-and-Software-Actors" class="blurbSummary grid_12">
+  <div class="blurbTitle">Human and Software Actors</div>
+  <div class="p">
+    Every user with access to an environment is a 'human actor' within the
+    environment. A 'software actor' is a piece of software which accesses and
+    operates within an ecosystem through the same channels which a human actor
+    would use.
+  </div>
+</div><!-- #Human-andSoftware-Actors.blurbSummary -->
+<div id="Internal-and-External-Actors" class="blurbSummary grid_12">
+  <div class="blurbTitle">Internal and External Actors</div>
+  <div class="p">
+    The 'internal' or 'external' designation indicates is applied exclusively
+    to software agents and indicates whether the software runs within or
+    without a particular ecosystem. We do not apply the label to human actors
+    as all humans are essentially external to the
+    ecosystem.<span class="note">At least given current technology.</span>
+  </div>
+</div><!-- #Internal-and-External-Actors.blurbSummary -->
+
