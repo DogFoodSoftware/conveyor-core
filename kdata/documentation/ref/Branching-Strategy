@@ -89,19 +89,30 @@
   <div class="blurbTitle">Mechanics and Actions</div>
   <div class="p">
     Every action which would introduce a new commit can be isolated to one of
-    four actions:
+    six actions:
     <ul>
+      <li><code>git convey update</code>: brings the local repository
+      up-to-date with the remote <code>origin</code>.</li>
       <li><code>git convey start &lt;task|bugfix|hotfix&gt; &lt;task
       ID&gt;</code>: used to create a new branch where changes can be
       isoloted.</li>
       <li><code>git convey commit ...</code>: used to commit changes to a task
-      branch.<span class="note">Yes, this is essentially a synonym
+      branch.<span class="note">This is essentially a synonym
       for <code>git commit</code>. Developers should prefer <code>git convey
       commit</code> anyway in order to keep the habit of consistently using
       the Git-Convey tool and because future versions may want to do some
       custom house keeping at commit time.</span></li>
-      <li><code>git convey finish [&lt;task|bugfix|hotfix&gt; &lt;task
-      ID&gt;]</code>: 
+      <li><code>git convey finish [[&lt;task|bugfix|hotfix&gt;] &lt;task
+      ID&gt;]</code>: marks the current or indicated task branch for
+      integration back into the original source branch from which it was
+      cut.</li>
+      <li><code>git convey promote-testing</code>: archives the
+      current <code>testing</code> <code>HEAD</code> and then forces
+      the <code>testing</code> <code>HEAD</code> to the
+      current <code>master</code> <code>HEAD</code>.</li>
+      <li><code>git convey promote-release &lt;release ID&gt;</code>: cuts a
+      new release branch from the
+      current <code>testing</code> <code>HEAD</code>.</li>
     </ul>
   </div>
 </div><!-- #Mechanics-and-Actions.blurbSummary -->
