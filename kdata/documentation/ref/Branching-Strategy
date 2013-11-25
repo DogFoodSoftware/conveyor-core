@@ -1,18 +1,19 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    Conveyor defines a standard branching strategy which is implemented by
-    Conveyor tools and used to implement Conveyor tasks. All stardard Conveyor
-    projects utilize this strategy, and any Conveyor related project should
-    strongly consider adopting the same strategy.
+    Conveyor defines a standard branching strategy implemented by
+    the <a href="TODO">Git-Convey</a> git extension. All stardard Conveyor
+    projects utilize this strategy, and any Conveyor related project
+    should&mdash; for reasons
+    discussed <a href="#Branching-and-Tasks">later</a>&mdash; strongly
+    consider adopting the same strategy.
   </div>
   <div class="p">
-    The strategy is implemented by the <a href="TODO">Convey</code> git
-    extension. While every developer should understand the branching strategy,
-    most developers should be able to operate exclusively through the Convey
-    extensions which, when used properly, help ensure everyone stays on the
-    same track.
+    While it is important for developers to understand the branching strategy,
+    day-to-day operations are accomplished using the Git-Convey extensions and
+    developers should generally avoid issuing state-changing commands outside
+    of the Git-Convey tools.
   </div>
-  <div class="p">
+  <div data-perspective="future" class="p">
     In future Conveyor versions, the developer will interact through the
     task interface to create and manage branches and many of these details
     will hidden in the day-to-day interactions. Basic Conveyor assessments
@@ -21,27 +22,41 @@
   </div>
 </div><!-- #Overview.blurbSummary -->
 <div id="Permanent-Branches" class="blurbSummary grid_12">
+  <div class="blurbTitle">Permanent Branches</div>
   <div class="p">
-    The Conveyor branching strategy makes use of two permanent
-    branches: <code>master</code> and <code>testing</code>. The 
+    There are two permanent branches: <code>master</code>
+    and <code>testing</code>. The
     <code>master</code> branch represents the latest collective best effort by
     development. The <code>master</code> branch <em>should</em> always be
     runnable and pass all extant tests. In practice, people make mistakes and
-    at any given point in time <code>master</code> may contain errors.
+    at any given point in time <code>master</code> may contain errors,
+    especially as relates to new features.
   </div>
   <div class="p">
-    Enter the <code>testing</code> branch. The <code>master</code> is
-    periodically merged with <code>testing</code>, and this is the only time
-    new features are introduced into <code>testing</code>. At all other times,
-    changes to <code>testing</code> are exclusively bug fixes.
-  </div>
-  <div class="p">
-    In other words, new features are integrated into <code>master</code>. The
-    collected updates are eventually promoted to <code>testing</code>, where
-    the focus is on detecting and removing bugs.
+    Enter <code>testing</code>. This is where code goes to mature. At the
+    beginning of the <a href="#Release-Cycle">release cycle</a>, the
+    accumulated changes on <code>master</code> are promoted
+    to <code>testing</code>, where the focus is exclusively on stabilization
+    and bug fixes.
   </div>
 </div><!-- #Permanent-Branches.blurbSummary -->
 <div id="Release-Branches" class="blurbSummary grid_12">
+  <div class="blurbTitle">Release Branches</div>
   <div class="p">
+    At the end of the <a href="#Release-Cycle">release cycle</a>, the
+    stabalized, relatively bug-free code on <code>testing</code> is promoted
+    to a <code>release-*</code> branch. Release branches are where 'production
+    ready' code lives. The release branches are long lived&mdash;even
+    indefinitely so&mdash;but not permanent in that each release may be
+    sunsetted someday. Many release branches have a built in sunset date.
   </div>
 </div><!-- #Release-Branches.blurbSummary -->
+<div id="Release-Cycle" class="blurbSummary grid_12">
+  <div class="blurbTitle">Release Cycle</div>
+  <div class="p">
+    The branching strategy is integrated with a concrete release cycle which
+    envisions the regular promotion of code from <code>master</code>
+    to <code>testing</code> to <code>release-*</code> branches. The purpose is
+    to provide explicit support for code stabalization and bug fixes
+  </div>
+</div><!-- #Release-Cycle.blurbSummary -->
