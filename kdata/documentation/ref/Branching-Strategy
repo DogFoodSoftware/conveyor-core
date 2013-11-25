@@ -1,17 +1,10 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    Conveyor defines a standard branching strategy implemented by
-    the <a href="TODO">Git-Convey</a> git extension. All stardard Conveyor
-    projects utilize this strategy, and any Conveyor related project
-    should&mdash; for reasons
-    discussed <a href="#Branching-and-Tasks">later</a>&mdash; strongly
-    consider adopting the same strategy.
-  </div>
-  <div class="p">
-    While it is important for developers to understand the branching strategy,
-    day-to-day operations are accomplished using the Git-Convey extensions and
-    developers should generally avoid issuing state-changing commands outside
-    of the Git-Convey tools.
+    Conveyor defines a standard branching strategy intended to move features
+    from initial implementation towards release. The strategy is implemented
+    by the <a href="TODO">Git-Convey</a> git extension, and for day-to-day
+    usage, most developers can and should work entirely within the Git-Convey
+    tool.
   </div>
   <div data-perspective="future" class="p">
     In future Conveyor versions, the developer will interact through the
@@ -48,15 +41,33 @@
     to a <code>release-*</code> branch. Release branches are where 'production
     ready' code lives. The release branches are long lived&mdash;even
     indefinitely so&mdash;but not permanent in that each release may be
-    sunsetted someday. Many release branches have a built in sunset date.
+    sunsetted someday. Many release branches have a built in sunset dates.
   </div>
 </div><!-- #Release-Branches.blurbSummary -->
 <div id="Release-Cycle" class="blurbSummary grid_12">
   <div class="blurbTitle">Release Cycle</div>
   <div class="p">
     The branching strategy is integrated with a concrete release cycle which
-    envisions the regular promotion of code from <code>master</code>
-    to <code>testing</code> to <code>release-*</code> branches. The purpose is
-    to provide explicit support for code stabalization and bug fixes
+    envisions the regular flow of new features from <code>master</code>
+    to <code>testing</code> to <code>release-*</code> branches. A release
+    cycle is said to begin when the accumulated updates on <code>master</code>
+    are promoted to <code>testing</code> and end when
+    the <code>release-*</code> branch is cut from <code>testing</code>.
   </div>
 </div><!-- #Release-Cycle.blurbSummary -->
+<div id="Task-Branches" class="blurbSummary grid_12">
+  <div class="blurbTitle">Task Branches</div>
+  <div class="p">
+    Every change in the system is first introduced in a task branch. There are
+    three variations, each with a specific prefix and associated
+    to <code>master</code>, <code>testing</code>, or a <code>release-*</code>
+    branch.
+  </div>
+  <div class="p">
+    There are three task branch variations. Each variation is named with a
+    particular prefix and associated to . The first
+    two, <code>feature-*</code> and <code>task-*</code> are always cut
+    from <code>master</code> and represent new work. As far as Conveyor is
+    concerned, these two branch types serve an identical purpose.
+  </div>
+</div><!-- #Task-Branches.blurbSummary -->
