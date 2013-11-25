@@ -59,7 +59,20 @@
   <div class="blurbTitle">Task Branches</div>
   <div class="p">
     Every change in the system is first introduced in a task branch. There are
-    three variations, each with a specific prefix and associated
+    three variations:
+    <ul>
+      <li><code>task-*</code> branches are cut from <code>master</code> and
+      are most typically associated with new features.</li>
+      <li><code>bugfix-*</code> branches are cut from <code>testing</code> and
+      always represent bug fixes.<span class="note">Very rarely, new features
+      may be introduced on testing when they are deemed absolutely
+      necessary. These are still considered 'bug fixes' as we assume that the
+      feature is necessary to meet specifications or requirements, and the
+      fact that the feature is missing is itself a bug. The main point is
+      that the task branch name is entirely determined by the source branch </span></li>
+    </ul>
+
+    , each with a specific prefix and associated
     to <code>master</code>, <code>testing</code>, or a <code>release-*</code>
     branch.
   </div>
