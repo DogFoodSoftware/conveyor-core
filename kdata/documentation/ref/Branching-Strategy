@@ -85,8 +85,8 @@
     a <code>task-*</code> branch.
   </div>
 </div><!-- #Task-Branches.blurbSummary -->
-<div id="Mechanics-and-Actions" class="blurbSummary grid_12">
-  <div class="blurbTitle">Mechanics and Actions</div>
+<div id="Actions" class="blurbSummary grid_12">
+  <div class="blurbTitle">Actions</div>
   <div class="p">
     Every action which would introduce a new commit can be isolated to one of
     six actions:
@@ -105,7 +105,9 @@
       <li><code>git convey finish [[&lt;task|bugfix|hotfix&gt;] &lt;task
       ID&gt;]</code>: marks the current or indicated task branch for
       integration back into the original source branch from which it was
-      cut.</li>
+      cut. Note that 'finished' branches may receive further commits, such as
+      may be requested by the merge master, and be re-finished any number of
+      times.</li>
       <li><code>git convey promote-testing</code>: archives the
       current <code>testing</code> <code>HEAD</code> and then forces
       the <code>testing</code> <code>HEAD</code> to the
@@ -115,4 +117,32 @@
       current <code>testing</code> <code>HEAD</code>.</li>
     </ul>
   </div>
-</div><!-- #Mechanics-and-Actions.blurbSummary -->
+</div><!-- #Actions.blurbSummary -->
+<div id="Internal-Mechanics" class="blurbSummary grid_12" data-perspective="detailed">
+  <div class="blurbTitle">Internal-Mechanics</div>
+  <div class="p">
+    Most of the time, users will not need to concern themselves with the
+    internal mechanics of the Git-Convey extensions. Developers should
+    generally have a basic understanding of what's happenning in the repo
+    whenever Git-Convey commands are executed, and of course Git-Convey
+    developers will need to know exactly what's going on.
+  </div>
+  <div class="subHeader"><span><code>update</code></span></div>
+  <div class="p">
+  </div>
+  <div class="subHeader"><span><code>start</code></span></div>
+  <div class="p">
+  </div>
+  <div class="subHeader"><span><code>commit</code></span></div>
+  <div class="p">
+  </div>
+  <div class="subHeader"><span><code>finish</code></span></div>
+  <div class="p">
+  </div>
+  <div class="subHeader"><span><code>promote-testing</code></span></div>
+  <div class="p">
+  </div>
+  <div class="subHeader"><span><code>promote-release</code></span></div>
+  <div class="p">
+  </div>
+</div><!-- #Internal-Mechanics.blurbSummary -->
