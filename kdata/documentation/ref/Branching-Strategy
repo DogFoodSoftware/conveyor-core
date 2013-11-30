@@ -66,7 +66,7 @@
     Every change in the system is first introduced in a task branch. There are
     three variations:
     <ul>
-      <li><code>task-*</code> branches are cut from <code>master</code> and
+      <li><code>feature-*</code> branches are cut from <code>master</code> and
       are most typically associated with new features.</li>
       <li><code>bugfix-*</code> branches are cut from <code>testing</code> and
       always represent bug fixes.</li>
@@ -74,7 +74,7 @@
       branch and alays represent bug fixes.</li>
     </ul>
     To be clear, these are three variations of task
-    branches. A <code>task-*</code> branch is (hopefully) the most common by
+    branches. A <code>feature-*</code> branch is (hopefully) the most common by
     far.
   </div>
   <div class="p">
@@ -82,7 +82,7 @@
     not by the purpose per-se. Bugs may be fixed on <code>master</code> for
     various reasons&mdash;the fix itself may be disruptive, or simply
     relatively low value. Such changes would still be isolated on
-    a <code>task-*</code> branch.
+    a <code>feature-*</code> branch.
   </div>
 </div><!-- #Task-Branches.blurbSummary -->
 <div id="Actions" class="blurbSummary grid_12">
