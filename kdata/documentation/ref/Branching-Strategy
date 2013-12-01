@@ -39,9 +39,13 @@
     At the end of the <a href="#Release-Cycle">release cycle</a>, the
     stabalized, relatively bug-free code on <code>testing</code> is promoted
     to a <code>release-*</code> branch. Release branches are where 'production
-    ready' code lives. The release branches are long lived&mdash;even
-    indefinitely so&mdash;but not permanent in that each release may be
-    sunsetted someday. Many release branches have a built in sunset dates.
+    ready' code lives.
+  </div>
+  <div class="p">
+    Release branches may exist for indefinite time, have a built in sunset
+    date, or sunset on an ad-hoc basis. All active release branches together
+    with the permanent <code>master</code> and <code>testing</code> branches
+    are collectively referred to as the persistent branches.
   </div>
 </div><!-- #Release-Branches.blurbSummary -->
 <div id="Release-Cycle" class="blurbSummary grid_12">
@@ -52,39 +56,50 @@
     to <code>testing</code> to <code>release-*</code> branches. A release
     cycle is said to begin when the accumulated updates on <code>master</code>
     are promoted to <code>testing</code> and end when
-    the <code>release-*</code> branch is cut from <code>testing</code>.
+    the <code>release-*</code> branch is cut
+    from <code>testing</code>. <span data-perspective="detailed">In this
+    context it makes sense to harmonize references to the release cycle with
+    the eventual release branch name. This is not a general feature of the
+    strategy, however, because it is possible and often desireable that
+    multiple release...</span>
   </div>
+
+CHANGE: release cycle begins with 'release start' which cuts a new testing
+  branch and release complete which promotes the testing to a release branch.
+
+git convey release -- manage releases
+  - default: list active releases
+  - start
+  - promote
+
   <div class="p">
     Within this framework, projects are free to define their own release
     schedule and strategy. Some projects may release at certain milestones,
     others may release on a periodic schedule.
   </div>
 </div><!-- #Release-Cycle.blurbSummary -->
-<div id="Task-Branches" class="blurbSummary grid_12">
-  <div class="blurbTitle">Task Branches</div>
+<div id="Topic-Branches" class="blurbSummary grid_12">
+  <div class="blurbTitle">Topic Branches</div>
   <div class="p">
-    Every change in the system is first introduced in a task branch. There are
+    Every change in the system is first introduced in a topic branch. There are
     three variations:
     <ul>
-      <li><code>feature-*</code> branches are cut from <code>master</code> and
-      are most typically associated with new features.</li>
+      <li><code>task-*</code> branches are cut from <code>master</code> and
+      are most typically associated with new features, refactors, and
+      non-critical bug fixes.</li>
       <li><code>bugfix-*</code> branches are cut from <code>testing</code> and
       always represent bug fixes.</li>
       <li><code>hotfix-*</code> branches are cut from a <code>release-*</code>
       branch and alays represent bug fixes.</li>
     </ul>
-    To be clear, these are three variations of task
-    branches. A <code>feature-*</code> branch is (hopefully) the most common by
-    far.
   </div>
   <div class="p">
-    Note that the task branch prefix is determined by the source branch and
+    Note that the topic branch prefix is determined by the source branch and
     not by the purpose per-se. Bugs may be fixed on <code>master</code> for
     various reasons&mdash;the fix itself may be disruptive, or simply
-    relatively low value. Such changes would still be isolated on
-    a <code>feature-*</code> branch.
+    relatively low value.
   </div>
-</div><!-- #Task-Branches.blurbSummary -->
+</div><!-- #Topic-Branches.blurbSummary -->
 <div id="Actions" class="blurbSummary grid_12">
   <div class="blurbTitle">Actions</div>
   <div class="p">
@@ -96,14 +111,14 @@
       <li><code>git convey start &lt;task|bugfix|hotfix&gt; &lt;task
       ID&gt;</code>: used to create a new branch where changes can be
       isoloted.</li>
-      <li><code>git convey commit ...</code>: used to commit changes to a task
+      <li><code>git convey commit ...</code>: used to commit changes to a topic
       branch.<span class="note">This is essentially a synonym
       for <code>git commit</code>. Developers should prefer <code>git convey
       commit</code> anyway in order to keep the habit of consistently using
       the Git-Convey tool and because future versions may want to do some
       custom house keeping at commit time.</span></li>
       <li><code>git convey finish [[&lt;task|bugfix|hotfix&gt;] &lt;task
-      ID&gt;]</code>: marks the current or indicated task branch for
+      ID&gt;]</code>: marks the current or indicated topic branch for
       integration back into the original source branch from which it was
       cut. Note that 'finished' branches may receive further commits, such as
       may be requested by the merge master, and be re-finished any number of
@@ -129,6 +144,7 @@
   </div>
   <div class="subHeader"><span><code>update</code></span></div>
   <div class="p">
+    
   </div>
   <div class="subHeader"><span><code>start</code></span></div>
   <div class="p">
