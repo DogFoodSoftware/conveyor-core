@@ -1,15 +1,54 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
     Conveyor defines a standard branching strategy that tries to cover all the
-    bases with as little effort as possible. In other words, the goal is to
+    bases with as little effort as possible.
+    <div class="alpha grid_4">
+      <div class="p">
+	<em>Developers</em>:
+	<ol>
+	  <li><code>git convey topics start &lt;topic name&gt;</code>
+	  or
+	  <code>git convey topics checkout &lt;topic name&gt;</li>
+	  <li>do work and <code>git convey topics commit</code>; repeat
+	  until</li>
+	  <li><code>git convey topics submit</code></li>
+	</ol>
+      </div>
+    </div><!-- developers blurb -->
+    <div class="alpha grid_4">
+      <div class="p">
+	<em>Merge Masters</em>:
+	<ol>
+	  <li><code>git convey topics review</code></li>
+	  <li><code>git convey topics decline</code><br /></li>
+	</ol>
+      </div>
+    </div><!-- merge masters blurb -->
+    <div class="alpha grid_4">
+      <div class="p">
+	<em>Operations</em>:
+	<ol>
+	  <li></li>
+	  <li></li>
+	</ol>
+      </div>
+    </div><!-- operations blurb -->
+
+
+
+The fundamental model defines one
+    development resource resource and one operations
+    resource&mdash;namely <code>topics</code> and <code>releases</code>.
+
+
+In other words, the goal is to
     define a set of porcelain git extensions which would allow developers and
     administrators to do everything they need to do with git using as few
     commands as possible. The Conveyor Branching Strategy is implemented by
     <a href="/documentation/git-convey">git-convey</a>.
   </div>
   <div class="p">
-    Specifically, we claim that the majority of development projects will be
-    able to use the Conveyor Branching strategy 
+    Specifically, the strategy The 
   </div>
 
 
