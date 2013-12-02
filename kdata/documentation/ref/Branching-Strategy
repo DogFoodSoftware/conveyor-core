@@ -39,46 +39,39 @@
 <div id="Release-Cycle" class="blurbSummary grid_12">
   <div class="blurbTitle">Release Cycle</div>
   <div class="p">
-    The git-convey tool directly implements an underlying release cycle.
-    Understanding this release cycle is perhaps the easiest way to understand
-    the branch strategy.
+    The git-convey tool implements an underlying release cycle, and the branch
+    strategy and release cycle are best understood together. 
   </div>
   <div class="p">
-    All changes begin<span data-perspective="detailed">&mdash;by
-    default&mdash;</span> on the <code>master</code>
-    branch. New features, refactorings, and non-critical bug fixes begin and
-    then return to the <code>master</code>
-    branch.<span data-perspective="detailed"> This default
-    branch will, as far as git-convey is concerned, maintain a strictly
-    contiguous commit history through all time. In this sense, it is the
-    only conceptually permanent branch in the repository and will be referred
-    to as the 'permanent branch' to avoid confusion in cases where it goes by
-    a namer other than the default <code>master</code> branch.
-  </div>
-  <div class="p" data-perspective="detailed">
-    That is, by default the <code>master</code> branch is the target of new
+    All change commits&mdash;except branch merges&mdash;are made on topic
+    branches. New topics are cut from and merge to the <code>master</code>
+    branch<span data-perspective="detailed"> by
+    default</span>.<span data-perspective="detailed"> This default branch
+    will, as far as git-convey is concerned, maintain a strictly contiguous
+    commit history through all time. In this sense, it is the only
+    conceptually permanent branch in the repository and will be referred to as
+    the 'permanent branch' to avoid confusion in cases where it goes by a
+    namer other than the default <code>master</code>
+    branch.</span><span data-perspective="detailed"><span class="note">That
+    is, by default the <code>master</code> branch is the target of new
     development. The default branch may be changed in order to maintain
     compatibility with strategies which use <code>master</code> as the release
-    branch when it is not possible to reconfigure the other strategy.
-  </div>
-  <div class="p">
-    When appropriate, a <code>testing-*</code> branch is cut from the
+    branch when it is not possible to reconfigure the other
+    strategy.</span></span> A release cycle begins with the creation of
+    a <code>testing-*</code>, cut from the
     <code data-perspective="!detailed">master</code><span data-perspective="detailed">permanent</span>
-    branch. This is said to start the release. QA targets the testing branches
-    and developers submit only bugfixes or critical features. When everything
-    is green the branch may be promoted to a <code>release-*</code> branch,
-    which makes it a proper target for production
-    environments.<span data-perspecive="detailed"> All public
-    environments&mdash;demos and production services&mdash;key off git tags
-    which are also managed by git-convey as part of the promotion
-    process.</span>
+    branch. The <code>testing-*</code> branch is subjected to the QA process,
+    and then promoted to a <code>release-*</code>
+    branch.<span data-perspective="detailed"> The promotion process also
+    manages the tags which are used by any runtime environments, such as for
+    QA, demos, and production.</span>
   </div>
   <div class="p">
     This release process naturally fits with projects, which initially have no
     testing or release branches, existing simple projects, which may maintain
     a single release and zero or one testing branches, or complex projects
-    with multiple supported versions. It may also be combined with date-driven
-    and milestone driven release schedules.
+    with many simultaneous release cycles and supported versions. Note too
+    that the cycles may be milestone or date driven.
   </div>
 </div><!-- #Release-Cycle.blurbSummary -->
 
