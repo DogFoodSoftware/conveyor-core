@@ -1,50 +1,32 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    
-    <em>Developers</em>:
-    <ol>
-      <li>Checkout a topic.</li>
-      <li>Commit changes to the topic.</li>
-      <li>Submit the topic.</li>
-    </ol>
-
-
-	  <li>do work and <code>git topics commit</code>; repeat
-	  until</li>
-	  <li><code>git topics submit</code></li>
-	</ol>
-      </div>
+    <div class="alpha grid_4">    
+      <em>Developers</em>:
+      <ol>
+	<li>Checkout a topic.</li>
+	<li>Commit changes to the topic.</li>
+	<li>Submit the changes to the topic.</li>
+      </ol>
     </div><!-- developers blurb -->
-
-      <div class="p">
-	<em>Merge Masters</em>:
-	<ol>
-	  <li><code>git topics review &lt;topic ID&gt;</code></li>
-	  <li><code>git topics decline</code> or <code>accept</code></li>
+    <div class="alpha grid_4">    
+      <em>Merge Masters</em>:
+      <ol>
+	<li>Review submitted changes on a topic.</li>
+	<li>Accept or decline the changes.</li>
 	</ol>
       </div>
     </div><!-- merge masters blurb -->
     <div class="alpha grid_4">
-      <div class="p">
-	<em>Operations</em>:
-	<ol>
-	  <li>git releases start</li>
-	  <li>git releases promote</li>
-	  <li>git releases select</li>
-	</ol>
-      </div>
+      <em>Operations</em>:
+      <ol>
+	<li>Start a release cycle.</li>
+	<li>Publish a release candidate.</li>
+	<li>Select a release (for runtime).</li>
+      </ol>
     </div><!-- operations blurb --> 
-
-
-    git-convey aims to make proper version management as simple as possible.
-
-And that's all you need to cover the
-    entire development process. Plus, git-convey is designed to be compatible
-    with the vast majority of existing git repositories and tools, including
-    those implementing other branch strategies, so you freally migrate between
-    strategies, and in many cases even use git-convey alongside another
-    strategy.
-  </div>
+    <div class="clear"></div>
+    That's it. git-convey aims to make good version management as simple as
+    possible.
   <div data-perspective="future" class="p">
     In future Conveyor versions, the developer will interact through the task
     interface to create and manage branches. The GUI interface will be 1-1
@@ -54,70 +36,63 @@ And that's all you need to cover the
     REST-CRUD.
   </div>
 </div><!-- #Overview.blurbSummary -->
-<div id="Permanent-Branches" class="blurbSummary grid_12">
-  <div class="blurbTitle">Permanent Branches</div>
-  <div class="p">
-    There are two permanent branches: <code>master</code>
-    and <code>testing</code>. The
-    <code>master</code> branch represents the latest collective best effort by
-    development. The <code>master</code> branch <em>should</em> always be
-    runnable and pass all extant tests. In practice, people make mistakes and
-    at any given point in time <code>master</code> may contain errors,
-    especially as relates to new features.
-  </div>
-  <div class="p">
-    Enter <code>testing</code>. This is where code goes to mature. At the
-    beginning of the <a href="#Release-Cycle">release cycle</a>, the
-    accumulated changes on <code>master</code> are promoted
-    to <code>testing</code>, where the focus is exclusively on stabilization
-    and bug fixes.
-  </div>
-</div><!-- #Permanent-Branches.blurbSummary -->
-<div id="Release-Branches" class="blurbSummary grid_12">
-  <div class="blurbTitle">Release Branches</div>
-  <div class="p">
-    At the end of the <a href="#Release-Cycle">release cycle</a>, the
-    stabalized, relatively bug-free code on <code>testing</code> is promoted
-    to a <code>release-*</code> branch. Release branches are where 'production
-    ready' code lives.
-  </div>
-  <div class="p">
-    Release branches may exist for indefinite time, have a built in sunset
-    date, or sunset on an ad-hoc basis. All active release branches together
-    with the permanent <code>master</code> and <code>testing</code> branches
-    are collectively referred to as the persistent branches.
-  </div>
-</div><!-- #Release-Branches.blurbSummary -->
 <div id="Release-Cycle" class="blurbSummary grid_12">
   <div class="blurbTitle">Release Cycle</div>
   <div class="p">
-    The branching strategy is integrated with a concrete release cycle which
-    envisions the regular flow of new features from <code>master</code>
-    to <code>testing</code> to <code>release-*</code> branches. A release
-    cycle is said to begin when the accumulated updates on <code>master</code>
-    are promoted to <code>testing</code> and end when
-    the <code>release-*</code> branch is cut
-    from <code>testing</code>. <span data-perspective="detailed">In this
-    context it makes sense to harmonize references to the release cycle with
-    the eventual release branch name. This is not a general feature of the
-    strategy, however, because it is possible and often desireable that
-    multiple release...</span>
+    The git-convey tool directly implements an underlying release cycle.
+    Understanding this release cycle is perhaps the easiest way to understand
+    the branch strategy.
   </div>
-
-CHANGE: release cycle begins with 'release start' which cuts a new testing
-  branch and release complete which promotes the testing to a release branch.
-
-git convey release -- manage releases
-  - default: list active releases
-  - start
-  - promote
-
   <div class="p">
-    Within this framework, projects are free to define their own release
-    schedule and strategy. Some projects may release at certain milestones,
-    others may release on a periodic schedule.
+    All changes begin<span data-perspective="detailed">&mdash;by
+    default&mdash;</span> on the <code>master</code>
+    branch. New features, refactorings, and non-critical bug fixes begin and
+    then return to the <code>master</code>
+    branch.<span data-perspective="detailed"> This default
+    branch will, as far as git-convey is concerned, maintain a strictly
+    contiguous commit history through all time. In this sense, it is the
+    only conceptually permanent branch in the repository and will be referred
+    to as the 'permanent branch' to avoid confusion in cases where it goes by
+    a namer other than the default <code>master</code> branch.
+  </div>
+  <div class="p" data-perspective="detailed">
+    That is, by default the <code>master</code> branch is the target of new
+    development. The default branch may be changed in order to maintain
+    compatibility with strategies which use <code>master</code> as the release
+    branch when it is not possible to reconfigure the other strategy.
+  </div>
+  <div class="p">
+    At the appropriate point in the release schedule, a <code>testing-*</code>
+    branch is cut from
+    the <code data-perspective="!detailed">master</code><span data-perspective="detailed">permanent</span>
+    branch, which is said to start the release. At any given time, a project
+    may have zero or more testing branches, which are the primary target of QA
+    efforts and the source branch for <code>bugfix-*</code> topic branches.
+  </div>
+  <div class="p">
+    When a testing branch has met all the criteria as specified by the release
+    process, it is promoted to a release branch and environment tags are
+    updated as necessary. At any given time, a project may have zero or more
+    release branches, which are the primary target of production runtimes  and
+    the source for <code>hotfix-*</code> topic branches.
+  </div>
+  <div class="p">
+    This release process naturally fits with projects, which initially have no
+    testing or release branches, existing simple projects, which may maintain
+    a single production branch, and zero or one testing branches, or complex
+    projects with multiple supported versions. It may also be combined with
+    date-driven and milestone driven release schedules.
   </div>
 </div><!-- #Release-Cycle.blurbSummary -->
+
+
+<div id="Topics" class="blurbSummary grid_12">
+  <div class="blurbTitle">Topics</div>
+  <div class="p">
+    
+  </div>
+</div><!-- #Topics.blurbSummary -->
+
 <div id="Topic-Branches" class="blurbSummary grid_12">
   <div class="blurbTitle">Topic Branches</div>
   <div class="p">
