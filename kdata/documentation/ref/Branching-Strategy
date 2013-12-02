@@ -1,26 +1,26 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    Conveyor defines a standard branching strategy that tries to cover all the
-    bases with as little effort as possible.
-    <div class="alpha grid_4">
-      <div class="p">
-	<em>Developers</em>:
-	<ol>
-	  <li><code>git convey topics start &lt;topic name&gt;</code>
-	  or
-	  <code>git convey topics checkout &lt;topic name&gt;</li>
-	  <li>do work and <code>git convey topics commit</code>; repeat
+    
+    <em>Developers</em>:
+    <ol>
+      <li>Checkout a topic.</li>
+      <li>Commit changes to the topic.</li>
+      <li>Submit the topic.</li>
+    </ol>
+
+
+	  <li>do work and <code>git topics commit</code>; repeat
 	  until</li>
-	  <li><code>git convey topics submit</code></li>
+	  <li><code>git topics submit</code></li>
 	</ol>
       </div>
     </div><!-- developers blurb -->
-    <div class="alpha grid_4">
+
       <div class="p">
 	<em>Merge Masters</em>:
 	<ol>
-	  <li><code>git convey topics review</code></li>
-	  <li><code>git convey topics decline</code><br /></li>
+	  <li><code>git topics review &lt;topic ID&gt;</code></li>
+	  <li><code>git topics decline</code> or <code>accept</code></li>
 	</ol>
       </div>
     </div><!-- merge masters blurb -->
@@ -28,50 +28,30 @@
       <div class="p">
 	<em>Operations</em>:
 	<ol>
-	  <li></li>
-	  <li></li>
+	  <li>git releases start</li>
+	  <li>git releases promote</li>
+	  <li>git releases select</li>
 	</ol>
       </div>
-    </div><!-- operations blurb -->
+    </div><!-- operations blurb --> 
 
 
+    git-convey aims to make proper version management as simple as possible.
 
-The fundamental model defines one
-    development resource resource and one operations
-    resource&mdash;namely <code>topics</code> and <code>releases</code>.
-
-
-In other words, the goal is to
-    define a set of porcelain git extensions which would allow developers and
-    administrators to do everything they need to do with git using as few
-    commands as possible. The Conveyor Branching Strategy is implemented by
-    <a href="/documentation/git-convey">git-convey</a>.
-  </div>
-  <div class="p">
-    Specifically, the strategy The 
-  </div>
-
-
-presents a simpler operational command set across all roles than
-      porcelain git alone,</li>
-      <li>does not require sole control of the git repository, and</li>
-      <li>.</li>
-    </ul>
-
-
-
-intended to move features
-    from initial implementation towards release. The strategy is implemented
-    by the <a href="TODO">Git-Convey</a> git extension, and for day-to-day
-    usage, most developers can and should work entirely within the Git-Convey
-    tool.
+And that's all you need to cover the
+    entire development process. Plus, git-convey is designed to be compatible
+    with the vast majority of existing git repositories and tools, including
+    those implementing other branch strategies, so you freally migrate between
+    strategies, and in many cases even use git-convey alongside another
+    strategy.
   </div>
   <div data-perspective="future" class="p">
-    In future Conveyor versions, the developer will interact through the
-    task interface to create and manage branches and many of these details
-    will hidden in the day-to-day interactions. Basic Conveyor assessments
-    will still cover the branching strategy, which developers should
-    understand.
+    In future Conveyor versions, the developer will interact through the task
+    interface to create and manage branches. The GUI interface will be 1-1
+    mapping from the CLI, with some nice vizualitations added in. We have also
+    designed this interface to map 1-1 into a RESTful interface, using the
+    same resources and mapping the domain specific verbs into standard
+    REST-CRUD.
   </div>
 </div><!-- #Overview.blurbSummary -->
 <div id="Permanent-Branches" class="blurbSummary grid_12">
