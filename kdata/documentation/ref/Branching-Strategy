@@ -74,41 +74,13 @@
     that the cycles may be milestone or date driven.
   </div>
 </div><!-- #Release-Cycle.blurbSummary -->
-
-<div id="Roles" class="blurbSummary grid_12">
-  <div class="blurbTitle">Roles</div>
-  <div class="subHeader"><span>Developer</span></div>
-  <div class="p">
-    Developers update the code base, implementing new features, fixing bugs,
-    and maintaining code. The work is broken down into a series of directly
-    actionable tasks. Accepting a task triggers an initial checkout of the
-    topic branch. The developer is now free to work on multiple topics in
-    parallel if desired.
-  </div>
-  <div class="p">
-    The developer then works and commits as normal, save commits are executed
-    as topic commits: <code>git commit ...</code> becomes <code>git topics
-    commit ...</code>. This allows git-convey to do some useful bookkeeping
-    and enforce certain automated process details.
-  </div>
-  <div class="p">
-    When the developer believes the task complete, a pull request for the
-    topic branch is created along with
-  </div>
-  <div class="subHeader"><span>Merge Master</span></div>
-  <div class="p">
-    
-  </div>
-  <div class="subHeader"><span>Operations</span></div>
-  <div class="p">
-    
-  </div>
-</div><!-- #Topics.blurbSummary -->
-
 <div id="Topics" class="blurbSummary grid_12">
   <div class="blurbTitle">Topics</div>
   <div class="p">
-    
+    'Topics' refers to 'topic branches', meaning a short lived development
+    branch meant to isolate changes related to a single topic as a kind of
+    reasonable unit of work. The model treats any change to the code as
+    percipitating from some external 
   </div>
 </div><!-- #Topics.blurbSummary -->
 
