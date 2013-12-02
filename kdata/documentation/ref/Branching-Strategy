@@ -65,15 +65,14 @@
     When appropriate, a <code>testing-*</code> branch is cut from the
     <code data-perspective="!detailed">master</code><span data-perspective="detailed">permanent</span>
     branch. This is said to start the release. QA targets the testing branches
-    and developers submit only bugfixes or critical features.
+    and developers submit only bugfixes or critical features. When everything
+    is green the branch may be promoted to a <code>release-*</code> branch,
+    which makes it a proper target for production
+    environments.<span data-perspecive="detailed"> All public
+    environments&mdash;demos and production services&mdash;key off git tags
+    which are also managed by git-convey as part of the promotion
+    process.</span>
   </div>
-  <div class="p">
-    Once the green light is given, a testing branch is promoted to
-    a <code>release-*</code> branch and environment tags are
-    updated. Production environments key of the environment tags, and
-    developers interact with release branches only for the rare hotfix.
-  </div>
-
   <div class="p">
     This release process naturally fits with projects, which initially have no
     testing or release branches, existing simple projects, which may maintain
