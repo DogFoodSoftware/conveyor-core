@@ -1,32 +1,34 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    <div class="alpha grid_4">    
-      <em>Developers</em>:
-      <ol>
+    <div class="grid_4 alpha">    
+      <div class="subHeader"><span>Developers</span></div>
+      <ol style="text-indent: -2em">
 	<li>Checkout a topic.</li>
 	<li>Commit changes to the topic.</li>
 	<li>Submit the changes to the topic.</li>
       </ol>
     </div><!-- developers blurb -->
-    <div class="alpha grid_4">    
-      <em>Merge Masters</em>:
-      <ol>
-	<li>Review submitted changes on a topic.</li>
+    <div class="grid_4">
+      <div class="subHeader"><span>Merge Masters</span></div>
+      <ol style="text-indent: -2em">
+	<li>Review topic changes.</li>
 	<li>Accept or decline the changes.</li>
-	</ol>
-      </div>
+      </ol>
     </div><!-- merge masters blurb -->
-    <div class="alpha grid_4">
-      <em>Operations</em>:
-      <ol>
+    <div class="grid_4 omega">
+      <div class="subHeader"><span>Operations</span></div>
+      <ol style="text-indent: -2em">
 	<li>Start a release cycle.</li>
 	<li>Publish a release candidate.</li>
-	<li>Select a release (for runtime).</li>
+	<li>Select release for production.</li>
       </ol>
     </div><!-- operations blurb --> 
     <div class="clear"></div>
+  </div>
+  <div class="p">
     That's it. git-convey aims to make good version management as simple as
     possible.
+  </div>
   <div data-perspective="future" class="p">
     In future Conveyor versions, the developer will interact through the task
     interface to create and manage branches. The GUI interface will be 1-1
