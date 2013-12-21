@@ -25,10 +25,6 @@
     </div><!-- operations blurb --> 
     <div class="clear"></div>
   </div>
-  <div class="p">
-    That's it. git-convey aims to make good version management as simple as
-    possible.
-  </div>
   <div data-perspective="future" class="p">
     In future Conveyor versions, the developer will interact through the task
     interface to create and manage branches. The GUI interface will be 1-1
@@ -38,6 +34,16 @@
     REST-CRUD.
   </div>
 </div><!-- #Overview.blurbSummary -->
+<div id="Basic-Model" class="blurbSummary grid_12">
+  <div class="blurbTitle">Basic Model</div>
+  <div class="p">
+    The Conveyor release management model makes use of two
+    nouns: <code>topics</code> and <code>releases</code>. Changes to any
+    project artifact (code, documentation, graphic assets, etc.) are made
+    in <code>topics</code>. Public runtime environments rely on
+    the <code>releases</code>.
+  </div>
+</div><!-- #Basic-Model.blurbSummary -->
 <div id="Release-Cycle" class="blurbSummary grid_12">
   <div class="blurbTitle">Release Cycle</div>
   <div class="p">
