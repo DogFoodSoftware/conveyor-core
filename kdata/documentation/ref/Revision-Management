@@ -113,10 +113,9 @@
     </ul>    
   </div>
   <div class="p">
-    Simple changes may result in a single topic branch cut from
-    the <code>master</code> or a release branch. More complex changes may
-    result in multiple sub-topics cut from other topic branches. For instance,
-    a task to refactor all file names might result in a 
+    Simple tasks may result in a single topic branch cut from
+    the <code>master</code> or a release branch. More complex tasks may result
+    in the creation of sub-tasks and associated sub-topic branches.
   </div>
 </div><!-- #Topics.blurbSummary -->
 <div id="Actions" class="blurbSummary grid_12">
