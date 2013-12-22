@@ -57,15 +57,17 @@
     the <code>master</code> branch.
   </div>
   <div class="p">
-    A <code>release</code> 
+    A <code>release</code> is cut from a source branch in order to identify
+    and manage versions destined for public consumption. Again,
+    the <code>release</code> is generally, but not necessarily, created
+    from <code>master</code> branch. These release versions generally move
+    through a testing phase before finally being promoted to a production
+    runtime environment.
   </div>
 </div><!-- #Basic-Model.blurbSummary -->
 <div id="Release-Cycle" class="blurbSummary grid_12">
   <div class="blurbTitle">Release Cycle</div>
-  <div class="p">
-    The git-convey tool implements an underlying release cycle, and the branch
-    strategy and release cycle are best understood together. 
-  </div>
+
   <div class="p">
     All change commits&mdash;except branch merges&mdash;are made on topic
     branches. New topics are cut from and merge to the <code>master</code>
