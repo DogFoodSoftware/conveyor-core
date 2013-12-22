@@ -99,35 +99,26 @@
   <div class="p">
     A <code>topic</code> is created to isolate changes to project
     artifacts. A <code>topic</code> is always associated to a single topic
-    branch, which may be cut from the <code>master</code>, another topic
-    branch (also called a sub-topic), or a release branch (also called a
-    bugfix or hotfix).
-
+    branch. Topic branches may be cut from any branch in the underlying
+    project repository. We give special names to the topic branch to indicate
+    the source branch type:
+    <ul>
+      <li><code>task-*</code> branches are cut from <code>master</code> or
+      other <code>task-*</code> branches.</li>
+      <li><code>bugfix-*</code> branches are cut from
+      non-GA <code>release-*</code> and other <code>bugfix-*</code>
+      branches.</li>
+      <li><code>hotfix-*</code> branches are cut from a
+      GA <code>release-*</code> and other <code>hotfix-*</code> branches.</li>
+    </ul>    
+  </div>
+  <div class="p">
+    Simple changes may result in a single topic branch cut from
+    the <code>master</code> or a release branch. More complex changes may
+    result in multiple sub-topics cut from other topic branches. For instance,
+    a task to refactor all file names might result in a 
   </div>
 </div><!-- #Topics.blurbSummary -->
-
-<div id="Topic-Branches" class="blurbSummary grid_12">
-  <div class="blurbTitle">Topic Branches</div>
-  <div class="p">
-    Every change in the system is first introduced in a topic branch. There are
-    three variations:
-    <ul>
-      <li><code>task-*</code> branches are cut from <code>master</code> and
-      are most typically associated with new features, refactors, and
-      non-critical bug fixes.</li>
-      <li><code>bugfix-*</code> branches are cut from <code>testing</code> and
-      always represent bug fixes.</li>
-      <li><code>hotfix-*</code> branches are cut from a <code>release-*</code>
-      branch and alays represent bug fixes.</li>
-    </ul>
-  </div>
-  <div class="p">
-    Note that the topic branch prefix is determined by the source branch and
-    not by the purpose per-se. Bugs may be fixed on <code>master</code> for
-    various reasons&mdash;the fix itself may be disruptive, or simply
-    relatively low value.
-  </div>
-</div><!-- #Topic-Branches.blurbSummary -->
 <div id="Actions" class="blurbSummary grid_12">
   <div class="blurbTitle">Actions</div>
   <div class="p">
