@@ -35,16 +35,29 @@
     project artifacts. <code>Releases</code> manage public runtime versions. 
   </div>
   <div class="p">
-    Every change on the system begins with a <code>task</code>. When
-    a <code>task</code> is accepted, a topic branch is cut from
-    the <code>task</code>'s source branch. <code>Tasks</code> manage changes
-    from a high level, planning point of view. <code>Topics</code> isolate
-    changes at the lower level of bits and files. <code>Topics</code>
-    (and <code>releases</code>) can be used independently as part
+    Every change on the system begins with
+    a <code>task</code>. <code>Tasks</code> manage changes from a high level,
+    planning point of view. <code>Topics</code> isolate changes at the lower
+    level of bits and files. <code>Topics</code> (and <code>releases</code>)
+    can be used independently as part
     of <a href="/documentation/git-convey/">Git-Convey</a>.
   </div>
   <div class="p">
-    Once a <code>task</code> is accepted,
+    When a <code>task</code> is accepted, a topic branch is cut from
+    the <code>task</code>'s source branch. This also creates
+    the <code>topic</code> resource, and the topic branch is managed by
+    the <code>topic</code> resource. Changes are made within
+    the <code>topic</code>, and then submitted for acceptance.
+  </div>
+  <div class="p">
+    When a submitted <code>topic</code> is accepted, the changes are merged
+    back to the original source branch. If the source branch was already part
+    of a <code>release</code>, then the changes are (more or less) instantly
+    published. In most cases, the changes migrate back to
+    the <code>master</code> branch.
+  </div>
+  <div class="p">
+    A <code>release</code> 
   </div>
 </div><!-- #Basic-Model.blurbSummary -->
 <div id="Release-Cycle" class="blurbSummary grid_12">
