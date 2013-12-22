@@ -65,6 +65,12 @@
     runtime environment.
   </div>
 </div><!-- #Basic-Model.blurbSummary -->
+<div id="Master-Branch" class="blurbSummary grid_12">
+  <div class="blurbTitle">Master Branch</div>
+  <div class="p">
+    
+  </div>
+</div><!-- #Master-Branch.blurbSummary -->
 <div id="Release-Cycle" class="blurbSummary grid_12">
   <div class="blurbTitle">Release Cycle</div>
 
