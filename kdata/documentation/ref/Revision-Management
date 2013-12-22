@@ -97,10 +97,12 @@
 <div id="Topics" class="blurbSummary grid_12">
   <div class="blurbTitle">Topics</div>
   <div class="p">
-    'Topics' refers to 'topic branches', meaning a short lived development
-    branch meant to isolate changes related to a single topic as a kind of
-    reasonable unit of work. The model treats any change to the code as
-    percipitating from some external 
+    A <code>topic</code> is created to isolate changes to project
+    artifacts. A <code>topic</code> is always associated to a single topic
+    branch, which may be cut from the <code>master</code>, another topic
+    branch (also called a sub-topic), or a release branch (also called a
+    bugfix or hotfix).
+
   </div>
 </div><!-- #Topics.blurbSummary -->
 
