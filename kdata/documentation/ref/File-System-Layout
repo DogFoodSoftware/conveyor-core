@@ -1,0 +1,10 @@
+A Conveyor project inevitably implements or supports REST-ful services and/or
+an HTML5/jQuery UI. Projects are hosted in a git repository. To install and
+initialize a Conveyor environment, grab the file:
+
+http://raw.git.com/DogFoodSoftware/convey.git/bin/conveyor-install#production
+
+(or something)
+
+This is a shell script, which you are free to inspect, which will create the
+conveyor playground and import the standard serices.
