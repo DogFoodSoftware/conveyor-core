@@ -1,0 +1,10 @@
+
+
+cd $CONVEYOR_PLAYGROUND
+mkdir .workdir
+cd .workdir
+
+    # TODO: move this to 'conveyor-pro
+    PROJECT_DIR=TODO
+    git clone --branch $DEFAULT_BRANCH $REQUIRED_PROJECT
+    # The project tells us the playground-relative location
