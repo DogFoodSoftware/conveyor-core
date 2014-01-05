@@ -26,6 +26,9 @@ fi
 URL="$1"
 
 cd $CONVEYOR_PLAYGROUND
+if [ ! -d .workdir ]; then
+    mkdir .workdir
+fi
 REPO_BASE=`perl -e '$url = $ARGV[0]; $url =~ s/.+\/([\w-]+).git$/$1/; print $url' $URL`
 rm -rf $CONVEYOR_PLAYGROUND/.workdir/$REPO_BASE
 cd $CONVEYOR_PLAYGROUND/.workdir
