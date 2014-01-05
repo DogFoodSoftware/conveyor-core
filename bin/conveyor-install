@@ -1,29 +1,52 @@
 #!/bin/bash
 
-# Check baseline assumptions.
-ERROR=false
-if [ x"$USER" != x"user" ]; then
-    echo "Conveyor 0.1 only supports installation by user 'user'." >&2
-    ERROR=true
-fi
-if [ x"$HOME" != x"/home/user" ]; then
-    echo "Conveyor 0.1 expects 'user' home to be '/home/user'." >&2
-    ERROR=true
-fi
-DISTRO_SUPPORT_STATEMENT="Conveyor 0.1 supports openSuSE 12.3 and 13.1."
-if [ ! -f /etc/SuSE-release ]; then
-    echo $DISTRO_SUPPORT_STATEMENT >&2
-else
-    source /etc/SuSE-release
-    case "$VERSION" in
-	12.3|13.1)
-	    ;; # that's fine
-	*) # anything else though...
-	    echo $DISTRO_SUPPORT_STATEMENT >&2
-	    ERROR=true
-	    ;;
+# We would normally use 'shflags' here as a third-party Conveyor standard
+# component, but this is a standalone script so we use getopt directly.
+TMP=`getopt --name=$0 -a --longoptions=default-branch:,force -o b: -- $@`
+eval set -- $TMP
+
+FORCE=false
+DEFAULT_BRANCH=prodution
+
+until [ $1 == -- ]; do
+    case $1 in
+        -b|--default-branch)
+            DEFAULT_BRANCH=$2
+            shift;; # Remove option value.
+	--force)
+	    FORCE=true;;
     esac
-fi
+    shift # Remove just-processed option.
+done
+shift # Remove the '--', now $1 positioned at first argument if any.
+
+if [ $FORCE != true ]; then
+    # Check baseline assumptions.
+    ERROR=false
+    if [ x"$USER" != x"user" ]; then
+	echo "Conveyor 0.1 only supports installation by user 'user'." >&2
+	ERROR=true
+    fi
+    if [ x"$HOME" != x"/home/user" ]; then
+	echo "Conveyor 0.1 expects 'user' home to be '/home/user'." >&2
+	ERROR=true
+    fi
+    DISTRO_SUPPORT_STATEMENT="Conveyor 0.1 supports openSuSE 12.3 and 13.1."
+    if [ ! -f /etc/SuSE-release ]; then
+	echo $DISTRO_SUPPORT_STATEMENT >&2
+    else
+	source /etc/SuSE-release
+	case "$VERSION" in
+	    12.3|13.1)
+		;; # that's fine
+	    *) # anything else though...
+		echo $DISTRO_SUPPORT_STATEMENT >&2
+		ERROR=true
+		;;
+	esac
+    fi
+fi # FORCE check
+# You can't force the sudo check.
 if [[ `sudo -n echo foo 2>/dev/null` != 'foo' ]]; then
     echo "Conveyor expects user to have full 'sudo' no-password privileges." >&2
     ERROR=true
@@ -34,32 +57,11 @@ if [ x"$ERROR" == x"true" ]; then
 fi
 # Baseline assumptions checked, time to start installing.
 
-# Unlike all other Conveyor scripts, this one is designed to be runnable
-# outside of a playground and because this is the script that creates the
-# playground. So, we define our baseline directory locations here rather than
-# rely on the standard 'default_config.sh' to set locations.
+# Again, we would normally rely on the standard 'default-config.sh' to set
+# locations, but since this is a standalone script, we're on our own.
 export CONVEYOR_PLAYGROUND=/home/user/playground
 export DFS_HOME=$CONVEYOR_PLAYGROUND/dogfoodsoftware.com
 export CONVEYOR_HOME=$DFS_HOME/conveyor
-
-# Again, we would normally use 'shflags' library here as a third-party
-# Conveyor standard component, but since this is a standalone, we use getopt
-# directly.
-TMP=`getopt --name=$0 -a --longoptions=default-branch: -o b: -- $@`
-eval set -- $TMP
-
-until [ $1 == -- ]; do
-    case $1 in
-        -b|--default-branch)
-            DEFAULT_BRANCH=$2
-            shift;; # Remove option value.
-    esac
-    shift # Remove just-processed option.
-done
-shift # Remove the '--', now $1 positioned at first argument if any.
-if [ x"$DEFAULT_BRANCH" == x"" ]; then
-    DEFAULT_BRANCH=production
-fi
 
 if [ -d $CONVEYOR_PLAYGROUND ]; then
     echo "It looks like Conveyor is already installed. To re-install, delete" >&2
@@ -75,6 +77,13 @@ if [ x"$ERROR" == x"true" ]; then
     exit 1
 fi
 
+mkdir $HOME/.conveyor
+cat <<EOF > $HOME/.conveyor/config
+export CONVEYOR_PLAYGROUND=$HOME/playground
+export DFS_HOME=$CONVEYOR_PLAYGROUND/dogfoodsoftware.com
+export CONVEYOR_HOME=$DFS_HOME/conveyor
+EOF
+
 mkdir -p $DFS_HOME
 cd $DFS_HOME
 
@@ -83,6 +92,14 @@ git clone https://github.com/DogFoodSoftware/conveyor.git --branch $DEFAULT_BRAN
 source $CONVEYOR_HOME/conf/conveyor-project-dependencies.sh
 
 for REQUIRED_PROJECT in $REQUIRED_PROJECTS; do
-    $CONVEYOR_HOME/bin/conveyor-project-install -b $DEFAULT_BRANCH $REQUIRED_PROJECT
-    TODO: check results
+    if ! $CONVEYOR_HOME/bin/conveyor-project-install -b $DEFAULT_BRANCH $REQUIRED_PROJECT; then
+	echo "Error installing '$REQUIRED_PROJECT'" >&2
+	ERROR=true
+    fi
 done
+
+if [ x"$ERROR" == x"true" ]; then
+    echo "You may use 'conveyor-project-install' to install required projects."
+    echo "'conveyor-start' will also attempt to install any missing dependencies."
+    exit 1
+fi

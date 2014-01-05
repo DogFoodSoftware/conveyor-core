@@ -1,10 +1,54 @@
+#!/bin/bash
+function usage() {
+    echo "conveyor-project-install <git repo URL>"
+}
 
+if [ ! -f $HOME/.conveyor/config ]; then
+    echo "It does not appear that Conveyor has been installed. Could not find '~/.conveyor/config'." >&2
+    exit 1
+fi
+
+source $HOME/.conveyor/config
+source $CONVEYOR_PLAYGROUND/dogfoodsoftware.com/third-party/shflags/shflags
+
+DEFINE_string 'branch' 'production' 'the branch to checkout after cloning' 'b'
+FLAGS "$@" || exit $?
+eval set -- "${FLAGS_ARGV}"
+
+if [ $# -ne 1 ]; then
+    echo "You must provide git repo URL for the project to be installed." >&2
+    echo
+    usage
+fi
+
+URL="$1"
 
 cd $CONVEYOR_PLAYGROUND
-mkdir .workdir
-cd .workdir
+REPO_BASE=`perl -e '$url = $ARGV[0]; $url =~ s/.+\/([\w-]+).git$/$1/; print $url' $URL`
+rm -rf $CONVEYOR_PLAYGROUND/.workdir/$REPO_BASE
+cd $CONVEYOR_PLAYGROUND/.workdir
 
-    # TODO: move this to 'conveyor-pro
-    PROJECT_DIR=TODO
-    git clone --branch $DEFAULT_BRANCH $REQUIRED_PROJECT
-    # The project tells us the playground-relative location
+git clone --branch $DEFAULT_BRANCH $REQUIRED_PROJECT
+
+if [ ! -d $REPO_BASE ]; then
+    echo "Did not find expected checkout directory '$REPO_BASE'." >&2
+    exit 1
+fi
+if [ ! -f $REPO_BASE/conf/conveyor-conf.sh ]; then
+    echo "Repo at '$URL' does not appear to be a Conveyor compliant project." >&2
+    exit 1
+fi
+
+source $REPO_BASE/conf/conveyor-conf.sh
+
+if [ x"$CONVEYOR_PROJECT_HOME" == x"" ]; then
+    echo "Found Conveyor configuration for $REPO_BASE, but 'CONVEYOR_PROJECT_HOME'" >&2
+    echo "was not defined." >&2
+    exit 2
+fi
+
+mv "$REPO_BASE" "$CONVEYOR_PLAYGROUND/$CONVEYOR_PROJECT_HOME"
+
+if [ -x "$CONVEYOR_PLAYGROUND/$CONVEYOR_PROJECT_HOME/bin/install" ]; then
+    "$CONVEYOR_PLAYGROUND/$CONVEYOR_PROJECT_HOME/bin/install"
+fi
