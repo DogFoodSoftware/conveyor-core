@@ -1,17 +1,26 @@
 #!/bin/bash
 
+FORCE=false
+BRANCH=prodution
+CONVEYOR_REPO=ssh://zane@git.liquid-labs.com/home/user/playground/git/data/dogfoodsoftware.com/conveyor.git
+# CONVEYOR_REPO=https://github.com/DogFoodSoftware/conveyor.git
+
+# The playground would normally be set by "$HOME/.conveyor/config", but since
+# we're the install script, they're set by us.
+export CONVEYOR_PLAYGROUND=$HOME/playground
+
 # We would normally use 'shflags' here as a third-party Conveyor standard
 # component, but this is a standalone script so we use getopt directly.
-TMP=`getopt --name=$0 -a --longoptions=default-branch:,force -o b: -- $@`
+TMP=`getopt --name=$0 -a --longoptions=branch:,force,playground: -o b:,p: -- $@`
 eval set -- $TMP
-
-FORCE=false
-DEFAULT_BRANCH=prodution
 
 until [ $1 == -- ]; do
     case $1 in
-        -b|--default-branch)
-            DEFAULT_BRANCH=$2
+	-p|--playground)
+	    CONVEYOR_PLAYGROUND="$2"
+	    shift;; # Remove option value.
+        -b|--branch)
+            BRANCH="$2"
             shift;; # Remove option value.
 	--force)
 	    FORCE=true;;
@@ -20,22 +29,19 @@ until [ $1 == -- ]; do
 done
 shift # Remove the '--', now $1 positioned at first argument if any.
 
+# Set dependent variables.
+export DFS_HOME=$CONVEYOR_PLAYGROUND/dogfoodsoftware.com
+export CONVEYOR_HOME=$DFS_HOME/conveyor
+
 if [ $FORCE != true ]; then
     # Check baseline assumptions.
     ERROR=false
-    if [ x"$USER" != x"user" ]; then
-	echo "Conveyor 0.1 only supports installation by user 'user'." >&2
-	ERROR=true
-    fi
-    if [ x"$HOME" != x"/home/user" ]; then
-	echo "Conveyor 0.1 expects 'user' home to be '/home/user'." >&2
-	ERROR=true
-    fi
     DISTRO_SUPPORT_STATEMENT="Conveyor 0.1 supports openSuSE 12.3 and 13.1."
     if [ ! -f /etc/SuSE-release ]; then
 	echo $DISTRO_SUPPORT_STATEMENT >&2
     else
-	source /etc/SuSE-release
+	# Wish the SuSE-release file was bash compatible...
+	VERSION=`grep 'VERSION' /etc/SuSE-release | awk '{print $3}'`
 	case "$VERSION" in
 	    12.3|13.1)
 		;; # that's fine
@@ -56,12 +62,6 @@ if [ x"$ERROR" == x"true" ]; then
     exit 1
 fi
 # Baseline assumptions checked, time to start installing.
-
-# Again, we would normally rely on the standard 'default-config.sh' to set
-# locations, but since this is a standalone script, we're on our own.
-export CONVEYOR_PLAYGROUND=/home/user/playground
-export DFS_HOME=$CONVEYOR_PLAYGROUND/dogfoodsoftware.com
-export CONVEYOR_HOME=$DFS_HOME/conveyor
 
 if [ -d $CONVEYOR_PLAYGROUND ]; then
     echo "It looks like Conveyor is already installed. To re-install, delete" >&2
@@ -87,12 +87,15 @@ EOF
 mkdir -p $DFS_HOME
 cd $DFS_HOME
 
-git clone https://github.com/DogFoodSoftware/conveyor.git --branch $DEFAULT_BRANCH conveyor
+if ! git clone $CONVEYOR_REPO --branch $BRANCH conveyor; then
+    echo "Clone of the Conveyor repo failed." >&2
+    exit 1
+fi
 
 source $CONVEYOR_HOME/conf/conveyor-project-dependencies.sh
 
 for REQUIRED_PROJECT in $REQUIRED_PROJECTS; do
-    if ! $CONVEYOR_HOME/bin/conveyor-project-install -b $DEFAULT_BRANCH $REQUIRED_PROJECT; then
+    if ! $CONVEYOR_HOME/bin/conveyor-project-install -b $BRANCH $REQUIRED_PROJECT; then
 	echo "Error installing '$REQUIRED_PROJECT'" >&2
 	ERROR=true
     fi
