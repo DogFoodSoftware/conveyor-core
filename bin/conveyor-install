@@ -78,10 +78,11 @@ if [ x"$ERROR" == x"true" ]; then
 fi
 
 mkdir $HOME/.conveyor
+# Recall, all these variables were set at the top of the script.
 cat <<EOF > $HOME/.conveyor/config
-export CONVEYOR_PLAYGROUND=$HOME/playground
-export DFS_HOME=$CONVEYOR_PLAYGROUND/dogfoodsoftware.com
-export CONVEYOR_HOME=$DFS_HOME/conveyor
+export CONVEYOR_PLAYGROUND=$CONVEYOR_PLAYGROUND
+export DFS_HOME=$DFS_HOME
+export CONVEYOR_HOME=$CONVEYOR_HOME
 EOF
 
 mkdir -p $DFS_HOME
