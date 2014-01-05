@@ -9,11 +9,13 @@ if [ ! -f $HOME/.conveyor/config ]; then
 fi
 
 source $HOME/.conveyor/config
-source $CONVEYOR_PLAYGROUND/dogfoodsoftware.com/third-party/shflags/shflags
+if [ -f $CONVEYOR_PLAYGROUND/dogfoodsoftware.com/third-party/shflags/shflags ]; then
+    source $CONVEYOR_PLAYGROUND/dogfoodsoftware.com/third-party/shflags/shflags
 
-DEFINE_string 'branch' 'production' 'the branch to checkout after cloning' 'b'
-FLAGS "$@" || exit $?
-eval set -- "${FLAGS_ARGV}"
+    DEFINE_string 'branch' 'production' 'the branch to checkout after cloning' 'b'
+    FLAGS "$@" || exit $?
+    eval set -- "${FLAGS_ARGV}"
+fi
 
 if [ $# -ne 1 ]; then
     echo "You must provide git repo URL for the project to be installed." >&2
@@ -28,7 +30,11 @@ REPO_BASE=`perl -e '$url = $ARGV[0]; $url =~ s/.+\/([\w-]+).git$/$1/; print $url
 rm -rf $CONVEYOR_PLAYGROUND/.workdir/$REPO_BASE
 cd $CONVEYOR_PLAYGROUND/.workdir
 
-git clone --branch $DEFAULT_BRANCH $REQUIRED_PROJECT
+if [ x"$BRANCH" != x"" ]; then
+    git clone --branch $FLAGS_branch $REQUIRED_PROJECT
+else
+    git clone $REQUIRED_PROJECT
+fi
 
 if [ ! -d $REPO_BASE ]; then
     echo "Did not find expected checkout directory '$REPO_BASE'." >&2
