@@ -1,7 +1,6 @@
 #!/bin/bash
 
 FORCE=false
-BRANCH=prodution
 CONVEYOR_REPO=ssh://zane@git.liquid-labs.com/home/user/playground/git/data/dogfoodsoftware.com/conveyor.git
 # CONVEYOR_REPO=https://github.com/DogFoodSoftware/conveyor.git
 
@@ -88,7 +87,7 @@ EOF
 mkdir -p $DFS_HOME
 cd $DFS_HOME
 
-if ! git clone $CONVEYOR_REPO --branch $BRANCH conveyor; then
+if [[ ( ( x"$BRANCH" != x"" ) && ! git clone $CONVEYOR_REPO --branch $BRANCH conveyor ) || ( ( x"$BRANCH" == x"" ) && ! git clone $CONVEYOR_REPO conveyor ); then
     echo "Clone of the Conveyor repo failed." >&2
     exit 1
 fi
