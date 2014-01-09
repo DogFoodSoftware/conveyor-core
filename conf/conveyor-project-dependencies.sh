@@ -10,4 +10,4 @@ ssh://zane@git.liquid-labs.com/home/user/playground/git/data/dogfoodsoftware.com
 ssh://zane@git.liquid-labs.com/home/user/playground/git/data/dogfoodsoftware.com/jquery/element-docker.git \
 ssh://zane@git.liquid-labs.com/home/user/playground/git/data/dogfoodsoftware.com/jquery/page-browser.git \
 ssh://zane@git.liquid-labs.com/home/user/playground/git/data/dogfoodsoftware.com/jquery/perspectives.git \
-ssh://zane@git.liquid-labs.com/home/user/playground/git/data/dogfoodsoftware.com/conveyor-rest/kwiki.git"
+ssh://zane@git.liquid-labs.com/home/user/playground/git/data/dogfoodsoftware.com/conveyor/kwiki.git"
