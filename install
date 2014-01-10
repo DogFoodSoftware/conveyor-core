@@ -85,12 +85,13 @@ EOF
 
 mkdir -p $DFS_HOME
 cd $DFS_HOME
-
+mkdir `dirname $CONVEYOR_HOME`
+cd `dirname $CONVEYOR_HOME`
 if [ x"$BRANCH" != x"" ]; then
-    git clone $CONVEYOR_REPO --branch $BRANCH conveyor
+    git clone $CONVEYOR_REPO --branch $BRANCH `basename $CONVEYOR_HOME`
     RESULT=$?
 else
-    git clone $CONVEYOR_REPO conveyor
+    git clone $CONVEYOR_REPO `basename $CONVEYOR_HOME`
     RESULT=$?
 fi
 
