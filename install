@@ -1,8 +1,7 @@
 #!/bin/bash
 
 FORCE=false
-CONVEYOR_REPO=ssh://zane@git.liquid-labs.com/home/user/playground/git/data/dogfoodsoftware.com/conveyor/conveyor.git
-# CONVEYOR_REPO=https://github.com/DogFoodSoftware/conveyor.git
+CONVEYOR_REPO=https://github.com/DogFoodSoftware/conveyor-core.git
 
 # The playground would normally be set by "$HOME/.conveyor/config", but since
 # we're the install script, they're set by us.
