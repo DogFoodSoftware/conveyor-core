@@ -59,7 +59,7 @@ if [ x"$ERROR" == x"true" ]; then
     echo "Consider using using the Conveyor vagrant VM: TODO".
     exit 1
 fi
-# Baseline assumptions checked, time to start installing. We actually 
+# Baseline assumptions checked, time to start installing.
 
 if [ -d $CONVEYOR_PLAYGROUND ]; then
     echo "It looks like Conveyor is already installed. To re-install, delete" >&2
@@ -114,3 +114,11 @@ if [ x"$ERROR" == x"true" ]; then
     echo "'conveyor-start' will also attempt to install any missing dependencies."
     exit 1
 fi
+
+# Now we add the 'convey' script to the user's PATH
+# TODO: when updating, wil need to remove the previous seciton.
+cat <<EOF >> $HOME/.bashrc
+### Added by Conveyor configuration. ###
+PATH="\$PATH:$CONVEYOR_HOME/bin"
+### End Conveyor section. ###
+EOF
