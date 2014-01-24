@@ -50,7 +50,7 @@ if [ $FORCE != true ]; then
 	esac
     fi
 fi # FORCE check
-# You can't force the sudo check.
+# You can't force through the sudo check. If we can't sudo, we can't go on.
 if [[ `sudo -n echo foo 2>/dev/null` != 'foo' ]]; then
     echo "Conveyor expects user to have full 'sudo' no-password privileges." >&2
     ERROR=true
@@ -59,7 +59,7 @@ if [ x"$ERROR" == x"true" ]; then
     echo "Consider using using the Conveyor vagrant VM: TODO".
     exit 1
 fi
-# Baseline assumptions checked, time to start installing.
+# Baseline assumptions checked, time to start installing. We actually 
 
 if [ -d $CONVEYOR_PLAYGROUND ]; then
     echo "It looks like Conveyor is already installed. To re-install, delete" >&2
