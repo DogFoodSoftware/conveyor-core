@@ -79,6 +79,7 @@
 # */
 
 source $HOME/.conveyor/config
+source $CONVEYOR_HOME/core/runnable/lib/convey-lib.sh
 STATIC_PREFIX="/static-resources"
 DYNAMIC_PREFIX="/runnable/rest"
 
@@ -87,21 +88,21 @@ DYNAMIC_PREFIX="/runnable/rest"
 TMP=`getopt --name=$0 -a --longoptions=accept: -o a: -- $@`
 eval set -- $TMP
 
-OPTION_ACCEPT=()
+OPTION_ACCEPTS=()
 until [ $1 == -- ]; do
     case $1 in
 	-a|--accept)
-	    OPTION_ACCEPT+=("$2")
+	    OPTION_ACCEPTS+=("$2")
 	    shift;; # Remove option value.
     esac
     shift # Remove just-processed option.
 done
 shift # Remove the '--', now $1 positioned at first argument if any.
 
-if [ ${#OPTION_ACCEPT[@]} -eq 0 ]; the
-    ACCEPT=('bash')
+if [ ${#OPTION_ACCEPTS[@]} -eq 0 ]; the
+    ACCEPTS=('bash')
 else
-    declare -a ACCEPT=(${bigOne[@]})
+    declare -a ACCEPTS=(${OPTION_ACCEPTS[@]})
 fi
 
 RESOURCE_ID="$1"; shift
@@ -114,12 +115,26 @@ if [ ${RESOURCE_ID:0:1] == '/' ]; then
     exit 1
 fi
 
-# Okay, now we're set to satisfy the resource request.
+# Okay, now we're set to satisfy the resource request. The order of preference
+# for satisfying the request is, for each 'accept' type:
+#
+# 1) Static media satisfying the accept types.
+# 2) A resource specific handler satisfying the accept type.
+# 3) A class handler satisfying the accept type.
+#
+# Accordingly, the main function iterates over the specified accept types. For
+# each type, it applies each of the the above searches until the search is
+# satisfied, at which point control is handed off to the handler.
+#
+# We want to explore caching the results the determinations in a light weight
+# DB of some sort, but for now, we try to optimize the <code>find<code>s as
+# much as possible.
 
-# First, we check the static handlers. Of course, long term we'll want to
-# stash a DB cache of the handlers. For now, we make the 'find' as efficient
-# as we can. Before that, however, we determine whether we're dealing with a
-# collection handler or a resource handler.
+for ACCEPT in "${ACCEPTS[@]}"; do
+    # 1) Static media search.
+    FIND="find $CONVEYOR_PLAYGROUND -path '*/$
+
+
 SLASHES="${RESOURCE_ID//[^/]}"
 if [ ${#SLASHES} -eq 1 ]]; then
     # We are dealing with a resource collection.
