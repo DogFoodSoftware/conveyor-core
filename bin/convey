@@ -1,0 +1,58 @@
+#!/bin/bash
+# /**
+#  * <div id="Overview" class="blurbSummary grid_12">
+# * Script allowing interaction with a Conveyor instance through a
+# * <href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">bash</a> shell.
+# * </div>
+# * <div id="General-Form" class="blurbSummary grid_12">
+# * <div class="blurbTitle">General Form</div>
+# * <pre class="code">
+# * convey [&lt;header option 1&gt;...] &lt;resource ID&gt; 
+# *        &lt;action verb&gt; [&lt;option 1&gt;...]
+# * </pre>
+# * <div class="subHeader"><span>Header Options</span></div>
+# * <div class="p">
+# *   The header options mirror the options defined in the <a
+# *   href="/documentation/conveyor/REST-Specification#Header-Options">Conveyor
+# *   REST Specification</a>. There is currently a single option.
+# * </div>
+# * <ul class="p">
+# *   <li><code>--accept|-a &lt;html|json|bash&gt;</code>: Option to define
+# *   acceptable response media types. The option may be invoked mulitple
+# *   times to specify multiple acceptable types. The order of specification
+# *   is taken as the order of preference. The default value is 
+# *   <code>bash</code>.
+# * </ul>
+# * <div class="subHeader"><span>Resounce ID</span></div>
+# * <div class="p">
+# *   The 'resource ID' specifies a particular resource or resource collection
+# *   to recieve the request. This is specified in the <a
+# *   href="/documentation/conveyor/REST-Specification#Resource-ID">Conveyor
+# *   REST Specification</a>.
+# * </div>
+# * <div class="subHeader"><span>Action Verb</span></div>
+# * <div class="p">
+
+# *   The 'action verb' completes the primary request by specifying what type
+# *   of action to take on the identified resource. We follow the HTTP
+# *   standard here and define four verbs. The HTTP verbs are, however, a bit
+# *   cryptic, so we also provide an alias to communicate the common
+# *   meaning. In the following list, the comman alias is listed first and the
+# *   HTTP equivalent second:
+# *   <ul>
+
+# *   <li><code>CREATE | PUT</code></li>
+# *   <li><code>RETRIEVE | GET</code></li>
+# *   <li><code>UPDATE | POST</code></li>
+# *   <li><code>DELETE | DELETE</code></li>
+
+# *   </ul>
+
+# * </div>
+# * <div class="p">
+# *   See the <a
+# *   href="/documentation/conveyor/REST-Specification#Action-Verb">Conveyor
+# *   REST Specification</a> for further details.
+# * </div>
+# */
+
