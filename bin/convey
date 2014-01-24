@@ -25,34 +25,99 @@
 # * </ul>
 # * <div class="subHeader"><span>Resounce ID</span></div>
 # * <div class="p">
-# *   The 'resource ID' specifies a particular resource or resource collection
+# *   The 'resource ID' specifies a particular resource item or
 # *   to recieve the request. This is specified in the <a
 # *   href="/documentation/conveyor/REST-Specification#Resource-ID">Conveyor
 # *   REST Specification</a>.
 # * </div>
 # * <div class="subHeader"><span>Action Verb</span></div>
 # * <div class="p">
-
 # *   The 'action verb' completes the primary request by specifying what type
 # *   of action to take on the identified resource. We follow the HTTP
 # *   standard here and define four verbs. The HTTP verbs are, however, a bit
-# *   cryptic, so we also provide an alias to communicate the common
-# *   meaning. In the following list, the comman alias is listed first and the
-# *   HTTP equivalent second:
-# *   <ul>
-
-# *   <li><code>CREATE | PUT</code></li>
-# *   <li><code>RETRIEVE | GET</code></li>
-# *   <li><code>UPDATE | POST</code></li>
-# *   <li><code>DELETE | DELETE</code></li>
-
-# *   </ul>
-
+# *   cryptic, so we also provide an alias based on the more common database
+# *   'CRUD' idiom.
+# *   <table>
+# *   <thead><tr>
+# *     <td>CRUD</td><td>HTTP</td>
+# *   </tr></thead>
+# *   <tbody>
+# *     <tr><td><code>CREATE</td><td><code>PUT</code></td></tr>
+# *     <tr><td><code>RETRIEVE</td><td><code>GET</code></td></tr>
+# *     <tr><td><code>UPDATE</td><td><code>POST</code></td></tr>
+# *     <tr><td><code>DELETE</td><td><code>DELETE</code></td></tr>
+# *   </tbody>
+# *   </table>
+# *   Consumers are free to use either. It is strongly encouraged that any
+# *   particular script or artifact only use a single convention unless there
+# *   is some clear semantic distinction to be gained by varying the idiom.
 # * </div>
 # * <div class="p">
 # *   See the <a
 # *   href="/documentation/conveyor/REST-Specification#Action-Verb">Conveyor
 # *   REST Specification</a> for further details.
 # * </div>
+# * <div class="subHeader"><span>Options</span></div>
+# * <div class="p">
+# *   The final options are of two basic types. 'Request options' define
+# *   characteristics of the request. The request options are each of a general
+# *   type, but whose values are resource specific. These include:
+# *   <ul>
+# *    <li><code>fields</code>: the list of fields to include in the
+# *    result.</li>
+# *    <li><code>item-index</code>: requested item based index at which to
+# *    start a paged view. Only valid for resource collections. Actual index
+# *    returned may be adjusted to reflect maximum possible value.</li>
+# *    <li><code>page-index</code>: requested paged based index at which to
+# *    start a paged view. Only valid for resource collections. Actual index
+# *    returned may be adjusted to reflect maximum possible value.</li>
+# *    <li><code>page-size</code>: requested page size. Actual page sizde
+# *    returned may be adjusted to respect constraints of the particular
+# *    resource collection.</li>
+# *   </ul>
+# * </div>
 # */
+
+# We use 'shflags' when we can, but I don't believe that supports the kind of
+# array of options we want to do with '--accept'.
+TMP=`getopt --name=$0 -a --longoptions=accept: -o a: -- $@`
+eval set -- $TMP
+
+OPTION_ACCEPT=()
+until [ $1 == -- ]; do
+    case $1 in
+	-a|--accept)
+	    OPTION_ACCEPT+=("$2")
+	    shift;; # Remove option value.
+    esac
+    shift # Remove just-processed option.
+done
+shift # Remove the '--', now $1 positioned at first argument if any.
+
+if [ ${#OPTION_ACCEPT[@]} -eq 0 ]; the
+    ACCEPT=('bash')
+else
+    declare -a ACCEPT=(${bigOne[@]})
+fi
+
+RESOURCE_ID="$1"; shift
+ACTION_VERB="$1"; shift
+# Options, if any, begin at $1
+
+# Of course, long term we'll want to stash a DB cache of the handlers. For
+# now, we make the 'find' as efficient as we can. Before that, however, we
+# determine whether we're dealing with a collection handler or a resource
+# handler.
+if [ ${RESOURCE_ID:0:1] == '/' ]; then
+    echo "We do not currently support relative context. Please use absolute resource IDs." >&2
+    exit 1
+fi
+SLASHES="${RESOURCE_ID//[^/]}"
+if [ ${#SLASHES} -eq 1 ]]; then
+    # We are dealing with a resource collection.
+    RESOURCE_HANDLER="$RESOURCE_ID/_collection-handler.sh"
+else 
+    # We are dealing with a particular item.
+    RESOURCE_HANDLER="${RESOURCE_ID}.sh"
+fi
 
