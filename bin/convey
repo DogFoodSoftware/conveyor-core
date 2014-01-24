@@ -78,6 +78,10 @@
 # * </div>
 # */
 
+source $HOME/.conveyor/config
+STATIC_PREFIX="/static-resources"
+DYNAMIC_PREFIX="/runnable/rest"
+
 # We use 'shflags' when we can, but I don't believe that supports the kind of
 # array of options we want to do with '--accept'.
 TMP=`getopt --name=$0 -a --longoptions=accept: -o a: -- $@`
@@ -104,14 +108,16 @@ RESOURCE_ID="$1"; shift
 ACTION_VERB="$1"; shift
 # Options, if any, begin at $1
 
-# Of course, long term we'll want to stash a DB cache of the handlers. For
-# now, we make the 'find' as efficient as we can. Before that, however, we
-# determine whether we're dealing with a collection handler or a resource
-# handler.
+# First, a quick check that we have an absolute ID.
 if [ ${RESOURCE_ID:0:1] == '/' ]; then
     echo "We do not currently support relative context. Please use absolute resource IDs." >&2
     exit 1
 fi
+
+# First, we check the static handlers. Of course, long term we'll want to
+# stash a DB cache of the handlers. For now, we make the 'find' as efficient
+# as we can. Before that, however, we determine whether we're dealing with a
+# collection handler or a resource handler.
 SLASHES="${RESOURCE_ID//[^/]}"
 if [ ${#SLASHES} -eq 1 ]]; then
     # We are dealing with a resource collection.
@@ -121,3 +127,7 @@ else
     RESOURCE_HANDLER="${RESOURCE_ID}.sh"
 fi
 
+HANDLER_BASENAME=`basename $RESOURCE_HANDLER"`
+HANDLER_DIRNAME=`dirname $RESOURCE_HANDLER"`
+HANDLER=`find -name "$HANDLER_BASENAME" -path "*$HANDLER_DIRNAME" | head -1`
+if [ 
