@@ -114,6 +114,8 @@ if [ ${RESOURCE_ID:0:1] == '/' ]; then
     exit 1
 fi
 
+# Okay, now we're set to satisfy the resource request.
+
 # First, we check the static handlers. Of course, long term we'll want to
 # stash a DB cache of the handlers. For now, we make the 'find' as efficient
 # as we can. Before that, however, we determine whether we're dealing with a
@@ -130,4 +132,10 @@ fi
 HANDLER_BASENAME=`basename $RESOURCE_HANDLER"`
 HANDLER_DIRNAME=`dirname $RESOURCE_HANDLER"`
 HANDLER=`find -name "$HANDLER_BASENAME" -path "*$HANDLER_DIRNAME" | head -1`
-if [ 
+if [ x"$HANDLER" != x"" ]; then
+    "$HANDLER" "${ACCEPT[@]}" "$RESOURCE_ID" "$ACTION_VERB" $*
+    exit $?
+fi
+
+# If we arrive here, it means we did not find any static handlers for the
+# resource.
