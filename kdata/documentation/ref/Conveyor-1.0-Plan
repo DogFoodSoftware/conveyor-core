@@ -1,4 +1,13 @@
-<div id="Unscheduled-Features" class="grid_12 blurbSummary">
+<div id="release-2014-05-01">
+  <div class="blurbTitle">release-2014-05-01</div>
+  <div class="p">
+  </div>
+  <ul class="p">
+    <li>Visual task map renderings based on d3.js. See latest version
+    of <code>$CONVEYOR_HOME/core/kdata/documentation/Visual_Task_Map</code> in
+    repo revision 54b73b46e6bd5f7e299be93963ccd0c4da7099ab.</li>
+  </ul>
+<div id="" class="grid_12 blurbSummary">
   <div class="blurbTitle">Unscheduled Features</div>
   <div class="subHeader"><span>Convey CLI and Shell</span></div>
   <div class="p">
