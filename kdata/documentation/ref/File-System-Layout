@@ -7,10 +7,56 @@
     environment.
   </div>
 </div>
+<div id="Runtime-Layout" class="blurbSummary grid_12">
+  <div class="blurbTitle">Runtime Layout</div>
+  <div class="p">
+    The runtime layout starts with the 'Conveyor playgound', which may be
+    arbitrarily defined when the Conveyor runtime is first installed (TODO:
+    link to installation instructions). The default value
+    is <code>$HOME/playground</code>.
+  </div>
+  <div id="Runtime-Projects" class="subHeader"><span>Runtime Projects</span></code>
+  <div class="p">
+    The playground directory is populated by folders matching the root domain
+    names owned by the entities authoring projects. E.g., the core Conveyor
+    development is done by Dog Food Software, LLC and organized under the
+    directory <code>dogfoodsoftware.com<code>.
+  </div>
+  <div class="p">
+    The domain directory may contain project repositories or further grouping
+    folders. For instance, the Dog Food Software project git-convey is located
+    directly under <code>dogfoodsoftware.com</code> while the jQuery based
+    projects are organized under a <code>jquery</code> directory.
+  </div>
+  <div class="p">
+    There is no limitation on how deep nesting may go, but the general rule of
+    thumb is one or two levels. You may want to consider breaking up projects
+    groups of 20 or more.
+  </div>
+  <div id="Project-Files" class="subHeader"><span>Project Files</span></div>
+  <div class="p">
+    Within each project, Conveyor mandates compliance to the following tree:
+    <ul>
+      <li><code>bin/</code>: executable (binaries and scripts) specific to the
+	project.</li>
+      <li><code>conf/</code>: configuration files for Conveyor and other
+      Conveyor projects. 
+    </ul>
+  </div>
+  <div class="p">
+    <code>conf/</code> details: every Conveyor project must define
+    a <code>conveyor-config.sh</code> (TODO: link). Projects with dependencies
+    will define <code>conveyor-projects-dependencies.sh</code>. Projects
+    providing web resources will define <code>httpd.conf</code>. Projects
+    exporting (typically websites) defining CSS and/or JS bundles will
+    define <code>minify.php</code>. Other project specific configuration files
+    may also be located here.
+  </div>
+</div><!-- #Runtime-Layout.blurbSummary -->
 <div id="Repository-Layout" class="blurbSummary grid_12">
   <div class="blurbTitle">Repository Layout</div>
   <div class="p">
-    The repository layot deals exclusively with the naming and organization of
+    The repository layout deals exclusively with the naming and organization of
     projects within a repository. The layout of the repos contents are
     described in the <a href="#Runtime-Layout">runtime layout</a>.
   </div>
@@ -21,6 +67,14 @@
     layout</a>. However, we want to Conveyor projects to be compatible with
     GitHub, which is rather more limited in it's layout options, and hence
     define an alternative repository layout.
+  </div>
+  <div class="p">
+    Conveyor itself does not enforce any particular GitHub naming
+    scheme. The <code>&lt;project&gt;/conf/conveyor-conf.sh</code> file
+    specifies the runtime loctaion of the project (which is more tightly
+    regulated), and there is no hard connection between the two
+    names. However, in order to make it easier for humans to find projects on
+    GitHub, we recommend the following conventions.
   </div>
   <div class="p">
     Specifically, whereas a basic filesystem allows arbitrary nesting, GitHub
@@ -37,6 +91,14 @@
     folders are generally pre-pennded to the project
     name. E.g. the runtime <code>~/dogfoodsoftware.com/conveyor/core</code>
     becomes <code>/DogFoodSoftware/conveyor-core.git</code> on GitHub.
+  </div>
+  <div class="p">
+    Developers managing many projects, or wishing to separate key projects
+    into their own groups, may break up the GitHub projects further by
+    introducing additional 'Organizations', which in this case are used more
+    as groups. These groups should, but are not required, to reflect the
+    organization name. E.g., in the future, we expect to migrate the Dog Food
+    Software jQuery projects to 'DFS-jQuery'
   </div>
 </div><!-- #Repository-Layot.blurbSummary -->
 
