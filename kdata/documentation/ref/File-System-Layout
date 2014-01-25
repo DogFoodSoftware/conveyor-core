@@ -11,18 +11,32 @@
   <div class="blurbTitle">Repository Layout</div>
   <div class="p">
     The repository layot deals exclusively with the naming and organization of
-    projects within a repository and does not extend itself to the contents of
-    the repository, which are described in
-    the <a href="#Runtime-Layout">runtime layout</a>. With a vanilla git sever
-    where repositorys are just directories on some host, it is permissible to
-    layout the projects in the same manner as
-    a <a href="#Runtime-Projects">runtime project layout</a>. However, we want
-    to Conveyor projects to be compatible with GitHub, which is rather more
-    limited in it's layout options, and hence define an alternative repository
-    layout.
+    projects within a repository. The layout of the repos contents are
+    described in the <a href="#Runtime-Layout">runtime layout</a>.
   </div>
   <div class="p">
-    
+    With a vanilla git sever&mdash;where repositorys are just directories on
+    some host&mdash;it is permissible to layout the projects in the same
+    manner as a <a href="#Runtime-Projects">runtime project
+    layout</a>. However, we want to Conveyor projects to be compatible with
+    GitHub, which is rather more limited in it's layout options, and hence
+    define an alternative repository layout.
+  </div>
+  <div class="p">
+    Specifically, whereas a basic filesystem allows arbitrary nesting, GitHub
+    allows only a single level of file grouping under an 'Organization'. The
+    first level domain folder in the runtime should be mapped to a GitHub
+    Organization. The GitHub Organizations should be related to the domain
+    name, but is not usually itself a domain name. For instance, the Conveyor
+    core packages are installed under <code>dogfoodsoftware.com</code> in a
+    runtime environment, while the GitHub Organization is 'DogFoodSoftware'.
+  </div>
+  <div class="p">
+    The (potentially) nested project structure from the runtime layout is
+    necessarily flattened. In order to facilitate organization, containing
+    folders are generally pre-pennded to the project
+    name. E.g. the runtime <code>~/dogfoodsoftware.com/conveyor/core</code>
+    becomes <code>/DogFoodSoftware/conveyor-core.git</code> on GitHub.
   </div>
 </div><!-- #Repository-Layot.blurbSummary -->
 
