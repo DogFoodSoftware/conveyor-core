@@ -24,3 +24,6 @@
 - add self-declared branch support doc'
 - update project dependency file to specify production branch for production
   branch
+- convert 'kdata' to 'static-data.'.
+- finish up File-System-Layout describing the contents of 'static-data',
+  'static-resources' and 'src'
