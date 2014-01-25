@@ -1,10 +1,25 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    Conveyor is a technology that dramatically reduces the implementation and
-    management overhead of operations management. At a high level, the idea
-    and benefits are very similar to Ford's assembly line: increase worker
-    productivity by encoding institutional knowledge in automated components
-    leading to decreased cost, increased quality, and not incidentally,
-    improved working conditions and compensation.
+    Conveyor is a collection of technologies and process that&mdash;like
+    Ford's assembly line&mdash;automates and simplifies a great many business
+    functions. At least that's where we're headed.
   </div>
+</div>
+<div id="Pre-Release-Notice" class="blurbSummary grid_12">
+  <div class="blurbTitle">Pre-Release Notice</div>
+  <div class="p">
+    This is an early, pre-pre-alpha release. While we do dogfood Conveyor
+    ourselves and will support updates from
+    the <a href="http://github.com/DogFoodSoftware/conveyor.git#release-2014-02-01">2014-02-01</a>
+    release on, we do not yet offer any support, nor have we even given much
+    thought to usage in production situations.
+  </div>
+</div>
+<div id="Learn-More" class="blurbSummary grid_12">
+  <div class="blurbTitle">Learn More</div>
+  <ul class="p">
+    <li>Conveyor is
+    for <a href="/documentation/conveyor/ref/Intended-Audience#Consultant-Entrepreneurs">consultant
+    entreprenuers</a>...</li>
+  </ul>
 </div>

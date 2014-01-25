@@ -1,0 +1,51 @@
+<div id="Overview" class="blurbSummray grid_12">
+  <div class="p">
+    ...
+  </div>
+</div><!-- #Overview.blurbSummary -->
+<div id="Consultant-Entreprenuer" class="blurbSummary grid_12">
+  <div class="blurbTitle">Consultant Entreprenuer</div>
+  <div class="p">
+    For the consultant-entrepreneur, success means steady business at a good
+    hourly rate. Professionals that reach this point run into a problem. The
+    cost, especially in time, of overhead grows right along with the business
+    and is most burdensome exactly when the business is most successful.
+  </div>
+  <div class="p">
+    Not only do non-billable demands grow, but the lost billable
+    time is worth more than ever. Among the consultants and entrepreneur's
+    I've talked to non-value add overhead work can consume anywhere from
+    10%-25% of the work week. This can easily translate into many thousands of
+    dollars in lost opportunity per year. Especially combined with the feeling
+    of being spread thin and pulled in many directions.
+  </div>
+  <div class="p">
+    Conveyor helps organize and codify much of this non-billable work,
+    allowing the consultant entrprenuer to work less and earn more. As a
+    secondary benefit, Conveyor rationalizes the flow of billlable work as
+    well. The goal is to increase the average return per hour billed by
+    20-40%.
+  </div>
+  <div class="subHeader"><span>Market Size</span></div>
+  <div class="p">
+    TODO: put this in marketing perspective.
+  </div>
+  <div class="p">
+    References to incorporate:
+    <ul>
+      <li>http://www.isvworld.com/</li>
+      <li>About 9% of US tax filers pay their own SS/FICA:
+	http://www.cbpp.org/cms/?fa=view&id=3505</li>
+      <li>Estimates of freelancers / self employed:
+	http://freelancersmovement.org/how-many-freelancers-are-there/</li>
+      <li>ISV, Entrepreneur, and Startup: our markets
+	http://software.intel.com/sites/billboard/article/exploring-landscape-independent-software-development</li>
+      <li>Trend towards freelancers:
+	http://www.theguardian.com/commentisfree/cifamerica/2012/feb/07/how-america-became-nation-freelancers</li>
+      <li>40% freelancers by 2020:
+	http://qz.com/65279/40-of-americas-workforce-will-be-freelancers-by-2020/</li>
+      <li>More freelanacers and that's a good thing:
+	http://www.linkedin.com/today/post/article/20130808135707-7374576-half-of-us-may-soon-be-freelancers-6-compelling-reasons-why</li>
+    </ul>
+  </div>
+</div>
