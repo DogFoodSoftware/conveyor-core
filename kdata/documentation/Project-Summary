@@ -18,6 +18,8 @@
 <div id="Learn-More" class="blurbSummary grid_12">
   <div class="blurbTitle">Learn More</div>
   <ul class="p">
+    <li>Conveyor <a href="/documentation/conveyor/ref/Features">featuers
+	overview</a>.</li>
     <li>Conveyor is
     for <a href="/documentation/conveyor/ref/Intended-Audience#Consultant-Entrepreneurs">consultant
     entreprenuers</a>...</li>
