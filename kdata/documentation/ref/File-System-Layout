@@ -1,3 +1,31 @@
+<div id="Overview" class="blurbSummary grid_12">
+  <div class="p">
+    The Conveyor file system layout deals with two contexts: the repository
+    layout and the runtime layout. The repository layout deals with the
+    organizations of 'pure repo'. The 'runtime layout' deals with
+    organization of projects and files in a production or development
+    environment.
+  </div>
+</div>
+<div id="Repository-Layout" class="blurbSummary grid_12">
+  <div class="blurbTitle">Repository Layout</div>
+  <div class="p">
+    The repository layot deals exclusively with the naming and organization of
+    projects within a repository and does not extend itself to the contents of
+    the repository, which are described in
+    the <a href="#Runtime-Layout">runtime layout</a>. With a vanilla git sever
+    where repositorys are just directories on some host, it is permissible to
+    layout the projects in the same manner as
+    a <a href="#Runtime-Projects">runtime project layout</a>. However, we want
+    to Conveyor projects to be compatible with GitHub, which is rather more
+    limited in it's layout options, and hence define an alternative repository
+    layout.
+  </div>
+  <div class="p">
+    
+  </div>
+</div><!-- #Repository-Layot.blurbSummary -->
+
 A Conveyor project inevitably implements or supports REST-ful services and/or
 an HTML5/jQuery UI. Projects are hosted in a git repository. To install and
 initialize a Conveyor environment, grab the file:
