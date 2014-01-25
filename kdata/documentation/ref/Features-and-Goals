@@ -1,8 +1,35 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div id="p">
-    
+    The current (2014-02-01) Conveyor release focuses on primarily on adaptvie
+    documentation and self-documenting, self-bootstrapping
+    projects. Secondarily,
+    the <a href="http://dogfoodsoftware/projects/git-convey">git-convey</a>
+    introduces a simple branch management protocol which lays the foundation
+    for a comprehensive change management process.
   </div>
 </div>
+<div id="Adaptive-Documentation" class="blurbSummary grid_12">
+  <div class="blurbTitle">Adaptive Documentation</div>
+  <div class="p">
+    One need not be a professional writer to have heard the maxim "know your
+    audience". While sage advice, it brings up a problem: what if you have
+    many audiences? What if you need to address salespeople, developers, and
+    management? In this case the traditional choice is either a single
+    document satisfying no one or three independent documents, complex to
+    maintain and tedious in their length.
+  </div>
+  <div class="p">
+    Adaptive documentation is a technique enabling a authors to write a single
+    document which adapts itself to the readers stated perspective. Authors
+    annotate their documentation with perspectives. The authors may address
+    each audience particularly, eliminating the need to try and write for
+    everyone at once. The authors simultaneously maint a single document with
+    and may naturally address all or multiple audiences.
+  </div>
+</div><!-- #Adaptive-Documentation -->
+<div id="Self-Documenting-Projects" class="blurbSummary grid_12">
+  <div class="blurbTitle">Self Documenting Projects</div>
+</div><!-- #Self-Documenting -->
 
 <div id="Selective-Transparency" class="blurbSummary grid_12">
   <div class="blurbTitle">Selective Transparency</div>
