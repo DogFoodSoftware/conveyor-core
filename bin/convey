@@ -115,34 +115,37 @@ if [ ${RESOURCE_ID:0:1] == '/' ]; then
     exit 1
 fi
 
-# Okay, now we're set to satisfy the resource request. The order of preference
-# for satisfying the request is, for each 'accept' type:
+# Okay, now we're set to satisfy the resource request. This script is not
+# meant to to replace general purpose resource handlers, but rather provide a
+# parallel, command line interface which functions in the main similar to the
+# REST-HTTP requests at heart of Conveyor web services. 
 #
-# 1) Static media satisfying the accept types.
-# 2) A resource specific handler satisfying the accept type.
-# 3) A class handler satisfying the accept type.
-#
-# Accordingly, the main function iterates over the specified accept types. For
-# each type, it applies each of the the above searches until the search is
-# satisfied, at which point control is handed off to the handler.
-#
-# We want to explore caching the results the determinations in a light weight
-# DB of some sort, but for now, we try to optimize the <code>find<code>s as
-# much as possible.
+# Step one is to identify the resource type.
+PREV_PATH="$RESOURCE_ID"
+while [ `dirname $PREV_PATH` != '/' ]; do
+    PREV_PATH=`dirname $PREV_PATH`
+done
 
-for ACCEPT in "${ACCEPTS[@]}"; do
-    # 1) Static media search.
-    FIND="find $CONVEYOR_PLAYGROUND -path '*/$
-
-
+# Second, let's figure out whether the request is for an item or collection.
 SLASHES="${RESOURCE_ID//[^/]}"
-if [ ${#SLASHES} -eq 1 ]]; then
+if [ ${#SLASHES} -eq 1 ]; then
     # We are dealing with a resource collection.
-    RESOURCE_HANDLER="$RESOURCE_ID/_collection-handler.sh"
+    RESOURCE_TYPE='COLLECTION'
 else 
     # We are dealing with a particular item.
-    RESOURCE_HANDLER="${RESOURCE_ID}.sh"
+    RESOURCE_TYPE='ITEM'
 fi
+
+# We can now start to build our handler.
+RESOURCE_HANDLER="/runnable/rest/$PREV_PATH"
+case "$ACTION_VERB" in
+    GET|RETRIEVE)
+	if [ $RESOURCE_TYPE == 'ITEM' ]; then
+	    RESOURCE_HANDLER="$RESOURCE_HANDLER
+	;;
+esac
+
+
 
 HANDLER_BASENAME=`basename $RESOURCE_HANDLER"`
 HANDLER_DIRNAME=`dirname $RESOURCE_HANDLER"`
