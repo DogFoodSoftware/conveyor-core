@@ -1,6 +1,5 @@
 35 hours, launch Feb 1.
 
-- document and then blow away convey
 - include projects:
   - conveyor core
   - kwiki
@@ -18,3 +17,10 @@
 - cohesive project pages
 - reworked projects page
 - clean up JS references in minify
+- all documentation checked
+- passes all extant tests
+- test interface cleaned up
+- create 'release-2014-02-01' branch
+- add self-declared branch support doc'
+- update project dependency file to specify production branch for production
+  branch
