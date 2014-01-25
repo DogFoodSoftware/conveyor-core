@@ -1,15 +1,15 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    Conveyor is a collection of technologies and process that&mdash;like
-    Ford's assembly line&mdash;automates and simplifies a great many business
-    functions. At least that's where we're headed.
+    Conveyor is a collection of technologies and process that&mdash;as Ford's
+    assembly line did for manufacturing&mdash;automates and simplifies a great
+    many development operations. At least that's where we're headed.
   </div>
 </div>
 <div id="Pre-Release-Notice" class="blurbSummary grid_12">
   <div class="blurbTitle">Pre-Release Notice</div>
   <div class="p">
-    This is an early, pre-pre-alpha release. While we do dogfood Conveyor
-    ourselves and will support updates from
+    The project is pre-alpha. While we do dogfood Conveyor ourselves and will
+    support updates from
     the <a href="http://github.com/DogFoodSoftware/conveyor.git#release-2014-02-01">2014-02-01</a>
     release on, we do not yet offer any support, nor have we even given much
     thought to usage in production situations.
