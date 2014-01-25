@@ -19,6 +19,12 @@
     <li>Implement Environment runtimes. The latest document can be found
       in <code>$CONVEYOR_HOME/core/kdata/documentation/Environments</code> in
       repo revision b5deab05661104427de5d4ea9a7f8d7f01be5b6d.</li>
+    <li>Implement Actors. The latest document can be found
+      in <code>$CONVEYOR_HOME/core/kdata/documentation/Actors</code> in
+      repo revision 4e4b164de0409956681a21c7580ae3b6c84aa513.</li>
+    <li>Implement Departments and Roles. The latest document can be found
+      in <code>$CONVEYOR_HOME/core/kdata/documentation/Departments-and-Roles</code>
+      in repo revision 4e4b164de0409956681a21c7580ae3b6c84aa513.</li>
   </ul>
 </div><!-- #release-2014-08-01.blurbSummary -->
 <div id="" class="grid_12 blurbSummary">
