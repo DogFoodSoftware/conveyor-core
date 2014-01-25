@@ -40,7 +40,25 @@
       <li><code>bin/</code>: executable (binaries and scripts) specific to the
 	project.</li>
       <li><code>conf/</code>: configuration files for Conveyor and other
-      Conveyor projects. 
+	Conveyor projects.</li>
+      <li><code>data/</code>: contains runtime dynamic data, such as database
+	files. This directory is always ignored by the git repo.</li>
+      <li><code>static-data/</code>: contains (relatively) static data, like
+	documentation pages. These files are tracked by the git repo and may
+	be updated by the runtime.</li>
+      <li><code>static-resources/</code>: contains (relatively) static
+	resources which may directly accessed and served by the HTTP
+	server. E.g., images, video, etc. These files are tracked by
+	git. Smaller files may be included directly, and larger files are
+	generally included by reference to an external directory. E.g., as a
+	symlink.</li>
+      <li><code>runnable/</code>: contains the runtime-ready files. In many
+	cases&mdash;as with PHP projects&mdash;<code>runnable</code> is a
+	sym-link to the <code>src/</code> directory. In this
+	case, <code>runnable</code> is included in the git repo. In casess
+	where the project src does need to be compiled, <code>runnable</code>
+	is generated at install time and ignored by git.</li>
+      <li><code>src/<code>: this is where all source / code files live.</li>
     </ul>
   </div>
   <div class="p">
@@ -101,14 +119,3 @@
     Software jQuery projects to 'DFS-jQuery'
   </div>
 </div><!-- #Repository-Layot.blurbSummary -->
-
-A Conveyor project inevitably implements or supports REST-ful services and/or
-an HTML5/jQuery UI. Projects are hosted in a git repository. To install and
-initialize a Conveyor environment, grab the file:
-
-http://raw.git.com/DogFoodSoftware/convey.git/bin/conveyor-install#production
-
-(or something)
-
-This is a shell script, which you are free to inspect, which will create the
-conveyor playground and import the standard serices.
