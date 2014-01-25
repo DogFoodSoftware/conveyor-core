@@ -1,0 +1,18 @@
+<div id="Unscheduled-Features" class="grid_12 blurbSummary">
+  <div class="blurbTitle">Unscheduled Features</div>
+  <div class="subHeader"><span>Convey CLI and Shell</span></div>
+  <div class="p">
+    At one point, I started work on a <code>convey</code> script with the idea
+    of creating a consistent CLI for shell scripts that mirrored REST
+    conventions on the CLI. It could also be used as an interactive
+    sub-shell. The file last existed in
+    <code>$CONVEYOR_HOME/core/bin/convey</code> in repo
+    version <code>4c24cdb66044036205b554af179de0652fbe0996</code>.
+  </div>
+  <div class="p">
+    The <a href="https://github.com/micha/resty">Resty</a> project is so
+    close, it seems we could use it to implement a good deal of this
+    functionality. Depending on scope, the <code>convey</code> script could be
+    reingineered as a thin wrapper around the Resty functionality.
+  </div>
+</div><!-- #Unscheduled-Features.blurbSummary -->

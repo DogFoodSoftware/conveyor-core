@@ -1,0 +1,20 @@
+35 hours, launch Feb 1.
+
+- document and then blow away convey
+- include projects:
+  - conveyor core
+  - kwiki
+  - git-convey
+  - jquery perspectives
+  - jquery element docker
+  - jquery page browser
+  - third party: 
+    - apache
+    - php
+    - postgres
+    - shflags
+    - minify
+- git convey functional
+- cohesive project pages
+- reworked projects page
+- clean up JS references in minify
