@@ -29,6 +29,18 @@
 </div><!-- #Adaptive-Documentation -->
 <div id="Self-Documenting-Projects" class="blurbSummary grid_12">
   <div class="blurbTitle">Self Documenting Projects</div>
+  <div class="p">
+    The 'self documenting project' conciously ties together goals, high
+    level design, technical design, all the way to implementation and inline
+    code documentation. It is 'self documenting' in the sense that a reader
+    may start at any point and the project will unfold itself from that
+    point. Developers may start with code and work their way up to discover
+    purpose and goals. Executives may start with high level goals and work as
+    far down as they wish into the details. Managers may start with roles and
+    process, while salespeople may enter through a discussion of markets.
+  </div>
+  <div class="p">
+    Clearly, 
 </div><!-- #Self-Documenting -->
 
 <div id="Selective-Transparency" class="blurbSummary grid_12">
