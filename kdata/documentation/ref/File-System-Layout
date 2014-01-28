@@ -137,9 +137,8 @@
   <div class="subHeader"><span>Segregate Data by Project</span></div>
   <div class="p">
     Both dynamic and static data should generally be segragated by the
-    'consumer' project. Particularly,
-    the <code>data/</code>, <code>static-data</code>,
-    and <code>static-media/</code> directories ideally contain sub-directories
+    'consumer' project. Particularly, the <code>data/</code>
+    and <code>static-data</code> directories ideally contain sub-directories
     named after projects. The files within those directories are ultimately
     consumed / managed by code living within the named project.
   </div>
@@ -165,10 +164,10 @@
     under <code>~/foo/static-data/kwiki/documentation</code>. In this case,
     'foo' is the data creator / manager and 'kwiki' is conceptually a strict
     consumer. This distinction is often driven by operational realities. In
-    practice, <code>data/<code> files tend to be concentrated
-    while <code>static-media/<code> and <code>
-
-Ideally, a project contains or points to all the bits
+    practice, <code>data/<code> files tend to be concentrated and refenced by
+    distributed projects while <code>static-data/<code> tends to live under
+    distributed projects. Distributed data is not generally referenced by the
+    consumer in the file system.
   </div>
   <div class="subHeader"><span>Logs and Runtime Configuration</span></div>
   <div class="p">
