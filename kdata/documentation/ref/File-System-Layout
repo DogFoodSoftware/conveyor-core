@@ -42,43 +42,88 @@
     Within each project, Conveyor mandates compliance to the following tree:
     <ul>
       <li><code>bin/</code>: executable (binaries and scripts) specific to the
-	project. These files are only updated by project updates.</li>
+	project. These files are updated exclusively by task changes.</li>
       <li><code>conf/</code>: configuration files for Conveyor and other
-	Conveyor projects. These files are only updated by project
-	updates.<span data-perspective="detailed"> Some projects, however,
-	may maintain runtime configuration files under the <code>/data</code>
-	directory which are udf </li>
+	Conveyor projects. These files are update exclusively by tasks
+	changes.<span data-perspective="detailed"> Some projects, however, may
+	maintain runtime configuration files under the <code>/data</code>
+	directory.</li>
       <li><code>data/</code>: contains runtime dynamic data, such as database
-	files. This directory is always ignored by the git repo. Files may be
-	updated by runtime or version updates.</li>
+	files. This directory is always ignored by the git repo. The contents
+	are generally updated by runtime logic. Updates may come in through
+	task changesas well, these mostly representing structural/model
+	changes.</li>
       <li><code>static-data/</code>: contains (relatively) static data, like
-	documentation pages. These files are tracked by the git repo and may
-	be updated by the runtime or version updates.</li>
+	documentation pages. These files are updated exclusively through task
+	changes.</li>
       <li><code>static-resources/</code>: contains (relatively) static
 	resources which may directly accessed and served by the HTTP
-	server. E.g., images, video, etc. These files are tracked by
-	git. Smaller files may be included directly, and larger files are
-	generally included by reference to an external directory. E.g., as a
-	symlink. May be updated by runtime or version updates.</li>
+	server. E.g., images, video, etc. Smaller files may be included
+	directly, and larger files are generally included by reference to an
+	external directory. E.g., as a symlink. These files are updated
+	exclusively by task changes.</li>
       <li><code>runnable/</code>: contains the runtime-ready files. In many
 	cases&mdash;as with PHP projects&mdash;<code>runnable</code> is a
 	sym-link to the <code>src/</code> directory. In this
 	case, <code>runnable</code> is included in the git repo. In casess
 	where the project src does need to be compiled, <code>runnable</code>
-	is generated at install time and ignored by git. This is updated
-	soley by version updates.</li>
-      <li><code>src/<code>: this is where all source / code files
-      live. Updated exclusively by version updates.</li>
+	is generated at install time and ignored by git. These files are
+	updated exclusively through task changes.</li>
+      <li><code>src/</code>: this is where all source / code files live. These
+	files are updated exclusively by task changes.</li>
     </ul>
   </div>
+  <div class="subHeader"><span>Dynamic vs. Static Bits</span><div>
   <div class="p">
-    <code>conf/</code> details: every Conveyor project must define
-    a <code>conveyor-config.sh</code> (TODO: link). Projects with dependencies
-    will define <code>conveyor-projects-dependencies.sh</code>. Projects
-    providing web resources will define <code>httpd.conf</code>. Projects
-    exporting (typically websites) defining CSS and/or JS bundles will
-    define <code>minify.php</code>. Other project specific configuration files
-    may also be located here.
+    Generally, only the <code>/data</code> directory is updated directly by
+    the runtime. All other files / data is updated by 'task changes'. This
+    means the bits are tracked by git and updated on task branches which are
+    then merged into the published branches (both development and
+    production). When changes are pulled in for the branches, this triggers
+    updates in the data as the task changes are incorporated.
+  </div>
+  <div data-perspective="future" class="p">
+    To complicate things a bit, future Conveyor runtime will support
+    seamlessly creating and merging task changes through the runtime. This
+    means that operations like content management,
+    effecting <code>static-resources</code> and <code>static-data/</code> for
+    instance, may be made through the Conveyor front end. In this case, the
+    change is facilitated through runtime logic, and also still exclusively
+    accomplished within the context of a task change.
+  </div>
+  <div class="subHeader"><span>Directory Sub-Divisions</span></div>
+  <div class="p">
+        <ul>
+      <li><code>bin/</code>: should contain all scripts directly. Library
+      components will be stored under <code>src/lib</code> and accessed
+      through <code>runnable/lib</code>.</li>
+      <li><code>conf/</code>: should contain all configuration files directly
+	unless things get crowded (+/-20 files). Projects may also subdivided
+	to respect project requirements.</li>
+      <li><code>data/</code>: contents are entirely defined by the project. If
+	reasonable, it's considered polite to use <code>logs/<code>
+	and <code>ext-conf/<code> for log files and generated / runtime
+	configuration files respectively.</li>
+      <li><code>static-data/</code>: contents are defined by the containing
+	project and other projects. Specifically,
+	the <a href="http://dogfoodsoftware.com/projects/kwiki">kwiki</code>
+	projects expects <code>static-data/kwik</li>
+      <li><code>static-resources/</code>: contains (relatively) static
+	resources which may directly accessed and served by the HTTP
+	server. E.g., images, video, etc. Smaller files may be included
+	directly, and larger files are generally included by reference to an
+	external directory. E.g., as a symlink. These files are updated
+	exclusively by task changes.</li>
+      <li><code>runnable/</code>: contains the runtime-ready files. In many
+	cases&mdash;as with PHP projects&mdash;<code>runnable</code> is a
+	sym-link to the <code>src/</code> directory. In this
+	case, <code>runnable</code> is included in the git repo. In casess
+	where the project src does need to be compiled, <code>runnable</code>
+	is generated at install time and ignored by git. These files are
+	updated exclusively through task changes.</li>
+      <li><code>src/</code>: this is where all source / code files live. These
+	files are updated exclusively by task changes.</li>
+    </ul>
   </div>
 </div><!-- #Runtime-Layout.blurbSummary -->
 <div id="Repository-Layout" class="blurbSummary grid_12">
