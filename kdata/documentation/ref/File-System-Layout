@@ -1,70 +1,74 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    A Conveyor project may exist in a runtime
-    environment<span data-perspective="detailed coding operations">&mdash;
-    which may or may not also be working git repo&mdash;</span>or in a pure
-    repository. Within a runtime environment, Conveyor components are
-    organized under a Conveyor playground, whereas projects are connected to a 
-
-    The Conveyor file system layout deals with two contexts: the repository
-    layout and the runtime layout. The repository layout deals with the
-    organizations of 'pure repo'. The 'runtime layout' deals with
-    organization of projects and files in a production or development
-    environment.
+    A Conveyor runtime is laid out on disk under the 'Conveyor
+    playground'. Layout within the playground is discussed in terms of the
+    project layout, and intra-project contents.
   </div>
 </div>
-<div id="Runtime-Layout" class="blurbSummary grid_12">
-  <div class="blurbTitle">Runtime Layout</div>
+<div id="Project-Layout" class="blurbSummary grid_12">
+  <div class="blurbTitle">Project Layout</div>
   <div class="p">
-    The runtime layout starts with the 'Conveyor playgound', which may be
-    arbitrarily defined when the Conveyor runtime is first installed (TODO:
-    link to installation instructions). The default value
-    is <code>$HOME/playground</code>.
-  </div>
-  <div id="Runtime-Projects" class="subHeader"><span>Runtime Projects</span></code>
-  <div class="p">
-    The playground directory is populated by folders matching the root domain
-    names owned by the entities authoring projects. E.g., the core Conveyor
-    development is done by Dog Food Software, LLC and organized under the
-    directory <code>dogfoodsoftware.com<code>.
+    All project files are organized within a single project home
+    directory. The project exist entirely within the Conveyor playground. The
+    playground location is specified when the conveyor core is installed. The
+    default value is <code>$HOME/playground</code>.
   </div>
   <div class="p">
-    The domain directory may contain project repositories or further grouping
-    folders. For instance, the Dog Food Software project git-convey is located
-    directly under <code>dogfoodsoftware.com</code> while the jQuery based
-    projects are organized under a <code>jquery</code> directory.
+    Within this playground, each project declares the location of it's home
+    directory. All operatings dealing with the project must make no assumption
+    regarding the location of the project home directory within the
+    playground. However, we do require public projects to conform to certain
+    conventions to be considered Conveyor compliant.
+  </div>
+  <div id="Organization-Namespaces" class="subHeader"><span>Organization Namespaces</span></code>
+  <div class="p">
+    Within the playground, each project should be rooted in a directory named
+    after an root internet domain owned by the organization / individual
+    owning the project. E.g., the core Conveyor development is done by Dog
+    Food Software, LLC and organized under the
+    directory <code>dogfoodsoftware.com<code>. Private projects need need not
+    follow this convention.
   </div>
   <div class="p">
-    There is no limitation on how deep nesting may go, but the general rule of
-    thumb is one or two levels. You may want to consider breaking up projects
-    groups of 20 or more.
+    The namespace owners are free to organize projects within this namespace
+    any way they see fit. Projects may be organized into groups, sub-groups,
+    etc. Some or all projects may be placed directly under the organization's
+    root directory.
   </div>
-  <div id="Project-Files" class="subHeader"><span>Project Files</span></div>
+</div><!-- #Project-Layout -->
+<div id="Intra-Project-Files" class="blurbSummary grid_12">
+  <div class="blurbTitle">Intra-Project Files</div>
   <div class="p">
     Within each project, Conveyor mandates compliance to the following tree:
     <ul>
       <li><code>bin/</code>: executable (binaries and scripts) specific to the
-	project.</li>
+	project. These files are only updated by project updates.</li>
       <li><code>conf/</code>: configuration files for Conveyor and other
-	Conveyor projects.</li>
+	Conveyor projects. These files are only updated by project
+	updates.<span data-perspective="detailed"> Some projects, however,
+	may maintain runtime configuration files under the <code>/data</code>
+	directory which are udf </li>
       <li><code>data/</code>: contains runtime dynamic data, such as database
-	files. This directory is always ignored by the git repo.</li>
+	files. This directory is always ignored by the git repo. Files may be
+	updated by runtime or version updates.</li>
       <li><code>static-data/</code>: contains (relatively) static data, like
 	documentation pages. These files are tracked by the git repo and may
-	be updated by the runtime.</li>
+	be updated by the runtime or version updates.</li>
       <li><code>static-resources/</code>: contains (relatively) static
 	resources which may directly accessed and served by the HTTP
 	server. E.g., images, video, etc. These files are tracked by
 	git. Smaller files may be included directly, and larger files are
 	generally included by reference to an external directory. E.g., as a
-	symlink.</li>
+	symlink. May be updated by runtime or version updates.</li>
       <li><code>runnable/</code>: contains the runtime-ready files. In many
 	cases&mdash;as with PHP projects&mdash;<code>runnable</code> is a
 	sym-link to the <code>src/</code> directory. In this
 	case, <code>runnable</code> is included in the git repo. In casess
 	where the project src does need to be compiled, <code>runnable</code>
-	is generated at install time and ignored by git.</li>
-      <li><code>src/<code>: this is where all source / code files live.</li>
+	is generated at install time and ignored by git. This is updated
+	soley by version updates.</li>
+      <li><code>src/<code>: this is where all source / code files
+      live. Updated exclusively by version updates.</li>
     </ul>
   </div>
   <div class="p">
