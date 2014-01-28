@@ -1,15 +1,58 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    A 'project' is first an expression of a particular set of measurable,
-    self-imposed goals. Intellectual property generatetd as a consequence of
-    pursuit of these goals is 'housed' within the project, which also
-    specifies terms under which the IP may be licensed.
+    A project is the primary unit of development. Every
+    artifact<span data-perspective="detailed coding"> (dynamic and
+    static)</span> lives within a single project.
   </div>
 </div><!-- .blurbSummary#Overview -->
-<div id="Projects-and-Ecosystems" class="blurbSummary grid_12">
-  <div class="blurbTitle">Projects and Ecosystems</div>
+<div id="Project-Repositories" class="blurbSummary grid_12">
+  <div class="blurbTitle">Project Repositories</div>
   <div class="p">
-    
+    With a vanilla git sever&mdash;where repositorys are just directories on
+    some host&mdash;it is permissible to layout the projects in the same
+    manner as a <a href="#Runtime-Projects">runtime project
+    layout</a>. However, we want to Conveyor projects to be compatible with
+    GitHub, which is rather more limited in it's layout options, and hence
+    define an alternative repository layout.
   </div>
-</div><!-- .blurbSummary#Projects-and-Ecosystems -->
-
+  <div class="p">
+    Conveyor itself does not enforce any particular GitHub naming
+    scheme. The <code>&lt;project&gt;/conf/conveyor-conf.sh</code> file
+    specifies the runtime loctaion of the project (which is more tightly
+    regulated), and there is no hard connection between the two
+    names. However, in order to make it easier for humans to find projects on
+    GitHub, we recommend the following conventions.
+  </div>
+  <div class="p">
+    Specifically, whereas a basic filesystem allows arbitrary nesting, GitHub
+    allows only a single level of file grouping under an 'Organization'. The
+    first level domain folder in the runtime should be mapped to a GitHub
+    Organization. The GitHub Organizations should be related to the domain
+    name, but is not usually itself a domain name. For instance, the Conveyor
+    core packages are installed under <code>dogfoodsoftware.com</code> in a
+    runtime environment, while the GitHub Organization is 'DogFoodSoftware'.
+  </div>
+  <div class="p">
+    The (potentially) nested project structure from the runtime layout is
+    necessarily flattened. In order to facilitate organization, containing
+    folders are generally pre-pennded to the project
+    name. E.g. the runtime <code>~/dogfoodsoftware.com/conveyor/core</code>
+    becomes <code>/DogFoodSoftware/conveyor-core.git</code> on GitHub.
+  </div>
+  <div class="p">
+    Developers managing many projects, or wishing to separate key projects
+    into their own groups, may break up the GitHub projects further by
+    introducing additional 'Organizations', which in this case are used more
+    as groups. These groups should, but are not required, to reflect the
+    organization name. E.g., in the future, we expect to migrate the Dog Food
+    Software jQuery projects to 'DFS-jQuery'
+  </div>
+</div><!-- .blurbSummary#Project-Repositories -->
+<div id="Further-Reading" class="blurbSummary grid_12">
+  <div class="blurbTitle">Further Reading</div>
+  <ul class="p">
+    <li>The <a href="/documentation/conveyor-core/ref/File-System-Layout#Project-Repositories">file
+    system layout</a> discusses the layout of projects and project files in a
+    runtime environment.</li>
+  </ul>
+</div>
