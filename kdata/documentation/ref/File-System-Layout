@@ -1,5 +1,11 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
+    A Conveyor project may exist in a runtime
+    environment<span data-perspective="detailed coding operations">&mdash;
+    which may or may not also be working git repo&mdash;</span>or in a pure
+    repository. Within a runtime environment, Conveyor components are
+    organized under a Conveyor playground, whereas projects are connected to a 
+
     The Conveyor file system layout deals with two contexts: the repository
     layout and the runtime layout. The repository layout deals with the
     organizations of 'pure repo'. The 'runtime layout' deals with
