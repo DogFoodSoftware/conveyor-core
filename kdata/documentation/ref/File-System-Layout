@@ -56,7 +56,7 @@
       <li><code>static-data/</code>: contains (relatively) static data, like
 	documentation pages. These files are updated exclusively through task
 	changes.</li>
-      <li><code>static-resources/</code>: contains (relatively) static
+      <li><code>static-media/</code>: contains (relatively) static media
 	resources which may directly accessed and served by the HTTP
 	server. E.g., images, video, etc. Smaller files may be included
 	directly, and larger files are generally included by reference to an
@@ -134,9 +134,45 @@
     and deleted largely independent of one another. The section consists
     mostly of recommendations rather than requirements. 
  </div>
+  <div class="subHeader"><span>Segregate Data by Project</span></div>
+  <div class="p">
+    Both dynamic and static data should generally be segragated by the
+    'consumer' project. Particularly,
+    the <code>data/</code>, <code>static-data</code>,
+    and <code>static-media/</code> directories ideally contain sub-directories
+    named after projects. The files within those directories are ultimately
+    consumed / managed by code living within the named project.
+  </div>
+  <div class="p">
+    This means that you will often find a <code>data/foo</code> directory in
+    the 'foo' project runtime layout. These are referred to as 'project data
+    directories'. Other common breakouts in the current release
+    include <code>postgres/</code> and <code>kwiki/</code>.
+  </div>
+  <div class="p">
+    It is common for these files to 'live' under the project hosting the
+    service which creates / manages the files and referenced from related
+    locations. For instance, you might
+    have <code>~/postgres/data/postgres/db</code> where the DB bits are stored
+    (hard links) and <code>~/foo/data/foo/postgres/db</code> as symlink to the
+    postgres directory.
+  </div>
+  <div class="p">
+    In other instances, as with kwiki&mdash;where data can be easily /
+    naturally distributed&mdash;you will find data consumed by project A
+    living under project B's <code>data/</code> directory. For instance, kwiki
+    documentation would live
+    under <code>~/foo/static-data/kwiki/documentation</code>. In this case,
+    'foo' is the data creator / manager and 'kwiki' is conceptually a strict
+    consumer. This distinction is often driven by operational realities. In
+    practice, <code>data/<code> files tend to be concentrated
+    while <code>static-media/<code> and <code>
+
+Ideally, a project contains or points to all the bits
+  </div>
   <div class="subHeader"><span>Logs and Runtime Configuration</span></div>
   <div class="p">
-    Within the <code>data/</code> directory under the project home dir, it's
+    Within the project data directories under <code>data/</code>, it's
     considered polite to use <code>logs/<code> and <code>ext-conf/<code> for
     log files and generated / runtime configuration files respectively. Each
     of these directories may be further subdivided as convenience /
@@ -146,9 +182,9 @@
   <div class="p">
     Log files generally live in the project providing the service which
     atually generates the log files. So, postgres logs would be found
-    under <code>~/postgres/data/logs</code>. When appropriate, projects should
-    create symbolic links to these canonical files;
-    i.e. <code>~/foo/data/logs/postgres-logs<code>.
+    under <code>~/postgres/data/postgres/logs</code>. When appropriate,
+    projects should create symbolic links to these canonical files;
+    i.e. <code>~/foo/data/foo/logs/postgres-logs<code>.
   </div>
 </div><!-- #Runtime-Layout.blurbSummary -->
 <div id="Repository-Layout" class="blurbSummary grid_12">
