@@ -73,7 +73,7 @@
 	files are updated exclusively by task changes.</li>
     </ul>
   </div>
-  <div class="subHeader"><span>Dynamic vs. Static Bits</span><div>
+  <div class="subHeader"><span>Dynamic vs. Static Bits</span></div>
   <div class="p">
     Generally, only the <code>/data</code> directory is updated directly by
     the runtime. All other files / data is updated by 'task changes'. This
@@ -93,21 +93,21 @@
   </div>
   <div class="subHeader"><span>Directory Sub-Divisions</span></div>
   <div class="p">
-        <ul>
+    <ul>
       <li><code>bin/</code>: should contain all scripts directly. Library
-      components will be stored under <code>src/lib</code> and accessed
-      through <code>runnable/lib</code>.</li>
+	components will be stored under <code>src/lib</code> and accessed
+	through <code>runnable/lib</code>.</li>
       <li><code>conf/</code>: should contain all configuration files directly
 	unless things get crowded (+/-20 files). Projects may also subdivided
 	to respect project requirements.</li>
-      <li><code>data/</code>: contents are entirely defined by the project. If
-	reasonable, it's considered polite to use <code>logs/<code>
-	and <code>ext-conf/<code> for log files and generated / runtime
-	configuration files respectively.</li>
+      <li><code>data/</code>: contents are entirely defined by the
+	project. Further details and recommendations discussed under
+	the <a href="#Portability-and-Coherence-Guidelines">portability and
+	  adherence guidelines</a>.</li>
       <li><code>static-data/</code>: contents are defined by the containing
 	project and other projects. Specifically,
-	the <a href="http://dogfoodsoftware.com/projects/kwiki">kwiki</code>
-	projects expects <code>static-data/kwik</li>
+	the <a href="http://dogfoodsoftware.com/projects/kwiki">kwiki</a>
+	projects expects <code>static-data/kwik</code></li>
       <li><code>static-resources/</code>: contains (relatively) static
 	resources which may directly accessed and served by the HTTP
 	server. E.g., images, video, etc. Smaller files may be included
@@ -124,6 +124,31 @@
       <li><code>src/</code>: this is where all source / code files live. These
 	files are updated exclusively by task changes.</li>
     </ul>
+  </div>
+</div><!-- #Intra-Project-Files -->
+<div id="Portability-and-Coherence-Guidelines" class="blurbSummary grid_12">
+  <div class="blurbTitle"><span>Portability and Coherence Guidelines</div>
+  <div class="p">
+    These guidelines are intended to help developers create and manage
+    projects so they may be cleanly updated, backed up, restored, installed,
+    and deleted largely independent of one another. The section consists
+    mostly of recommendations rather than requirements. 
+ </div>
+  <div class="subHeader"><span>Logs and Runtime Configuration</span></div>
+  <div class="p">
+    Within the <code>data/</code> directory under the project home dir, it's
+    considered polite to use <code>logs/<code> and <code>ext-conf/<code> for
+    log files and generated / runtime configuration files respectively. Each
+    of these directories may be further subdivided as convenience /
+    necessary. Developers should not rely on runtime configuration or logs to
+    be located here as it may not always be possible.
+  </div>
+  <div class="p">
+    Log files generally live in the project providing the service which
+    atually generates the log files. So, postgres logs would be found
+    under <code>~/postgres/data/logs</code>. When appropriate, projects should
+    create symbolic links to these canonical files;
+    i.e. <code>~/foo/data/logs/postgres-logs<code>.
   </div>
 </div><!-- #Runtime-Layout.blurbSummary -->
 <div id="Repository-Layout" class="blurbSummary grid_12">
