@@ -103,26 +103,23 @@
       <li><code>data/</code>: contents are entirely defined by the
 	project. Further details and recommendations discussed under
 	the <a href="#Portability-and-Coherence-Guidelines">portability and
-	  adherence guidelines</a>.</li>
-      <li><code>static-data/</code>: contents are defined by the containing
-	project and other projects. Specifically,
-	the <a href="http://dogfoodsoftware.com/projects/kwiki">kwiki</a>
-	projects expects <code>static-data/kwik</code></li>
-      <li><code>static-resources/</code>: contains (relatively) static
-	resources which may directly accessed and served by the HTTP
-	server. E.g., images, video, etc. Smaller files may be included
-	directly, and larger files are generally included by reference to an
-	external directory. E.g., as a symlink. These files are updated
-	exclusively by task changes.</li>
-      <li><code>runnable/</code>: contains the runtime-ready files. In many
-	cases&mdash;as with PHP projects&mdash;<code>runnable</code> is a
-	sym-link to the <code>src/</code> directory. In this
-	case, <code>runnable</code> is included in the git repo. In casess
-	where the project src does need to be compiled, <code>runnable</code>
-	is generated at install time and ignored by git. These files are
-	updated exclusively through task changes.</li>
-      <li><code>src/</code>: this is where all source / code files live. These
-	files are updated exclusively by task changes.</li>
+	  coherence guidelines</a>.</li>
+      <li><code>static-data/</code>: as with <code>data/</code>, contents are
+	defined on a per-project basis though we do
+	provide <a href="#Portability-and-Coherence-Guidelines">portability
+	and coherence guidelines</a>.</li>
+      <li><code>static-media/</code>: typically broken out by 'kind'. At the
+	moment, there is not a lot of regulation on how this is laid out and
+	projects should consider all 'static-media' contents in all projects
+	to exist within a single global namespace served.</li>
+      <li><code>runnable/</code>: in many cases, this is just a symlink
+      to <code>src/</code>. For projects with 'built' services, this will
+      contain the built service binaries and should be segregated by
+      such. There is currently no allowance for projects that contain both
+      library / source code and built projects.</li>
+      <li><code>src/</code>: this is typically divided into one or
+      more <code>lib/<code>, <code>rest/</code>, <code>site/<code> and
+      /or <code>ui/<code> directories.</li>
     </ul>
   </div>
 </div><!-- #Intra-Project-Files -->
