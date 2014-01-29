@@ -1,14 +1,54 @@
-The Conveyor data management recommendations are normative and not required. 
-
-Each essentially stores a single type of data. The typing is primarily
-semantic and addresses a human level view of the system. The
-<code>/people</code> and <code>/files</code> resources are more or less
-self-explanatory. While there are technical resources, like
-<code>/authorizations</code>, whose exact nature may not be famililar to the
-average user, the basic idea is more or less appearent.
-
-A resource may optionally define data requirements, which vets all new data as
-well as modifications to determine whether or not the data is correct.
+<div id="Overview" class="grid_12 blurbSummary">
+  <div class="p">
+    REST web services are at the heart of Conveyor. APIs are defined by
+    projects on resource by resource basis. This document defines the high
+    level standards to which all Conveyor compliant APIs must conform. This
+    document assumes the readers have a good understanding
+    of <a href="Web-Services">general web services and REST</a>.
+  </div>
+</div><!-- #Overview  -->
+<div id="Resource-Types" class="grid_12 blurbSummary">
+  <div class="p">
+    The first path element in every Conveyor request declares the resource
+    type. Resource types are generally coarse grained concepts which define
+    the runtime ontology. Most resources are self explanatory
+    like <code>/people</code> and <code>/files</code>. There is a minority of
+    technical resources like <code>/authorizations</code>, though these are
+    not generally surfaced to the average user.
+  </div>
+  <div class="subHeader"><span>Field Standards</span></div>
+  <div class="p">
+    Individual fields may be required or optional as well as typed to the
+    standard atomics, resources, or data structures. The field structure
+    follows the JSON spec.
+  </div>
+  <div class="subHeader"><span>Canonical Resource Identifiers</span></div>
+  <div class="p">
+    A resource may be discovered through any data element. Fields may be
+    declared as unique, though this should be avoided without strong semantic
+    reasons. For guaranteed results and inter-resource references&mdash;hard
+    links&mdash;a canonical ID should ideally be used.
+  </div>
+  <div class="p">
+    Every resource has a single, runtime unique integer ID. This
+    is referred to as the <em>entity ID</em>. We specifically use a 64-bit DB
+    generated sequence.<span data-perspective="future"> Future versions will
+    likely move to some flavor of GUID.</span>
+  </div>
+  <div class="p">
+    Each resource may optionally acquire a unique human readable ID. Some
+    resources will acquire human readable IDs naturally and
+    necessarily. <code>/files</code> for instance naturally refer to the name
+    of the file in the runtime filesystem. Many resource types employ some
+    namespace conventions, generally deleniated by forward slashes ('/'). Any
+    such organization or particular semantics are entirely defined by the
+    resource type.
+  </div>
+  <div class="subHeader"><span>Resource Revisions</span></div>
+  <div class="p">
+    
+  </div>
+</div>
 
 Any user can make any number of changes at any time because data is always
 changed on an (effectively) systemwide branch. The changes may or may not be
