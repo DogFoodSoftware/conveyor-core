@@ -5,36 +5,13 @@
     a conveyor belt in an assemply line, the Conveyor system manages inputs
     and outputs between different stages, automating much of the process and
     dramatically increasing the productivity of both individuals and
-    business. Conveyor processes
-    are <a href="/documentation/conveyor/ref/Goals#Selective-Transparency">selectively
-    transparent</a>, <a href="/documentation/conveyor/ref/Goals#Quantification">quantifiable</a>,
-    and <a href="/documentation/conveyor/ref/Goals#Process-Iteration">iterable</a>.
+    business. At least, that's the long term goal.
   </div>
   <div class="p">
-    Conveyor itself is a foundational technology used <span data-todo="Link
-    this line to a page... /dossier/?tag=conveyor-users or something that will
-    list known companies and projects.">to build consumer products and
-    services.</span> The remainder of this documents begins unfolding the key
-    concepts of the Conveyor system. Consumers may be more interested
-    in <a href="/documentation/conveyor/ref/Understanding_the_Conveyor_Brand">understanding
-    the Conveyor brand</a> while individuals involved with a Conveyor project
-    might want to begin by taking a look at the section
-    on <a href="/documentation/conveyor/ref/Actors#Workers">workers</a>.
+    For the moment
   </div>
 </div><!-- #Overview.blurbSummary -->
 <div id="High-Level-Components" class="blurbSummary grid_12">
-  <div class="blurbTitle">High Level Components</div>
-  <div class="p">
-    An explicit note on usage: when introducing Conveyor specific technical
-    terms, the 'Conveyor' association <em>should</em> be explictly stated in
-    the first usage in the page, section, or if reasonably distant from the
-    last such fully qualified usage. After establishing intent,
-    'Conveyor' <em>should</em> be dropped from further references unless an
-    explicit distinction needs to be made against usage of the term in another
-    sense such as "the Conveyor Ecosystems themselves form a
-    'super-ecosystem'". Otherwise, we would refer to the Conveyor Ecosystems
-    simply as 'Ecosystems' after the initial introduction.
-  </div>
   <div class="subHeader"><span>Ecosystems</span></div>
   <div class="p">
     A Conveyor Ecosystem is a sovereign virtual space composed of
