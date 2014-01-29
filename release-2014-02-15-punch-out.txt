@@ -20,7 +20,7 @@
 - all documentation checked
 - passes all extant tests
 - test interface cleaned up
-- create 'release-2014-02-01' branch
+- create 'release-2014-02-15' branch
 - add self-declared branch support doc'
 - update project dependency file to specify production branch for production
   branch
