@@ -31,7 +31,11 @@
       <li>a website, or</li>
       <li>encoded knowledge / process.</li>
     </ul>
-    
+    The categorization is not strict, and this is an area we will likely
+    revisit in the future, perhaps replacing with a more general purpose
+    tagging mechanism. For the time being, all the projects we've developed
+    ourselves fall into one of these categories and we find them useful to
+    understand the space.
 
     In general, projects should be simple 'units of development'. However, we
     also want to avoid unecessary balkanization and abstraction for the sake
