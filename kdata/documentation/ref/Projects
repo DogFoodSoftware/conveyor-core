@@ -107,12 +107,16 @@
 <div id="Additional-Project-Properties" class="blurbSummary grid_12">
   <div class="blurbTitle">Additional Project Properties</div>
   <div class="p">
-    Every bit in any Conveyor runtime lives within a single project. Conveyor
-    does not concern itself with any bits outside of projects, nor can any
-    bit, file, or artifact live within more than one project.
+    Every bit in under Conveyor control lives within a single project. This
+    means every file, image, and artificat has one and only one home. Projects
+    may reference artifacts through symbolic links.
   </div>
   <div class="p">
-    Projects may make use of 'distro services' and libraries. 
+    Projects may make use of 'distro services' and libraries. These are
+    installed by the project installation process, but are not otherwise
+    managed by the projects per se. It is possible (and planned) to offer
+    distribution / external service management services as provisions of
+    projects in the future.
   </div>
 </div><!-- #Additional-Project-Properties -->
 <div id="Further-Reading" class="blurbSummary grid_12">
