@@ -1,16 +1,38 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    A project is the primary unit of development. How projects do and how to
-    organize work within projects is as much an art as a science. In general,
-    most projects will provide:
+    A project is the primary unit of development. Projects can organize a wide
+    variety of work, and there's no hard definition of what a project can or
+    can't do, however a Conveyor projects adhere to a
+    high <a href="#Project-Documentation">standard of documentation</a> and
+    can generally be placed in one of four <a href="Project-Categories">categories</a>.
+</div><!-- .blurbSummary#Overview -->
+<div id="Project-Documentation" class="blurbSummary grid_12">
+  <div class="p">
+    Conveyor project documentation standards require that a project:
+    <ul>
+      <li>address the potential audience clearly and directly through the use
+	of <a href="/documentation/kwiki/Primer#Perspectives">documentation
+	perspectives</a>,</li>
+      <li>include clear installation instructions,</li>
+      <li>include clear usage instructions,</li>
+      <li>address project design and scope,</li>
+      <li>fully document implementation,</li>
+      <li>support both top-down and bottom-up discovery.</li>
+    </ul>
+  </div>
+</div><!-- #Project-Documentation -->
+<div id="Project-Categories" class="blurbSummary grid_12">
+  <div class="p">
+    While not prescriptive, most projects can be categorized into one of four
+    categories:
     <ul>
       <li>a stack service,</li>
       <li>REST services,</li>
-      <li>library code,</li>
-      <li>library data (especially encoded knowledge and process data),</li>
-      <li>a website,</li>
-      <li>or some combination, component, or variant of the above.</li>
+      <li>a website, or</li>
+      <li>encoded knowledge / process.</li>
     </ul>
+    
+
     In general, projects should be simple 'units of development'. However, we
     also want to avoid unecessary balkanization and abstraction for the sake
     of abstraction. To paraphrase a paraphrase, the objective is that each 
@@ -21,7 +43,7 @@ Every
     projects provide a stack service, library code, one or more Conveyor REST
     services, encoded knowledge / process, 
   </div>
-</div><!-- .blurbSummary#Overview -->
+</div><!-- #Project-Categories -->
 <div id="Project-Repositories" class="blurbSummary grid_12">
   <div class="blurbTitle">Project Repositories</div>
   <div class="p">
