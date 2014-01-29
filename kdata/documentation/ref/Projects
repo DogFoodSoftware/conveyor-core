@@ -1,11 +1,25 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    A project is the primary unit of development. Every
+    A project is the primary unit of development. How projects do and how to
+    organize work within projects is as much an art as a science. In general,
+    most projects will provide:
+    <ul>
+      <li>a stack service,</li>
+      <li>REST services,</li>
+      <li>library code,</li>
+      <li>library data (especially encoded knowledge and process data),</li>
+      <li>a website,</li>
+      <li>or some combination, component, or variant of the above.</li>
+    </ul>
+    In general, projects should be simple 'units of development'. However, we
+    also want to avoid unecessary balkanization and abstraction for the sake
+    of abstraction. To paraphrase a paraphrase, the objective is that each 
+
+Every
     artifact<span data-perspective="detailed coding"> (dynamic and
-    static)</span> lives within a single project. There are few prescriptive
-    requirements regarding what a project is and how it is organized per-se,
-    but in order to keep expectations simple, it is recommended that projects
-    conform to the normative ruleset.
+    static)</span> lives within a single project. In general, Conveyor
+    projects provide a stack service, library code, one or more Conveyor REST
+    services, encoded knowledge / process, 
   </div>
 </div><!-- .blurbSummary#Overview -->
 <div id="Project-Repositories" class="blurbSummary grid_12">
