@@ -24,10 +24,10 @@
   </div>
   <div class="subHeader"><span>Canonical Resource Identifiers</span></div>
   <div class="p">
-    A resource may be discovered through any data element. Fields may be
-    declared as unique, though this should be avoided without strong semantic
-    reasons. For guaranteed results and inter-resource references&mdash;hard
-    links&mdash;a canonical ID should ideally be used.
+    In general, a resource may be discovered through any data element. Fields
+    may be declared as unique, though this should be avoided without strong
+    semantic reasons. For guaranteed results and inter-resource
+    references&mdash;hard links&mdash;a canonical ID should ideally be used.
   </div>
   <div class="p">
     Every resource has a single, runtime unique integer ID. This
@@ -36,30 +36,33 @@
     likely move to some flavor of GUID.</span>
   </div>
   <div class="p">
-    Each resource may optionally acquire a unique human readable ID. Some
-    resources will acquire human readable IDs naturally and
+    A resource may always be identified in a request by the entity ID
+    immediately following the resource
+    type. E.g.: <code>/person/1234</code>. Each resource may optionally
+    acquire a unique human readable ID, such as <code>/person/john-doe</code>.
+  </div>
+  <div class="p">
+    Some resources will acquire these human readable IDs naturally and
     necessarily. <code>/files</code> for instance naturally refer to the name
-    of the file in the runtime filesystem. Many resource types employ some
-    namespace conventions, generally deleniated by forward slashes ('/'). Any
-    such organization or particular semantics are entirely defined by the
-    resource type.
+    of the file in the runtime filesystem. Others may request or optionally
+    acquire human readable IDs at creation or afterward.
+  </div>
+  <div class="p">
+    Many resource types employ some namespace conventions, generally
+    deleniated by forward slashes ('/'). Any such organization or particular
+    semantics are entirely defined by the resource type.
   </div>
   <div class="subHeader"><span>Resource Revisions</span></div>
   <div class="p">
-    
+    Each resource maintains an independent version ID. The ID is atomically
+    incremented with each set of revisions. One ore may fields may be updated
+    per resource revision. There is no support for concurrent resource
+    updates.
+  </div>
+  <div class="p">
+    By default, revisions should throw exceptions when presented with
+    concurrent update situations. However, this behavior is optional and
+    resource types may define situations in which concurrent updates are
+    accepted.
   </div>
 </div>
-
-Any user can make any number of changes at any time because data is always
-changed on an (effectively) systemwide branch. The changes may or may not be
-accepted onto master. Though subject to legal restrictions, there is always
-the technical possibility of forking data at any point, keeping the original
-data unchanged, and also allowing the fork owner to make all the changes they
-want to the same source data set.
-
-With proper authorizations, a user may preemptively lock all merges, ensuring
-their own work, no matter how long running, can be made, while still allolwing
-other users to continue to make changes in their own forks. (Of course, there
-are usability limits on this kind of situation and in some systems, the
-feature might be very limited or the lock times relatively short while on
-others, essentially indefinite lock times would be relatively common.)
