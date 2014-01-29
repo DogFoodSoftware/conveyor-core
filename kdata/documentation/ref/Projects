@@ -2,11 +2,18 @@
   <div class="p">
     A project is the primary unit of development. Every
     artifact<span data-perspective="detailed coding"> (dynamic and
-    static)</span> lives within a single project.
+    static)</span> lives within a single project. There are few prescriptive
+    requirements regarding what a project is and how it is organized per-se,
+    but in order to keep expectations simple, it is recommended that projects
+    conform to the normative ruleset.
   </div>
 </div><!-- .blurbSummary#Overview -->
 <div id="Project-Repositories" class="blurbSummary grid_12">
   <div class="blurbTitle">Project Repositories</div>
+  <div class="p">
+    TODO: this section is way too long. This shouldbe a paragraph or two at
+    most.
+  </div>
   <div class="p">
     With a vanilla git sever&mdash;where repositorys are just directories on
     some host&mdash;it is permissible to layout the projects in the same
