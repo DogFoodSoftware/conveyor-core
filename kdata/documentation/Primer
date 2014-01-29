@@ -12,19 +12,6 @@
   </div>
 </div><!-- #Overview.blurbSummary -->
 <div id="High-Level-Components" class="blurbSummary grid_12">
-  <div class="subHeader"><span>Ecosystems</span></div>
-  <div class="p">
-    A Conveyor Ecosystem is a sovereign virtual space composed of
-    infrastructure and <a href="#Actors">Actors</a> collectively contributing
-    talents and capabilities towards the achievement of declared
-    goals. Ecosystems are most typically organized around legal entities and
-    are may be categorized as personal Ecosystems, corporate ecosystems,
-    organizational ecosystems, etc. Ecosystems themselves can interactive
-    amongst themselves, and you could for instance have a contract developer's
-    personal Ecosystem engaged with multiple employer's corporate ecosystems,
-    which may themselves be divided into departmental ecosystems for lager
-    firms.
-  </div>
   <div class="subHeader"><span>Resources</span></div>
   <div class="p">
     Ultimately site by site rules. 'Standard rules...': Might not be
@@ -46,23 +33,11 @@
     services. Hosts may be categorized as 'physical' or 'virtual' as well as
     by function.
   </div>
-  <div class="p">
-    The particular use and function of hosts is determined by the ecosystem to
-    which it is attached and therefore out of scope of this
-    documentation. (TODO: It's an open question whether a given host willb e
-    strictly limited to a single ecosystem, or whether it may act in multilpe
-    ecosystems and merely 'belong' in some sense to a primary ecosystem). In
-    most cases, the 'best pracitce' would be to use physical hosts to host
-    virtual hosts and networked data volumes, with all further operations (web
-    servers, mail servers, ecosystem agents, etc.) handled by virtual
-    hosts. This approach generally works well operations and turns out to be
-    useful WRT to scaling, disaster recovery, and general host management.
-  </div>
   <div id="Actors" class="subHeader"><span><a href="/documentation/conveyor/ref/Actors">Actors</a></span></div>
   <div class="p">
-    Within a Conveyor ecosystem, an actor is any entity capable of independent
+    Within a Conveyor runtime, an actor is any entity capable of independent
     action<span data-perspective="detailed"> with respect to the
-    ecosystem</span>. An actor may
+    runtime</span>. An actor may
     be <a href="/documentation/conveyor/ref/Actors#Human-and-Software-Actors">human
     or a software entity</a>. Software actors may also be classified
     as <a href="/documentation/conveyor/ref/Actors#Internal-and-External-Actors">internal
@@ -70,13 +45,12 @@
   </div>
   <div class="subHeader"><span>Projects</span></div>
   <div class="p">
-    Ecosystems are sovereign areas, ruled by a single cohesive set of policies
-    and rules. Ecosystems are generally associated with a company or
-    individual and embody long term goals and accumulated policy and
-    knowledge. Hosts are like virtual real estate and capital equipment; hosts
-    are where things happen, where data is stored. Actors do things within the
-    ecosystem.  Projects are where specific hosts and actors are organized
-    towards specific goals which are realized as work products.
+    A <a href="ref/Projects">projects</a> is the primary unit of
+    development. A project can be for almost any
+    purpose. <a href="ref/Projects#Common-Provisions">Common provisions</a>
+    include <a href="ref/Projects#REST-resources">resource handlers / web
+    services</a>, <a href="ref/Projects#Websites">websites</a>,
+    and <a href="ref/Encoded-knowledge">encoded knowledge</a>.
   </div>
   <div class="subHeader"><span>Tasks and Plans</span></div>
   <div class="p">

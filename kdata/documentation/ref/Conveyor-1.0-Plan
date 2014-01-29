@@ -19,7 +19,9 @@
   <ul class="p">
     <li>Extend vagabond to support Ecosystems. The latest document can be
       found in <code>$CONVEYOR_HOME/core/kdata/documentation/Ecosystems</code>
-      in repo revision d66c7df12e377f736a17f032f05451855a5f995c.</li>
+      in repo revision d66c7df12e377f736a17f032f05451855a5f995c and
+      <code>$CONVEYOR_HOME/core/kdata/documentation/Primer</code> in revision
+      2c767754d97dc02369a6f72c49dc9ad554894a29.</li>
     <li>Implement Environment runtimes. The latest document can be found
       in <code>$CONVEYOR_HOME/core/kdata/documentation/Environments</code> in
       repo revision b5deab05661104427de5d4ea9a7f8d7f01be5b6d.</li>
