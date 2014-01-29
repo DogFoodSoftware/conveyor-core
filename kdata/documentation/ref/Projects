@@ -1,11 +1,17 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    A project is the primary unit of development. Projects can organize a wide
-    variety of work, and there's no hard definition of what a project can or
-    can't do, however a Conveyor projects adhere to a
+    A project is the primary unit of development. Beyond that, a project can
+    be for almost any purpose and
+    project <a href="#Provisions-and-Dependencies">provisionsn and
+    dependencies</a> are essentially arbitary. All Conveyor projects, however, adhere to a
     high <a href="#Project-Documentation">standard of documentation</a> and
-    can generally be placed in one of four <a href="Project-Categories">categories</a>.
+    there are some <a href="Common-Categories">common categories</a> worth
+    discussing directly.
 </div><!-- .blurbSummary#Overview -->
+<div id="Project-Documentation" class="blurbSummary grid_12">
+  <div class="p">
+  </div>
+</div><!-- #Provsions-and-Dependencies -->
 <div id="Project-Documentation" class="blurbSummary grid_12">
   <div class="p">
     Conveyor project documentation standards require that a project:
@@ -31,6 +37,8 @@
       <li>a website, or</li>
       <li>encoded knowledge / process.</li>
     </ul>
+    There
+
     The categorization is not strict, and this is an area we will likely
     revisit in the future, perhaps replacing with a more general purpose
     tagging mechanism. For the time being, all the projects we've developed
