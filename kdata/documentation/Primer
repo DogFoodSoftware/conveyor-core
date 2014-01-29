@@ -46,7 +46,9 @@
 </div><!-- #High-Level-Components.blurbSummary -->
 <div id="Foundational-Technologies" class="blurbSummary grid_12">
   <div class="blurbTitle">Foundational Technologies</div>
+  <div class="subHeader"><span>git-convey and Revision Management</span></div>
   <div class="p">
-    
+    <a href="/documentation/git-convey/Revision-Management">Revision
+    management</a> is defined by the git-convey project.
   </div>
 </div><!-- #Foundational-Technologies -->
