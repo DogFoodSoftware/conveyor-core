@@ -9,6 +9,9 @@
       <li>Visual task map renderings based on d3.js. See latest version
 	of <code>$CONVEYOR_HOME/core/kdata/documentation/Visual_Task_Map</code>
 	in repo revision 54b73b46e6bd5f7e299be93963ccd0c4da7099ab.</li>
+      <li><code>$CONVEYOR/core/kdata/documentation/Primer</code> revision
+	bca9b2147461c002721c35f90ff0e1c682ea5deb contains the last references
+	to tasks, plans, and work products.</li>
     </ul>
   </div>
 </div><!-- #release-2014-05-01.blurbSummary -->

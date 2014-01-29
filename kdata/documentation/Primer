@@ -52,23 +52,6 @@
     services</a>, <a href="ref/Projects#Websites">websites</a>,
     and <a href="ref/Encoded-knowledge">encoded knowledge</a>.
   </div>
-  <div class="subHeader"><span>Tasks and Plans</span></div>
-  <div class="p">
-    A 'task' is a unit of work which produces definite and potentiall
-    actionable results. A 'task plan', or just 'plan', is the logic which (in
-    part) drives task creation.
-  </div>
-  <div class="subHeader"><span>Work Product</span></div>
-  <div class="p">
-    Work products are the output of projects. Many work proudcts exist
-    entirely within the Conveyor universe as documentation or code artifacts
-    and such. The final work product may also be a physical thing, like a
-    chair or car or a printed book, etc. In this case, the project will track
-    or otherwise retain information about these physical products so the
-    Conveyor process may continue to work with the items throughout their
-    life. This may include tracking serial numbers and attaching them to
-    warranties or repair history, etc.
-  </div>
 </div><!-- #High-Level-Components.blurbSummary -->
 <div id="Tiered-Knowledge" class="blurbSummary grid_12">
   <div class="blurbTitle">Tiered Knowledge</div>
