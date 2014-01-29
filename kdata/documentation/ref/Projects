@@ -5,11 +5,41 @@
     project <a href="#Provisions-and-Dependencies">provisionsn and
     dependencies</a> are essentially arbitary. All Conveyor projects, however, adhere to a
     high <a href="#Project-Documentation">standard of documentation</a> and
-    there are some <a href="Common-Categories">common categories</a> worth
+    there are some <a href="Common-Provisions">common categories</a> worth
     discussing directly.
 </div><!-- .blurbSummary#Overview -->
 <div id="Project-Documentation" class="blurbSummary grid_12">
   <div class="p">
+    While not exhaustive, most provisions can be placed into one of five
+    categories:
+    <ul>
+      <li>a stack service,</li>
+      <li>REST services,</li>
+      <li>a website,</li>
+      <li>encoded knowledge / process, or</li>
+      <li>library or support provisions.</li>
+    </ul>
+    In general, a project will provide a small number&mdash;between one and
+    four say&mdash;of primary provisions, sometimes with a few secondary
+    libraries or such. 
+  </div>
+  <div class="p">
+    Dependencies in Conveyor are actually quite simple and are expressed at
+    the project level. Unlike more complex systems like rpm and deps, Conveyor
+    dependencies are not self-verifying in any way. When composing packages
+    for a runtime system, the author verifies the choices and creates the
+    recipe themselves. Conveyor merely installs the projects requested.
+  </div>
+  <div id="Common-Provisions" class="subHeader"><span>Common
+  Provisions</span></div>
+  <div class="p">
+    Conveyor does not prescribe what a package can or can't provide, though we
+    do define five common provision types: stack services, REST services, a
+    website, encoded knowledge / process, and library / support
+    provisions. Here, we give a quick rundown of these common provisions.
+  </div>
+  <div class="p">
+    <em>Stack services</em>
   </div>
 </div><!-- #Provsions-and-Dependencies -->
 <div id="Project-Documentation" class="blurbSummary grid_12">
@@ -27,35 +57,6 @@
     </ul>
   </div>
 </div><!-- #Project-Documentation -->
-<div id="Project-Categories" class="blurbSummary grid_12">
-  <div class="p">
-    While not prescriptive, most projects can be categorized into one of four
-    categories:
-    <ul>
-      <li>a stack service,</li>
-      <li>REST services,</li>
-      <li>a website, or</li>
-      <li>encoded knowledge / process.</li>
-    </ul>
-    There
-
-    The categorization is not strict, and this is an area we will likely
-    revisit in the future, perhaps replacing with a more general purpose
-    tagging mechanism. For the time being, all the projects we've developed
-    ourselves fall into one of these categories and we find them useful to
-    understand the space.
-
-    In general, projects should be simple 'units of development'. However, we
-    also want to avoid unecessary balkanization and abstraction for the sake
-    of abstraction. To paraphrase a paraphrase, the objective is that each 
-
-Every
-    artifact<span data-perspective="detailed coding"> (dynamic and
-    static)</span> lives within a single project. In general, Conveyor
-    projects provide a stack service, library code, one or more Conveyor REST
-    services, encoded knowledge / process, 
-  </div>
-</div><!-- #Project-Categories -->
 <div id="Project-Repositories" class="blurbSummary grid_12">
   <div class="blurbTitle">Project Repositories</div>
   <div class="p">
@@ -103,6 +104,17 @@ Every
     Software jQuery projects to 'DFS-jQuery'
   </div>
 </div><!-- .blurbSummary#Project-Repositories -->
+<div id="Additional-Project-Properties" class="blurbSummary grid_12">
+  <div class="blurbTitle">Additional Project Properties</div>
+  <div class="p">
+    Every bit in any Conveyor runtime lives within a single project. Conveyor
+    does not concern itself with any bits outside of projects, nor can any
+    bit, file, or artifact live within more than one project.
+  </div>
+  <div class="p">
+    Projects may make use of 'distro services' and libraries. 
+  </div>
+</div><!-- #Additional-Project-Properties -->
 <div id="Further-Reading" class="blurbSummary grid_12">
   <div class="blurbTitle">Further Reading</div>
   <ul class="p">
