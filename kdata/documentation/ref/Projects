@@ -34,12 +34,48 @@
   Provisions</span></div>
   <div class="p">
     Conveyor does not prescribe what a package can or can't provide, though we
-    do define five common provision types: stack services, REST services, a
+    do define five common provision types: stack services, REST resource, a
     website, encoded knowledge / process, and library / support
     provisions. Here, we give a quick rundown of these common provisions.
   </div>
   <div class="p">
-    <em>Stack services</em>
+    <em>Stack services</em> are 'low level' services provided by third party
+    binaries and services. The Apache web server, apache-httpd, and Postgres
+    database service are typical examples. Conveyor projects provide these
+    services by wrapping the installation and management of the services in
+    Conveyor installation protocol and REST services.
+  </div>
+  <div class="p">
+    <em>REST resources</em> are the bread and butter of Conveyor. REST
+    resources show up most visibly as the first element in the URL path such
+    as <code>/documentation</code> and <code>/projects</code>. Projects
+    provide these resources by implementing and configuring handlers for the
+    resource type.
+  </div>
+  <div class="p">
+    <em>Websites</em> is exactly what it says. A website. Typically, an
+    organization will maintain one or more websites, each bound to a
+    particular domain name. Websites are the entry point for all user
+    activity. They define the style, content, and applications available in
+    the given domain.
+  </div>
+  <div class="p">
+    <em>Encoded knowledge</em> represents knowledge and process which may be
+    referenced and processed through Conveyor services and/or by human
+    readers. The encoding is typically organized into 'manuals' published by
+    organization. For instance, an organization may create an operations
+    manual for administrators and a developers manual encoding development
+    process.
+  </div>
+  <div class="p">
+    <em>Libraries</em> and other support provisions define common code and
+    content to be referenced and used by other projects /
+    provisions. Internal libraries not intended for use outside of a
+    particular project are generally not declared as provisions. Declared
+    libraries are intendend for 'public' consumption. These may be included as
+    secondary provisions in support of other provisions, or&mdash;with certain
+    important or key libraries&mdash;they may be distributed as the primary
+    provision themselves.
   </div>
 </div><!-- #Provsions-and-Dependencies -->
 <div id="Project-Documentation" class="blurbSummary grid_12">
