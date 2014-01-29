@@ -12,20 +12,11 @@
   </div>
 </div><!-- #Overview.blurbSummary -->
 <div id="High-Level-Components" class="blurbSummary grid_12">
+  <div class="blurbTitle">High Level Components</div>
   <div class="subHeader"><span>Resources</span></div>
   <div class="p">
-    Ultimately site by site rules. 'Standard rules...': Might not be
-    necessary... working this out. Maybe just site by site? ...
-    <ol>
-      <li>site resource template</li>
-      <li>universal resource template</li>
-    </ol>
-    For personal preferences, create your own site. It's easy!
-  </div>
-  <div class="p">
-    This section should move. The template uses mustache/HTML. It expects to
-    be sandwiched between an optional site header and footer, but should not
-    rely on that for navigation. All pages should provide internal navigation.
+    <a href="ref/Conveyor-REST-API-Standard">REST-ful web services</a> are at
+    the heart of Conveyor systems.
   </div>
   <div class="subHeader"><span>Hosts</span></div>
   <div class="p">
@@ -53,3 +44,9 @@
     and <a href="ref/Encoded-knowledge">encoded knowledge</a>.
   </div>
 </div><!-- #High-Level-Components.blurbSummary -->
+<div id="Foundational-Technologies" class="blurbSummary grid_12">
+  <div class="blurbTitle">Foundational Technologies</div>
+  <div class="p">
+    
+  </div>
+</div><!-- #Foundational-Technologies -->
