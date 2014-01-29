@@ -1,0 +1,64 @@
+<head>
+  
+  <!-- script>
+     $(window).load(function(){
+    $("#sticker").sticky({ topSpacing: 0, center:true});
+    });
+  </script --> 
+
+  <style>
+    body {
+      height: 10000px;
+      padding: 0;
+      margin: 0;
+    }
+
+    /*  #sticker {
+        background: #bada55;
+        color: white;
+        width: 300px;
+        font-family: Droid Sans;
+        font-size: 40px;
+        line-height: 1em;
+        font-weight: bold;
+        text-align: center;
+        padding: 20px;
+        margin: 0 auto;
+        text-shadow: 0 1px 1px rgba(0,0,0,.2);
+        border-radius: 50px;
+      }*/
+
+      #header-fixed {
+        position:fixed; 
+        top:0px; 
+        width:81%;
+        padding-right: 10px;
+        padding-bottom: 10px;
+      }
+      
+      #your-mom  {
+        background:#000; 
+        height:50px; 
+        opacity:0.8;
+        padding-bottom: 10px;
+      }
+
+</style>
+
+<!--div id="header-fixed">
+
+  <div id="your-mom">
+    <p> stuff </p>
+  </div>
+</div-->
+
+</head>
+
+<body>
+  <p>This is test this is text this is text at the top.</p>
+  <div id="sticker">
+    <p>This is the sticky thingy that is really cool.</p>
+  </div>
+  <p>This is test this is text this is text at the bottom.</p>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<div id="overview" class="grid_12 blurbSummary">
+  <div class="p">
+    Most generally, everything you do on the web involves web
+    services. The client&mdash;most often a browser&mdash;makes
+    requests to a server. The server responds with a response, which
+    is then consumed by the client. Conveyor takes a straightforward, classic
+    approach to web services, working with services that are::<span class="note"><a href="http://www.w3.org/2003/Talks/0828-hh-wsidgjp/slide5-0.html">Web
+    Services Infrastructure: Where do We Stand?</a>; Haas, Hugo; W3C; 2003,
+    retrieved
+    2013-07-20. <a href="http://css.dzone.com/articles/characteristics-web-service">Characteristics
+    of a Web service that promote reusability and change</a>; Merrit, Todd;
+    DZone; Original publish date unknown; retrived 2013-07-20.</span>
+    <ul>
+      <li>loosey coupled,</li>
+      <li>platform independent,</li>
+      <li>interopable, and</li>
+      <li>uses ubiquitous, low overhead protocols.</li>
+    </ul>
+  </div>
+  <div class="p">
+    In the basic user interaction, it's useful to consider two kinds
+    of requests: interface requests, which result in a page that
+    renders the interface a user sees, and headless requests, which
+    ask the server to do stuff, like update or retrieve data.
+    <div style="text-align: center">
+      <object type="image/svg+xml"
+	      data="/documentation/kibbles/Web_Services/service_flow.svg">
+	<img src="/documentation/kibbles/Web_Services/service_flow.png"
+	     alt="Request flow diagrams; described in Web Services page" />
+      </object>
+    </div>
+    <ol><!-- TODO: it would be cool to highlight segments of the graph if user
+	     floats over or focuses on these LIs. -->
+      <li>The initiating requests request targets
+      an <a href="#Resource-Items">item</a>
+      or <a href="#Resource-Pools">pool</a>. The system responds with
+      an
+      interface <a href="/documentation/kibbles/lexicon/Page">page</a>
+      appropriate for engaging with the target.</li>
+      <li>Loading the page results in numerous, independent requests for
+      static media.</li>
+      <li>User interacts locally with UI, potentially generating
+      further headless requests and/or resulting in navigation to a
+      new page.</li>
+    </ol>
+  </div>
+</div>
+<div id="REST-Resources-Types-Items-and-Pools" class="grid_12 blurbSummary">
+  <div class="blurbTitle">REST Resource Items, Pools, and Types</div>
+  <div class="p">
+    REST is a simple way to do web services that relies on common web
+    standards and as such has a very simple idea of resources that
+    maps every possible URL to a
+    unique <a href="/documentation/kibbles/ref/REST_Details#REST-Resources"
+    data-perspective="coding detailed">resource</a>. This 'everything
+    is a resource' model works for REST, but in practice it's useful
+    to talk about resource types, resource items, and resource pools.
+  </div>
+  <div id="Resource-Types" class="subHeader"><span>Resource Types</span></div>
+  <div class="p">
+    A resource type describes a particular kind of resource. It's like
+    talking about 'people' in general without reference to any
+    particular person. In Kibbles, the first path segment of the URL
+    specifies the resource type.
+  </div>
+  <div class="p">
+    In the same way that we can interact with Sue and Joe, but cannot
+    directly interact with 'people' as a contrete thing, a user
+    never <em>sees</em> a resource type; users only see particular
+    instances of the type.
+  </div>
+  <div class="p">
+    System logic, and web services in general, deal with types. E.g.,
+    the logic to retrieve a particular person actually deals with
+    people as a type. The type defines the property and behavior that
+    a person may have, and the partiular person instance fills in the
+    properties.
+  </div>
+  <div class="p">
+    On
+    most <a href="/documentation/kibbles/lexicon/Conveyor_Instance">Conveyor
+    instances</a>, users may refer to
+    the <a href="/resources/"><code>/resources</code></a> pool which
+    will list the particular resource types available for the
+    particular instance. Access to this resource may be wholly or
+    partially restricted on some instances.
+  </div>
+  <div id="Resource-Items" class="subHeader"><span>Resource Items</span></div>
+  <div class="p">
+    An item is a particular instance of a type. Sue, Bob, and Joe
+    would be resources items of type people.
+  </div>
+  <div class="p" data-perspective="coding detailed">
+    At the service level, all items of a particular resource type are
+    considered to be peers and they do not nest. Within the resource
+    type, items may logically nest. For instance,
+    the <code>/files</code> resource types logically nest under
+    directories, but every file resource item is a peer within the
+    service.
+  </div>
+  <div id="Resource-Pools" class="subHeader"><span>Resource Pools</span></div>
+  <div class="p">
+    Resource pools are collections of items. The total pool available
+    in any context is ultimately defined by the Kibbles instance,
+    which generally maps to a particular domain. So, back to our
+    people example, <code>foo.com/people</code> might consist of
+    people Sue, Bob, and Joe while the
+    pool <code>bar.org/people</code> might consist of Jim, Mary, and
+    Jen.
+  </div>
+  <div data-perspective="coding detailed">
+  <div id="Static-Resource" class="subHeader"><span>Static Resources</span></div>
+  <div class="p">
+    Static resources are considered part of an interface, but are
+    retrieved subsequent and separate from the interface exchange. The
+    most common static resource is an image, though there are many
+    other types. These resources are important for web pages, and
+    important for Kibbles, but are not considered primary. Thefore, we
+    mention them for completeness, but for the most part these
+    resources don't directly impact the higher level Kibbles
+    processes.
+  </div>
+  <div class="p">
+    The terms 'Kibbles request' and 'Kibbles response' may be used to
+    indicate we are talking about a request or response associated
+    with either
+    an <a href="/documentation/kibbles/ref/Interface_Exchange">interface</a>
+    or <a href="/documentation/kibbles/ref/Headless_Exchange">headless</a>
+    exchange but excluding requests and responses associated with
+    static resources. This is used to simplify the discussion when we
+    wish to describe Kibbles functions but the use of an unqualified
+    reference to a request or response would include static exchanges.
+  </div>
+  </div><!-- [data-perspective="coding detailed"] -->
+</div><!-- .blurbSummary#Resources -->
+<div id="Request-Response-Excanges" class="blurbSummary grid_12">
+  <div class="blurbTitle">Request-Response Exchange</div>
+  <div class="p">
+    An exchange consists of a single client request and a
+    response.<span class="note">In the case of a network or other
+    catastrophic error, the response may not come, which is handled as
+    an error on the client side.</span> There are two basic exchange
+    types: <a data-perspective="coding detailed"
+    href="/documentation/kibbles/ref/Interface_Exchange">interface</a>
+    and <a data-perspective="coding detailed"
+    href="/documentation/kibbles/ref/Headless_Exchange">headless</a>
+    exchanges. Technically, it is convenient to discuss the request
+    and response separately, though the purpose of each is best
+    understood as part of an exchange.
+  </div>
+</div>
+<div id="Requests" class="grid_12 blurbSummary">
+  <div class="blurbTitle">Requests</div>
+  <div style="text-align: center">
+    <img src="/documentation/kibbles/Web_Services/url_breakdown.png"
+	 alt="Kibbles REST URL breakdown showing URL broken into domain,
+	      optional mount context, resource, and optional item ID" />
+  </div>
+  <div class="p">
+    A request can be broken up into four components:
+    <ul>
+      <li>The resource ID indicates what we're talking about.</li>
+      <li>The HTTP method along with the</li>
+      <li>the requested response format indicase why the request is
+      being made.</li>
+      <li>The request parameters provides details.</li>
+    </ul>
+  </div>
+  <div class="subHeader"><span>Resource IDs</span></div>
+  <div class="p">
+    Resource IDs are of two types: item IDs and pool IDs. A pool ID is
+    simply the domain plus the resource type
+    indicator. So, <code>foo.com/people</code> would be the ID for the
+    pool of people available for the <code>foo.com</code> domain
+    and <code>foo.com/tasks</code> is the ID for the pool of tasks
+    availabre in the domain.
+  </div>
+  <div class="p">
+    An item ID consists of the domain, resource type indicator, plus
+    additional path information. E.g. <code>foo.com/persons/Sue</code>
+    and <code>foo.com/persons/Bob</code>. You should view these IDs as
+    selecting a single item from the pool.
+  </div>
+  <div class="subHeader"><span>HTTP Request Method</span></div>
+  <div class="p">
+    Our RESTful web services makes use of HTTP request methods. These
+    request methods are the basic verbs. The most common verb
+    is <code>GET</code>, which retrieves a resource. Everytime you
+    pull a web page, that's a <code>GET</code> request. The other
+    verbs are <code>PUT</code> (create/refresh), <code>POST<code>
+    (update), and <code>DELETE</code>.
+  </div>
+  <div data-perspcetive="coding detailed">
+    There are other HTTP methods, and it is even possible to extend
+    these methods. However, these four are theoretically sufficient
+    and the only ones supported by the standard Kibbles.
+  </div>
+  <div class="p">
+    The methods may be applied to both resource items and resource
+    pools. In the latter case, they have the effect of filtering
+    targets for batch retrieval, creation, update, and deletions.
+    <table class="todo" data-todo="In narrow screens, we'd prefer a list
+				   rather than a table. Re-styling the table would be best. I think it's
+				   possible, though I don't know I've ever seen that specific effect.">
+      <tbody>
+	<tr style="font-weight: bold">
+	  <td></td><td>PUT</td><td>GET</td><td>POST</td><td>DELETE</td>
+	</tr>
+	<tr>
+	  <td style="font-weight: bold">collection</td>
+	  <td>creates a new item in the collection</td>
+	  <td>retrieves a set of items</td>
+	  <td>batch update; combines search parameters with field
+	    updates, updating all the items matching the parmaeters
+	    with according to the field parameters (usually requires
+	    confirmation)</td>
+	  <td>batch delete; deletes all items matching the specified
+	    search parameters (usually requires confirmation)</td>
+	</tr>
+	<tr>
+	  <td style="font-weight: bold">single item</td>
+	  <td>not applicable</td>
+	  <td>retrive a single item</td>
+	  <td>update a single item</td>
+	  <td>delete a singel item</td>
+	</tr>
+      </tbody>
+    </table>
+    A huge advantage of RESTful web services is the ability to invoke
+    all functions from a browser, though it is necessary to use
+    plugins to
+    to <a href="/documentation/kibbles/ref/REST_Details#Developing-with-HTTP-Methods">manipulate
+    the HTTP methods</a>.
+  </div>
+  </div><!-- [data-perspective="coding detailed"] -->
+  <div id="Requested-Response-Format" class="subHeader"><span>Requested Response Format</span></div>
+  <div class="p">
+    HTTP <a data-perspective="coding detailed"
+	    href="/documentation/kibbles/ref/MIME_Type_Negotiation">response
+      format negotiation</a> is used by clients to request a
+    response in a particular format. In Kibbles, we support
+    two formats: HTML and JSON responses. HTML is requested as
+    part
+    of <a href="/documentation/kibbles/ref/Interface_Exchange">interface
+      exchanges</a> and JSON is requested
+    for <a href="/documentation/kibbles/ref/Headless_Exchange">headless
+      exchanges</a>.
+  </div>
+  <div class="subHeader"><span>Parameters</span></div>
+  <div class="p">
+    In Kibbles URL parameters (the stuff after the '?') may be divided into
+    four types:
+    <ul>
+      <li><a data-perspective="development&detailed" data-href="/documentation/kibbles/ref/Data_Exchange#item-fields">item
+	  fields</a> parameters define field values in <code>PUT</code>
+	and <code>POST</code> requests,</li>
+      <li><a data-perspective="development&detailed" data-href="/documentation/kibbles/ref/Data_Exchange#results-filter">results
+	  filter</a> parameters define criteria for <code>GET</code> browse and search
+	requests,</li>
+      <li><a data-perspective="development&detailed" data-href="/documentation/kibbles/ref/Data_Exchange#pagination">pagination</a>
+	parameters define the 'window' boundaries for browse and search
+	requests, and</li>
+      <li><a data-perspective="development&detailed" data-href="/documentation/kibbles/ref/Data_Exchange#result-data-selectors">result
+	  data selectiors</a> define data which should be returned by a request.</li>
+    </ul>
+  </div>
+</div><!-- .blurbSummary#Requests -->
+
+
+<div id="request-results" class="grid_12 blurbSummary">
+  <div class="blurbTitle">Request Results</div>
+  <div class="description">
+    <div class="p">
+      Kibbles results are delivered as either
+      <a href="/documentation/kibbles/ref/Interface_Exchange">HTML
+      based
+      interface</a> <a href="/documentation/kibbles/lexicon/Page">pages</a>
+      or <a href="/documentation/kibbles/ref/Headless_Exchange">JSON
+      data</a>). Static resources may generally be delivered as any
+      type.
+    </div>
+  </div>
+</div>
+<div id="further-reading" data-perspective="detailed" class="grid_12 blurbSummary todo"
+     data-todo="style standard on further reading?">
+  <div class="blurbTitle">Further Reading</div>
+  <div class="description">
+    <div class="p">
+      Other information resources:
+      <ul>
+	<li><a href="/documentation/kibbles/ref/Developers_Service_Reference">Developers
+	service reference</a></li>
+	<li>Apigee <a href="http://blog.apigee.com/taglist/REST">REST</a> and
+	and <a href="http://blog.apigee.com/taglist/restful">restful</a> articles.</li>
+	<li><a href="http://en.wikipedia.org/wiki/Representational_state_transfer">Wikipedia
+	REST page</li>
+	<li><a href="http://blog.2partsmagic.com/restful-uri-design/">RESTful
+	URI design</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
