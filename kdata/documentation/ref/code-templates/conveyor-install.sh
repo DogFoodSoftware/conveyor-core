@@ -12,11 +12,16 @@
 # /**
 # * <div id="Overview" class="blurbSummary grid_12">
 # * <div class="p">
+
 # * Conveyor compatible install script for CHANGEME. Based on the <a
-# * href="http://dogfoodsoftware.com/documentation/conveyor/ref/code-templates/conveyor-install.sh">standard
-# * template</a>. The installation script&mdash;which conforms to the <a
-# * href="/documentation/conveyor-core/ref/Projects#Custom-Installation">Conveyor
-# * standard</a>&mdash;is included in order to CHANGEME(explain why the script is necessary and what it does beyond the .
+# *   href="http://dogfoodsoftware.com/documentation/conveyor/ref/code-templates/conveyor-install.sh">standard
+# *   template</a>. The <a
+# *   href="/documentation/conveyor-core/ref/Projects#Custom-Installation">installation
+# *   script</a> CHANGEME(explain why the script is necessary and what it does
+# *   beyond the <a
+# *   href="/documentation/conveyor-core/ref/Projects#Standard-Installation">standard
+# *   installation</a>).
+
 # * </div>
 # * </div><!-- #Overview.blurbSummary -->
 # * <div id="Implementation" class="blurbSummary grid_12">

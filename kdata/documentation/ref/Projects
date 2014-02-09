@@ -97,10 +97,11 @@
 </div><!-- #Project-Documentation -->
 <div id="Project-Repositories" class="blurbSummary grid_12">
   <div class="blurbTitle">Project Repositories</div>
+  <div class="subHeader"><span>Extra-Repo Layout</span></div>
   <div class="p">
-    When possible, git repositories should be laid out along the same lines as
-    the runtime layout, with a root direcotry containing organization domains,
-    which in turn contain projects or project
+    When possible, git repositories themselves should be laid out along the
+    same lines as the runtime layout, with a root direcotry containing
+    organization domains, which in turn contain projects or project
     groups.<span data-perspective="future"> The upcoming Conveyor managed git
     host does exactly this.</span> As many if not most projects utilize
     GitHub&mdash;which does not allow general groups&mdash;there is no general
@@ -122,6 +123,16 @@
 	suffix <code>-website</code>.</li>
       </ul>
   </div>
+  <div class="subHeader"><span>Default Branch</span></div>
+  <div class="p">
+    Functionally most repos are either 'pure repos', used as the 'origin'
+    repository for local runtime or development checkouts, or the repo is a
+    local runtime or development checkout. The 'canonical project repository'
+    is the repository designated by the project owners/managers as where the
+    canonical copy of the project resides. Any potential checkout source and
+    especially the canonical repositories should maintain the latest
+    production branch as the default checkout branch.
+  </div>
 </div><!-- .blurbSummary#Project-Repositories -->
 <div id="Additional-Project-Properties" class="blurbSummary grid_12">
   <div class="blurbTitle">Additional Project Properties</div>
@@ -140,7 +151,12 @@
 </div><!-- #Additional-Project-Properties -->
 <div id="Project-Implementation" class="blurbSummary grid_12">
   <div class="blurbTitle">Project Implementation</div>
-  <div id="Installation" class="subHeader"><span>Installation</span></div>
+  <div id="Standard-Installation" class="subHeader"><span>Standard
+  Installation</span></div>
+  <div class="p">
+    The standard installation copies the 
+  </div>
+  <div id="Custom-Installation" class="subHeader"><span>Custom Installation</span></div>
   <div class="p">
     Many projects are installed by a standard process which does not require
     project specific installation logic. This is specifically true of most
