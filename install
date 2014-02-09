@@ -8,7 +8,9 @@ CONVEYOR_REPO=https://github.com/DogFoodSoftware/conveyor-core.git
 export CONVEYOR_PLAYGROUND=$HOME/playground
 
 # We would normally use 'shflags' here as a third-party Conveyor standard
-# component, but this is a standalone script so we use getopt directly.
+# component, but this is a standalone script so we use getopt directly. (TODO:
+# ref http://liquid-labs.com/manuals/code-ops/ref/Toolbox#shflags; currently
+# in draft and lacking 'manuals' support in conveyor.)
 TMP=`getopt --name=$0 -a --longoptions=branch:,force,playground: -o b:,p: -- $@`
 eval set -- $TMP
 

@@ -138,6 +138,33 @@
     projects in the future.
   </div>
 </div><!-- #Additional-Project-Properties -->
+<div id="Project-Implementation" class="blurbSummary grid_12">
+  <div class="blurbTitle">Project Implementation</div>
+  <div id="Installation" class="subHeader"><span>Installation</span></div>
+  <div class="p">
+    Many projects are installed by a standard process which does not require
+    project specific installation logic. This is specifically true of most
+    projects consisting entirely of static data and dynamically run
+    scripts. Some commen reasons for including an <code>install</code> file
+    are the need:
+    <ul>
+      <li>to build binaries,</li>
+      <li>for project specific configuration of supporting services, and</li>
+      <li>to initialize database constructs.</li>
+    </ul>
+  </div>
+  <div class="p">
+    Any project may include an <code>install</code> script in the root of the
+    project repository (aka, project home directory). This script will be run
+    immediately after the project is checked out/copied to runtime playground.
+  </div>
+  <div class="p">
+    The script itself may use any supported language. In any case, we
+    recommend use of
+    the <a href="/documentation/ref/code-templates/conveyor-install.sh"><code>conveyor-install.sh</code></a>
+    template as a starting point.
+  </div>
+</div>
 <div id="Further-Reading" class="blurbSummary grid_12">
   <div class="blurbTitle">Further Reading</div>
   <ul class="p">
