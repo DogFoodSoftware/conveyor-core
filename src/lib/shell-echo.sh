@@ -38,3 +38,17 @@ function vecho() {
 	echo "$1"
     fi
 }
+
+function qerr() {
+    # Don't be quiet?
+    if [ $FLAGS_quiet -eq $FLAGS_FALSE ]; then
+	echo "$1" >&2
+    fi
+}
+
+function verr() {
+    # Be noisy?
+    if [ $FLAGS_verbose -eq $FLAGS_TRUE ]; then
+	echo "$1" >&2
+    fi
+}

@@ -123,7 +123,7 @@
 	suffix <code>-website</code>.</li>
       </ul>
   </div>
-  <div class="subHeader"><span>Default Branch</span></div>
+  <div id="Default-Branch" class="subHeader"><span>Default Branch</span></div>
   <div class="p">
     Functionally most repos are either 'pure repos', used as the 'origin'
     repository for local runtime or development checkouts, or the repo is a
@@ -154,7 +154,13 @@
   <div id="Standard-Installation" class="subHeader"><span>Standard
   Installation</span></div>
   <div class="p">
-    The standard installation copies the 
+    The standard installation clones a git repository and checks out the the indicated
+    or <a href="#Default-Branch">default</a> branch as the current working
+    copy. At this time,
+    the <a href="#Custom-Installation">custom <code>install</code>
+    script</a>, if any is found, is executed. At this point, the only change
+    to the Conveyor runtime is that the project is now installed and new
+    services and data may be available for activation or import.
   </div>
   <div id="Custom-Installation" class="subHeader"><span>Custom Installation</span></div>
   <div class="p">
@@ -178,7 +184,23 @@
     The script itself may use any supported language. In any case, we
     recommend use of
     the <a href="/documentation/ref/code-templates/conveyor-install.sh"><code>conveyor-install.sh</code></a>
-    template as a starting point.
+    template as a starting point. All scripts must comply with the following
+    requiremens:
+    <ul id="install-script-requirements">
+      <li>Executing the script for an appearently installed project must
+	result in no file system changes, a warning to the user, and exit code
+	<code>11</code>.</li>
+      <li>The script may optionally support 'standalone' installation, in
+	which case it will checkout the project first, and then pass control
+	to the checked out install script. If a non-standalone script is
+	executed outside the context of an (apparent) working copy, then
+	it <em>must</em> make no file system changes, emit a warning a to the
+	user, and exit with code <code>12</code>.</li>
+      <li>Any non-recoverable error <em>must</em> result in an exit code
+	of <code>1</code>.</li>
+    </ul>
+    Any user warnings or errors should, whenever possible, explain why the
+    warning is happening and give advice on how to correct or otherwise proceed.
   </div>
 </div>
 <div id="Further-Reading" class="blurbSummary grid_12">
