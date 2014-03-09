@@ -31,7 +31,7 @@ shift # Remove the '--', now $1 positioned at first argument if any.
 
 # Set dependent variables.
 export DFS_HOME=$CONVEYOR_PLAYGROUND/dogfoodsoftware.com
-export CONVEYOR_HOME=$DFS_HOME/conveyor/core
+export CONVEYOR_HOME=$DFS_HOME/conveyor
 
 if [ $FORCE != true ]; then
     # Check baseline assumptions.
@@ -87,8 +87,8 @@ EOF
 
 mkdir -p $DFS_HOME
 cd $DFS_HOME
-mkdir `dirname $CONVEYOR_HOME`
-cd `dirname $CONVEYOR_HOME`
+mkdir `basename $CONVEYOR_HOME`
+cd `basename $CONVEYOR_HOME`
 if [ x"$BRANCH" != x"" ]; then
     git clone $CONVEYOR_REPO --branch $BRANCH `basename $CONVEYOR_HOME`
     RESULT=$?
@@ -102,10 +102,10 @@ if [ $RESULT -ne 0 ]; then
     exit 1
 fi
 
-source $CONVEYOR_HOME/conf/conveyor-project-dependencies.sh
+source $CONVEYOR_HOME/core/conf/conveyor-project-dependencies.sh
 
 for REQUIRED_PROJECT in $REQUIRED_PROJECTS; do
-    if ! $CONVEYOR_HOME/bin/conveyor-project-install $REQUIRED_PROJECT; then
+    if ! $CONVEYOR_HOME/core/bin/conveyor-project-install $REQUIRED_PROJECT; then
 	echo "Error installing '$REQUIRED_PROJECT'" >&2
 	exit 2
     fi
@@ -121,6 +121,6 @@ fi
 # TODO: when updating, wil need to remove the previous seciton.
 cat <<EOF >> $HOME/.bashrc
 ### Added by Conveyor configuration. ###
-PATH="\$PATH:$CONVEYOR_HOME/bin"
+PATH="\$PATH:$CONVEYOR_HOME/core/bin"
 ### End Conveyor section. ###
 EOF
