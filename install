@@ -90,10 +90,10 @@ cd $DFS_HOME
 mkdir `basename $CONVEYOR_HOME`
 cd `basename $CONVEYOR_HOME`
 if [ x"$BRANCH" != x"" ]; then
-    git clone $CONVEYOR_REPO --branch $BRANCH `basename $CONVEYOR_HOME`
+    git clone $CONVEYOR_REPO --branch $BRANCH core
     RESULT=$?
 else
-    git clone $CONVEYOR_REPO `basename $CONVEYOR_HOME`
+    git clone $CONVEYOR_REPO core
     RESULT=$?
 fi
 
