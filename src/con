@@ -114,7 +114,15 @@ if [ x"$1" == x"help" ]; then
 	usage
     else
 	RESOURCE="$1"; shift
-	source "$CONVEYOR_WORKFLOW_RUNNABLE/git-conveyor-$RESOURCE"
+	if [ -f "$CONVEYOR_WORKFLOW_RUNNABLE/git-conveyor-$RESOURCE" ]; then
+	    source "$CONVEYOR_WORKFLOW_RUNNABLE/git-conveyor-$RESOURCE"
+	elif [ -f "$CONVEYOR_WORKFLOW_RUNNABLE/conveyor-$RESOURCE" ]; then
+	    source "$CONVEYOR_WORKFLOW_RUNNABLE/conveyor-$RESOURCE"
+	else
+	    echo "Unable to locate help file for resource '$RESOURCE.'" >&2
+	    exit 1
+	fi
+	
 	if [ $# -eq 0 ]; then
 	    resource_usage
 	else
