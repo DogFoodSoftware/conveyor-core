@@ -6,7 +6,7 @@
  *   last udptaed 2013-08-10 14:45 GMT.
  * </div>
  * <div id="Implementation" data-perspective="implementation" class="blurbSummary grid_12">
- *  <div class="blurbTitle">Implementation</div>
+ * <div class="blurbTitle">Implementation</div>
  * <div class="subHeader"><span>Initial Setup and Request Processing</span></div>
  * <div class="p">
  *  Standard <code>GET</code> handling starts with processing the HTTP
@@ -23,7 +23,7 @@
  *   formats, these are checked at the end of the this section.
  * </div>
  */
-require('/home/user/playground/kibbles/runnable/lib/kibbles-rest-scaffold.php');
+require('/home/user/playground/dogfoodsoftware.com/kibbles/runnable/lib/kibbles-rest-scaffold.php');
 
 global $request_errors;
 $rest_id = preg_replace('/\?.*$/', '', $_SERVER['REQUEST_URI']);
@@ -141,33 +141,31 @@ Next steps:
 </div><!-- .grid_12 -->
 EOT;
 
-   global $pageTitle, $headerTitle;
-   $pageTitle = $headerTitle = '/resources';
+    global $pageTitle, $headerTitle;
+    $pageTitle = $headerTitle = '/resources';
 
-   echo_interface($interface_html);
+    echo_interface($interface_html);
 }
-// We would handle other special response formats.
 else if (respond_in_json()) {
     if (count($request_errors) == 0) {
-	$project_path = '/home/user/playground';
-	$dh = @opendir($project_path);
-	$resources = array();
-	while (false !== ($file = readdir($dh))) {
-	    $rest_dir = "$project_path/$file/runnable/rest/*";
-	    foreach (glob($rest_dir, GLOB_ONLYDIR) as $resource) {
-		array_push($resources, basename($resource).'/');
-	    }
-	}
-	sort($resources);
+        $resources = array();
+        $playground = '/home/user/playground';
+        # Played around a lot with different ways to do this in PHP
+        # and they all SUCK. Bash 'find' does what we want to do
+        # directly with no fuss.
+        exec("find -L $playground -path '*/runnable/rest/*' -type d",
+             $resources);
+        $resources = preg_filter('|^.+/runnable/rest/([^/]+)$|', '$1', $resources);
+        $resources = array_values($resources);
+        sort($resources);
 
-	final_result_ok('Template code accessed.', $resources);
+        final_result_ok('Retrieved available resources.', $resources);
     }
     else final_result_bad_request(join("\n", $request_errors));
 }
-else final_result_internal_error('Configured service accept mismatch.');
+else final_result_internal_error('Configured service accept mismatch.');   
 ?>
 <?php /**
 </div><!-- .descirption -->
 </div><!-- .blurbSummary#Implementation -->
 */ ?>
-

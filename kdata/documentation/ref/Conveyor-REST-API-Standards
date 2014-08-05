@@ -8,6 +8,7 @@
   </div>
 </div><!-- #Overview  -->
 <div id="Resource-Types" class="grid_12 blurbSummary">
+  <div class="blurbTitle">Resource Types</div>
   <div class="p">
     The first path element in every Conveyor request declares the resource
     type. Resource types are generally coarse grained concepts which define
@@ -19,7 +20,7 @@
   <div class="subHeader"><span>Field Standards</span></div>
   <div class="p">
     Individual fields may be required or optional as well as typed to the
-    standard atomics, resources, or data structures. The field structure
+    standard atomics, resource references, or combinations. The field structure
     follows the JSON spec.
   </div>
   <div class="subHeader"><span>Canonical Resource Identifiers</span></div>
@@ -36,16 +37,21 @@
     likely move to some flavor of GUID.</span>
   </div>
   <div class="p">
-    A resource may always be identified in a request by the entity ID
-    immediately following the resource
-    type. E.g.: <code>/person/1234</code>. Each resource may optionally
-    acquire a unique human readable ID, such as <code>/person/john-doe</code>.
-  </div>
-  <div class="p">
-    Some resources will acquire these human readable IDs naturally and
-    necessarily. <code>/files</code> for instance naturally refer to the name
-    of the file in the runtime filesystem. Others may request or optionally
-    acquire human readable IDs at creation or afterward.
+    Every resource item has a unique, canonical item ID which is
+    unique within the resource and assigned at creation. A resource
+    may, but is explicitly not required, to generate human readable
+    item IDs. In fact, we expect most implementations would do better
+    to not worry about all valid URLs being readable. The requirement
+    is rather that all items be referencable by readable urls. In
+    other words, the canonical item path might
+    be <code>/person/1234</code>. The user can later
+    add <code>/code/john-doe</code>. Because canonical IDs can never
+    be released (whereas aliases may generally be removed), they are
+    useful for some purposes AND in many cases should be opaque since
+    a semantic path might end up conveying the wrong idea as the
+    underlying resource item evolves. E.g., after her sex
+    change, <code>/code/jane-doe</code> may not want to answer to her
+    old URL.
   </div>
   <div class="p">
     Many resource types employ some namespace conventions, generally
@@ -65,4 +71,79 @@
     resource types may define situations in which concurrent updates are
     accepted.
   </div>
-</div>
+</div><!-- #Resource-Types -->
+<div id="Verbs" class="grid_12 blurbSummary">
+  <div class="blurbTitle">Verbs and Actions</div>
+  <div class="p">
+    Conveyor provides to options to indicate the request
+    action. Request handlers and stack components may support API
+    specific verbs set as the HTTP method. All request handlers must
+    support the standard four REST
+    verbs: <code>PUT</code>, <code>POST</code>, <code>GET</code>,
+    and <code>DELETE</code> and additionally accept the
+    reserved <code>action</code> parameter. The <code>action</code>
+    parameter may be used to modify the behavior of <code>POST</code>
+    on many endpoints.
+  </div>
+  <div class="p">
+    In theory there does not seem to be any fundamental reason why the
+    HTTP stack couldn't gracefully handle additional verbs by treating
+    all non-standard verbs as <code>POST</code> requests. This seems
+    to both be easy and address almost all use cases. In practice,
+    this is not the case, so we forgoe the elegance of HTTP methods
+    and adopt the slightly clunkier, but more
+    reliable <code>action</code> parameter.
+  </div>
+  <div class="p">
+    This allows us to model a rich set of verbs without butting our
+    head against narrow minded stack components. In particular, we do
+    want to avoid sticking slavishlly to a strict transition
+    model. While funcitonally equivalent, <code>PAY /bill/1234</code>
+    is just as good or better better in almost every way
+    than <code>POST /bill/1234?payment-status=true</code>.
+  </div>
+  <div class="subHeader"><span>Documentation Standards</span></div>
+  <div class="p">
+    Within documentation, we refer to the most specific action verb,
+    and so would write something like <code>PATCH</code> even when the
+    handlers may support an HTTP method <code>PATCH</code>, but are
+    only required to support <code>POST</code> method
+    an <code>action=PATCH</code> parameter in the query.
+  </div>
+  <div class="subHeader"><span>CLI</span></div>
+  <div class="p">
+    The CLI accepts a case-insentive verb with every endpoint designation.
+  </div>
+  <div data-perspective="detailed">
+  <div class="subHeader"><span>Alternatives</span></div>
+  <div class="p" data-perspective="detailed">
+    For a certain strain of purist, a <code>POST</code> request
+    strictly means you are refreshing the resource item. While this
+    would be nice, we make three points. Strict limitation to this
+    (and by implication, the four standard verbs) would seem to
+    restrict one to slavish 'tranisition' model, which as we noted was
+    both less intuitive and also must more expensive in terms of bit
+    since you're needing to send all the data regarding every object
+    in every <code>POST</code>.
+  </div>
+  <div class="p">
+    Second, as far as we can tell, there is no technical issue or cost
+    with using <code>POST</code> as a general purpose 'update'
+    verb. Finally, the HTTP spec was designed to allow custom verbs
+    and the problem of stack issues is more about bugs in the stack
+    than any kind of intent. The verbs are meant to be minimal, not
+    exhaustive.
+  </div>
+  <div class="p">
+    Pete
+    Hodgson <a href="http://blog.thepete.net/blog/2009/04/19/rest-there-arent-enough-verbs/">presents
+    the idea of using 'activity resources'</a> to solve the 'limited
+    verb' problem. It's clever, and there's no reason not to use it
+    when it makes sense. However, our opinion is that the transition
+    model is both sufficient and often the most elegant
+    solution. Precisely because the Conveyor model is so resource
+    rich, we want to avoid introducing even more resources into the
+    mix.
+  </div>
+  </div><!-- [data-perspective='detailed'] -->
+</div><!-- #Verbs -->

@@ -1,12 +1,10 @@
 #!/bin/bash
 
+if [ ! -f "$HOME/.conveyor/config" ]; then
+    echo "The host-local conveyor environment has not been set up. Bailing out." >&2
+    exit 2
+fi
 source "$HOME/.conveyor/config"
-CONVEYOR_WORKFLOW_RUNNABLE="$CONVEYOR_HOME/workflow/runnable"
-
-source "$CONVEYOR_WORKFLOW_RUNNABLE/lib/resty"
-source "$CONVEYOR_WORKFLOW_RUNNABLE/lib/rest-lib.sh"
-source "$CONVEYOR_WORKFLOW_RUNNABLE/common-checks.sh"
-source "$CONVEYOR_WORKFLOW_RUNNABLE/common-lib.sh"
 
 function usage() {
     local ERR_MSG
@@ -16,14 +14,17 @@ function usage() {
 	echo
     fi
 
-    echo "usage: con <resource>|<global-action>"
+    echo "usage: con <resource> [action [item id] [param 1]...]"
+    echo "       con --setresource|-s [implied resource]"
+    echo
+    echo "Use 'con resources' to list installed resources. The second form is used to"
+    echo "set the 'implied resource'. Calling 'con --setresource' with no value will"
+    echo "clear the implied resource."
+    echo
 }
 
-# Normally, we'd use 'shflags' here, but we can't seem to do patial flag
-# progessing... even though something like it has been emprically working for
-# awhile.
-
-# Handle the 'set resource' case.
+# Handle the 'set resource' case. It's simple and limited, so we don't
+# bother with specialized option processing.
 if [ x"$1" == x"-s" ] || [ x"$1" == x"--setresource" ]; then
     shift
     if [ $# -eq 0 ]; then # clear implied resource, if it exists.
@@ -45,7 +46,61 @@ if [ x"$1" == x"-s" ] || [ x"$1" == x"--setresource" ]; then
 	exit 1
     fi
     exit 0 # If we successfully set resource, then we're done.
-    # 'set-resources' handling
+fi # 'set-resources' handling
+
+if [ $# -lt 1 ]; then
+    usage "Please indicate resource."
+    exit 1
+fi
+
+RESOURCE="$1"; shift
+
+# Check to see if the RESOURCE matches an installed resource. If so,
+# pass along request. If not, emit error.
+RESOURCE_DIR=`find -L "$CONVEYOR_PLAYGROUND" -path "*/runnable/rest/$RESOURCE"`
+if [ x"$RESOURCE_DIR" == x"" ]; then
+    echo "Could not find handler for '$RESOURCE'." >&2
+    exit 1
+else
+    # If mor args are supplied, the next arg must be the action verb.
+    if [ $# -ge 1 ]; then
+	VERB="$1"; shift
+    else
+	VERB="get"
+    fi
+    VERB=`echo "$VERB" | tr '[:upper:]' '[:lower:]'`
+    ITEM_ID=""
+    if [ $# -ge 1 ] && [[ "$1" != *=* ]]; then
+	ITEM_ID="$1"; shift
+	ITEM_MODIFIER="-item"
+    fi
+
+    if [ x"" == x"$ITEM_ID" ]; then
+	CARDNALITY="-many"
+    else
+	CARDNALITY="-item"
+    fi;;
+
+    # See https://github.com/DogFoodSoftware/conveyor-core/issues/6
+    # for future mechanism to control prefer script interpreter
+    SCRIPT=`find "$RESOURCE_DIR" -name "${VERB}${CARDNALITY}.*"`
+    
+    if [ $? -ne 0 ]; then
+	echo "Resource '$RESOURCE'($CARDNALITY) does not support '$VERB' actions." >&2
+	exit 2
+    else # Ready to call the scirpt.
+	case "$SCRIPT" in
+	    *.php)
+		"$DFS_HOME/third-party/php5/runnable/bin/php" "$SCRIPT" "$@";;
+	    *)
+		echo "Could not determine interpretter for script handler. Bailing out." >&2
+		exit 1;;
+	esac
+    fi
+fi
+
+exit 0
+
 elif [ x"$1" == x"--verify" ] || [ x"$1" == x"--verifyresource" ] || [ x"$1" == x"--verifyglobal" ]; then
     OPTION="$1"; shift
     case "$1" in
@@ -80,11 +135,6 @@ fi
 #  */
 source "$HOME/.conveyor/config"
 source "$CONVEYOR_WORKFLOW_RUNNABLE/lib/help.sh"
-
-if [ $# -lt 1 ]; then
-    usage "Please indicate resource."
-    exit 1
-fi
 
 FOUND_SOMETHING=0
 while [ $# -gt 0 ] && [ $FOUND_SOMETHING -eq 0 ]; do
