@@ -79,16 +79,18 @@ else
 	CARDNALITY="-many"
     else
 	CARDNALITY="-item"
-    fi;;
+    fi
 
     # See https://github.com/DogFoodSoftware/conveyor-core/issues/6
     # for future mechanism to control prefer script interpreter
-    SCRIPT=`find "$RESOURCE_DIR" -name "${VERB}${CARDNALITY}.*"`
+    # The '-not' clauses filter out emacs save files.
+    SCRIPT=`find "$RESOURCE_DIR" -name "${VERB}${CARDNALITY}.*" -not -name "*~" -not -name "#*"`
     
     if [ $? -ne 0 ]; then
 	echo "Resource '$RESOURCE'($CARDNALITY) does not support '$VERB' actions." >&2
 	exit 2
     else # Ready to call the scirpt.
+	echo "SCRIPT: $SCRIPT"
 	case "$SCRIPT" in
 	    *.php)
 		"$DFS_HOME/third-party/php5/runnable/bin/php" "$SCRIPT" "$@";;
