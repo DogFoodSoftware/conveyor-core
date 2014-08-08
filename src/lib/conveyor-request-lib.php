@@ -128,8 +128,9 @@ if (isset($auth_target) || (isset($require_login) && $require_login === TRUE)) {
 }
 */
 function get_item_id() {
+    global $argv, $argc;
     if (PHP_SAPI == "cli") {
-        return $ARGV[1]; // The 1st (index-0) argument is always the script name.
+        return $argv[1]; // The 1st (index-0) argument is always the script name.
     }
     else {
         return preg_replace('|/[^/]+(/.+)\?.*$/', '$1', $_SERVER['REQUEST_URI']);
@@ -137,9 +138,15 @@ function get_item_id() {
 }
 
 function get_parameters() {
+    // It's important to globalize '$parameters' rather than return
+    // because the parameters may be modified and then passed along to
+    // other scripts which are also handlers. In that case, if the
+    // chained-script is unaware of the previous modifications and
+    // goes back to the source, it will recreate the unmodified
+    // parameters. For convenience, we also return the global.
     global $parameters;
 
-    # In the case of chained request handlers, the parameters may
+    # In the case of chained request handlers, the parameters are
     # already be set.
     if ($parameters != null) {
         return $parameters;
@@ -162,7 +169,7 @@ function get_parameters() {
                 if (!isset($parameters[$p_name])) {
                     $parameters[$p_name] = array();
                 }
-                array_push($parameters[$p_name], $bits[1])
+                array_push($parameters[$p_name], $bits[1]);
             }
             else {
                 $parameters[$bits[0]] = $parameters[$bits[1]];

@@ -81,6 +81,9 @@ else
 	CARDNALITY="-item"
     fi
 
+    # Note we have now consumed the verb (=~ HTTP method) and item ID
+    # (if present); the remainder of '$@' is 0 or more parameters.
+
     # See https://github.com/DogFoodSoftware/conveyor-core/issues/6
     # for future mechanism to control prefer script interpreter
     # The '-not' clauses filter out emacs save files.
@@ -92,7 +95,7 @@ else
     else # Ready to call the scirpt.
 	case "$SCRIPT" in
 	    *.php)
-		"$DFS_HOME/third-party/php5/runnable/bin/php" "$SCRIPT" "$@";;
+		"$DFS_HOME/third-party/php5/runnable/bin/php" "$SCRIPT" "$ITEM_ID" "$@";;
 	    *)
 		echo "Could not determine interpretter for script handler. Bailing out." >&2
 		exit 1;;
