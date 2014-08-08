@@ -90,7 +90,6 @@ else
 	echo "Resource '$RESOURCE'($CARDNALITY) does not support '$VERB' actions." >&2
 	exit 2
     else # Ready to call the scirpt.
-	echo "SCRIPT: $SCRIPT"
 	case "$SCRIPT" in
 	    *.php)
 		"$DFS_HOME/third-party/php5/runnable/bin/php" "$SCRIPT" "$@";;
