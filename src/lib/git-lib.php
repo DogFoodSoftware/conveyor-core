@@ -16,7 +16,7 @@ function branch_create($repo, $branch_name) {
         require_once(dirname(__FILE__).'/git/git-local.php');
         branch_create_local($path, $branch_name);
     }
-    elseif (preg_match('|https?://github.com', $repo)) {
+    elseif (preg_match('|https?://github.com|', $repo)) {
         require_once(dirname(__FILE__).'/git/git-github.php');
         branch_create_github($repo, $branch_name);
     }
