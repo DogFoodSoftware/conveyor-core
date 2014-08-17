@@ -15,12 +15,20 @@ function branch_create_github($repo, $branch) {
     }
 
     # Now check branch status, local and remote.
-    requir_once('git-local.php');
-    
+    require_once('git-local.php');
+    if (branch_exists_local("origin/$branch")) {
+        final_result_bad_request("Branch '$branch' exists on origin.");
+    }
+    if (!branch_exists_local("heads/$branch")) {
+        exec("git branch '$branch'", $output = array(), $retval);
+        if ($retval != 0) {
+            final_result_internal_error("Could not create local branch '$branch' in order to push.");
+        }
+    }
 
-    require_once('/home/user/playground/dogfoodsoftware.com/third-party/pest/runnable/PestJSON.php');
-    $pest = new PestJSON("https://api.github.com");
-
-    
+    exec("git push origin {$branch}", $output = array(), $retval);
+    if ($retval != 0) {
+        final_result_internal_error("Could not push branch '$branch' to GitHub origin.");
+    }
 }
 ?>

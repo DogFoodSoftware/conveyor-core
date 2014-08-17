@@ -15,4 +15,15 @@ function branch_create_local($repo_path, $branch_name) {
     }
     // push_array($undo_stack, "DELETE_BRANCH /repos/$repo_path?branch=$branch_name");
 }
+
+function branch_exists_local($branch_spec) {
+    // We're checking local branches, but that includes refs, so let's update.
+    exec("git fetch -p -q", $output = array(), $retval);
+    if ($retval != 0) {
+        final_result_internal_error("Could not update local repository from origin. Bailing out.");
+    }
+
+    exec("git show-ref --verify --quiet '$branch_spec'", $output = array(), $retval);
+    return $retval == 0;
+}
 ?>
