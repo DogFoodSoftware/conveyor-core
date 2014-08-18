@@ -24,11 +24,11 @@
 (i) con users patch request-sources[]=/projects/dogfoodsoftware.com/conveyor/documentation
 (o) Added project 'dogfoodsoftware.com/conveyor/documentation' to 'request-sources'.
 (i) con requests suggest-next
-(o) dogfoodsoftware.com/conveyor/documentation/100
+(o) a) dogfoodsoftware.com/conveyor/documentation/100
 (o)   Add background to set off 'future requests' to default style.
-(o) dogfoodsoftware.com/conveyor/core/500
+(o) b) dogfoodsoftware.com/conveyor/core/500
 (o)   Review external request 499.
-(i) con requests start dogfoodsoftware.com/conveyor/documentation/100
+(i) con requests start a
 (o) Setup task branch for local repository for projects:
 (o)   dogfoodsoftware.com/conveyor/documentation
 (i) con status
@@ -55,7 +55,7 @@
 (o)   Review external request 499.
 ... external work : merge and close branch ...
 (i) con requests suggest-next
-(o) dogfoodsoftware.com/conveyor/core/500
+(o) a) dogfoodsoftware.com/conveyor/core/500
 (o)   Review external request 499.
 (i) con projects update
 (o) Updated projects:
