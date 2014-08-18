@@ -9,8 +9,8 @@ function branch_create($repo, $branch_name) {
         $path = substr($repo, 7, strlen($repo) - 7);
 
         # All files must be absolute.
-        if (!preg_match('|^/|', $repo)) {
-            final_result_bad_request("File repos must be absolute.");
+        if (!preg_match('|^/|', $path)) {
+            final_result_bad_request("File repos must be absolute; got '$repo'.");
         }
 
         require_once(dirname(__FILE__).'/git/git-local.php');

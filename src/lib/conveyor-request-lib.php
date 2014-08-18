@@ -153,6 +153,7 @@ function get_parameters() {
     }
 
     if (PHP_SAPI == "cli") {
+        global $argv, $argc;
         $parameters = array();
         // The 1st (index-0) argument is always the script name. The
         // parameters may start at 1 or 2; so we test to see if the
@@ -164,6 +165,7 @@ function get_parameters() {
              $i < $argc; $i+= 1) {
             $bits = preg_split("/=/", $argv[$i]);
             # TODO: check if count($bits) > 2
+            # Is the parameter an array or unary? Arrays parameters end with '[]'.
             if (preg_match('/\[\]$/', $bits[0])) {
                 $p_name = substr($bits[0], 0, strlen($bits[0]) - 2);
                 if (!isset($parameters[$p_name])) {
@@ -171,8 +173,8 @@ function get_parameters() {
                 }
                 array_push($parameters[$p_name], $bits[1]);
             }
-            else {
-                $parameters[$bits[0]] = $parameters[$bits[1]];
+            else { # Unary parameter.
+                $parameters[$bits[0]] = $bits[1];
             }
         }
         
