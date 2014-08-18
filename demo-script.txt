@@ -1,0 +1,63 @@
+(i) con users authorize zanerock
+(o) password: (i)
+(o) User 'zanerock' authenticated.
+(i) con projects
+(o) Installed projects:
+(o)   dogfoodsoftware.com/conveyor/core
+(o)   dogfoodsoftware.com/conveyor/workflow
+(o)   dogfoodsoftware.com/third-party/apache-httpd
+(o)   dogfoodsoftware.com/third-party/php5
+(o)   dogfoodsoftware.com/third-party/pest
+(i) con users patch request-sources[]=/projects/dogfoodsoftware.com/conveyor/core
+(o) Added project 'dogfoodsoftware.com/conveyor/core' to 'request-sources'.
+(i) con status
+(o) You are locally authenticated as user 'zanerock'.
+(o) You are currently working on: nothing.
+(o) WARNING: GitHub connection not configured.
+(i) con users configure-github zanerock
+(o) GitHub Account: (i) zanerock
+(o) GitHub Auth Token: (i)
+(o) GitHub configuration verified.
+(i) con status
+(i) con projects install source=https://github.com/DogFoodSoftware/conveyor-documentation
+(o) Installed project 'dogfoodsoftware.com/conveyor/documentation'.
+(i) con users patch request-sources[]=/projects/dogfoodsoftware.com/conveyor/documentation
+(o) Added project 'dogfoodsoftware.com/conveyor/documentation' to 'request-sources'.
+(i) con requests suggest-next
+(o) dogfoodsoftware.com/conveyor/documentation/100
+(o)   Add background to set off 'future requests' to default style.
+(o) dogfoodsoftware.com/conveyor/core/500
+(o)   Review external request 499.
+(i) con requests start dogfoodsoftware.com/conveyor/documentation/100
+(o) Setup task branch for local repository for projects:
+(o)   dogfoodsoftware.com/conveyor/documentation
+(i) con status
+(o) You are locally authenticated as user 'zanerock'.
+(o) You are currently working on: /requests/dogfoodsoftware.com/conveyor/documentation/100
+... make changes ...
+(i) con requests commit-work message='implement tests'
+(o) Changes comitted to local repository.
+(i) con requests publish-work
+(o) Changes published to 'github.com/DogFoodSoftware/conveyor-documentation.git'.
+... make changes ...
+(i) con requests commit-work message='feature'
+(o) Changes comitted to local repository.
+(i) con requests submit-work
+(o) Changes published to 'github.com/DogFoodSoftware/conveyor-documentation.git'.
+(o) Pull request created: 'github.com/DogFoodSoftware/conveyor-documentation/pulls/101'.
+(o) Created review request 'dogfoodsoftware.com/conveyor/documentation/102'
+(i) con requests stop-work
+(o) Local branches reset to master.
+(i) con requests suggest-next
+(o) dogfoodsoftware.com/conveyor/documentation/102
+(o)   Review PR 'github.com/DogFoodSoftware/conveyor-documentation/pulls/101'.
+(o) dogfoodsoftware.com/conveyor/core/500
+(o)   Review external request 499.
+... external work : merge and close branch ...
+(i) con requests suggest-next
+(o) dogfoodsoftware.com/conveyor/core/500
+(o)   Review external request 499.
+(i) con projects update
+(o) Updated projects:
+(o)   dogfoodsoftware.com/conveyor/documentation
+(o)     pulls/101
