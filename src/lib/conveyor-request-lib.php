@@ -137,7 +137,7 @@ function get_item_id() {
     }
 }
 
-function get_parameters() {
+function get_parameters($param_spec = array()) {
     // It's important to globalize '$parameters' rather than return
     // because the parameters may be modified and then passed along to
     // other scripts which are also handlers. In that case, if the
@@ -177,12 +177,33 @@ function get_parameters() {
                 $parameters[$bits[0]] = $bits[1];
             }
         }
-        
-        return $parameters;
     }
     else {
-        return $_REQUEST;
+        $parameters = $_REQUEST;
     }
+
+    if ($param_spec != null) {
+        foreach ($param_spec as $key => $type) {
+            if (isset($parameters[$key])) {
+                $value = trim($parameters[$key]);
+                if ('boolean' == $type) {
+                    if (preg_match('/y|yes|t|true|1/i', $value)) {
+                        $value = TRUE;
+                    }
+                    elseif (preg_match('/n|no|f|false|0/', $value)) {
+                        $value = FALSE;
+                    }
+                    else {
+                        final_result_bad_request("Could not understand parameter '$key'=>'$value' as boolean.");
+                    }
+                }
+
+                $parameters[$key] = $value;
+            }
+        }
+    }
+
+    return $parameters;
 }
 
 function generic_resource_id_check($id) {

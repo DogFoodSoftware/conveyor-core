@@ -1,6 +1,5 @@
 <?php
 function branch_create_local($repo_path, $branch_name) {
-    print "repo_path: $repo_path; branch_name: $branch_name\n";
     $output = array(); // throw away, but needed to extract return value from exec()
     $orig_working_dir = getcwd();
     exec("cd '$repo_path' && git show-ref --verify --quiet 'refs/heads/$branch_name'", $output, $retval);
