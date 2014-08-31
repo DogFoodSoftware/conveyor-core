@@ -13,9 +13,7 @@ function branch_create($repo_url, $branch_name) {
 }
 
 function branch_checkout($repo_url, $branch_name) {
-    echo "branch_checkout:16:$repo_url\n";
     $repo_url = _regularize_repo_url($repo_url);
-    echo "branch_checkout:18:$repo_url\n";
 
     # We can count on the protocol being explicit after the
     # regularization.
