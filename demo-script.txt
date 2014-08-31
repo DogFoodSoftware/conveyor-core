@@ -1,16 +1,23 @@
-(i) con users authorize zanerock
+(i) con users create zanerock password='xxx' confirm-password='xxx'
+(i) con users authorize zanerock password=input
 (o) password: (i)
 (o) User 'zanerock' authenticated.
-(i) con projects
+(i) con projects list-installed
 (o) Installed projects:
 (o)   dogfoodsoftware.com/conveyor/core
 (o)   dogfoodsoftware.com/conveyor/workflow
 (o)   dogfoodsoftware.com/third-party/apache-httpd
 (o)   dogfoodsoftware.com/third-party/php5
 (o)   dogfoodsoftware.com/third-party/pest
-(i) con users patch request-sources[]=/projects/dogfoodsoftware.com/conveyor/core
-(o) Added project 'dogfoodsoftware.com/conveyor/core' to 'request-sources'.
-(i) con status
+(i) con users get self show-fields[]='request-sources'
+(o) /users/zanerock
+(o)   request-sources[]=
+(i) con users patch request-sources[]='+/projects/dogfoodsoftware.com/conveyor/core'
+(o) Updated /users/zanerock
+(i) con users get self show-fields[]='request-sources'
+(o) /users/zanerock
+(o)   request-sources[]='/projects/dogfoodsoftware.com/conveyor/core'
+(i) con users status self
 (o) You are locally authenticated as user 'zanerock'.
 (o) You are currently working on: nothing.
 (o) WARNING: GitHub connection not configured.
