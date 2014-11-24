@@ -16,7 +16,53 @@
     bootstrap the environment.
   </div>
   <div class="p">
-    The standard distribution (TODO: link project)
+    The standard distribution (TODO: link project) is built
+    on <a href="https://nixos.org/nix/">Nix package system</a>. Nix
+    has many nice features and right off the bat it imbues the
+    Conveyor runtime with a high degree of portability and conformity
+    across base host distributions.
+  </div>
+  <div class="p">
+    Conveyor runtime components are installed via and entirely
+    compatible with Nix. In the standard distribution Conveyor
+    projects are mapped one-to-one with the Conveyor specific Nix
+    packages defined in the distribution. The basic installer checks
+    out a specific git branch / version, does whatever build is
+    necessary, and links the result to the Conveyor runtime directory.
+  </div>
+  <div data-perspective="detail" class="p">
+    The distribution is primarily specified by
+    the <code>conveyor-packages.nix</code> file and the contents of
+    the <code>pkgs</code> directory. We point nix at
+    the <code>conveyor-packages.nix</code> file. The installation for
+    each project is defined in the <code>pkgs</code> directory. Note
+    that the packages themselves do not typically define their own
+    installation. It's the job of the distribution to set up the
+    runtime, and so it is responsible for actually incorporating the
+    projects. This also allows us to draw a clean line between project
+    development and distribution definition.
+  </div>
+  <div data-perspective="detail" class="p">
+    It is sometimes useful to divide the Nix packages into three
+    classes. The first division is between Conveyor and sub-Conveyor
+    packages (mostly libraries) required to build Conveyor stack
+    components. These are typically defined by Nix and imported into
+    the <code>conveyor-packages.nix</code> file.
+  </div>
+  <div data-perspective="detail" class="p">
+    The second division is between 'wrapped' and 'full' Conveyor
+    packages. Stack components and 3rd party libraries are often
+    wrapped. This means they will have an installer in the
+    distribution <code>pkgs</code> directory, but the installer is
+    going to reference a non-Conveyor project. Any Conveyor specific
+    configuration or modifications are stored in the distribution's
+    package directory. Thus, to make a chance to the conveyor-apache
+    (TODO: should be conveyor-apache-httpd) package (which wraps
+    Apache HTTPD) you would work with the conveyor-distro project and
+    make modifications
+    under <code>~/conveyor/distro/pkgs/servers/http/conveyor-apache</code>.
+    The 'full' Conveyor packages just means that the source referenced
+    in the package definitions is a Conveyor project.
   </div>
   <div data-perspective="coder sysops" class="p">
     The current distribution specification follows the standard
