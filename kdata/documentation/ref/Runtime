@@ -3,9 +3,32 @@
     The Conveyor runtime is constructed from nix packages and local
     development projects. Conveyor packages themselves make use of
     the <code>~/.conveyor/runtime</code> directory to manage Conveyor
-    aware projects.
+    aware projects. The Conveyor runtime is initially constructed by a
+    ditribution.
   </div>
 </div>
+<div id="Distribution" class="blurbSummary grid_12">
+  <div class="blurbTitle">Distribution</div>
+  <div class="p">
+    The runtime is setup by the Conveyor distribution. The
+    distribution is itself a Conveyor project. The distribution
+    project defines the packages to use, installation logic to
+    bootstrap the environment.
+  </div>
+  <div class="p">
+    The standard distribution (TODO: link project)
+  </div>
+  <div data-perspective="coder sysops" class="p">
+    The current distribution specification follows the standard
+    distribution. It's entirely possible to create alternate
+    distributions defining a different package set, targetting
+    different hosts, and / or setting up a different runtime stack. In
+    the current version we have not spent a much time separating the
+    fundamental distribution specification applying to all
+    distributions from the documentation and specification specifit to
+    the standard distribution.
+  </div>
+</div><!-- .blurbSummary#Distribution -->
 <div id="Project-Layout" class="blurbSummary grid_12">
   <div class="blurbTitle">Project Layout</div>
   <div class="p">
