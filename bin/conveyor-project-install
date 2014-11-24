@@ -1,6 +1,7 @@
 #!/bin/bash
 function usage() {
     echo "conveyor-project-install <git repo URL>"
+    echo "conveyor-project-install --dependencies-only"
 }
 
 if [ ! -f $HOME/.conveyor/config ]; then
@@ -11,25 +12,27 @@ fi
 source $HOME/.conveyor/config
 
 if [ $# -ne 1 ]; then
-    echo "You must provide git repo URL for the project to be installed." >&2
+    echo "You must provide git repo URL for the project to be installed or choose the" >&2
+    echo "'--dependenceies' only option." >&2
     echo
     usage
 fi
 
-URL="$1"
+if [ $1 != '--dependencies-only' ]; then
+    URL="$1"
 
-cd $CONVEYOR_PLAYGROUND
-if [ ! -d .workdir ]; then
-    mkdir .workdir
-fi
-REPO_BASE=`perl -e '$url = $ARGV[0]; $url =~ s/.+\/([\w-]+).git$/$1/; print $url' $URL`
-rm -rf $CONVEYOR_PLAYGROUND/.workdir/$REPO_BASE
-cd $CONVEYOR_PLAYGROUND/.workdir
+    cd $CONVEYOR_PLAYGROUND
+    if [ ! -d .workdir ]; then
+	mkdir .workdir
+    fi
+    REPO_BASE=`perl -e '$url = $ARGV[0]; $url =~ s/.+\/([\w-]+).git$/$1/; print $url' $URL`
+    rm -rf $CONVEYOR_PLAYGROUND/.workdir/$REPO_BASE
+    cd $CONVEYOR_PLAYGROUND/.workdir
 
-if ! git clone $URL; then
-    echo "Error while cloning repo at $URL." >&2
-    exit 2
-fi
+    if ! git clone $URL; then
+	echo "Error while cloning repo at $URL." >&2
+	exit 2
+    fi
 
 if [ ! -d $REPO_BASE ]; then
     echo "Did not find expected checkout directory '$REPO_BASE'." >&2

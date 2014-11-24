@@ -102,13 +102,19 @@ if [ $RESULT -ne 0 ]; then
     exit 1
 fi
 
+$CONVEYOR_HOME/core/bin/conveyor-project-install 
+
 source $CONVEYOR_HOME/core/conf/conveyor-project-dependencies.sh
 
-for REQUIRED_PROJECT in $REQUIRED_PROJECTS; do
-    if ! $CONVEYOR_HOME/core/bin/conveyor-project-install $REQUIRED_PROJECT; then
+
+
+if ! $CONVEYOR_HOME/core/bin/conveyor-project-install $REQUIRED_PROJECT; then
 	echo "Error installing '$REQUIRED_PROJECT'" >&2
 	exit 2
     fi
+
+for REQUIRED_PROJECT in $REQUIRED_PROJECTS; do
+    
 done
 
 if [ x"$ERROR" == x"true" ]; then
