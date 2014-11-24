@@ -1,8 +1,9 @@
 <div id="Overview" class="blurbSummary grid_12">
   <div class="p">
-    A Conveyor runtime is laid out on disk under the 'Conveyor
-    playground'. Layout within the playground is discussed in terms of the
-    project layout, and intra-project contents.
+    The Conveyor runtime is constructed from nix packages and local
+    development projects. Conveyor packages themselves make use of
+    the <code>~/.conveyor/runtime</code> directory to manage Conveyor
+    aware projects.
   </div>
 </div>
 <div id="Project-Layout" class="blurbSummary grid_12">
