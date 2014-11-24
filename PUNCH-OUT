@@ -1,31 +1,42 @@
-Setup websites, Dog Food and Liquid Labs.
+0.1 Projects
 
-35 hours, launch Feb 1.
+- conveyor-core
+  - httpd
+  - php
+  - postgres
+  - minify
+- conveyor-distro
+  - define upgrade process
+- conveyor-environment
+- conveyor-workflow
+- conveyor-documentation (was kwiki)
+- liquid-labs/bi-curious
+- jquery perspectives
+- jquery element docker
+- jquery page browser
 
-- include projects:
-  - conveyor core
-  - kwiki
-  - git-convey
-  - jquery perspectives
-  - jquery element docker
-  - jquery page browser
-  - third party: 
-    - apache
-    - php
-    - postgres
-    - shflags
-    - minify
-- git convey functional
+
+First Draft Specs
+
+- conveyor-core: Runtime
+- conveyor-core: Conveyor Project
+  - standardize and sync dir layout
+- conveyor-ui: UI Widgets
+
+
+Sites
+
+- Liquid Labs
+- Dog Food Software
+
+
+General Checklist
+
 - cohesive project pages
 - reworked projects page
 - clean up JS references in minify
 - all documentation checked
 - passes all extant tests
 - test interface cleaned up
-- create 'release-2014-02-15' branch
-- add self-declared branch support doc'
-- update project dependency file to specify production branch for production
-  branch
-- convert 'kdata' to 'static-data.'.
-- finish up File-System-Layout describing the contents of 'static-data',
-  'static-resources' and 'src'
+- create 'release-YYYY-MM-DD' branch
+- update conveyor-distro packages to lock in
