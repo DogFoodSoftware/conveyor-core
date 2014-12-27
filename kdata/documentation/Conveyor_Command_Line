@@ -11,21 +11,47 @@
   <div class="p">
     The basic syntax is:
 <pre><code>
-con [action] &lt;resource&gt; [[param1=value1]...]
+con [action] &lt;resource&gt; [[param1=value1]...] ['{...json payload...}']
 </pre></code> Where 'action' is one
     of <code>GET</code>, <code>PUT</code>, <code>POST</code>, <code>PATCH</code>,
     or <code>DELETE</code>. If the first argument is anything but
     these five options (ignoring case), the the default
     action <code>GET</code> is assumed and the first argument is
     interpretted as a resource identifier. Following the resource
-    identifier are zero or more parameters. Parameters may be required
-    or optional based on the resource and action. The CLI result code
-    follow HTTP standards for the most part and unrecognized
-    parameters and invalid parameter values will result in a '400'
-    See <a href="#CLI-Return-Codes">CLI Return Codes</a> for more
-    details.  response.
+    identifier are zero or more parameters. The final, optional
+    argument is a JSON payload.
   </div>
 </div><!-- #Basic-Syntax -->
+<div id="Parameters-and-Payload" class="blurbSummary grid_12">
+  <div class="blurbTitle">Parameters and Payload</div>
+  <div class="p">
+    Parameters and payload may be required or optional based on the
+    resource and action. The CLI result code follow HTTP standards for
+    the most part and unrecognized parameters, invalid parameter
+    values, or an invalid payload will result in a '400'
+    See <a href="#CLI-Return-Codes">CLI Return Codes</a> for more
+    details.
+  </div>
+  <div class="p">
+    Parameter names are always bare (not quoted). Parameter values may
+    be bare or quoted. Bare values are treated as URL parameter
+    literals and, for instance, a space would need to be encoded by
+    '%20'. Quoted parameters are escaped, and so
+    '<code>param=foo%20bar<code>' is equivalent to '<code>param="foo
+    bar"</code>'. It is possible to embed single quotes in double
+    quotes and vice-versa. If you need to use both, it will be
+    necessary to leave the parameter bare and do the encoding
+    yourself.
+  </div>
+  <div class="p">
+    Payload documents are necessary for <code>PUT</code> requests,
+    wherein the define the data to be 'put' to the server,
+    and <code>PATCH</code> requests, which follow
+    the <a href="http://jsonapi.org/format/#patch">JSON API PATCH
+    specification</a>. They may also be required for certain complex
+    operations of any request type.
+  </div>
+</div><!-- #Parameters-and-Payload -->
 <div id="CLI-Return-Codes" class="blurbSummary grid_12">
   <div class="blurbTitle">CLI Return Codes</div>
   <div class="p">
