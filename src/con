@@ -27,21 +27,19 @@ if (empty($req_path)) {
     $req_path = '/documentation/system/CLI-Help';
 }
 
-if (!preg_match('|/?([\w-]+(/?$))(/+[\w-]+)*|', $req_path, $matches)) {
+if (!preg_match('|/?([\w-]+(/?\b))(/+[\w-]+)*|', $req_path, $matches)) {
     error_log("Could not parse '$req_path' as valid request.");
     exit(400);
 }
 
-$resource = strtolower($match[1]);
-$item_id = strtolower($match[3]);
+$req_resource = strtolower($matches[1]);
+$item_id = strtolower($matches[3]);
 
 // No need to cache, this is very low flow CLI at the moment.
-exec('find /home/user/.conveyor/runtime -path "*/src/rest"', $output);
+exec('find /home/user/.conveyor/runtime -follow -path "*/src/rest/*" -type d', $output);
 foreach ($output as $handler_path) {
     $resource = basename($handler_path);
-    echo "DEBUG: $resource; $req_resource\n";
     if ($resource == $req_resource) {
-        echo "DEBUG: Matched handler at '$handler_path'.\n";
         error_log("ERROR: Console invocation of handler scripts not implemented.");
         exit(500);
     }
