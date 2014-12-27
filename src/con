@@ -27,7 +27,9 @@ if (empty($req_path)) {
     $req_path = '/documentation/system/CLI-Help';
 }
 
-if (!preg_match('|/?([\w-]+(/?\b))(/+[\w-]+)*|', $req_path, $matches)) {
+# Accepts bear resource name, e.g. 'foo' , as well as '/foo', '/foo/',
+#  and 'foo/'. Item IDs may not end with a '/'.
+if (!preg_match('|/?([\w-]+)(/\b)?(/+[\w-]+)*|', $req_path, $matches)) {
     error_log("Could not parse '$req_path' as valid request.");
     exit(400);
 }
