@@ -6,7 +6,7 @@ function usage($err_msg = null) {
         error_log("ERROR: $err_msg\n");
     }
     
-    echo "usage: con [action] <resource> [[param1=value1]...] '{<json payload>}'";
+    echo "usage: con [action] <resource or item ID> [[param1=value1]...] '{<json payload>}'";
 }
 
 // Parse arguments.
@@ -20,22 +20,37 @@ else {
     $process_index = 1;
 }
 
-$req_resource = $argv[$process_index];
-if (empty($req_resource)) {
+$req_path = $argv[$process_index];
+if (empty($req_path)) {
     # Special handling for just typing 'con'; not really valid, but no
     # need to be dicks about that. Give the user something useful.
-    $req_resource = '/documentation/system/CLI-Help';
+    $req_path = '/documentation/system/CLI-Help';
 }
 
-// TODO: Consider caching here; Perhaps once we have java based
-// caching infrastructure in place.
-for (`find /home/user/.conveyor/runtime -path "*/src/rest"` as $handler_path) {
+if (!preg_match('|/?([\w-]+(/?$))(/+[\w-]+)*|', $req_path, $matches)) {
+    error_log("Could not parse '$req_path' as valid request.");
+    exit(400);
+}
+
+$resource = strtolower($match[1]);
+$item_id = strtolower($match[3]);
+
+// No need to cache, this is very low flow CLI at the moment.
+exec('find /home/user/.conveyor/runtime -path "*/src/rest"', $output);
+foreach ($output as $handler_path) {
     $resource = basename($handler_path);
-    if (!preg_match("|/?$resource/i", $res)) {
-        
+    echo "DEBUG: $resource; $req_resource\n";
+    if ($resource == $req_resource) {
+        echo "DEBUG: Matched handler at '$handler_path'.\n";
+        error_log("ERROR: Console invocation of handler scripts not implemented.");
+        exit(500);
     }
 }
-exit(0);
+
+// If we fall out of the 'foreach' above, it means no handler was
+// found.
+error_log("ERROR: '$req_path' not found. (No handler.)");
+exit(404);
 ?>
 
 
