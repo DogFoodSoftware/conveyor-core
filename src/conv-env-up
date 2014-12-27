@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Alias for:
+#
+#    conv environments this action=update limit=development
+#
+# Well, eventually that's the plan anyway. For now, we want to jump
+# into the spririt and so we're going to sketch it out here first.
+
+CURRENT_DEVELOPMENT_PACKAGES=`find $HOME/playground -name ".conveyor-conf"`
+if [ ""x == "$CURRENT_DEVELOPMENT_PACKAGES"x ]; then
+   echo "INFO: Up to date."
+   echo "INFO: No development paackages to build."
+   exit 0
+fi
+
+# List supported versions as: '|' + <version #> + '|'. Hacky, but
+# easier match substring in bash that try and use a 'real' array.
+SUPPORTED_VERSIONS="|1|";
+
+# First, we confirm we can process every package claiming to be a
+# Conveyor package. More specifically, that we can determine and
+# recognize the Conveyor version and we can find the expected
+# 'builder.sh', as defined for version 1.0.
+for CONVEYOR_CONF in $CURRENT_DEVELOPMENT_PACKAGES; do
+    source "$CONVEYOR_CONF";
+    PACKAGE_PATH=`dirname $CONVEYOR_CONF`
+    if [ ""x != "$CONVEYOR_VER"x ] \ 
+	 && [[ "$SUPPORTED_VERSIONS" == *"$CONVEYOR_VER"* ]]; then
+	BUILDER="$PACKAGE_PATH/builder.sh"
+	if [ ! -f "$BUILDER" ]; then
+	    echo "ERROR: Did not find expected builder script '$BUILDER'." >&2
+	    echo "ERROR: Broken development environment; bailing out." >&2
+	    exit 1
+	fi
+    else
+	echo "ERROR: Development package at '$PACKAGE_PATH' has unsupported Conveyor version." >&2
+	echo "ERROR: Broken development environment; bailing out." >&2
+	exit 1
+    fi
+done
+
+# Now that everythings confirmed, we go back through the list and kick
+# off the builds.
+for CONVEYOR_CONF in $CURRENT_DEVELOPMENT_PACKAGES; do
+    BUILDER="`dirname $CONVEYOR_CONF`/builder.sh"
+
+    $BUILDER
+done
