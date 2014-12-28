@@ -12,6 +12,9 @@ if [[ ! $(type -P nix-env) ]]; then
     fi
 fi
 
+# TODO !!!!!!!!!!!!!!!!!1
+echo "WARNING: The installation will now proceed manually... should be using nix." >&2
+
 # It seems we have an operationable environment. Setup the 'core' package.
 if [ -d /home/user/playground/dogfoodsoftware.com/conveyor/core ]; then
     rm -f /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor-core

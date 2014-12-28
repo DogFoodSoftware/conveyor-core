@@ -28,7 +28,7 @@ function process_params_and_data() {
             
             $req_data = json_decode($argument, true);
             if ($req_data == null) {
-                usage("Last argument seemed like JSON data payload, but could not be converted.");
+                usage("Last argument seemed like JSON data payload, but could not be parsed.");
                 exit(400);
             }
         }
@@ -37,6 +37,7 @@ function process_params_and_data() {
             $param_name = trim(array_shift($bits));
             if (!preg_match('/^[\w-]+$/', $param_name)) {
                 usage("Disallowed parameter name: '$param_name'; must match /[\w-]/.");
+                exit(400);
             }
 
             if (count($bits) > 0) {
