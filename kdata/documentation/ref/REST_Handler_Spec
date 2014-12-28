@@ -1,0 +1,52 @@
+REST handlers must be placed in a directory whose patch matches
+<code>*/src/rest/&lt;resource&gt;>/&lt;action&gt;(-item|-many).(php)</code>. For
+example, to define all possible for resource <code>/foo</code>, we
+would expect to find the following files:
+
+<ul>
+  <li><code>src/rest/foo/put-item.php</code></li>
+  <li><code>src/rest/foo/put-many.php</code></li>
+  <li><code>src/rest/foo/get-item.php</code></li>
+  <li><code>src/rest/foo/get-many.php</code></li>
+  <li><code>src/rest/foo/post-item.php</code></li>
+  <li><code>src/rest/foo/post-many.php</code></li>
+  <li><code>src/rest/foo/patch-item.php</code></li>
+  <li><code>src/rest/foo/patch-many.php</code></li>
+  <li><code>src/rest/foo/delete-item.php</code></li>
+  <li><code>src/rest/foo/delete-many.php</code></li>
+</ul>
+
+The '<code>src</code>' directory need not be an immediate child of the
+package installation / development directory (though that would be the
+standard), but '<code>rest</code>', the resource name, and a valid
+handler type file name must immediately follow '<code>src</code>'. The
+handler type file name is constructed from the lowercase HTTP action
+name, '<code>-item</code>' for item handler and '<code>-many</code>
+for batch resource handlers, followed by a valid script
+suffix. Currently we only support 'php' scripts.
+
+Within the handler, seven special variables are made available by
+pre-processing:
+
+<ul>
+  <li><code>$req_path</code></li>
+  <li><code>$req_resource</code></li>
+  <li><code>$req_action</code></li>
+  <li><code>$req_accept</code></li>
+  <li><code>$req_item_id</code></li>
+  <li><code>$req_parameters</code></li>
+  <li><code>$req_data</code></li>
+</ul>
+
+In general, use of these variables is preferred as the script may be
+called from the command line or as part of a web request, so the PHP
+super globals like <code>$_REQUEST</code> and <code>$_SERVER</code>
+may or may not be present. Additionally, the <code>$req_*</code>
+variables may have undergone additional processing. Some scripts may
+need to make use of further request variables, however in that case
+they must check <code>PHP_SAPI</code> and provide proper handling
+for <code>CLI</code> situations. Proper handling may be to exit with a
+'501', corresponding to the 'Not Implemented' HTTP status code if
+handling of a CLI request is theoretically possible, but not provided
+and '400' ('Bad Request') if the request makes no sense from a CLI
+context.
