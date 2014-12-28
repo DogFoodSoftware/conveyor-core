@@ -6,7 +6,7 @@ function usage($err_msg = null) {
         error_log("ERROR: $err_msg\n");
     }
     
-    echo "usage: con [action] <resource or item ID> [[param1=value1]...] '{<json payload>}'";
+    echo "usage: con [action] <resource or item ID> [[param1=value1]...] '{<json payload>}'\n";
 }
 
 function process_params_and_data() {
@@ -19,7 +19,7 @@ function process_params_and_data() {
     echo "process_index / argc: $process_index / $argc\n";
     while ($process_index < $argc) {
         $argument = $argv[$process_index];
-        if (preg_match("/'\s*\{/", $argument)) { // JSON data payload
+        if (preg_match("/{/", $argument)) { // JSON data payload
             // The data payload must come last.
             if ($process_index + 1 != $argc) {
                 usage("JSON data payload must be last element of request.");
@@ -40,14 +40,10 @@ function process_params_and_data() {
             }
 
             if (count($bits) > 0) {
+                // Notice we do support something like: 'foo=bar=baz';
+                // that would parse as parameter 'foo' with value
+                // 'bar=baz'.
                 $param_value = trim(implode('=', $bits));
-                echo "param_value: $param_value\n";
-                if (!preg_match("/^((['\"])([^\1])\1$|^[^'\"].*[^'\"]$|$)?/", $param_value, $matches)) {
-                    usage("Could not parse parameter value '$param_value'.");
-                }
-                if ($matches[1] != null) {
-                    $param_value = urldecode($param_value);
-                }
             }
             else {
                 $param_value = true;
@@ -112,191 +108,3 @@ foreach ($output as $handler_path) {
 error_log("ERROR: '$req_path' not found. (No handler.)");
 exit(404);
 ?>
-
-
-
-RESOURCE="$1"; shift
-
-# Check to see if the RESOURCE matches an installed resource. If so,
-# pass along request. If not, emit error.
-RESOURCE_DIR=`find -L "$CONVEYOR_PLAYGROUND" -path "*/runnable/rest/$RESOURCE"`
-if [ x"$RESOURCE_DIR" == x"" ]; then
-    echo "Could not find handler for '$RESOURCE'." >&2
-    exit 1
-else
-    # If mor args are supplied, the next arg must be the action verb.
-    if [ $# -ge 1 ]; then
-	VERB="$1"; shift
-    else
-	VERB="get"
-    fi
-    VERB=`echo "$VERB" | tr '[:upper:]' '[:lower:]'`
-    ITEM_ID=""
-    if [ $# -ge 1 ] && [[ "$1" != *=* ]]; then
-	ITEM_ID="$1"; shift
-	ITEM_MODIFIER="-item"
-    fi
-
-    if [ x"" == x"$ITEM_ID" ]; then
-	CARDNALITY="-many"
-    else
-	CARDNALITY="-item"
-    fi
-
-    # Note we have now consumed the verb (=~ HTTP method) and item ID
-    # (if present); the remainder of '$@' is 0 or more parameters.
-
-    # See https://github.com/DogFoodSoftware/conveyor-core/issues/6
-    # for future mechanism to control prefer script interpreter
-    # The '-not' clauses filter out emacs save files.
-    SCRIPT=`find "$RESOURCE_DIR" -name "${VERB}${CARDNALITY}.*" -not -name "*~" -not -name "#*"`
-    
-    if [ $? -ne 0 ]; then
-	echo "Resource '$RESOURCE'($CARDNALITY) does not support '$VERB' actions." >&2
-	exit 2
-    else # Ready to call the scirpt.
-	case "$SCRIPT" in
-	    *.php)
-		"$DFS_HOME/third-party/php5/runnable/bin/php" "$SCRIPT" "$ITEM_ID" "$@";;
-	    *)
-		echo "Could not determine interpretter for script handler. Bailing out." >&2
-		exit 1;;
-	esac
-    fi
-fi
-
-exit 0
-
-elif [ x"$1" == x"--verify" ] || [ x"$1" == x"--verifyresource" ] || [ x"$1" == x"--verifyglobal" ]; then
-    OPTION="$1"; shift
-    case "$1" in
-	'')
-	    echo "ERROR: '--verify(*)' requires value." >&2
-	    exit 1;;
-	topics|releases|issues|repos|status)
-	    if [ "$OPTION" == "--verify" ] || [ "$OPTION" == "--verifyresource" ]; then
-		echo "Resource '$1' is valid."
-		exit 0
-	    else
-		echo "'$1' is not a valid global action."
-		exit 1
-	    fi;;
-	status|sync|launch-web-dashboard)
-	    if [ "$OPTION" == "--verify" ] || [ "$OPTION" == "--verifyglobal" ]; then
-		echo "Global action '$1' is valid."
-		exit 0
-	    else
-		echo "'$1' is not a valid resource."
-		exit 1
-	    fi;;
-	*)
-	    echo "Resource '$1' is invalid."
-	    exit 1;;
-    esac
-fi
-# ... else it's a <resource> [<action>] style command.
-
-#/**
-#  * <div class="subHeader"><span>Options Parsing</span></div>
-#  */
-source "$HOME/.conveyor/config"
-source "$CONVEYOR_WORKFLOW_RUNNABLE/lib/help.sh"
-
-FOUND_SOMETHING=0
-while [ $# -gt 0 ] && [ $FOUND_SOMETHING -eq 0 ]; do
-    FOUND_SOMETHING=1
-    if [ "$1" == '--verbose' ] || [ "$1" == '-v' ]; then
-	FOUND_SOMETHING=0
-	shift
-    elif [ "$1" == '--test' ]; then
-	FOUND_SOMETHING=0
-	shift
-	export GIT_CONVEY_TEST_MODE=0 # bash true
-    fi
-done
-
-#/**
-#* <div class="subHeader"><span>Main Logic</span></div>
-#* <div class="p">
-#*   Normally, we would process the arguments into named variables as a first
-#*   step. In this case, the processing differences between 'implied
-#*   resources' and 'explicit resources' means we have to do some work to
-#*   establish the semantics of teh arguments.
-#* </div>
-#*/
-if [ x"$1" == x"help" ]; then
-    shift
-    if [ $# -eq 0 ]; then
-	usage
-    else
-	RESOURCE="$1"; shift
-	if [ -f "$CONVEYOR_WORKFLOW_RUNNABLE/git-conveyor-$RESOURCE" ]; then
-	    source "$CONVEYOR_WORKFLOW_RUNNABLE/git-conveyor-$RESOURCE"
-	elif [ -f "$CONVEYOR_WORKFLOW_RUNNABLE/conveyor-$RESOURCE" ]; then
-	    source "$CONVEYOR_WORKFLOW_RUNNABLE/conveyor-$RESOURCE"
-	else
-	    echo "Unable to locate help file for resource '$RESOURCE.'" >&2
-	    exit 1
-	fi
-	
-	if [ $# -eq 0 ]; then
-	    resource_usage
-	else
-	    ACTION="$1"; shift
-	    resource_help $ACTION
-	fi
-    fi
-    exit 0
-fi
-
-if [ -f $HOME/.conveyor-workflow/implied-resource ]; then
-    RESOURCE=`cat $HOME/.conveyor-workflow/implied-resource`
-    source "$CONVEYOR_WORKFLOW_RUNNABLE/git-conveyor-$RESOURCE"
-    if [ x`type -t action_check` != x'function' ]; then
-	echo "WARNING: 'action_check' function not defined for '$RESOURCE'." >&2
-	# Nothing else to do.
-    else
-	if ! action_check "$1" && ! con --verify "$1" >/dev/null; then
-	    usage "ERROR: Cannot understand '$1' as action, resource, or global."
-	    exit 1
-	elif con --verifyresource "$1" >/dev/null; then
-	    RESOURCE="$1"; shift
-	    echo "RESOURCE: $RESOURCE"
-	    if [ "$RESOURCE" != "status" ]; then
-		rm -f $HOME/.conveyor-workflow/implied-resource
-		echo "WARNING: understood '$RESOURCE' as resource; implied resource reset." >&2
-	    fi
-	elif con --verifyglobal "$1" >/dev/null; then
-	    RESOURCE="$1"; shift # and nothing else
-	# else, it's an action of the implied resource, which is just fine
-	fi
-    fi
-else
-    RESOURCE="$1"; shift
-fi
-
-function launch_web_dashboard() {
-    if [ x"$CONVEYOR_DEFAULT_BROWSER_BIN" == x"" ]; then
-	CONVEYOR_DEFAULT_BROWSER_BIN=chromium
-    fi
-    $CONVEYOR_DEFAULT_BROWSER_BIN 127.0.0.1:42069 2> chromium-log &
-}
-
-case "$RESOURCE" in
-    launch-web-dashboard) # global action
-	launch_web_dashboard
-	;;
-    topics|releases|sync|status)
-	git conveyor "$RESOURCE" "$@"
-	;;
-    *)
-	if [ -f "$CONVEYOR_WORKFLOW_RUNNABLE/conveyor-$RESOURCE" ]; then
-	    source "$CONVEYOR_WORKFLOW_RUNNABLE/conveyor-$RESOURCE"
-	    process "$@"
-	else
-	    
-	    usage "ERROR: Unknown resource: '$RESOURCE'."
-	    exit 1
-	fi
-	;;
-esac
