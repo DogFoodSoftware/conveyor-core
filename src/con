@@ -9,14 +9,65 @@ function usage($err_msg = null) {
     echo "usage: con [action] <resource or item ID> [[param1=value1]...] '{<json payload>}'";
 }
 
+function process_params_and_data() {
+    global $process_index;
+    global $argc;
+    global $argv;
+    global $req_data;
+    global $req_parameters;
+
+    echo "process_index / argc: $process_index / $argc\n";
+    while ($process_index < $argc) {
+        $argument = $argv[$process_index];
+        if (preg_match("/'\s*\{/", $argument)) { // JSON data payload
+            // The data payload must come last.
+            if ($process_index + 1 != $argc) {
+                usage("JSON data payload must be last element of request.");
+                exit(400);
+            }
+            
+            $req_data = json_decode($argument, true);
+            if ($req_data == null) {
+                usage("Last argument seemed like JSON data payload, but could not be converted.");
+                exit(400);
+            }
+        }
+        else { // Attempt to parse argument as a request parameter.
+            $bits = explode('=', $argument);
+            $param_name = trim(array_shift($bits));
+            if (!preg_match('/^[\w-]+$/', $param_name)) {
+                usage("Disallowed parameter name: '$param_name'; must match /[\w-]/.");
+            }
+
+            if (count($bits) > 0) {
+                $param_value = trim(implode('=', $bits));
+                echo "param_value: $param_value\n";
+                if (!preg_match("/^((['\"])([^\1])\1$|^[^'\"].*[^'\"]$|$)?/", $param_value, $matches)) {
+                    usage("Could not parse parameter value '$param_value'.");
+                }
+                if ($matches[1] != null) {
+                    $param_value = urldecode($param_value);
+                }
+            }
+            else {
+                $param_value = true;
+            }
+
+            $req_parameters[$param_name] = $param_value;
+        }
+
+        $process_index += 1;
+    }
+}
+
 // Parse arguments.
-$action = $argv[1];
-if (preg_match('/PUT|GET|POST|PATCH|GET|DELETE/i', $action)) {
-    $action = strtoupper($action);
+$req_action = $argv[1];
+if (preg_match('/PUT|GET|POST|PATCH|GET|DELETE/i', $req_action)) {
+    $req_action = strtoupper($action);
     $process_index = 2;
 }
 else {
-    $action = 'GET';
+    $req_action = 'GET';
     $process_index = 1;
 }
 
@@ -26,22 +77,31 @@ if (empty($req_path)) {
     # need to be dicks about that. Give the user something useful.
     $req_path = '/documentation/system/CLI-Help';
 }
+$process_index += 1;
 
 # Accepts bear resource name, e.g. 'foo' , as well as '/foo', '/foo/',
 #  and 'foo/'. Item IDs may not end with a '/'.
 if (!preg_match('|/?([\w-]+)(/\b)?(/+[\w-]+)*|', $req_path, $matches)) {
-    error_log("Could not parse '$req_path' as valid request.");
+    usage("Could not parse '$req_path' as valid request.");
     exit(400);
 }
 
 $req_resource = strtolower($matches[1]);
-$item_id = strtolower($matches[3]);
+$req_item_id = strtolower($matches[3]);
+// We will defer processing of the '$req_parameters' and '$req_data'
+// variables until we match the resource.
+$req_parameters = array();
+$req_data = null;
 
 // No need to cache, this is very low flow CLI at the moment.
 exec('find /home/user/.conveyor/runtime -follow -path "*/src/rest/*" -type d', $output);
 foreach ($output as $handler_path) {
     $resource = basename($handler_path);
     if ($resource == $req_resource) {
+        process_params_and_data();
+
+        global $req_parameters;
+        var_dump($req_parameters);
         error_log("ERROR: Console invocation of handler scripts not implemented.");
         exit(500);
     }
