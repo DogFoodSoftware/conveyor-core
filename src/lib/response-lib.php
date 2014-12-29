@@ -1,21 +1,49 @@
 <?php
 class Response {
     private $status = 200;
+    private $info_msg = null;
     private $global_errors = array();
     private $field_errors = array();
 
     function item_not_found() {
-        $this->add_global_error("Item not found.", 404);
+        global $req_path;
+        $this->add_global_error("Item '$req_path' not found.", 404);
     }
 
     function check_request_ok() {
-        return $status == 200
-            && (count($global_errors) + count($field_errors)) == 0;
+        // Note, there may be 'WARNING' in the 'errors' with a '200'
+        // status.
+        return $this->status == 200;
     }
 
     function add_global_error($message, $try_status) {
         array_push($this->global_errors, "ERROR: $message");
         $this->try_set_status($try_status);
+    }
+
+    function get_global_errors() {
+        return $this->global_errors;
+    }
+
+    function get_field_errors() {
+        return $this->field_errors;
+    }
+
+    function get_status() {
+        return $this->status;
+    }
+
+    function get_info_msg() {
+        return $this->info_msg;
+    }
+
+    function get_data() {
+        return $this->data;
+    }
+
+    function ok($msg, $data = null) {
+        $this->info_msg = $msg;
+        $this->data = $data;
     }
 
     function try_set_status($try_status) {

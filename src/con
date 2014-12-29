@@ -79,13 +79,12 @@ $process_index += 1;
 
 # Accepts bear resource name, e.g. 'foo' , as well as '/foo', '/foo/',
 #  and 'foo/'. Item IDs may not end with a '/'.
-if (!preg_match('|/?([\w-]+)(/\b)?(/+[\w-]+)*|', $req_path, $matches)) {
+if (!preg_match('|/?([\w-]+)(/$)?(/+[\w-]+)*|', $req_path, $matches)) {
     usage("Could not parse '$req_path' as valid request.");
     exit(400);
 }
-
 $req_resource = strtolower($matches[1]);
-$req_item_id = strtolower($matches[3]);
+$req_item_id = substr(strtolower($matches[3]), 1);
 // We will defer processing of the '$req_parameters' and '$req_data'
 // variables until we match the resource.
 $req_parameters = array();
@@ -104,7 +103,13 @@ foreach ($output as $handler_path) {
         process_params_and_data();
 
         require("$handler_path/get-item.php");
-        require("$home/.conveyor/dogfoodsoftware.com/conveyor-core/runnable/ui/hosts-item-text.php");
+        require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/json-to-text.php");
+        if ($response->get_status() == 200) {
+            exit(0);
+        }
+        else {
+            exit($response->get_status());
+        }
     }
 }
 

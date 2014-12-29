@@ -15,17 +15,22 @@ if ($req_item_id != 'this') {
 if (!$response->check_request_ok()) {
     return;
 }
-require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/authorization-lib");
+require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/authorization-lib.php");
 if (!$response->check_request_ok()) {
     return;
 }
 
 exec('find '.$home.'/.conveyor/runtime -follow -path "*/src/domain-logic/*" -type d', $resources);
+function trim_resource_path($path) {
+
+    return basename($path);
+}
+$resources = array_map('trim_resource_path', $resources);
 sort($resources);
 
-$host = array('resources' => $resources);
+$host = array("host" => array('resources' => $resources));
 
-$response->ok('Retrieved available resources.', $resources);
+$response->ok('Host information retrieved.', $host);
 ?>
 <?php /**
 </div><!-- .blurbSummary#Implementation -->

@@ -20,7 +20,7 @@ else {
     require("$home/.conveyor/dogfoodsoftware.com/conveyor-core/runnable/domain-logic/get-item-data.php");
     
     if ($req_accept == 'text/plain') {
-        require("$home/.conveyor/dogfoodsoftware.com/conveyor-core/runnable/ui/hosts-item-text.php");
+        require("$home/.conveyor/dogfoodsoftware.com/conveyor-core/runnable/ui/hosts/get-item-text.php");
     }
 }
 ?>
