@@ -9,6 +9,8 @@ if (!$response->check_request_ok()) {
     }
 }
 else { // Response is good.
-    echo json_encode($response->get_data(), JSON_PRETTY_PRINT)."\n";
+    // Most data is JSON, but there are some cases where we get raw text.
+    $json_string = json_encode($response->get_data(), JSON_PRETTY_PRINT)."\n";
+    echo ($json_string != null ? $json_string : $response->get_data());
 }
 ?>
