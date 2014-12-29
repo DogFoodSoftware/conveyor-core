@@ -92,16 +92,19 @@ $req_parameters = array();
 $req_data = null;
 
 // No need to cache, this is very low flow CLI at the moment.
-exec('find /home/user/.conveyor/runtime -follow -path "*/src/rest/*" -type d', $output);
+$home = $_ENV['HOME'];
+exec('find '.$home.'/.conveyor/runtime -follow -path "*/src/domain-logic/*" -type d', $output);
 foreach ($output as $handler_path) {
     $resource = basename($handler_path);
     if ($resource == $req_resource) {
+        if (!file_exists("$handler_path/get-item.php")) {
+            error_log("ERROR: Did not find expected 'get-item' handler for '$req_path'.\n");
+            exit(501);
+        }
         process_params_and_data();
 
-        global $req_parameters;
-        var_dump($req_parameters);
-        error_log("ERROR: Console invocation of handler scripts not implemented.");
-        exit(500);
+        require("$handler_path/get-item.php");
+        require("$home/.conveyor/dogfoodsoftware.com/conveyor-core/runnable/ui/hosts-item-text.php");
     }
 }
 
