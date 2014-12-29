@@ -16,7 +16,6 @@ function process_params_and_data() {
     global $req_data;
     global $req_parameters;
 
-    echo "process_index / argc: $process_index / $argc\n";
     while ($process_index < $argc) {
         $argument = $argv[$process_index];
         if (preg_match("/{/", $argument)) { // JSON data payload
@@ -67,6 +66,8 @@ else {
     $req_action = 'GET';
     $process_index = 1;
 }
+
+$req_accept = ($req_action == 'GET' ? 'text/plain' : 'application/json');
 
 $req_path = $argv[$process_index];
 if (empty($req_path)) {
