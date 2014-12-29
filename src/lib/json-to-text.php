@@ -1,5 +1,6 @@
 <?php
 if (!$response->check_request_ok()) {
+    echo "Failed with status: ".$response->get_status()."\n";
     foreach ($response->get_global_errors() as $error_msg) {
         echo "$error_msg\n";
     }
