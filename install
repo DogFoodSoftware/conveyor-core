@@ -21,6 +21,10 @@ if [ -d /home/user/playground/dogfoodsoftware.com/conveyor/core ]; then
     ln -s /home/user/playground/dogfoodsoftware.com/conveyor/core /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor-core
 fi
 
+if [ ! -f $HOME/.conveyor/host-id ]; then
+    uuidgen > $HOME/.conveyor/host-id
+fi
+
 exit 0;
 
 FORCE=false

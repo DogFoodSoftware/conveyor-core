@@ -16,6 +16,10 @@ class Response {
         return $this->status == 200;
     }
 
+    function add_global_warning($message) {
+        array_push($this->global_errors, "WARNING: $message");
+    }
+
     function add_global_error($message, $try_status) {
         array_push($this->global_errors, "ERROR: $message");
         $this->try_set_status($try_status);

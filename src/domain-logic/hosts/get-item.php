@@ -28,7 +28,14 @@ function trim_resource_path($path) {
 $resources = array_map('trim_resource_path', $resources);
 sort($resources);
 
-$host = array("host" => array('resources' => $resources));
+if (!file_exists("$home/.conveyor/host-id")) {
+    $response->add_global_warning("Conveyor host ID not found; new ID generated.");
+    exec("uuidgen > $home/.conveyor/host-id");
+}
+$host_id = trim(file_get_contents("$home/.conveyor/host-id"));
+
+$host = array("host" => array('host-id' => $host_id,
+                              'resources' => $resources));
 
 $response->ok('Host information retrieved.', $host);
 ?>
