@@ -1,24 +1,186 @@
 #!/bin/bash
 
+# /**
+#  * <div id="Default-Values" class="section">
+#  * <div class="section-header"><span>Default Values</span></div>
+#  */
+CONVEYOR_REPO=https://github.com/DogFoodSoftware/conveyor-core.git
+CONVEYOR_PLAYGROUND="$HOME/playground"
+# /**
+#  * </div><!-- #Default-Values.section -->
+#  *
+#  * <div id="Option-Processing" class="section">
+#  * <div class="section-header"><span>Option Processing</span></div>
+#  */
+TMP=`getopt --name=$0 -a --longoptions=checout-version:,cv:,force,playground:,for-development -o p: -- $@`
+eval set -- $TMP
+
+function usage() {
+    echo "Installs and initializes a Conveyor environment on the host."
+    echo
+    echo "install [--for-development|--force]"
+    echo
+    echo "Options:"
+    echo "--for-developmnet"
+    echo "  Installs 'conveyor-core' as git checkout. Otherwise, installs as nix package."
+    echo "  If you don't already understand what a 'development checkout' would be, don't"
+    echo "  worry about it. You don't want it."
+    echo
+    echo "--force"
+    echo "  Normally, we check that the target system is supported and there is no existing"
+    echo "  installation. Forcing the install skips these particular checks. It can be used"
+    echo "  to install on self-supported or experimental distros as well as to attempt (a"
+    echo "  rather simple) repair of a broken or incomplete install."
+    # echo
+    # echo "--checkout-version|--cv"
+    # echo "  Specifies the version to use. Note, the nix and git install each use independent"
+    # echo "  versions; even for two that would produce the same runtime."
+    # echo
+    # echo "--playground|-p"
+    # echo "  Specifies the location of playground.
+    echo
+}
+
+until [ $1 == -- ]; do
+    case $1 in
+	--for-development)
+	    FOR_DEVELOPMENT='true';;
+	# The remaining options are 'to be implemented'
+        # --cv|--checkout-version)
+        #    CHECKOUT_VERSION="$2"
+        #    shift;; # Remove option value.
+	# We leave this one active to allow early testing.
+	-p|--playground)
+	    CONVEYOR_PLAYGROUND="$2"
+	    shift;; # Remove option value.
+	# --force)
+	#    FORCE=true;;
+    esac
+    shift # Remove just-processed option.
+done
+shift # Remove the '--', now $1 positioned at first argument if any.
+
+# /**
+#  * </div><!-- #Default-Values.section -->
+#  *
+#  * <div id="Prerequisite-Checks" class="section">
+#  * <div class="section-header"><span>Prerequisites Check</span></div>
+#  */
+PREREQUISITES_GOOD='true'
+# /**
+#  * Unless <code>--force</code>d, the OS+distro is explicitly 
+#  * supported.
+#  */
+if [[ $FORCE != 'true' ]]; then
+    DISTRO_SUPPORT_STATEMENT="Conveyor 0.1 supports openSuSE 13.1."
+    if [ ! -f /etc/SuSE-release ]; then
+       echo $DISTRO_SUPPORT_STATEMENT >&2
+       PREREQUISITES_GOOD='false'
+    else
+       # Wish the SuSE-release file was bash compatible...
+       VERSION=`grep 'VERSION' /etc/SuSE-release | awk '{print $3}'`
+       case "$VERSION" in
+           13.1)
+               ;; # that's fine
+           *) # anything else though...
+               echo $DISTRO_SUPPORT_STATEMENT >&2
+	       PREREQUISITES_GOOD='false'
+               ;;
+       esac
+    fi
+
+    if [ -d $CONVEYOR_PLAYGROUND ]; then
+	echo "It looks like Conveyor is already installed. To re-install, delete" >&2
+	echo "'$CONVEYOR_PLAYGROUND' and re-run this script. To attempt repair," >&2
+	echo "run this script with the '--force' option." >&2
+	PREREQUISITES_GOOD='false'
+    fi
+fi
+# /**
+#  * Now we check absolute, un-forceable prerequisites.
+#  */
 # Check if 'nix' is installed / available.
 if [[ ! $(type -P nix-env) ]]; then
     read -r -p "Nix installation not found, install? (y/N) " ANSWER
     if [[ "$ANSWER" =~ ^([yY]|[yY][eE][sS])$ ]]; then
 	echo "Implement nix install." >&2
-	exit 500
+	exit 1 # TODO: Would really like to match HTTP codes here and 'exit 501'
     else
 	echo "Cannot proceed without nix installation. Aborting." >&2
-	exit 400 # Better code?
+	exit 2 # TODO: exit 400 equiv
     fi
 fi
+# If nix still not installed at this point, then we're out of luck.
+if [[ ! $(type -P nix-env) ]]; then
+    echo "Could not find or install nix. After manually install nix," >&2
+    echo "  try the installation again." >&2
+fi
+# Need to be able to 'sudo' root for certain operations.  TODO: with
+# the adoption of nix, some of the original motives for this are no
+# longer true. For SOME use cases it is necessary, but not for basic
+# operation. Before release, let's be sure and do test with this
+# restriction removed to see how easy it is.
+if [[ `sudo -n echo foo 2>/dev/null` != 'foo' ]]; then
+    echo "Conveyor expects user to have full 'sudo' no-password privileges." >&2
+    PREREQUISITES_GOOD='false'
+fi
+if [[ $PREREQUISITES_GOOD != 'true' ]]; then
+    echo "Consider using using the Conveyor vagrant VM: TODO".
+    exit 1
+fi
+# TODO: do a dry run to check whether we can connect to the git repo.
+# /**
+#  * </div><!-- #Prerequisite-Checks.section -->
+#  */
 
-# TODO !!!!!!!!!!!!!!!!!1
-echo "WARNING: The installation will now proceed manually... should be using nix." >&2
+function is_installed() {
+    nix-env --query --out-path conveyor-core || -d "$CONVEYOR_PLAYGROUND/dogfoodsoftware.com/core"
+}
 
-# It seems we have an operationable environment. Setup the 'core' package.
-if [ -d /home/user/playground/dogfoodsoftware.com/conveyor/core ]; then
-    rm -f /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor-core
-    ln -s /home/user/playground/dogfoodsoftware.com/conveyor/core /home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor-core
+if is_installed; then
+    echo "Found existing installation. Checking setup..."
+else
+    # It's a fresh install. Default is to install as nix package.
+    # TODO: Implement '--for-development' option.
+    if [[ $FOR_DEVELOPMENT == 'true' ]]; then
+	# TODO
+	echo "ERROR: Need to implement development checkout." >&2
+	exit 1 # 501
+    else
+	# TODO
+	echo "ERORR: Need to implement nix package installation." >&2
+	exit 1 # 501
+    fi
+fi
+if ! is_installed; then
+    echo "Error setting up Conveyor Core. See previous messages, if any." >&2
+    exit 2 # 500
+fi
+# TODO: I believe this section should move to the builder.
+# /**
+#  * The rest of the code is intended to both setup a new installation
+#  * and repair a few small details in an existing installation. Developers
+#  * should take note whether running the install script might override an
+#  * existing installation in some cases.
+#  */
+for DIR in "$HOME/.conveyor" \
+           "$HOME/.conveyor/runtime" \
+           "$HOME/.conveyor/runtime/dogfoodsoftware.com" \
+           "$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-core" \
+           "$HOME/.conveyor/data" \
+           "$HOME/.conveyor/data/dogfoodsoftware.com" \
+           "$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-core"; do
+    # We do the check and create because the '-p' can mask problems. Since
+    # we build from the bottom up, the 'create parents' effect is not
+    # necessary.
+    if [ ! -d "$DIR" ]; then
+	mkdir "$DIR"
+    fi
+done
+
+if [ -d "$CONVEYOR_PLAYGROUND/dogfoodsoftware.com/conveyor/core" ]; then
+    rm -f "$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-core"
+    ln -s "$CONVEYOR_PLAYGROUND/dogfoodsoftware.com/conveyor/core" "$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-core"
 fi
 
 if [ ! -f $HOME/.conveyor/host-id ]; then
@@ -27,91 +189,7 @@ fi
 
 exit 0;
 
-FORCE=false
-CONVEYOR_REPO=https://github.com/DogFoodSoftware/conveyor-core.git
 
-# The playground would normally be set by "$HOME/.conveyor/config", but since
-# we're the install script, they're set by us.
-export CONVEYOR_PLAYGROUND=$HOME/playground
-
-TMP=`getopt --name=$0 -a --longoptions=branch:,force,playground: -o b:,p: -- $@`
-eval set -- $TMP
-
-until [ $1 == -- ]; do
-    case $1 in
-	-p|--playground)
-	    CONVEYOR_PLAYGROUND="$2"
-	    shift;; # Remove option value.
-        -b|--branch)
-            BRANCH="$2"
-            shift;; # Remove option value.
-	--force)
-	    FORCE=true;;
-    esac
-    shift # Remove just-processed option.
-done
-shift # Remove the '--', now $1 positioned at first argument if any.
-
-# Set dependent variables.
-export DFS_HOME=$CONVEYOR_PLAYGROUND/dogfoodsoftware.com
-export CONVEYOR_HOME=$DFS_HOME/conveyor
-
-if [ $FORCE != true ]; then
-    # Check baseline assumptions.
-    ERROR=false
-    DISTRO_SUPPORT_STATEMENT="Conveyor 0.1 supports openSuSE 12.3 and 13.1."
-    if [ ! -f /etc/SuSE-release ]; then
-	echo $DISTRO_SUPPORT_STATEMENT >&2
-    else
-	# Wish the SuSE-release file was bash compatible...
-	VERSION=`grep 'VERSION' /etc/SuSE-release | awk '{print $3}'`
-	case "$VERSION" in
-	    12.3|13.1)
-		;; # that's fine
-	    *) # anything else though...
-		echo $DISTRO_SUPPORT_STATEMENT >&2
-		ERROR=true
-		;;
-	esac
-    fi
-fi # FORCE check
-# You can't force through the sudo check. If we can't sudo, we can't go on.
-if [[ `sudo -n echo foo 2>/dev/null` != 'foo' ]]; then
-    echo "Conveyor expects user to have full 'sudo' no-password privileges." >&2
-    ERROR=true
-fi
-if [ x"$ERROR" == x"true" ]; then
-    echo "Consider using using the Conveyor vagrant VM: TODO".
-    exit 1
-fi
-# Baseline assumptions checked, time to start installing.
-
-if [ -d $CONVEYOR_PLAYGROUND ]; then
-    echo "It looks like Conveyor is already installed. To re-install, delete" >&2
-    echo "'$CONVEYOR_PLAYGROUND' and re-run this script." >&2
-    ERROR=true
-fi
-if [ -f $HOME/.conveyor/config ]; then
-    echo 'Found $HOME/.conveyor/config file already in place. Please delete and re-run' >&2
-    echo 'installation script.' >&2
-    ERROR=true
-fi
-if [ x"$ERROR" == x"true" ]; then
-    exit 1
-fi
-
-mkdir $HOME/.conveyor
-# Recall, all these variables were set at the top of the script.
-cat <<EOF > $HOME/.conveyor/config
-export CONVEYOR_PLAYGROUND=$CONVEYOR_PLAYGROUND
-export DFS_HOME=$DFS_HOME
-export CONVEYOR_HOME=$CONVEYOR_HOME
-EOF
-
-mkdir -p $DFS_HOME
-cd $DFS_HOME
-mkdir `basename $CONVEYOR_HOME`
-cd `basename $CONVEYOR_HOME`
 if [ x"$BRANCH" != x"" ]; then
     git clone $CONVEYOR_REPO --branch $BRANCH core
     RESULT=$?
@@ -127,27 +205,7 @@ fi
 
 $CONVEYOR_HOME/core/bin/conveyor-project-install 
 
-source $CONVEYOR_HOME/core/conf/conveyor-project-dependencies.sh
-
-
-
-if ! $CONVEYOR_HOME/core/bin/conveyor-project-install $REQUIRED_PROJECT; then
-	echo "Error installing '$REQUIRED_PROJECT'" >&2
-	exit 2
-    fi
-
-for REQUIRED_PROJECT in $REQUIRED_PROJECTS; do
-    
-done
-
-if [ x"$ERROR" == x"true" ]; then
-    echo "You may use 'conveyor-project-install' to install required projects."
-    echo "'conveyor-start' will also attempt to install any missing dependencies."
-    exit 1
-fi
-
-# Now we add the 'convey' script to the user's PATH
-# TODO: when updating, wil need to remove the previous seciton.
+# Nix may make this unnecessary.
 cat <<EOF >> $HOME/.bashrc
 ### Added by Conveyor configuration. ###
 PATH="\$PATH:$CONVEYOR_HOME/core/bin"
