@@ -163,14 +163,16 @@ fi
 #  * should take note whether running the install script might override an
 #  * existing installation in some cases.
 #  */
+CONVEYOR_CORE_HOME="$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-core"
+CONVEYOR_CORE_DATA="$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-core"
 CC_DATABASES="$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-core/databases"
 for DIR in "$HOME/.conveyor" \
            "$HOME/.conveyor/runtime" \
            "$HOME/.conveyor/runtime/dogfoodsoftware.com" \
-           "$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-core" \
+           "$CONVEYOR_CORE_HOME" \
            "$HOME/.conveyor/data" \
            "$HOME/.conveyor/data/dogfoodsoftware.com" \
-           "$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-core" \
+           "$CONVEYOR_CORE_DATA" \
            "$CC_DATABASES"; do
     # We do the check and create because the '-p' can mask problems. Since
     # we build from the bottom up, the 'create parents' effect is not
@@ -193,9 +195,45 @@ if [[ ! -d $CC_DATABASES ]]; then
     mkdir "$CC_DATABASES"
 fi
 
+ODB_CREDENTIALS="$HOME/.conveyor/data/conveyor-core/odb-credentials"
 if [[ ! -d $CC_DATABASES/conveyor ]]; then
-    echo "ERROR: Implement code for setting up initial conveyor database."
-    exit 1 # 501
+    if [[ ! $(type -P orientdb-console) ]]; then
+	"ERROR: Did not find Conveyor (Orient)DB, nor 'orientdb-console'."
+	exit 2 # 500
+    fi
+    
+    # First, we create the credentials:
+    ODB_USER='admin'
+    ODB_PASSWORD=`uuidgen`
+
+    echo <<EOF > $ODB_CREDENTIALS
+ODB_USER="$ODB_USER"
+OBD_PASSWORD="$ODB_PASSWORD"
+EOF
+
+    ORIENTDB_HOME="$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-orientdb"
+    if [ ! -h "$ORIENTDB_HOME" ]; then
+	echo "Could not find '$ORIENTDB_HOME'; bailing out." >&2
+	exit 2
+    fi
+    SERVER_CONF="${ORIENTDB_HOME}/config/orientdb-server-config.xml"
+    cp "${CONVEYOR_CORE_DATA}/conf/orientdb-server-config.xml" "${SERVER_CONF}"
+    for VAR in '${ORIENTDB_HOME}' '${ODB_USER}' '${ODB_PASSWORD}' '${CONVEYOR_CORE_DATA}'; do
+	# TODO: I thought in place replacement worked, but it seemed to
+	# produce errors and I didn't have time to look into it.
+	VAR_VALUE=`eval echo "$VAR"`
+	mv "$SERVER_CONF" "$SERVER_CONF".tmp
+	sed -e "s|${VAR}|${VAR_VALUE}" "${SERVER_CONF}.tmp" > "$SERVER_CONF"
+	rm "$SERVER_CONF".tmp
+    done
+
+    if orientdb status >2/dev/null; then
+	orientdb --wait stop
+    fi
+    orientdb start
+elif [[ -f "$ODB_CREDENTIALS" ]]; then
+    echo "ERROR: Found Conveyor (Orient)DB, but did not find '$ODB_CREDENTIALS'; no automated fix available." >&2
+    exit 2 
 fi
 
 exit 0;
