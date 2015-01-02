@@ -163,13 +163,15 @@ fi
 #  * should take note whether running the install script might override an
 #  * existing installation in some cases.
 #  */
+CC_DATABASES="$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-core/databases"
 for DIR in "$HOME/.conveyor" \
            "$HOME/.conveyor/runtime" \
            "$HOME/.conveyor/runtime/dogfoodsoftware.com" \
            "$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-core" \
            "$HOME/.conveyor/data" \
            "$HOME/.conveyor/data/dogfoodsoftware.com" \
-           "$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-core"; do
+           "$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-core" \
+           "$CC_DATABASES"; do
     # We do the check and create because the '-p' can mask problems. Since
     # we build from the bottom up, the 'create parents' effect is not
     # necessary.
@@ -185,6 +187,15 @@ fi
 
 if [ ! -f $HOME/.conveyor/host-id ]; then
     uuidgen > $HOME/.conveyor/host-id
+fi
+
+if [[ ! -d $CC_DATABASES ]]; then
+    mkdir "$CC_DATABASES"
+fi
+
+if [[ ! -d $CC_DATABASES/conveyor ]]; then
+    echo "ERROR: Implement code for setting up initial conveyor database."
+    exit 1 # 501
 fi
 
 exit 0;
