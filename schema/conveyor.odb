@@ -1,0 +1,12 @@
+connect remote:localhost/conveyor admin admin
+
+CREATE CLASS Profile EXTENDS V
+CREATE PROPERTY Profile.surname STRING
+CREATE PROPERTY Profile.given-name STRING
+
+CREATE CLASS Agent EXTENDS V
+
+CREATE CLASS User EXTENDS Agent
+CREATE PROPERTY User.login-email STRING
+CREATE PROPERTY User.profile LINK Profile
+ALTER PROPERTY User.person MANDATORY true
