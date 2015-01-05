@@ -5,6 +5,16 @@ class Response {
     private $global_errors = array();
     private $field_errors = array();
 
+    function ok($msg, $data = null) {
+        $this->info_msg = $msg;
+        $this->data = $data;
+    }
+
+    function not_implemented() {
+        global $req_path;
+        $this->add_global_error("Item '$req_path' not implemented.", 501);
+    }
+
     function item_not_found() {
         global $req_path;
         $this->add_global_error("Item '$req_path' not found.", 404);
@@ -43,11 +53,6 @@ class Response {
 
     function get_data() {
         return $this->data;
-    }
-
-    function ok($msg, $data = null) {
-        $this->info_msg = $msg;
-        $this->data = $data;
     }
 
     function try_set_status($try_status) {
