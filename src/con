@@ -59,7 +59,7 @@ function process_params_and_data() {
 // Parse arguments.
 $req_action = $argv[1];
 if (preg_match('/PUT|GET|POST|PATCH|GET|DELETE/i', $req_action)) {
-    $req_action = strtoupper($action);
+    $req_action = strtoupper($argv[1]);
     $process_index = 2;
 }
 else {
@@ -93,10 +93,13 @@ $req_data = null;
 // No need to cache, this is very low flow CLI at the moment.
 $home = $_ENV['HOME'];
 exec('find '.$home.'/.conveyor/runtime -follow -path "*/src/domain-logic/*" -type d', $output);
+
+$handler = strtolower($req_action)."-";
+$handler .= empty($req_item_id) ? 'all' : 'item';
+
 foreach ($output as $handler_path) {
     $resource = basename($handler_path);
     if ($resource == $req_resource) {
-        $handler = empty($req_item_id) ? 'get-all' : 'get-item';
 
         if (!file_exists("$handler_path/${handler}.php")) {
             error_log("ERROR: Did not find expected '$handler' handler for '$req_path'.\n");
