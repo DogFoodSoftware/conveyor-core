@@ -15,8 +15,9 @@ ALTER CLASS Agent STRICTMODE true
 
 CREATE CLASS User EXTENDS Agent
 ALTER CLASS User STRICTMODE true
-CREATE PROPERTY User.login-email STRING
+CREATE PROPERTY User.primary-email STRING
 CREATE PROPERTY User.profile LINK Profile
-ALTER PROPERTY User.profile MANDATORY true
+ALTER PROPERTY User.profile NOTNULL true
+CREATE INDEX User.primary-email.unique ON User (primary-email) UNIQUE;
 
 quit

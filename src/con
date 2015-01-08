@@ -92,34 +92,38 @@ $req_data = null;
 
 // No need to cache, this is very low flow CLI at the moment.
 $home = $_ENV['HOME'];
-exec('find '.$home.'/.conveyor/runtime -follow -path "*/src/domain-logic/*" -type d', $output);
+// Note we explicitly rely on the requirement that only one resource
+// handler of each type be mounted under the runtime. # TODO: make sure this gets documented and we have an environment verification test.
+exec('find '.$home."/.conveyor/runtime -follow \\( -path '*/src/domain-logic/${req_resource}' -o -path '*/src/domain-logic/*/${req_resource}' \\) -a -type d", $output);
 
 $handler = strtolower($req_action)."-";
 $handler .= empty($req_item_id) ? 'all' : 'item';
 
-foreach ($output as $handler_path) {
-    $resource = basename($handler_path);
-    if ($resource == $req_resource) {
+echo "Searching for handler: $req_resource/$handler\n";
 
-        if (!file_exists("$handler_path/${handler}.php")) {
-            error_log("ERROR: Did not find expected '$handler' handler for '$req_path'.\n");
-            exit(501);
-        }
-        process_params_and_data();
+if (count($output) == 1) {
+    $handler_path = $output[0];
+    if (!file_exists("$handler_path/${handler}.php")) {
+        error_log("ERROR: Did not find expected '$handler' handler for '$req_path'.\n");
+        exit(501);
+    }
+    process_params_and_data();
 
-        require("$handler_path/$handler.php");
-        require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/json-to-text.php");
-        if ($response->get_status() == 200) {
-            exit(0);
-        }
-        else {
-            exit($response->get_status());
-        }
+    require("$handler_path/$handler.php");
+    require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/json-to-text.php");
+    if ($response->get_status() == 200) {
+        exit(0);
+    }
+    else {
+        exit($response->get_status());
     }
 }
-
-// If we fall out of the 'foreach' above, it means no handler was
-// found.
-error_log("ERROR: '$req_path' not found. (No handler.)");
-exit(404);
+elseif (count($output) > 1) {
+    error_log("ERROR: Found multiple handlers for '${req_path}'.");
+    exit(5); # 500
+}
+else { # == 0
+    error_log("ERROR: '$req_path' not found. (No handler.)");
+    exit(4); # 404
+}
 ?>

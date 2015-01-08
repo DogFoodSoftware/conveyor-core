@@ -1,4 +1,7 @@
 <?php
+if (!empty($response->get_info_msg())) {
+    echo $response->get_info_msg()."\n";
+}
 if (!$response->check_request_ok()) {
     echo "Failed with status: ".$response->get_status()."\n";
 }
@@ -6,8 +9,10 @@ if (!$response->check_request_ok()) {
 foreach ($response->get_global_errors() as $error_msg) {
     echo "$error_msg\n";
 }
-foreach ($response->get_field_errors() as $field_name => $error_msg) {
-    echo "$field_name: $error_msg\n";
+foreach ($response->get_field_errors() as $field_name => $error_msgs) {
+    foreach ($error_msgs as $error_msg) {
+        echo "$field_name: $error_msg\n";
+    }
 }
 // Data is only included if everything OK.
 if ($response->check_request_ok()) {
