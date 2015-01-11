@@ -96,7 +96,7 @@ if [[ ! $(type -P nix-env) ]]; then
     if [[ "$ATTEMPT_NIX_INSTALL" != "true" ]]; then
 	read -r -p "Nix installation not found, install? (y/N) " ANSWER
     fi
-    if [[ "$ATTEMPT_NIX_INSTALL" == "true" ]] 
+    if [[ "$ATTEMPT_NIX_INSTALL" == "true" ]] \
 	|| [[ "$ANSWER" =~ ^([yY]|[yY][eE][sS])$ ]]; then
 	# TODO: Implement MD5 check, target specific version.
 	bash <(curl https://nixos.org/nix/install)
