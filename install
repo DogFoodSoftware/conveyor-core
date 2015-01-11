@@ -12,7 +12,7 @@ CONVEYOR_PLAYGROUND="$HOME/playground"
 #  * <div id="Option-Processing" class="section">
 #  * <div class="section-header"><span>Option Processing</span></div>
 #  */
-TMP=`getopt --name=$0 -a --longoptions=checout-version:,cv:,force,playground:,for-development,attempt-nix-installe -o p: -- $@`
+TMP=`getopt --name=$0 -a --longoptions=checout-version:,cv:,force,playground:,for-development,attempt-nix-install -o p: -- $@`
 eval set -- $TMP
 
 function usage() {
