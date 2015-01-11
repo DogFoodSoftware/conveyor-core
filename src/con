@@ -1,4 +1,4 @@
-#!/home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor-php/bin/php
+#!/home/user/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/bin/php-cli-config
 <?php
 function usage($err_msg = null) {
     if ($err_msg != null) {

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-php/bin/php -c $HOME/.conveyor/data/dogfoodsftware.com/conveyor-php/conf/php-cli.ini
