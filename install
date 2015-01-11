@@ -12,7 +12,7 @@ CONVEYOR_PLAYGROUND="$HOME/playground"
 #  * <div id="Option-Processing" class="section">
 #  * <div class="section-header"><span>Option Processing</span></div>
 #  */
-TMP=`getopt --name=$0 -a --longoptions=checout-version:,cv:,force,playground:,for-development -o p: -- $@`
+TMP=`getopt --name=$0 -a --longoptions=checout-version:,cv:,force,playground:,for-development,attempt-nix-installe -o p: -- $@`
 eval set -- $TMP
 
 function usage() {
@@ -27,6 +27,9 @@ function usage() {
     echo "  installation. Forcing the install skips these particular checks. It can be used"
     echo "  to install on self-supported or experimental distros as well as to attempt (a"
     echo "  rather simple) repair of a broken or incomplete install."
+    echo
+    echo "--attempt-nix-install"
+    echo "  Will attempt automated nix install if necessary."
     # echo
     # echo "--checkout-version|--cv"
     # echo "  Specifies the version to use. Note, the nix and git install each use independent"
@@ -41,6 +44,8 @@ until [ $1 == -- ]; do
     case $1 in
 	--force)
 	   FORCE=true;;
+	--attempt-nix-install)
+	    ATTEMPT_NIX_INSTALL=true;;
 	# The remaining options are 'to be implemented'
         # --cv|--checkout-version)
         #    CHECKOUT_VERSION="$2"
@@ -88,8 +93,11 @@ fi
 #  */
 # Check if 'nix' is installed / available.
 if [[ ! $(type -P nix-env) ]]; then
-    read -r -p "Nix installation not found, install? (y/N) " ANSWER
-    if [[ "$ANSWER" =~ ^([yY]|[yY][eE][sS])$ ]]; then
+    if [[ "$ATTEMPT_NIX_INSTALL" != "true" ]]; then
+	read -r -p "Nix installation not found, install? (y/N) " ANSWER
+    fi
+    if [[ "$ATTEMPT_NIX_INSTALL" == "true" ]] 
+	|| [[ "$ANSWER" =~ ^([yY]|[yY][eE][sS])$ ]]; then
 	# TODO: Implement MD5 check, target specific version.
 	bash <(curl https://nixos.org/nix/install)
     else
