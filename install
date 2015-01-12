@@ -230,5 +230,7 @@ else
     rm dogfoodsoftware.com-distro.zip
 fi
 
+# We need to make the cacert available through our user's nix-profile for PHP/composer.
+nix-env -i cacert
 # Install conveyor-core via nix.
 nix-env -f "$HOME/.conveyor/subscriptions/dogfoodsoftware.com/default.nix" -iA conveyor-core
