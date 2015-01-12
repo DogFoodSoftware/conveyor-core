@@ -92,14 +92,61 @@ fi
 #  * Now we check absolute, un-forceable prerequisites.
 #  */
 # Check if 'nix' is installed / available.
+
+# These two functions are 
+
+require_util() {
+    type "$1" > /dev/null 2>&1 || which "$1" > /dev/null 2>&1 ||
+    oops "you do not have \`$1' installed, which i need to $2"
+}
+
+oops() {
+    echo "$0: $@" >&2
+    rm -rf "$unpack"
+    exit 1
+}
+
 if [[ ! $(type -P nix-env) ]]; then
     if [[ "$ATTEMPT_NIX_INSTALL" != "true" ]]; then
 	read -r -p "Nix installation not found, install? (y/N) " ANSWER
     fi
     if [[ "$ATTEMPT_NIX_INSTALL" == "true" ]] \
 	|| [[ "$ANSWER" =~ ^([yY]|[yY][eE][sS])$ ]]; then
-	# TODO: Implement MD5 check, target specific version.
-	bash <(curl https://nixos.org/nix/install)
+	# TODO: Implement MD5 check, target specific version.  bash
+	# <(curl https://nixos.org/nix/install) We'd like to just do
+	# the above, but 1.8 won't compile; libiconv simply gives up
+	# if it's on linux. The install script doesn't include any way
+	# to select the version, so we recreate the script here,
+	# pointing to the 1.7 release.
+
+
+
+	unpack=nix-binary-tarball-unpack
+
+	case "$(uname -s).$(uname -m)" in
+	    Linux.x86_64) system=x86_64-linux;;
+	    Linux.i?86) system=i686-linux;;
+	    Darwin.x86_64) system=x86_64-darwin;;
+	    *) oops "sorry, there is no binary distribution of Nix for your platform";;
+	esac
+
+	url="https://nixos.org/releases/nix/nix-1.7/nix-1.7-$system.tar.bz2"
+
+	require_util curl "download the binary tarball"
+	require_util bzcat "decompress the binary tarball"
+	require_util tar "unpack the binary tarball"
+	
+	echo "unpacking Nix binary tarball for $system from \`$url'..."
+	mkdir "$unpack" || oops "failed to create \`$unpack' directory"
+	curl -L "$url" | bzcat | tar x -C "$unpack" || oops "failed to unpack \`$url'"
+	
+	[ -e "$unpack"/*/install ] ||
+	oops "installation script is missing from the binary tarball!"
+
+	"$unpack"/*/install
+	rm -rf "$unpack"
+
+	source "$HOME/.nix-profile/etc/profile.d/nix.sh"
     else
 	echo "Cannot proceed without nix installation. Aborting." >&2
 	exit 2 # TODO: exit 400 equiv
@@ -178,6 +225,7 @@ else
     curl -L --max-redirs 5 https://github.com/DogFoodSoftware/distro/archive/master.zip > dogfoodsoftware.com-distro.zip
     unzip dogfoodsoftware.com-distro.zip
     mv distro-master/* .
+    rm distro-master/.gitignore
     rmdir distro-master
     rm dogfoodsoftware.com-distro.zip
 fi
