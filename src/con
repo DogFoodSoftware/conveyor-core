@@ -57,34 +57,37 @@ function process_params_and_data() {
 }
 
 // Parse arguments.
-$req_action = $argv[1];
-if (preg_match('/PUT|GET|POST|PATCH|GET|DELETE/i', $req_action)) {
-    $req_action = strtoupper($argv[1]);
-    $process_index = 2;
-}
-else {
+if ($argc == 1 # means just the script name
+    || ($req_action = $argv[1] 
+        && !preg_match('/PUT|GET|POST|PATCH|GET|DELETE/i', $req_action))) {
     $req_action = 'GET';
     $process_index = 1;
+}
+else {
+    $req_action = strtoupper($argv[1]);
+    $process_index = 2;
 }
 
 $req_accept = ($req_action == 'GET' ? 'text/plain' : 'application/json');
 
-$req_path = $argv[$process_index];
+$req_path = $argc > $process_index ? $argv[$process_index] : null;
 if (empty($req_path)) {
     # Special handling for just typing 'con'; not really valid, but no
     # need to be dicks about that. Give the user something useful.
-    $req_path = '/documentation/system/CLI-Help';
+    $req_path = '/documentation/help/CLI';
 }
 $process_index += 1;
 
 # Accepts bear resource name, e.g. 'foo' , as well as '/foo', '/foo/',
 #  and 'foo/'. Item IDs may not end with a '/'.
-if (!preg_match('|/?([\w-]+)(/$)?(/+[\w-]+)*|', $req_path, $matches)) {
+if (!preg_match('|/?([\w-]+)(/$)?((/+[\w-]+)*)|', $req_path, $matches)) {
     usage("Could not parse '$req_path' as valid request.");
     exit(400);
 }
 $req_resource = strtolower($matches[1]);
-$req_item_id = substr(strtolower($matches[3]), 1);
+$req_item_id = count($matches) >= 3 ?
+    substr($matches[3], 1) :
+    null;
 // We will defer processing of the '$req_parameters' and '$req_data'
 // variables until we match the resource.
 $req_parameters = array();
@@ -98,9 +101,6 @@ exec('find '.$home."/.conveyor/runtime -follow \\( -path '*/src/domain-logic/${r
 
 $handler = strtolower($req_action)."-";
 $handler .= empty($req_item_id) ? 'all' : 'item';
-
-echo "Searching for handler: $req_resource/$handler\n";
-
 if (count($output) == 1) {
     $handler_path = $output[0];
     if (!file_exists("$handler_path/${handler}.php")) {
