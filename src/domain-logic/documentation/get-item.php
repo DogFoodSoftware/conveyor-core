@@ -5,7 +5,7 @@
  * <div id="Implementation" data-perspective="coding" class="blurbSummary grid_12">
  * <div class="blurbTitle">Implementation</div>
  */
-$home = $_SERVER["HOME"];
+$home = $_ENV["HOME"];
 require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/response-lib.php");
 require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/authorization-lib.php");
 
