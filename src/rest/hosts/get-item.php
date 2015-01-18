@@ -17,7 +17,7 @@ if ($req_accept == 'text/html') {
     echo_footer();
 }
 else {
-    require("$home/.conveyor/dogfoodsoftware.com/conveyor-core/runnable/domain-logic/get-item-data.php");
+    require("$home/.conveyor/dogfoodsoftware.com/conveyor-core/runnable/domain-logic/hosts/get-item-data.php");
     
     if ($req_accept == 'text/plain') {
         require("$home/.conveyor/dogfoodsoftware.com/conveyor-core/runnable/lib/json-to-text.php");
