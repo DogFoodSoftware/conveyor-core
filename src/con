@@ -56,7 +56,12 @@ function process_params_and_data() {
     }
 }
 
+$home = $_ENV["HOME"];
+require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/response-lib.php");
+$response->set_output(Response::OUTPUT_CLI);
+
 // Parse arguments.
+$req_action = null;
 if ($argc == 1 # means just the script name
     || ($req_action = $argv[1] 
         && !preg_match('/PUT|GET|POST|PATCH|GET|DELETE/i', $req_action))) {
@@ -110,20 +115,14 @@ if (count($output) == 1) {
     process_params_and_data();
 
     require("$handler_path/$handler.php");
-    require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/json-to-text.php");
-    if ($response->get_status() == 200) {
-        exit(0);
-    }
-    else {
-        exit($response->get_status());
-    }
+    // The handler is expected to invoke a final response method. If
+    // not:
+    $response->server_error("Handler failed to invoke final output.");
 }
 elseif (count($output) > 1) {
-    error_log("ERROR: Found multiple handlers for '${req_path}'.");
-    exit(5); # 500
+    $response->server_error("Found multiple handlers for '${req_path}'.");
 }
 else { # == 0
-    error_log("ERROR: '$req_path' not found. (No handler.)");
-    exit(4); # 404
+    $response->item_not_found("'$req_path' not found. (No handler.)");
 }
 ?>

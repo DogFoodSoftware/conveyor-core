@@ -8,7 +8,6 @@
  * <div id="Implementation" data-perspective="implementation" class="blurbSummary grid_12">
  * <div class="blurbTitle">Implementation</div>
  */
-require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/response-lib.php");
 if ($req_item_id != 'this') {
     $response->item_not_found();
 }

@@ -1,4 +1,5 @@
 <?php
+require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/response-lib.php");
 /**
  * <div class="p">
  *   The scaffold is intended to be called once from the initial REST
@@ -6,9 +7,6 @@
  *   resources will be made through domain logic calls.
  * </div>
  */
-
-// Process req_resource and req_item_id
-
 // Process req_accept
 if ('GET' == $_SERVER['REQUEST_METHOD']) {
     $_supported_response_types = array('text/html', 'application/json');
@@ -99,4 +97,24 @@ else { // Parse the client HTTP_ACCEPT header to try and match.
 	}
     }
 }
+
+# Now that we have the accept parameters, we can condition the
+# $response object.
+if ($req_accept == 'text/html') {
+    $response->set_output(Response::OUTPUT_HTML);
+    # require_once('/home/user/playground/dogfoodsoftware.com/kibbles/runnable/lib/interface-response-lib.php');
+}
+else { // (respond_in_json())
+    $response->set_output(Response::OUTPUT_JSON);
+    # require_once('/home/user/playground/dogfoodsoftware.com/kibbles/runnable/lib/data-response-lib.php');
+}
+
+// Process req_resource and req_item_id
+if (!preg_match('|/?([\w-]+)(/$)?((/+[\w-]+)*)|', $_SERVER['REQUEST_URI'], $matches)) {
+    $response->invalid_request("Could not parse '$req_path' as valid request.");
+}
+$req_resource = strtolower($matches[1]);
+$req_item_id = count($matches) >= 3 ?
+    substr($matches[3], 1) :
+    null;
 ?>

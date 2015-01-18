@@ -1,33 +1,65 @@
 <?php
 class Response {
+    const OUTPUT_CLI = 'CLI';
+    const OUTPUT_HTML = 'HTML';
+    const OUTPUT_JSON = 'JSON';
+
     private $status = 200;
     private $info_msg = null;
     private $global_errors = array();
     private $field_errors = array();
 
+    private $output = self::OUTPUT_JSON;
+    private $output_field = null;
+
+    function set_output($output) {
+        $this->output = $output;
+    }
+
+    function set_output_field($field_spec) {
+        $this->output_field = $field_spec;
+    }
+
+    // Terminal methods.
     function ok($msg, $data = null) {
         $this->info_msg = "INFO: $msg";
         $this->data = $data;
+        $this->_output();
     }
 
     function created($msg, $data) {
         $this->info_msg = "INFO: $msg";
         $this->data = $data;
         $this->try_set_status(201);
+        $this->_output();
     }
 
     function not_implemented() {
         global $req_path;
         $this->add_global_error("Item '$req_path' not implemented.", 501);
+        $this->_output();
     }
 
     function server_error($msg) {
         $this->add_global_error("$msg", 500);
+        $this->_output();
     }
 
-    function item_not_found() {
+    function invalid_request($msg = null) {
+        if ($msg == null) {
+            $msg = "Invalid request '$req_path'.";
+        }
+        $this->add_global_error($msg, 400);
+        $this->_output();
+    }
+
+    function item_not_found($msg = null) {
         global $req_path;
-        $this->add_global_error("Item '$req_path' not found.", 404);
+        if (empty($msg)) {
+            $msg = "Item '$req_path' not found.";
+        }
+        $this->add_global_error($msg, 404);
+        $this->_output();
     }
 
     function check_request_ok() {
@@ -105,9 +137,68 @@ class Response {
         }
     }
 
-    function _decompose($field_name) {
-        global $req_data;
-        $data = $req_data;
+    function get_bash_status() {
+        switch ($this->status) {
+        case 200:
+        case 201:
+            return 0;
+        case 400:
+            return 40;
+        case 404:
+            return 44;
+        case 500:
+            return 50;
+        case 501:
+            return 51;
+        default:
+            return 127;
+        }
+    }
+
+    function _output() {
+        if ($this->output == self::OUTPUT_CLI) {
+            if (!empty($this->get_info_msg())) {
+                echo $this->get_info_msg()."\n";
+            }
+            if (!$this->check_request_ok()) {
+                error_log("Failed with status: ".$this->get_status());
+            }
+            // There may be warnings even if status is OK.
+            foreach ($this->get_global_errors() as $error_msg) {
+                error_log("$error_msg");
+            }
+            foreach ($this->get_field_errors() as $field_name => $error_msgs) {
+                foreach ($error_msgs as $error_msg) {
+                    error_log("$field_name: $error_msg");
+                }
+            }
+            // Data is only included if everything OK.
+            if ($this->check_request_ok()) {
+                // Most data is JSON, but there are some cases where we get raw text.
+                $json_string = json_encode($this->get_data(), JSON_PRETTY_PRINT)."\n";
+                echo ($json_string != null ? $json_string : $this->get_data());
+            }
+        }
+        elseif ($this->output == self::OUTPUT_HTML) {
+            if (!empty($this->output_field)) {
+                require("$home/.conveyor/dogfoodsoftware.com/conveyor-core/runnable/simple-html-template.php");
+                echo_header();
+                echo $this->_decompose($this->output_field, $this->get_data());
+                echo_footer();
+            }
+            else {
+                echo "TODO!";
+            }
+        }
+
+        exit($this->get_bash_status());
+    }
+
+    function _decompose($field_name, $data = null) {
+        if ($data == null) {
+            global $req_data;
+            $data = $req_data;
+        }
         $bits = explode('.', $field_name);
         foreach ($bits as $bit) {
             $data = $data[$bit];

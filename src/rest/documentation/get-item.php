@@ -8,21 +8,8 @@
  */
 $home = $_ENV['HOME'];
 require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/rest-scaffold.php");
+$response->set_output_field("document.contents");
 require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/domain-logic/documentation/get-item.php");
-
-if ($response->check_request_ok()) {
-    if ($req_accept == 'text/html') {
-        require("$home/.conveyor/dogfoodsoftware.com/conveyor-core/runnable/simple-html-template.php");
-        echo_header();
-        require("$home/.conveyor/dogfoodsoftware.com/conveyor-core/runnable/ui/documentation-item-html.php");
-        echo_footer();
-    }
-    else {
-        if ($req_accept == 'text/plain') {
-            require("$home/.conveyor/dogfoodsoftware.com/conveyor-core/runnable/lib/json-to-text.php");
-        }
-    }
-}
 ?>
 <?php /**
 </div><!-- .descirption -->
