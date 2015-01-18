@@ -179,19 +179,63 @@ class Response {
                 echo ($json_string != null ? $json_string : $this->get_data());
             }
         }
-        elseif ($this->output == self::OUTPUT_HTML) {
-            if (!empty($this->output_field)) {
-                require("$home/.conveyor/dogfoodsoftware.com/conveyor-core/runnable/simple-html-template.php");
-                echo_header();
-                echo $this->_decompose($this->output_field, $this->get_data());
-                echo_footer();
+        else { // Both HTML and JSON outputs are HTTP so we handle the
+               // headers universally.
+            header("Cache-Control: no-cache, must-revalidate");
+            header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
+            $this->_output_http_status();
+
+            if ($this->output == self::OUTPUT_HTML) {
+                header("Content-Type: text/html");
+
+                $template_path = apache_getenv('TEMPLATE_PATH');
+                if (!empty($template_path)) {
+                    require("$template_path/page_open.php");
+                }
+                if (!empty($this->output_field)) {
+                    
+                    echo $this->_decompose($this->output_field, $this->get_data());
+
+                }
+                else {
+                    echo "TODO!";
+                }
+                if (!empty($template_path)) {
+                    require("$template_path/page_close.php");
+                }
             }
-            else {
-                echo "TODO!";
+            else { // JSON should be only option, and in any case
+                   // we'll takes default
+                header("Content-Type: application/json");
             }
         }
 
         exit($this->get_bash_status());
+    }
+
+    function _output_http_status() {
+        $pre = 'HTTP/1.0 ';
+
+        switch ($this->get_status()) {
+        case 200:
+            header($pre.'200 OK');
+            break;
+        case 201:
+            header($pre.'201 Created');
+            break;
+        case 400:
+            header($pre.'400 Bad Request');
+            break;
+        case 404:
+            header($pre.'404 Not Found');
+            break;
+        case 500:
+            header($pre.'500 Server Error');
+            break;
+        default:
+            header($pre."501 Status '".$this->get_status()."' not implemented");
+            break;
+        };
     }
 
     function _decompose($field_name, $data = null) {
