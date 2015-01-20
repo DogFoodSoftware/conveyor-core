@@ -7,6 +7,9 @@ require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/
  *   resources will be made through domain logic calls.
  * </div>
  */
+
+$req_path = $_SERVER['REQUEST_URI'];
+
 // Process req_accept
 if ('GET' == $_SERVER['REQUEST_METHOD']) {
     $_supported_response_types = array('text/html', 'application/json');
@@ -110,7 +113,7 @@ else { // (respond_in_json())
 }
 
 // Process req_resource and req_item_id
-if (!preg_match('|/?([\w-]+)(/$)?((/+[\w-]+)*)|', $_SERVER['REQUEST_URI'], $matches)) {
+if (!preg_match('|/?([\w-]+)(/$)?((/+[\w-]+)*)|', $req_path, $matches)) {
     $response->invalid_request("Could not parse '$req_path' as valid request.");
 }
 $req_resource = strtolower($matches[1]);

@@ -8,6 +8,7 @@ class Response {
     private $info_msg = null;
     private $global_errors = array();
     private $field_errors = array();
+    private $deferred = false;
 
     private $output = self::OUTPUT_JSON;
     private $output_field = null;
@@ -120,8 +121,25 @@ class Response {
         return $this->info_msg;
     }
 
+    function set_data($data) {
+        $this->data = $data;
+    }
+
     function get_data() {
         return $this->data;
+    }
+
+    function defer() {
+        $this->deferred = true;
+    }
+
+    function finish() {
+        $this->deferred = false;
+        $this->_output();
+    }
+
+    function is_deferred() {
+        return $this->deferred;
     }
 
     function try_set_status($try_status) {
@@ -156,6 +174,10 @@ class Response {
     }
 
     function _output() {
+        if ($this->deferred) {
+            return;
+        }
+
         if ($this->output == self::OUTPUT_CLI) {
             if (!empty($this->get_info_msg())) {
                 echo $this->get_info_msg()."\n";

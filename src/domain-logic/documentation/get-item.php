@@ -10,14 +10,17 @@ require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/
 $file_path = "$home/.conveyor/data/dogfoodsoftware.com/conveyor-core/documentation/$req_item_id";
 
 if (!file_exists($file_path)) {
+    // $response->defer();
+    $msg = "404: Did not find '$req_path'.";
+    $response->set_data(array("document" => array('contents' => $msg)));
     $response->item_not_found();
+    // $response->finish();
 }
-
-$document_contents = file_get_contents($file_path);
-
-$document = array("document" => array('contents' => $document_contents));
-
-$response->ok('Document retrieved.', $document);
+else {
+    $document_contents = file_get_contents($file_path);
+    $document = array("document" => array('contents' => $document_contents));
+    $response->ok('Document retrieved.', $document);
+}
 ?>
 <?php /**
 </div><!-- .blurbSummary#Implementation -->
