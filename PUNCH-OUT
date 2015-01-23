@@ -1,20 +1,24 @@
 0.1 Projects
 
 - conveyor-core
-  - httpd
-  - php
-  - postgres
-  - minify
-- conveyor-distro
+  - redo package names to all nest under orgs; no need for subdirs(;
+    github's right)
+  - redo installation to remove the conveyor runtime? seems like we
+    may be able to entirely cover with nix and then do some neat
+    tricks when the data structure's don't change. Specifically, if we
+    move the development install as another nix version, like
+    'conveyor-apache/default.nix' and
+    'conveyor-apache/development.nix', then we could install /both/
+    and flip back and forth effortlessly.
+- distro
   - define upgrade process
 - conveyor-environment
 - conveyor-workflow
-- conveyor-documentation (was kwiki)
 - liquid-labs/bi-curious
 - jquery perspectives
 - jquery element docker
 - jquery page browser
-
+- jquery power slide
 
 First Draft Specs
 
