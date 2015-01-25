@@ -209,10 +209,13 @@ class Response {
 
             if ($this->output == self::OUTPUT_HTML) {
                 header("Content-Type: text/html");
-
                 $template_path = apache_getenv('TEMPLATE_PATH');
                 if (!empty($template_path)) {
                     require("$template_path/page_open.php");
+                    $breadcrumb = $this->get_data['breadcrumb'];
+
+                    $this->_output_breadcrumb();
+                    $this->_output_page_header();
                 }
                 if (!empty($this->output_field)) {
                     
@@ -223,6 +226,7 @@ class Response {
                     echo "TODO!";
                 }
                 if (!empty($template_path)) {
+                    $this->_output_breadcrumb();
                     require("$template_path/page_close.php");
                 }
             }
@@ -273,6 +277,31 @@ class Response {
             }
         }
         return $data;
+    }
+
+    function _output_breadcrumb() {
+        $breadcrumb = $this->get_data()['breadcrumb'];
+        if (empty($breadcrumb)) {
+            echo "WHAT?";
+            return;
+        }
+
+        echo "<nav>\n";
+        echo "  <ol class=\"breadcrumb\">\n";
+        foreach ($breadcrumb as $crumb) {
+            echo "    <li><a href=\"/documentation/{$crumb['path']}\">{$crumb['name']}</a></li>\n";
+        }
+        $title = $this->get_data()['title'];
+        echo "    <li class=\"active\">{$title}</li>\n";
+        echo "  </ol>\n";
+        echo "</nav>\n";
+    }
+
+    function _output_page_header() {
+        $title = $this->get_data()['title'];
+        if (!empty($title)) {
+            echo "<div class=\"page-header\">{$title}</div>\n";
+        }
     }
 }
 

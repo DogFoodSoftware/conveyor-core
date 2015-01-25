@@ -17,6 +17,27 @@ if (!file_exists($file_path)) {
 else {
     $document_contents = file_get_contents($file_path);
     $document = array("document" => array('contents' => $document_contents));
+    if (preg_match('/^\s*<!--\s+breadcrumb:\s*((\/?[\(\)\w |-]+))\s*-->\s*$/m', $document_contents, $matches)) {
+        $breadcrumb_spec = $matches[1];
+        if (!empty($breadcrumb_spec)) {
+            $breadcrumb = array();
+            $crumb_specs = explode('|', $breadcrumb_spec);
+            $document['title'] = array_pop($crumb_specs);
+            foreach ($crumb_specs as $crumb_spec) {
+                if (preg_match('/\(([^\)]+)\)?(.+)/', $crumb_spec, $matches)) {
+                    $crumb = array('path' => $matches[1],
+                                   'name' => $matches[2]);
+                    if (empty($crumb['path'])) {
+                        $crumb['path'] = $name;
+                    }
+                    array_push($breadcrumb, $crumb);
+                }
+                // else add warning to response
+            }
+            $document['breadcrumb'] = $breadcrumb;
+                            
+        }
+    }
     $response->ok('Document retrieved.', $document);
 }
 ?>
