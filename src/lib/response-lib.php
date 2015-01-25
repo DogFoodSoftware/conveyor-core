@@ -200,9 +200,6 @@ class Response {
                 $output_data = array();
                 function trunc_walk($src, &$target) {
                     foreach ($src as $key => $value) {
-                        echo "src: $src\n";
-                        echo "key: $key\n";
-                        echo "value: $value\n";
                         if (is_array($value)) {
                             $target[$key] = array();
                             trunc_walk($value, $target[$key]);
@@ -231,7 +228,7 @@ class Response {
                 $template_path = apache_getenv('TEMPLATE_PATH');
                 if (!empty($template_path)) {
                     require("$template_path/page_open.php");
-                    $breadcrumb = $this->get_data['breadcrumb'];
+                    $breadcrumb = $this->get_data['document']['breadcrumb'];
 
                     $this->_output_breadcrumb();
                     $this->_output_page_header();
@@ -299,7 +296,7 @@ class Response {
     }
 
     function _output_breadcrumb() {
-        $breadcrumb = $this->get_data()['breadcrumb'];
+        $breadcrumb = $this->get_data()['document']['breadcrumb'];
         if (empty($breadcrumb)) {
             echo "WHAT?";
             return;
@@ -310,14 +307,14 @@ class Response {
         foreach ($breadcrumb as $crumb) {
             echo "    <li><a href=\"/documentation/{$crumb['path']}\">{$crumb['name']}</a></li>\n";
         }
-        $title = $this->get_data()['title'];
+        $title = $this->get_data()['document']['title'];
         echo "    <li class=\"active\">{$title}</li>\n";
         echo "  </ol>\n";
         echo "</nav>\n";
     }
 
     function _output_page_header() {
-        $title = $this->get_data()['title'];
+        $title = $this->get_data()['document']['title'];
         if (!empty($title)) {
             echo "<div class=\"page-header\">{$title}</div>\n";
         }

@@ -16,7 +16,7 @@ if (!file_exists($file_path)) {
 }
 else {
     $document_contents = file_get_contents($file_path);
-    $document = array("document" => array('contents' => $document_contents));
+    $document = array('contents' => $document_contents);
     if (preg_match('/^\s*<!--\s+breadcrumb:\s*((\/?[\(\)\w |-]+))\s*-->\s*$/m', $document_contents, $matches)) {
         $breadcrumb_spec = $matches[1];
         if (!empty($breadcrumb_spec)) {
@@ -38,7 +38,10 @@ else {
                             
         }
     }
-    $response->ok('Document retrieved.', $document);
+    else { // No breadcrumb def, let's divine the title.
+        $document['title'] = basename($req_path);
+    }
+    $response->ok('Document retrieved.', array("document" => $document));
 }
 ?>
 <?php /**
