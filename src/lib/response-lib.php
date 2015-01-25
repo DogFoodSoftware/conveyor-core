@@ -298,7 +298,6 @@ class Response {
     function _output_breadcrumb() {
         $breadcrumb = $this->get_data()['document']['breadcrumb'];
         if (empty($breadcrumb)) {
-            echo "WHAT?";
             return;
         }
 
