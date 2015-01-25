@@ -197,7 +197,26 @@ class Response {
             // Data is only included if everything OK.
             if ($this->check_request_ok()) {
                 // Most data is JSON, but there are some cases where we get raw text.
-                $json_string = json_encode($this->get_data(), JSON_PRETTY_PRINT)."\n";
+                $output_data = array();
+                function trunc_walk($src, &$target) {
+                    foreach ($src as $key => $value) {
+                        echo "src: $src\n";
+                        echo "key: $key\n";
+                        echo "value: $value\n";
+                        if (is_array($value)) {
+                            $target[$key] = array();
+                            trunc_walk($value, $target[$key]);
+                        }
+                        elseif (is_string($value) && strlen($value) > 64) {
+                            $target[$key] = substr($value, 0, 64).'...';
+                        }
+                        else {
+                            $target[$key] = $value;
+                        }
+                    }
+                }
+                trunc_walk($this->get_data(), $output_data);
+                $json_string = json_encode($output_data, JSON_PRETTY_PRINT)."\n";
                 echo ($json_string != null ? $json_string : $this->get_data());
             }
         }
