@@ -43,11 +43,14 @@ FORCE_CORE=false
 ATTEMPT_NIX_INSTALL=false
 FORCE_DISTRO=false
 
-TMP=`getopt --name=$0 -a --longoptions=checkout-version:,cv:,force,playground:,for-development,attempt-nix-install -o p: -- $@`
+TMP=`getopt --name=$0 -a --longoptions=force-core,force-distro,attempt-nix-install -o f -- $@`
 eval set -- $TMP
 
 until [ $1 == -- ]; do
     case "$1" in
+	-f)
+	    FORCE_CORE=true
+	    FORCE_DISTRO=true;;
 	--force-core)
 	    FORCE_CORE=true;;
 	--attempt-nix-install)
@@ -59,7 +62,15 @@ until [ $1 == -- ]; do
 done
 shift
 
-bash <(curl https://raw.githubusercontent.com/DogFoodSoftware/distro/master/install)
+DISTRO_INSTALL_OPTIONS=""
+if [[ $FORCE_DISTRO == true ]]; then
+    DISTRO_INSTALL_OPTIONS="--force"
+fi
+if [[ $ATTEMPT_NIX_INSTALL == true ]]; then
+    DISTRO_INSTALL_OPTIONS="$DISTRO_INSTALL_OPTIONS --attempt-nix-install"
+fi
+
+bash <(curl https://raw.githubusercontent.com/DogFoodSoftware/distro/master/install $DISTRO_INSTALL_OPTIONS)
 
 # Need to be able to 'sudo' root for certain operations.  TODO: with
 # the adoption of nix, some of the original motives for this are no
