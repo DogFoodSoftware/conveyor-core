@@ -70,7 +70,7 @@ if [[ $ATTEMPT_NIX_INSTALL == true ]]; then
     DISTRO_INSTALL_OPTIONS="$DISTRO_INSTALL_OPTIONS --attempt-nix-install"
 fi
 
-bash <(curl https://raw.githubusercontent.com/DogFoodSoftware/distro/master/install $DISTRO_INSTALL_OPTIONS)
+bash <(curl https://raw.githubusercontent.com/DogFoodSoftware/distro/master/install) $DISTRO_INSTALL_OPTIONS
 
 # Need to be able to 'sudo' root for certain operations.  TODO: with
 # the adoption of nix, some of the original motives for this are no
