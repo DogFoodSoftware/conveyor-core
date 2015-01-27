@@ -12,8 +12,7 @@ CONVEYOR_PLAYGROUND="$HOME/playground"
 #  * <div id="Option-Processing" class="section">
 #  * <div class="section-header"><span>Option Processing</span></div>
 #  */
-TMP=`getopt --name=$0 -a --longoptions=checout-version:,cv:,force,playground:,for-development,attempt-nix-install -o p: -- $@`
-eval set -- $TMP
+
 
 function usage() {
     echo "Installs and initializes a Conveyor environment on the host."
@@ -40,124 +39,28 @@ function usage() {
     echo
 }
 
+FORCE_CORE=false
+ATTEMPT_NIX_INSTALL=false
+FORCE_DISTRO=false
+
+TMP=`getopt --name=$0 -a --longoptions=checkout-version:,cv:,force,playground:,for-development,attempt-nix-install -o p: -- $@`
+eval set -- $TMP
+
 until [ $1 == -- ]; do
-    case $1 in
-	--force)
-	   FORCE=true;;
+    case "$1" in
+	--force-core)
+	    FORCE_CORE=true;;
 	--attempt-nix-install)
 	    ATTEMPT_NIX_INSTALL=true;;
-	# The remaining options are 'to be implemented'
-        # --cv|--checkout-version)
-        #    CHECKOUT_VERSION="$2"
-        #    shift;; # Remove option value.
-	# We leave this one active to allow early testing.
-	-p|--playground)
-	    CONVEYOR_PLAYGROUND="$2"
-	    shift;; # Remove option value.
+	--force-distro)
+	    FORCE_DISTRO=true;;
     esac
-    shift # Remove just-processed option.
+    shift
 done
-shift # Remove the '--', now $1 positioned at first argument if any.
+shift
 
-# /**
-#  * </div><!-- #Default-Values.section -->
-#  *
-#  * <div id="Prerequisite-Checks" class="section">
-#  * <div class="section-header"><span>Prerequisites Check</span></div>
-#  */
-PREREQUISITES_GOOD='true'
-# /**
-#  * Unless <code>--force</code>d, the OS+distro is explicitly 
-#  * supported.
-#  */
-if [[ $FORCE != 'true' ]]; then
-    DISTRO_SUPPORT_STATEMENT="Conveyor 0.1 supports openSuSE 13.1."
-    if [ ! -f /etc/SuSE-release ]; then
-       echo $DISTRO_SUPPORT_STATEMENT >&2
-       PREREQUISITES_GOOD='false'
-    else
-       # Wish the SuSE-release file was bash compatible...
-       VERSION=`grep 'VERSION' /etc/SuSE-release | awk '{print $3}'`
-       case "$VERSION" in
-           13.1)
-               ;; # that's fine
-           *) # anything else though...
-               echo $DISTRO_SUPPORT_STATEMENT >&2
-	       PREREQUISITES_GOOD='false'
-               ;;
-       esac
-    fi
-fi
-# /**
-#  * Now we check absolute, un-forceable prerequisites.
-#  */
-# Check if 'nix' is installed / available.
+bash <(curl https://raw.githubusercontent.com/DogFoodSoftware/distro/master/install)
 
-# These two functions are 
-
-require_util() {
-    type "$1" > /dev/null 2>&1 || which "$1" > /dev/null 2>&1 ||
-    oops "you do not have \`$1' installed, which i need to $2"
-}
-
-oops() {
-    echo "$0: $@" >&2
-    rm -rf "$unpack"
-    exit 1
-}
-
-if [[ ! $(type -P nix-env) ]]; then
-    if [[ "$ATTEMPT_NIX_INSTALL" != "true" ]]; then
-	read -r -p "Nix installation not found, install? (y/N) " ANSWER
-    fi
-    if [[ "$ATTEMPT_NIX_INSTALL" == "true" ]] \
-	|| [[ "$ANSWER" =~ ^([yY]|[yY][eE][sS])$ ]]; then
-	# TODO: Implement MD5 check, target specific version.  bash
-	# <(curl https://nixos.org/nix/install) We'd like to just do
-	# the above, but 1.8 won't compile; libiconv simply gives up
-	# if it's on linux. The install script doesn't include any way
-	# to select the version, so we recreate the script here,
-	# pointing to the 1.7 release.
-
-
-
-	unpack=nix-binary-tarball-unpack
-
-	case "$(uname -s).$(uname -m)" in
-	    Linux.x86_64) system=x86_64-linux;;
-	    Linux.i?86) system=i686-linux;;
-	    Darwin.x86_64) system=x86_64-darwin;;
-	    *) oops "sorry, there is no binary distribution of Nix for your platform";;
-	esac
-
-	url="https://nixos.org/releases/nix/nix-1.7/nix-1.7-$system.tar.bz2"
-
-	require_util curl "download the binary tarball"
-	require_util bzcat "decompress the binary tarball"
-	require_util tar "unpack the binary tarball"
-	
-	echo "unpacking Nix binary tarball for $system from \`$url'..."
-	mkdir "$unpack" || oops "failed to create \`$unpack' directory"
-	curl -L "$url" | bzcat | tar x -C "$unpack" || oops "failed to unpack \`$url'"
-	
-	[ -e "$unpack"/*/install ] ||
-	oops "installation script is missing from the binary tarball!"
-
-	"$unpack"/*/install
-	rm -rf "$unpack"
-
-	source "$HOME/.nix-profile/etc/profile.d/nix.sh"
-    else
-	echo "Cannot proceed without nix installation. Aborting." >&2
-	exit 2 # TODO: exit 400 equiv
-    fi
-fi
-# If nix still not installed at this point, then we're out of luck.
-if [[ ! $(type -P nix-env) ]]; then
-    echo "Could not find or install nix. After manually install nix," >&2
-    echo "  try the installation again." >&2
-    exit 2
-fi
 # Need to be able to 'sudo' root for certain operations.  TODO: with
 # the adoption of nix, some of the original motives for this are no
 # longer true. For SOME use cases it is necessary, but not for basic
@@ -184,50 +87,6 @@ if nix-env --query --out-path conveyor-core 2>/dev/null; then
 	 # initial setup.
 	echo "Found existing installation. Checking setup..."
     fi
-fi
-
-# Setup DogFoodSoftware.com distro.
-for DIR in "$HOME/.conveyor" \
-           "$HOME/.conveyor/subscriptions"; do
-    # We do the check and create because the '-p' can mask problems. Since
-    # we build from the bottom up, the 'create parents' effect is not
-    # necessary.
-    if [ ! -d "$DIR" ]; then
-	mkdir "$DIR"
-    fi
-done
-
-# Use local playground distro if present.
-if [ -d "$HOME/playground/dogfoodsoftware.com/distro" ]; then
-    if [ -h "$HOME/.conveyor/subscriptions/dogfoodsoftware.com" ]; then
-	if [[ `readlink "$HOME/.conveyor/subscriptions/dogfoodsoftware.com"` == "$HOME/playground/dogfoodsoftware.com/distro" ]]; then
-	    echo "Local DogFoodSoftware.com distro checkout already linked as subscription. Continuing..."
-	else
-	    echo "Local DogFoodSoftware.com distro found, but subscription links to:" >&2
-	    echo "  `readlink '$HOME/.conveyor/subscriptions/dogfoodsoftware.com'`" >&2
-	    echo "bailing out. >&2"
-	    exit 2
-	fi
-    elif [ -d "$HOME/.conveyor/subscriptions/dogfoodsoftware.com" ]; then	
-	echo "Found local dogfoodsoftware.com distro checkout, but also" >&2
-	echo "'$HOME/.conveyor/subscriptions/dogfoodsoftware.com' to use checkout, execute:" >&2
-	echo >&2
-	echo "  rm -rf '$HOME/.conveyor/subscriptions/dogfoodsoftware.com'"
-	echo >&2
-	echo "and re-run the install script."
-	exit 2
-    else # Then we have a local checkout, but no distro link; create it.
-	ln -s "$HOME/playground/dogfoodsoftware.com/distro" "$HOME/.conveyor/subscriptions/dogfoodsoftware.com"
-    fi
-else
-    mkdir "$HOME/.conveyor/subscriptions/dogfoodsoftware.com"
-    cd "$HOME/.conveyor/subscriptions/dogfoodsoftware.com"
-    curl -L --max-redirs 5 https://github.com/DogFoodSoftware/distro/archive/master.zip > dogfoodsoftware.com-distro.zip
-    unzip dogfoodsoftware.com-distro.zip
-    mv distro-master/* .
-    rm distro-master/.gitignore
-    rmdir distro-master
-    rm dogfoodsoftware.com-distro.zip
 fi
 
 # We need to make the cacert available through our user's nix-profile
