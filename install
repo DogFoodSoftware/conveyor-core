@@ -107,6 +107,7 @@ fi
 # We need to make the cacert available through our user's nix-profile
 # for PHP/composer. It's a bit of a hack, but there you go.
 nix-env -i cacert
+nix-env -iA nixpkgs.jre
 # TODO: conveyor-core needs to come lat because it references the
 # conveyor paths, so it expects the stuff to be installed and
 # available from .nix-profile. Should make more nix conventional so
