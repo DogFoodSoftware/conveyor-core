@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # /**
 #  * <div id="Default-Values" class="section">
 #  * <div class="section-header"><span>Default Values</span></div>
