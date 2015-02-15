@@ -109,10 +109,6 @@ fi
 # for PHP/composer. It's a bit of a hack, but there you go.
 nix-env -i cacert
 nix-env -iA nixpkgs.jre
-# TODO: conveyor-core needs to come lat because it references the
-# conveyor paths, so it expects the stuff to be installed and
-# available from .nix-profile. Should make more nix conventional so
-# the install order is not important.
-for i in conveyor-php conveyor-apache conveyor-mysql conveyor-orientdb conveyor-core; do
+for i in conveyor-core conveyor-php conveyor-apache conveyor-mysql conveyor-orientdb; do
     nix-env -f "$HOME/.conveyor/subscriptions/dogfoodsoftware.com/default.nix" -iA $i
 done
