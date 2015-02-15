@@ -74,6 +74,7 @@ fi
 if [[ ! -e "$HOME/.conveyor/subscriptions/dogfoodsoftware.com" ]]; then
     bash <(curl https://raw.githubusercontent.com/DogFoodSoftware/distro/master/install) $DISTRO_INSTALL_OPTIONS
 fi
+source $HOME/.nix-profile/etc/profile.d/nix.sh
 
 PREREQUISITES_GOOD=true
 # Need to be able to 'sudo' root for certain operations.  TODO: with
