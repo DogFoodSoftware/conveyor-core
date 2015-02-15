@@ -22,33 +22,46 @@
 # * </div><!-- #Overview.blurbSummary -->
 # */
 
-DEFINE_boolean 'quiet' $FLAGS_FALSE 'Suppresses "merely informative" output.' 'q'
-DEFINE_boolean 'verbose' $FLAGS_FALSE 'Generally makes scripts more chatty.' 'v'
+while [[ $# > 0 ]]; do
+    case "$1" in
+        --quite|-q)
+            SHELL_ECHO_QUITE=YES
+            shift ;;
+        --verbose|-v)
+            SHELL_ECHO_VERBOSE=YES
+            shift ;;
+        *)
+            SHELL_ECHO_PASSTHRU="$SHELL_ECHO_PASSTHRU $1"
+            shift ;;
+    esac
+done
+
+set -- $SHELL_ECHO_PASSTHRU
 
 function qecho() {
     # Don't be quiet?
-    if [ $FLAGS_quiet -eq $FLAGS_FALSE ]; then
+    if [[ $SHELL_ECHO_QUITE == YES ]]; then
 	echo "$1"
     fi
 }
 
 function vecho() {
     # Be noisy?
-    if [ $FLAGS_verbose -eq $FLAGS_TRUE ]; then
+    if [[ $SHELL_ECHO_VERBOSE == YES ]]; then
 	echo "$1"
     fi
 }
 
 function qerr() {
     # Don't be quiet?
-    if [ $FLAGS_quiet -eq $FLAGS_FALSE ]; then
+    if [[ $SHELL_ECHO_QUITE == YES ]]; then
 	echo "$1" >&2
     fi
 }
 
 function verr() {
     # Be noisy?
-    if [ $FLAGS_verbose -eq $FLAGS_TRUE ]; then
+    if [[ $SHELL_ECHO_VERBOSE == YES ]]; then
 	echo "$1" >&2
     fi
 }
