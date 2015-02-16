@@ -19,13 +19,33 @@ if (!$response->check_request_ok()) {
     return;
 }
 
-exec('find '.$home.'/.conveyor/runtime -follow -path "*/src/domain-logic/*" -type d', $resources);
-function trim_resource_path($path) {
-
-    return basename($path);
+exec('find '.$home.'/.conveyor/runtime -follow -path "*/src/domain-logic/*" -type d -exec basename {} \\;', $resource_names);
+sort($resource_names);
+$resources = array();
+function package_extract($path) {
+    return preg_replace('|.*/([^/]+/[^/]+)/src/domain-logic/.+|', '$1', $path);
 }
-$resources = array_map('trim_resource_path', $resources);
-sort($resources);
+foreach ($resource_names as $resource_name) {
+    if (!array_key_exists($resource_name, $resource_names)) {
+        $package_providers = array();
+        exec('find '.$home.'/.conveyor/runtime -follow -path "*/src/domain-logic/'.$resource_name.'" -type d', $package_providers);
+        $package_providers = array_map('package_extract', $package_providers);
+
+        $config_link = "{$home}/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/service-{$resource_name}.httpd.conf";
+	$provider = null;
+        $config = file_exists($config_link) ? readlink($config_link) : null;
+        if ($config === FALSE) { # TODO: log something
+        }
+        elseif ($config != null) {
+            $provider = preg_replace('|.*/([^/]+/[^/]+)/conf/.+|', '$1', $config);
+        }
+
+        $resources[$resource_name] =
+	  array('name' => $resource_name,
+	        'package-providers' => $package_providers,
+		'provider' => $provider);
+    }
+}
 
 if (!file_exists("$home/.conveyor/host-id")) {
     $response->add_global_warning("Conveyor host ID not found; new ID generated.");
