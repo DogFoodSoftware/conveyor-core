@@ -213,7 +213,7 @@ class Response {
                     }
                 }
                 trunc_walk($this->get_data(), $output_data);
-                $json_string = json_encode($output_data, JSON_PRETTY_PRINT)."\n";
+                $json_string = json_encode($output_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)."\n";
                 echo ($json_string != null ? $json_string : $this->get_data());
             }
         }
