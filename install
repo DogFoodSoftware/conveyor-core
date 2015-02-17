@@ -114,3 +114,10 @@ nix-env -iA nixpkgs.jre
 for i in conveyor-core conveyor-php conveyor-apache conveyor-mysql conveyor-orientdb; do
     nix-env -f "$HOME/.conveyor/subscriptions/dogfoodsoftware.com/default.nix" -iA $i
 done
+
+# Normally, we use conveyor itself to 'mount' service handlers, but this
+# requires the service handler for the 'hosts' already be setup, so we have to
+# tackle that one manually. (Note, if a different handler is desired, they can
+# now re-mount the new handler to override this, but you have to start
+# somewhere.)
+ln -s "$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/conf/service-hosts.httpd.conf" "$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc"

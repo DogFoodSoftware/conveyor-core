@@ -99,29 +99,34 @@ $req_data = null;
 
 // No need to cache, this is very low flow CLI at the moment.
 $home = $_ENV['HOME'];
-// Note we explicitly rely on the requirement that only one resource
-// handler of each type be mounted under the runtime. # TODO: make sure this gets documented and we have an environment verification test.
-exec('find '.$home."/.conveyor/runtime -follow \\( -path '*/src/domain-logic/${req_resource}' -o -path '*/src/domain-logic/*/${req_resource}' \\) -a -type d", $output);
+// There may be many potential providers. The actual provider should be
+// configured for apache, so we actually look for the HTTPD configs and then
+// work out the provider from there.
+$config_link = "$home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/service-{$req_resource}.httpd.conf";
+if (file_exists($config_link)) {
+    if (!is_link($config_link)) {
+        error_log("ERROR: Found configuration for resource '{$req_resource}', but it's not a link.");
+        exit(51);
+    }
+    // Read the link to determine the actual provider location.
+    $provider_location = dirname(dirname(readlink($config_link)));
+    $handler_path = "$provider_location/runnable/domain-logic/{$req_resource}";
 
-$handler = strtolower($req_action)."-";
-$handler .= empty($req_item_id) ? 'all' : 'item';
-if (count($output) == 1) {
-    $handler_path = $output[0];
-    if (!file_exists("$handler_path/${handler}.php")) {
+    $handler = strtolower($req_action)."-";
+    $handler .= (empty($req_item_id) ? 'all' : 'item').'.php';
+
+    if (!file_exists("$handler_path/${handler}")) {
         error_log("ERROR: Did not find expected '$handler' handler for '$req_path'.\n");
         exit(501);
     }
     process_params_and_data();
 
-    require("$handler_path/$handler.php");
+    require("$handler_path/$handler");
     // The handler is expected to invoke a final response method. If
     // not:
     $response->server_error("Handler failed to invoke final output.");
 }
-elseif (count($output) > 1) {
-    $response->server_error("Found multiple handlers for '${req_path}'.");
-}
-else { # == 0
+else {
     $response->item_not_found("'$req_path' not found. (No handler.)");
 }
 ?>
