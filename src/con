@@ -63,8 +63,7 @@ $response->set_output(Response::OUTPUT_CLI);
 // Parse arguments.
 $req_action = null;
 if ($argc == 1 # means just the script name
-    || ($req_action = $argv[1] 
-        && !preg_match('/PUT|GET|POST|PATCH|GET|DELETE/i', $req_action))) {
+    || !preg_match('/PUT|GET|POST|PATCH|GET|DELETE/i', $argv[1])) {
     $req_action = 'GET';
     $process_index = 1;
 }

@@ -54,6 +54,14 @@ class Response {
         $this->_output();
     }
 
+    function unauthorized_request($msg = null) {
+        if ($msg == null) {
+            $msg = "Unauthorized request '$req_path'.";
+        }
+        $this->add_global_error($msg, 401);
+        $this->_output();
+    }
+
     function item_not_found($msg = null) {
         global $req_path;
         if (empty($msg)) {
@@ -199,13 +207,16 @@ class Response {
                 // Most data is JSON, but there are some cases where we get raw text.
                 $output_data = array();
                 function trunc_walk($src, &$target) {
+                    $trim_point = 96;
                     foreach ($src as $key => $value) {
                         if (is_array($value)) {
                             $target[$key] = array();
                             trunc_walk($value, $target[$key]);
                         }
-                        elseif (is_string($value) && strlen($value) > 64) {
-                            $target[$key] = substr($value, 0, 64).'...';
+                        # The '+3' is because we're going to add '...', so we
+                        # might as well leave it be if it wouldn't help.
+                        elseif (is_string($value) && strlen($value) > $trim_point + 3) {
+                            $target[$key] = substr($value, 0, $trim_point).'...';
                         }
                         else {
                             $target[$key] = $value;
