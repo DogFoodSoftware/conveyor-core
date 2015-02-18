@@ -6,7 +6,7 @@ function usage($err_msg = null) {
         error_log("ERROR: $err_msg\n");
     }
     
-    echo "usage: con [action] <resource or item ID> [[param1=value1]...] '{<json payload>}'\n";
+    echo "usage: con [action] <resource or item ID> [[param1=value1]...] [<json payload>]\n";
 }
 
 function process_params_and_data() {
@@ -18,10 +18,11 @@ function process_params_and_data() {
 
     while ($process_index < $argc) {
         $argument = $argv[$process_index];
-        if (preg_match("/{/", $argument)) { // JSON data payload
+        if (preg_match("/\[|{/", $argument)) { // JSON data payload
             // The data payload must come last.
             if ($process_index + 1 != $argc) {
                 usage("JSON data payload must be last element of request.");
+                echo "argument: $argument\n";
                 exit(400);
             }
             

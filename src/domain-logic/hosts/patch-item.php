@@ -30,7 +30,11 @@ if (! is_array($req_data)) {
     $response->invalid_request("Patch operations must be sent in a list.");
     return;
 }
-echo "foo";
+
+foreach ($req_data as $op) {
+    var_dump($op);
+}
+
 exit();
 
 exec('find '.$home.'/.conveyor/runtime -follow -path "*/src/domain-logic/*" -type d -exec basename {} \\;', $resource_names);
