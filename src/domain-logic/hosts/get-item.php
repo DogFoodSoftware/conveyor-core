@@ -22,6 +22,28 @@ if (!$response->check_request_ok()) {
 $host_errors = array();
 $host_warnings = array();
 
+# Get data on subscription and installed packages.
+$install_report = array();
+$raw_install_report = json_decode(shell_exec('nix-env -q --meta --json'), true);
+foreach ($raw_install_report as $key => $package_data) {
+    if (array_key_exists('meta', $package_data) && array_key_exists('position', $package_data['meta'])) {
+        $src_position = $package_data['meta']['position'];
+        if (preg_match('|\.conveyor/subscriptions/([^/]+)/|', $src_position, $matches)) {
+            if (!array_key_exists($matches[1], $install_report)) {
+                $install_report[$matches[1]] = array();
+            }
+            array_push($install_report[$matches[1]], $package_data['name']);
+        }
+    }
+}
+$subscriptions = array();
+foreach (glob("$home/.conveyor/subscriptions/*") as $subscription) {
+    $name = basename($subscription);
+    $subscriptions[$name] = array("name" => $name,
+                                  "installed-packages" =>
+                                    array_key_exists($name, $install_report) ? $install_report[$name] : array());
+}
+
 exec('find '.$home.'/.conveyor/runtime -follow -path "*/src/domain-logic/*" -type d -exec basename {} \\;', $resource_names);
 sort($resource_names);
 $resources = array();
@@ -118,6 +140,7 @@ if (!file_exists("$home/.conveyor/host-id")) {
 $host_id = trim(file_get_contents("$home/.conveyor/host-id"));
 
 $host = array("host" => array('host-id' => $host_id,
+                              'subscriptions' => $subscriptions,
                               'resources' => $resources,
                               'sites' => $sites));
 if (!empty($host_errors)) { $host['host']['errors'] = $host_errors; }
