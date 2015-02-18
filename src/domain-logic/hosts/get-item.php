@@ -40,6 +40,7 @@ foreach ($resource_names as $resource_name) {
 
         foreach ($package_providers as $provider ) {
             if (!file_exists("$home/.conveyor/runtime/{$provider}/conf/service-{$resource_name}.httpd.conf")) {
+                $package_providers = array_diff($package_providers, array($provider));
                 array_push($host_warnings, "Found domain logic for resource '$resource_name', but no configuration file.");
             }
         }
