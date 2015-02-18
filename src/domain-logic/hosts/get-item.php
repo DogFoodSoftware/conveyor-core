@@ -38,9 +38,9 @@ foreach ($resource_names as $resource_name) {
         exec('find '.$home.'/.conveyor/runtime -follow -path "*/src/domain-logic/'.$resource_name.'" -type d', $package_providers);
         $package_providers = array_map('package_extract', $package_providers);
 
-        foreach ($package_providers as $provider ) {
+        foreach ($package_providers as $index => $provider) {
             if (!file_exists("$home/.conveyor/runtime/{$provider}/conf/service-{$resource_name}.httpd.conf")) {
-                $package_providers = array_diff($package_providers, array($provider));
+                unset($package_providers[$index]);
                 array_push($host_warnings, "Found domain logic for resource '$resource_name', but no configuration file.");
             }
         }
