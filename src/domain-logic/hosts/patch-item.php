@@ -31,13 +31,67 @@ if (! is_array($req_data)) {
     return;
 }
 
+function process_path(&$host_data, $op, $path) {
+    $bit = array_shift($path);
+    switch ($bit) {
+    case 'resources':
+        process_resources($host_data[$bit], $op, $path);
+        break;
+    default:
+        global $response;
+        $response->invalid_request("Path '{$op['path']}' invalid.");
+        exit;
+    }
+}
 
-$host_data = json_decode(shell_exec("con -q GET $req_path"));
+function process_resources(&$resources_data, $op, $path) {
+    $bit = array_shift($path);
+    if (array_key_exists($bit, $resources_data)) {
+        process_resource($bit, $resources_data[$bit], $op, $path);
+    }
+    else {
+        global $response;
+        $response->invalid_request("Path '{$op['path']}' invalid; no such resource '$bit'.");
+        exit;
+    }
+}
+
+function process_resource($resource, &$resource_data, $op, $path) {
+    global $response;
+    global $home;
+
+    $bit = array_shift($path);
+    if ($bit == 'provider') {
+        if ($op['op'] == 'replace') {
+            $src_file = "$home/.conveyor/runtime/{$op['value']}/conf/service-{$resource}.httpd.conf";
+            if (file_exists($src_file)) {
+                $target_link = "$home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/service-{$resource}.httpd.conf";
+                unlink($target_link);
+                symlink($src_file, $target_link);
+            }
+            else {
+                $response->invalid_request("No such provider '{$op['value']}'.");
+                exit;
+            }
+        }
+        else {
+            $response->invalid_request("Operation '{$op['op']}' invalid for attribute '{$op['path']}'.");
+            exit;
+        }
+    }
+    else {
+        $response->invalid_request("Path '{$op['path']}' invalid; no such resource attribute '$bit'.");
+    }        
+}
+
+$host_data = json_decode(shell_exec("con -q GET $req_path"), true);
+$host_data = array_reduce($host_data, 'array_merge', array());
 foreach ($req_data as $op) {
     if ($op['op'] == 'replace') {
         $path = explode('/', $op['path']);
-        if ($op[0] == "") { array_shift($path); }
-        var_dump($path);
+        if ($path[0] == "") { array_shift($path); }
+
+        process_path($host_data, $op, $path);
     }
 }
 
