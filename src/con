@@ -6,7 +6,7 @@ function usage($err_msg = null) {
         error_log("ERROR: $err_msg\n");
     }
     
-    echo "usage: con [action] <resource or item ID> [[param1=value1]...] [<json payload>]\n";
+    echo "usage: con [-q] [action] <resource or item ID> [[param1=value1]...] [<json payload>]\n";
 }
 
 function process_params_and_data() {
@@ -62,15 +62,27 @@ require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/
 $response->set_output(Response::OUTPUT_CLI);
 
 // Parse arguments.
+$process_index = 1;
+for (; $process_index < $argc && preg_match('/^-/', $argv[$process_index]); $process_index += 1) {
+    $option = $argv[$process_index];
+    if ($option == "-q" || $option == "--quiet") {
+        $response->set_quiet(true);
+    }
+    else {
+        error_log("ERROR: Unknown option '$option'.");
+        usage();
+        exit(1);
+    }
+}
+
 $req_action = null;
-if ($argc == 1 # means just the script name
-    || !preg_match('/PUT|GET|POST|PATCH|GET|DELETE/i', $argv[1])) {
+if ($argc == $process_index # means just the script name after options
+    || !preg_match('/PUT|GET|POST|PATCH|GET|DELETE/i', $argv[$process_index])) {
     $req_action = 'GET';
-    $process_index = 1;
 }
 else {
-    $req_action = strtoupper($argv[1]);
-    $process_index = 2;
+    $req_action = strtoupper($argv[$process_index]);
+    $process_index += 1;
 }
 
 $req_accept = ($req_action == 'GET' ? 'text/plain' : 'application/json');

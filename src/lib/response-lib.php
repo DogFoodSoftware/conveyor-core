@@ -10,6 +10,8 @@ class Response {
     private $field_errors = array();
     private $deferred = false;
 
+    private $quiet = false;
+
     private $output = self::OUTPUT_JSON;
     private $output_field = null;
 
@@ -21,7 +23,11 @@ class Response {
         $this->output_field = $field_spec;
     }
 
-    // Terminal methods.
+    function set_quiet($quiet) {
+        $this->quiet = $quiet;
+    }
+
+    // final methods.
     function ok($msg, $data = null) {
         $this->info_msg = "INFO: $msg";
         $this->data = $data;
@@ -187,7 +193,7 @@ class Response {
         }
 
         if ($this->output == self::OUTPUT_CLI) {
-            if (!empty($this->get_info_msg())) {
+            if (!empty($this->get_info_msg()) && !$this->quiet) {
                 echo $this->get_info_msg()."\n";
             }
             if (!$this->check_request_ok()) {

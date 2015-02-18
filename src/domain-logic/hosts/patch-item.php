@@ -31,8 +31,14 @@ if (! is_array($req_data)) {
     return;
 }
 
+
+$host_data = json_decode(shell_exec("con -q GET $req_path"));
 foreach ($req_data as $op) {
-    var_dump($op);
+    if ($op['op'] == 'replace') {
+        $path = explode('/', $op['path']);
+        if ($op[0] == "") { array_shift($path); }
+        var_dump($path);
+    }
 }
 
 exit();
