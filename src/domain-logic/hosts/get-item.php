@@ -70,6 +70,21 @@ foreach ($resources as $resource_name => $resource_data) {
     $resources[$resource_name]['provider'] = $provider;
 }
 
+# Process available sites.
+$site_configs = glob("$home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/site-*.httpd.conf");
+$sites = array();
+foreach ($site_configs as $site_config) {
+    if (!is_link($site_config)) {
+        array_push("Appearent site configuration '$site_config' is not a link as expected. Cannot fully evaluate.", $host_warnings);
+        next;
+    }
+    $actual_config = readlink($site_config);
+    preg_match('|([^/]+/[^/]+)/conf/site-(.+).httpd.conf|', $actual_config, $matches);
+    $provider = $matches[1];
+    $name = $matches[2];
+    $sites[$name] = array('provider'=>
+}
+
 if (!file_exists("$home/.conveyor/host-id")) {
     # TODO: info, not warning
     $response->add_global_warning("Conveyor host ID not found; new ID generated.");
