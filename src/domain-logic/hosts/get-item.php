@@ -71,18 +71,43 @@ foreach ($resources as $resource_name => $resource_data) {
 }
 
 # Process available sites.
-$site_configs = glob("$home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/site-*.httpd.conf");
+exec('find '.$home.'/.conveyor/runtime -follow -path "*/conf/site-*.httpd.conf" -type f', $site_configs);
 $sites = array();
 foreach ($site_configs as $site_config) {
-    if (!is_link($site_config)) {
-        array_push("Appearent site configuration '$site_config' is not a link as expected. Cannot fully evaluate.", $host_warnings);
-        next;
-    }
-    $actual_config = readlink($site_config);
     preg_match('|([^/]+/[^/]+)/conf/site-(.+).httpd.conf|', $actual_config, $matches);
-    $provider = $matches[1];
+    $package_provider = $matches[1];
     $name = $matches[2];
-    $sites[$name] = array('provider'=>
+    if (array_key_exists($name, $sites)) {
+        // Multiple providers for the same, just fine.
+        array_push($package_provider, $sites[$name]['package-providers']);
+    }
+    else {
+        $sites[$name] = array('name' => $name,
+                              'package-providers' => array($pacakge_provider),
+                              'provider' => null);
+    }
+}
+# Now set the actual site providers.
+$site_configs = glob("$home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/site-*.httpd.conf");
+foreach ($site_configs as $site_config) {
+    if (!is_link($site_config)) {
+        array_push($host_warnings,
+                   "Appearent site configuration '$site_config' is not a link as expected. Cannot fully evaluate.");
+    }
+    else {
+        $actual_config = readlink($site_config);
+        preg_match('|([^/]+/[^/]+)/conf/site-(.+).httpd.conf|', $actual_config, $matches);
+        $package_provider = $matches[1];
+        $name = $matches[2];
+
+        if (!array_key_exists($name, $sites)) {
+            array_push($host_warnings,
+                       "Site configuration links outside of known conveyor runtime.");
+        }
+        else {
+            $sites[$name] = array('provider'=> $package_provider);
+        }
+    }
 }
 
 if (!file_exists("$home/.conveyor/host-id")) {
@@ -93,7 +118,8 @@ if (!file_exists("$home/.conveyor/host-id")) {
 $host_id = trim(file_get_contents("$home/.conveyor/host-id"));
 
 $host = array("host" => array('host-id' => $host_id,
-                              'resources' => $resources));
+                              'resources' => $resources,
+                              'sites' => $sites));
 if (!empty($host_errors)) { $host['host']['errors'] = $host_errors; }
 if (!empty($host_warnings)) { $host['host']['warnings'] = $host_warnings; }
 
