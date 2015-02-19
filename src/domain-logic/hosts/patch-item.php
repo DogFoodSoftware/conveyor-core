@@ -69,7 +69,7 @@ function process_subscriptions(&$subscriptions_data, $op, $path) {
                                        "Missing required parameter 'subscriptions.source'.");
             $expected_count -= 1;
         }
-        if (array_key_exists('development')) {
+        if (array_key_exists('development', $subscription_data)) {
             $expected_count += 1;
         }
         if (count($subscription_data) != $expected_count) {
@@ -77,13 +77,9 @@ function process_subscriptions(&$subscriptions_data, $op, $path) {
                                        "Unknown subscription attributes found.");
         }
         $subscription_source = $subscription_data['source'];
-        if (preg_match('|^file://|', $subscription_source) && !preg_match('|^file:///|', $subscription_source)) {
-            $response->add_field_error('subscriptions.source',
-                                       "File subscription sources must be absolute.");
-        }
-        elseif (!preg_match('+^(file:///|https?://)+', $subscription_source)) {
+        if (!preg_match('|^https?://|', $subscription_source)) {
             response->add_field_error('subscription.source',
-                                      "Unknown subscription source protocol. Must be 'file' or 'http(s)'.");
+                                      "Unknown subscription source protocol. Must be 'http' or 'https'.");
         }
         if (!$response->check_request_ok()) {
             $response->_output();
@@ -91,12 +87,17 @@ function process_subscriptions(&$subscriptions_data, $op, $path) {
         }
         
         // else, create the subscription
-        if (preg_match('|^file://(.+)|', $subscription_source, $matches)) {
-            # Then we setup subscription as symlink.
+        if (array_key_exists('development', $subscription_data)) {
+            # Then we checkout to playground and symlink.
+            if (!is_dir("$home/playground/{$subscription_data['name']}")) {
+                mkdir("$home/playground/{$subscription_data['name']}", 0700, true);
+            }
+            exec("cd $home/playground/{$subscription_data['name']} && git clone {$subscription_source} {$subscription_data['name']");
             symlink($matches[1], "$home/.conveyor/subscriptions/{$subscription_data['name']");
         }
         else {
-            exec("git clone {$subscription_source} {$subscription_data['name']");
+            # Then we check out directly.
+            exec("cd $home/.conveyor/subscriptions/ && git clone {$subscription_source} {$subscription_data['name']");
         }
     }
     else {
