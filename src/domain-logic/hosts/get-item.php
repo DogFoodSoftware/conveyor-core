@@ -28,7 +28,8 @@ $raw_install_report = json_decode(shell_exec('nix-env -q --meta --json'), true);
 foreach ($raw_install_report as $key => $package_data) {
     if (array_key_exists('meta', $package_data) && array_key_exists('position', $package_data['meta'])) {
         $src_position = $package_data['meta']['position'];
-        if (preg_match('|\.conveyor/subscriptions/([^/]/[^/]+)/|', $src_position, $matches)) {
+        if (preg_match('|/home/user/\.conveyor/subscriptions/([^/]+/[^/]+).*|', $src_position, $matches)) {
+        // if (preg_match('|\.conveyor/subscriptions/([^/]+/distro)/pkgs/development/interpreters/conveyor-php/default.nix|', $src_position, $matches)) {
             if (!array_key_exists($matches[1], $install_report)) {
                 $install_report[$matches[1]] = array();
             }
