@@ -50,14 +50,16 @@ function process_path(&$host_data, $op, $path) {
 
 function process_subscriptions(&$subscriptions_data, $op, $path) {
     global $response;
+    global $home;
 
     $bit = array_shift($path);
-    if ($op['path'] == 'add') {
+    if ($op['op'] == 'add') {
+        echo "B\n";
         if (count($path) > 0) {
             $response->invalid_request("Invalid path for 'add': '{$op['path']}'.");
             exit;
         }
-        $subscription_data = json_decode($op['value'], true);
+        $subscription_data = $op['value'];
         $expected_count = 2;
         if (!array_key_exists('name', $subscription_data)) {
             $response->add_field_error('subscriptions.name',
@@ -78,14 +80,14 @@ function process_subscriptions(&$subscriptions_data, $op, $path) {
         }
         $subscription_source = $subscription_data['source'];
         if (!preg_match('|^https?://|', $subscription_source)) {
-            response->add_field_error('subscription.source',
-                                      "Unknown subscription source protocol. Must be 'http' or 'https'.");
+            $response->add_field_error('subscription.source',
+                                       "Unknown subscription source protocol. Must be 'http' or 'https'.");
         }
         if (!$response->check_request_ok()) {
             $response->_output();
             exit;
         }
-        
+        echo "HEY\n";
         // else, create the subscription
         list($sub_domain, $sub_name) = explode('/', $subscription_data['name']);
         if (!is_dir("$home/.conveyor/subscriptions/{$sub_domain}")) {
@@ -96,8 +98,8 @@ function process_subscriptions(&$subscriptions_data, $op, $path) {
             if (!is_dir("$home/playground/{$sub_domain}")) {
                 mkdir("$home/playground/{$sub_domain}", 0700, true);
             }
-            exec("cd $home/playground/{$sub_domain} && git clone {$subscription_source} {$sub_name}");
-            symlink($matches[1], "$home/.conveyor/subscriptions/{$subscription_data['name']");
+            exec("cd {$home}/playground/{$sub_domain} && git clone {$subscription_source} {$sub_name}");
+            symlink("{$home}/playground/{$sub_domain}/{$sub_name}", "$home/.conveyor/subscriptions/{$sub_domain}/{$sub_name}");
         }
         else {
             # Then we check out directly.
@@ -151,9 +153,13 @@ function process_resource($resource, &$resource_data, $op, $path) {
 }
 
 $host_data = json_decode(shell_exec("con -q GET $req_path"), true);
+if ($host_data === FALSE) {
+    $response->server_error("ERROR: Could not decode host data.");
+    exit;
+}
 $host_data = array_reduce($host_data, 'array_merge', array());
 foreach ($req_data as $op) {
-    if ($op['op'] == 'replace') {
+    if (preg_match('/replace|add/', $op['op'])) {
         $path = explode('/', $op['path']);
         if ($path[0] == "") { array_shift($path); }
 

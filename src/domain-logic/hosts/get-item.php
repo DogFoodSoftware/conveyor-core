@@ -47,6 +47,12 @@ foreach (glob("$home/.conveyor/subscriptions/*") as $path_a) {
                                     array_key_exists($name, $install_report) ? $install_report[$name] : array());
     }
 }
+# Set development status for the subscriptions.
+foreach (array_keys($subscriptions) as $subscription) {
+    if (is_link("{$home}/.conveyor/subscriptions/{$subscription}")) {
+        $subscriptions[$subscription]['development-ready'] = true;
+    }
+}
 
 exec('find '.$home.'/.conveyor/runtime -follow -path "*/src/domain-logic/*" -type d -exec basename {} \\;', $resource_names);
 sort($resource_names);
