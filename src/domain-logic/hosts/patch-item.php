@@ -34,12 +34,73 @@ if (! is_array($req_data)) {
 function process_path(&$host_data, $op, $path) {
     $bit = array_shift($path);
     switch ($bit) {
+        // We list the field names in order they are displayed.
+    case 'subscriptions':
+        process_subscriptions($host_data[$bit], $op, $path);
+        break;
     case 'resources':
         process_resources($host_data[$bit], $op, $path);
         break;
     default:
         global $response;
         $response->invalid_request("Path '{$op['path']}' invalid.");
+        exit;
+    }
+}
+
+function process_subscriptions(&$subscriptions_data, $op, $path) {
+    global $response;
+
+    $bit = array_shift($path);
+    if ($op['path'] == 'add') {
+        if (count($path) > 0) {
+            $response->invalid_request("Invalid path for 'add': '{$op['path']}'.");
+            exit;
+        }
+        $subscription_data = json_decode($op['value'], true);
+        $expected_count = 2;
+        if (!array_key_exists('name', $subscription_data)) {
+            $response->add_field_error('subscriptions.name',
+                                       "Missing required parameter 'subscriptions.name'.");
+            $expected_count -= 1;
+        }
+        if (!array_key_exists('source', $subscription_data)) {
+            $response->add_field_error('subscriptions.source',
+                                       "Missing required parameter 'subscriptions.source'.");
+            $expected_count -= 1;
+        }
+        if (array_key_exists('development')) {
+            $expected_count += 1;
+        }
+        if (count($subscription_data) != $expected_count) {
+            $response->add_field_error('subscriptions',
+                                       "Unknown subscription attributes found.");
+        }
+        $subscription_source = $subscription_data['source'];
+        if (preg_match('|^file://|', $subscription_source) && !preg_match('|^file:///|', $subscription_source)) {
+            $response->add_field_error('subscriptions.source',
+                                       "File subscription sources must be absolute.");
+        }
+        elseif (!preg_match('+^(file:///|https?://)+', $subscription_source)) {
+            response->add_field_error('subscription.source',
+                                      "Unknown subscription source protocol. Must be 'file' or 'http(s)'.");
+        }
+        if (!$response->check_request_ok()) {
+            $response->_output();
+            exit;
+        }
+        
+        // else, create the subscription
+        if (preg_match('|^file://(.+)|', $subscription_source, $matches)) {
+            # Then we setup subscription as symlink.
+            symlink($matches[1], "$home/.conveyor/subscriptions/{$subscription_data['name']");
+        }
+        else {
+            exec("git clone {$subscription_source} {$subscription_data['name']");
+        }
+    }
+    else {
+        $response->invalid_request("Unsupported operation '{$op['op']}' for path '{$op['path']}'.");
         exit;
     }
 }

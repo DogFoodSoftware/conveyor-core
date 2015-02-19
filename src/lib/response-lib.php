@@ -100,7 +100,7 @@ class Response {
         global $req_parameters;
         if (empty($req_parameters[$field_name])) {
             $this->add_field_error($field_name, 
-                                   "Required parameter '$field_name' missing.", 
+                                   "Missing required parameter '$field_name'.", 
                                    400);
         }
     }
