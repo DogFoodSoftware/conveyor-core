@@ -87,17 +87,21 @@ function process_subscriptions(&$subscriptions_data, $op, $path) {
         }
         
         // else, create the subscription
+        list($sub_domain, $sub_name) = explode('/', $subscription_data['name']);
+        if (!is_dir("$home/.conveyor/subscriptions/{$sub_domain}")) {
+            mkdir("$home/.conveyor/subscriptions/{$sub_domain}", 0700, true);
+        }
         if (array_key_exists('development', $subscription_data)) {
             # Then we checkout to playground and symlink.
-            if (!is_dir("$home/playground/{$subscription_data['name']}")) {
-                mkdir("$home/playground/{$subscription_data['name']}", 0700, true);
+            if (!is_dir("$home/playground/{$sub_domain}")) {
+                mkdir("$home/playground/{$sub_domain}", 0700, true);
             }
-            exec("cd $home/playground/{$subscription_data['name']} && git clone {$subscription_source} {$subscription_data['name']");
+            exec("cd $home/playground/{$sub_domain} && git clone {$subscription_source} {$sub_name}");
             symlink($matches[1], "$home/.conveyor/subscriptions/{$subscription_data['name']");
         }
         else {
             # Then we check out directly.
-            exec("cd $home/.conveyor/subscriptions/ && git clone {$subscription_source} {$subscription_data['name']");
+            exec("cd $home/.conveyor/subscriptions/{$sub_domain} && git clone {$subscription_source} {$sub_name}");
         }
     }
     else {

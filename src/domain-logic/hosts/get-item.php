@@ -28,7 +28,7 @@ $raw_install_report = json_decode(shell_exec('nix-env -q --meta --json'), true);
 foreach ($raw_install_report as $key => $package_data) {
     if (array_key_exists('meta', $package_data) && array_key_exists('position', $package_data['meta'])) {
         $src_position = $package_data['meta']['position'];
-        if (preg_match('|\.conveyor/subscriptions/([^/]+)/|', $src_position, $matches)) {
+        if (preg_match('|\.conveyor/subscriptions/([^/]/[^/]+)/|', $src_position, $matches)) {
             if (!array_key_exists($matches[1], $install_report)) {
                 $install_report[$matches[1]] = array();
             }
@@ -37,11 +37,14 @@ foreach ($raw_install_report as $key => $package_data) {
     }
 }
 $subscriptions = array();
-foreach (glob("$home/.conveyor/subscriptions/*") as $subscription) {
-    $name = basename($subscription);
-    $subscriptions[$name] = array("name" => $name,
+foreach (glob("$home/.conveyor/subscriptions/*") as $path_a) {
+    $sub_domain = basename($path_a);
+    foreach (glob("$home/.conveyor/subscriptions/{$sub_domain}/*") as $path_b) {
+        $name = "{$sub_domain}/".basename($path_b);
+        $subscriptions[$name] = array("name" => $name,
                                   "installed-packages" =>
                                     array_key_exists($name, $install_report) ? $install_report[$name] : array());
+    }
 }
 
 exec('find '.$home.'/.conveyor/runtime -follow -path "*/src/domain-logic/*" -type d -exec basename {} \\;', $resource_names);

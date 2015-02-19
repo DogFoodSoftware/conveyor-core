@@ -73,7 +73,7 @@ if [[ $ATTEMPT_NIX_INSTALL == true ]]; then
 fi
 
 # May be link or directory.
-if [[ ! -e "$HOME/.conveyor/subscriptions/dogfoodsoftware.com" ]]; then
+if [[ ! -e "$HOME/.conveyor/subscriptions/dogfoodsoftware.com/distro" ]]; then
     bash <(curl https://raw.githubusercontent.com/DogFoodSoftware/distro/master/install) $DISTRO_INSTALL_OPTIONS
 fi
 source $HOME/.nix-profile/etc/profile.d/nix.sh
@@ -112,7 +112,7 @@ fi
 nix-env -i cacert
 nix-env -iA nixpkgs.jre
 for i in conveyor-core conveyor-php conveyor-apache conveyor-mysql conveyor-orientdb; do
-    nix-env -f "$HOME/.conveyor/subscriptions/dogfoodsoftware.com/default.nix" -iA $i
+    nix-env -f "$HOME/.conveyor/subscriptions/dogfoodsoftware.com/distro/default.nix" -iA $i
 done
 
 # Normally, we use conveyor itself to 'mount' service handlers, but this
