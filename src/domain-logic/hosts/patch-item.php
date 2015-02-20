@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * <div class="p">
  *   Patches host data.
@@ -6,6 +6,8 @@
  * <div id="Implementation" data-perspective="implementation" class="blurbSummary grid_12">
  * <div class="blurbTitle">Implementation</div>
  */
+require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/domain-lib.php");
+
 if ($req_item_id != 'this') {
     $response->item_not_found();
 }
@@ -54,63 +56,96 @@ function process_subscriptions(&$subscriptions_data, $op, $path) {
 
     $bit = array_shift($path);
     if ($op['op'] == 'add') {
-        echo "B\n";
-        if (count($path) > 0) {
-            $response->invalid_request("Invalid path for 'add': '{$op['path']}'.");
-            exit;
-        }
-        $subscription_data = $op['value'];
-        $expected_count = 2;
-        if (!array_key_exists('name', $subscription_data)) {
-            $response->add_field_error('subscriptions.name',
-                                       "Missing required parameter 'subscriptions.name'.");
-            $expected_count -= 1;
-        }
-        if (!array_key_exists('source', $subscription_data)) {
-            $response->add_field_error('subscriptions.source',
-                                       "Missing required parameter 'subscriptions.source'.");
-            $expected_count -= 1;
-        }
-        if (array_key_exists('development', $subscription_data)) {
-            $expected_count += 1;
-        }
-        if (count($subscription_data) != $expected_count) {
-            $response->add_field_error('subscriptions',
-                                       "Unknown subscription attributes found.");
-        }
-        $subscription_source = $subscription_data['source'];
-        if (!preg_match('|^https?://|', $subscription_source)) {
-            $response->add_field_error('subscription.source',
-                                       "Unknown subscription source protocol. Must be 'http' or 'https'.");
-        }
-        if (!$response->check_request_ok()) {
-            $response->_output();
-            exit;
-        }
-        echo "HEY\n";
-        // else, create the subscription
-        list($sub_domain, $sub_name) = explode('/', $subscription_data['name']);
-        if (!is_dir("$home/.conveyor/subscriptions/{$sub_domain}")) {
-            mkdir("$home/.conveyor/subscriptions/{$sub_domain}", 0700, true);
-        }
-        if (array_key_exists('development', $subscription_data)) {
-            # Then we checkout to playground and symlink.
-            if (!is_dir("$home/playground/{$sub_domain}")) {
-                mkdir("$home/playground/{$sub_domain}", 0700, true);
+        if (empty($bit)) { // We're adding a new subscription.
+            $subscription_data = $op['value'];
+            // Verify the data.
+            $response->check_required_field('name', $subscription_data);
+            $response->check_required_field('source', $subscription_data);
+            $response->check_extraneous_fields(2, array('development'), $subscription_data);
+
+            $subscription_source = $subscription_data['source'];
+            if (!preg_match('|^https?://|', $subscription_source)) {
+                $response->add_field_error('subscription.source',
+                                           "Unknown subscription source protocol. Must be 'http' or 'https'.");
             }
-            exec("cd {$home}/playground/{$sub_domain} && git clone {$subscription_source} {$sub_name}");
-            symlink("{$home}/playground/{$sub_domain}/{$sub_name}", "$home/.conveyor/subscriptions/{$sub_domain}/{$sub_name}");
+            if (!$response->check_request_ok()) {
+                $response->finish();
+            }
+            // Clear to create the subscription
+            list($sub_domain, $sub_name) = explode('/', $subscription_data['name']);
+            if (!is_dir("{$home}/.conveyor/subscriptions/{$sub_domain}")) {
+                mkdir("{$home}/.conveyor/subscriptions/{$sub_domain}", 0700, true);
+            }
+            if (array_key_exists('development', $subscription_data)) {
+                # Then we checkout to playground and symlink.
+                if (!is_dir("{$home}/playground/{$sub_domain}")) {
+                    mkdir("{$home}/playground/{$sub_domain}", 0700, true);
+                }
+                exec("cd {$home}/playground/{$sub_domain} && git clone {$subscription_source} {$sub_name}");
+                symlink("{$home}/playground/{$sub_domain}/{$sub_name}", "$home/.conveyor/subscriptions/{$sub_domain}/{$sub_name}");
+            }
+            else {
+                # Then we check out directly.
+                exec("cd $home/.conveyor/subscriptions/{$sub_domain} && git clone {$subscription_source} {$sub_name}");
+            }
+        } // if ($empty($bit)) {
+        else { // should reference an actual subscription
+            // Note that the FQN subscription name has two parts, '$bit' is
+            // currently only the first part.
+            if (count($path) != 2) {
+                $response->invalid_request("Invalid subscription path; must contain FQN subscription name and sub-field designation.");
+            }
+            $fqn_subscription = $bit.'/'.array_shift($path);
+            if (array_key_exists($fqn_subscription, $subscriptions_data)) {
+                process_subscription($fqn_subscription, $subscriptions_data[$fqn_subscription], $op, $path);
+            }
+            else {
+                $response->add_field_error("-/subscriptions", "Unknown subscription ID: '{$fqn_subscirption}'.");
+            }
         }
-        else {
-            # Then we check out directly.
-            exec("cd $home/.conveyor/subscriptions/{$sub_domain} && git clone {$subscription_source} {$sub_name}");
-        }
-    }
-    else {
-        $response->invalid_request("Unsupported operation '{$op['op']}' for path '{$op['path']}'.");
-        exit;
     }
 }
+
+function process_subscription($fqn_subscription, &$subscription_data, $op, $path) {
+    global $home;
+    global $response;
+
+    $bit = array_shift($path);
+    if ($bit == 'installed-packages') {
+        $pkg_data = $op['value'];
+
+        $response->check_required_parameter('name', $pkg_data);
+        $response->check_extraneous_fields(1, array('development', 'version'), $pkg_data);
+
+        list($domain) = explode('/', $fqn_subscription);
+        $sub_name = $pkg_data['name'];
+        
+        # Since Conveyor compliant nix install packages know where to look
+        # for development source, to enable for development, we just check
+        # out the source. The install process will use it if available.
+        if (array_key_exists('development', $pkg_data)) {
+            $gh_org = domain_to_github_org($domain);
+            if (!is_dir("{$home}/playground/{$domain}/")) {
+                mkdir("{$home}/playground/{$domain}/", 0700, true);
+            }
+            exec("cd $home/playground/{$domain}/ && git clone https://github.com/{$gh_org}/{$sub_name}.git", $output, $result);
+            if ($result != 0) {
+                $response->server_error("Git checkout failed for '{$gh_org}/{$sub_name}'. ".implode('; ', $output));
+            }
+        }
+        exec("nix-env -f {$home}/.conveyor/subscriptions/{$fqn_subscription}/default.nix -iA {$sub_name}",
+             $output,
+             $result);
+        if ($result != 0) {
+            $response->server_error("Install failed for '{$fqn_subscription}/{$sub_name}'");
+        }
+        
+        $response->ok("Package '{$fqn_subscription}/{$sub_name}' installed.");
+    }
+    else {
+        $response->invalid_request("Unknown subscription attribute '{$bit}'.");
+    }
+} 
 
 function process_resources(&$resources_data, $op, $path) {
     $bit = array_shift($path);
