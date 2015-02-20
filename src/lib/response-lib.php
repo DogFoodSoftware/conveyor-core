@@ -59,7 +59,9 @@ class Response {
 
     function invalid_request($msg = null) {
         if ($msg == null) {
-            $msg = "Invalid request '$req_path'.";
+            global $req_action;
+            global $req_path;
+            $msg = "Invalid request '$req_action $req_path'.";
         }
         $this->add_global_error($msg, 400);
         $this->_output();
