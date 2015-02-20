@@ -41,9 +41,14 @@ class Response {
         $this->_output();
     }
 
-    function not_implemented() {
-        global $req_path;
-        $this->add_global_error("Item '$req_path' not implemented.", 501);
+    function not_implemented($msg = null) {
+        if ($msg == null) {
+            global $req_path;
+            global $req_action;
+
+            $msg = "'$req_action $req_path' not implemented.";
+        }
+        $this->add_global_error($msg, 501);
         $this->_output();
     }
 
@@ -96,17 +101,65 @@ class Response {
         return $this->global_errors;
     }
 
-    function check_required_parameter($field_name) {
-        global $req_parameters;
-        if (empty($req_parameters[$field_name])) {
+    # TODO: This and 'check_required_fields(...) are near copies; except the
+    # other supports decomposition. Delete this method, I think.
+    function check_required_parameter($field_name, $params = null) {
+        if ($params == null) {
+            global $req_parameters;
+            $params = $req_parameters;
+        }
+        if (empty($params[$field_name])) {
             $this->add_field_error($field_name, 
                                    "Missing required parameter '$field_name'.", 
                                    400);
         }
     }
 
-    function check_required_field($field_name) {
-        if (empty($this->_decompose($field_name))) {
+    function check_extraneous_fields($required_count, $optional_fields = array(), $params = null) {
+    /**
+     * <div class="function">
+     *   <div class="p">
+     *     Checks that there are no 'unknown' parameters in the data. By
+     *     default, processes using the request parameters
+     *     (<code>$req_parameters</code>) as the data to test against. Assumes
+     *     that the required fields have been checked. The structure is
+     *     searched for each optional field, which gives us an expected count
+     *     of parameters. If the number of parameters in the structure is
+     *     greater than the expected count, then the structure contains
+     *     unknown parameters and is rejected.
+     *   </div>
+     * </div>
+     */
+        if ($this->check_request_ok()) {
+            global $req_parameters;
+
+            if ($params == null) {
+                $params = $req_parameters;
+            }
+            
+            $expected_count = $required_count;
+            foreach($optional_fields as $optional_field) {
+                if (array_key_exists($optional_field, $params)) {
+                    $expected_count += 1;
+                }
+            }
+            
+            $actual_count = count($params);
+            if ($actual_count != $expected_count) {
+                $msg = "Unexpected field in request "
+                     .($req_parameters == $params ? "request " : "")
+                     ."data.";
+                $response->add_global_error($msg, 400);
+            }
+        }
+    }
+
+    function check_required_field($field_name, $params = null) {
+        if ($params == null) {
+            global $req_parameters;
+            $params = $req_parameters;
+        }
+        if (empty($this->_decompose($field_name, $params))) {
             $this->add_field_error($field_name, 
                                    "Required field '$field_name' missing.", 
                                    400);
@@ -209,7 +262,7 @@ class Response {
                 }
             }
             // Data is only included if everything OK.
-            if ($this->check_request_ok()) {
+            if ($this->check_request_ok() && !empty($this->get_data())) {
                 // Most data is JSON, but there are some cases where we get raw text.
                 $output_data = array();
                 function trunc_walk($src, &$target) {
@@ -219,8 +272,9 @@ class Response {
                             $target[$key] = array();
                             trunc_walk($value, $target[$key]);
                         }
-                        # The '+3' is because we're going to add '...', so we
-                        # might as well leave it be if it wouldn't help.
+                        # The '+3' is because we're going to add '...' AFTER
+                        # the cuttoff point. No point in truncating if the
+                        # substitute string is just as long.
                         elseif (is_string($value) && strlen($value) > $trim_point + 3) {
                             $target[$key] = substr($value, 0, $trim_point).'...';
                         }
