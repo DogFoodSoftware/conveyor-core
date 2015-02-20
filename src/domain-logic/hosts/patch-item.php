@@ -55,53 +55,54 @@ function process_subscriptions(&$subscriptions_data, $op, $path) {
     global $home;
 
     $bit = array_shift($path);
-    if ($op['op'] == 'add') {
-        if (empty($bit)) { // We're adding a new subscription.
-            $subscription_data = $op['value'];
-            // Verify the data.
-            $response->check_required_field('name', $subscription_data);
-            $response->check_required_field('source', $subscription_data);
-            $response->check_extraneous_fields(2, array('development'), $subscription_data);
-
-            $subscription_source = $subscription_data['source'];
-            if (!preg_match('|^https?://|', $subscription_source)) {
-                $response->add_field_error('subscription.source',
-                                           "Unknown subscription source protocol. Must be 'http' or 'https'.");
+    if (empty($bit) && $op['op'] == 'add') {
+        $subscription_data = $op['value'];
+        // Verify the data.
+        $response->check_required_field('name', $subscription_data);
+        $response->check_required_field('source', $subscription_data);
+        $response->check_extraneous_fields(2, array('development'), $subscription_data);
+        
+        $subscription_source = $subscription_data['source'];
+        if (!preg_match('|^https?://|', $subscription_source)) {
+            $response->add_field_error('subscription.source',
+                                       "Unknown subscription source protocol. Must be 'http' or 'https'.");
+        }
+        if (!$response->check_request_ok()) {
+            $response->finish();
+        }
+        // Clear to create the subscription
+        list($sub_domain, $sub_name) = explode('/', $subscription_data['name']);
+        if (!is_dir("{$home}/.conveyor/subscriptions/{$sub_domain}")) {
+            mkdir("{$home}/.conveyor/subscriptions/{$sub_domain}", 0700, true);
+        }
+        if (array_key_exists('development', $subscription_data)) {
+            # Then we checkout to playground and symlink.
+            if (!is_dir("{$home}/playground/{$sub_domain}")) {
+                mkdir("{$home}/playground/{$sub_domain}", 0700, true);
             }
-            if (!$response->check_request_ok()) {
-                $response->finish();
-            }
-            // Clear to create the subscription
-            list($sub_domain, $sub_name) = explode('/', $subscription_data['name']);
-            if (!is_dir("{$home}/.conveyor/subscriptions/{$sub_domain}")) {
-                mkdir("{$home}/.conveyor/subscriptions/{$sub_domain}", 0700, true);
-            }
-            if (array_key_exists('development', $subscription_data)) {
-                # Then we checkout to playground and symlink.
-                if (!is_dir("{$home}/playground/{$sub_domain}")) {
-                    mkdir("{$home}/playground/{$sub_domain}", 0700, true);
-                }
-                exec("cd {$home}/playground/{$sub_domain} && git clone {$subscription_source} {$sub_name}");
-                symlink("{$home}/playground/{$sub_domain}/{$sub_name}", "$home/.conveyor/subscriptions/{$sub_domain}/{$sub_name}");
-            }
-            else {
-                # Then we check out directly.
-                exec("cd $home/.conveyor/subscriptions/{$sub_domain} && git clone {$subscription_source} {$sub_name}");
-            }
-        } // if ($empty($bit)) {
-        else { // should reference an actual subscription
-            // Note that the FQN subscription name has two parts, '$bit' is
-            // currently only the first part.
-            if (count($path) != 2) {
-                $response->invalid_request("Invalid subscription path; must contain FQN subscription name and sub-field designation.");
-            }
-            $fqn_subscription = $bit.'/'.array_shift($path);
-            if (array_key_exists($fqn_subscription, $subscriptions_data)) {
-                process_subscription($fqn_subscription, $subscriptions_data[$fqn_subscription], $op, $path);
-            }
-            else {
-                $response->add_field_error("-/subscriptions", "Unknown subscription ID: '{$fqn_subscirption}'.");
-            }
+            exec("cd {$home}/playground/{$sub_domain} && git clone {$subscription_source} {$sub_name}");
+            symlink("{$home}/playground/{$sub_domain}/{$sub_name}", "$home/.conveyor/subscriptions/{$sub_domain}/{$sub_name}");
+        }
+        else {
+            # Then we check out directly.
+            exec("cd $home/.conveyor/subscriptions/{$sub_domain} && git clone {$subscription_source} {$sub_name}");
+        }
+    } // if (empty($bit) && $op['op'] == 'add') {
+    elseif (empty($bit)) {
+        $response->invalid_request();
+    }
+    else { // whatever the opp, should reference an actual subscription
+        // Note that the FQN subscription name has two parts, '$bit' is
+        // currently only the first part.
+        if (count($path) < 2) {
+            $response->invalid_request("Invalid JSON data bundle; cound not determine FQN repository name.");
+        }
+        $fqn_subscription = $bit.'/'.array_shift($path);
+        if (array_key_exists($fqn_subscription, $subscriptions_data)) {
+            process_subscription($fqn_subscription, $subscriptions_data[$fqn_subscription], $op, $path);
+        }
+        else {
+            $response->add_field_error("-/subscriptions", "Unknown subscription ID: '{$fqn_subscirption}'.");
         }
     }
 }
@@ -111,7 +112,7 @@ function process_subscription($fqn_subscription, &$subscription_data, $op, $path
     global $response;
 
     $bit = array_shift($path);
-    if ($bit == 'installed-packages') {
+    if ($bit == 'installed-packages' && empty($path) && $op['op'] == 'add') {
         $pkg_data = $op['value'];
 
         $response->check_required_parameter('name', $pkg_data);
@@ -142,10 +143,35 @@ function process_subscription($fqn_subscription, &$subscription_data, $op, $path
         
         $response->ok("Package '{$fqn_subscription}/{$sub_name}' installed.");
     }
+    elseif ($bit == 'installed-packages' && count($path) == 2 && $op['op'] == 'replace') {
+        list($package_name, $attribute) = $path;
+        if (!array_key_exists($package_name, $subscription_data)) {
+            $response->invalid_request("Could not find package '{$package_name}' in repository '{$fqn_subscription}'.");
+        }
+        switch ($attribute) {
+        case "development":
+            update_package_development_status($fqn_subscription, $package_name, $subscription_data[$package_name], $op['value']);
+            break;
+        default:
+            $response->invalid_request("Invalid package attribute '{$attribute}'.");
+        }
+    }
     else {
-        $response->invalid_request("Unknown subscription attribute '{$bit}'.");
+        global $req_action;
+        $response->invalid_request("Could not process data path '{$op['path']}' for '{$req_action}'.");
     }
 } 
+
+function update_package_development_status($fqn_subscription, $package_name, &$package_data, $new_status) {
+    if ($new_status == $package_data['development']) {
+        $response->ok("No change to status.");
+    }
+    elseif ($new_status) { # Turn to development.
+    }
+    else { # Turn to non-development.
+        $response->not_implemented("Changing package development status to 'false' not currently supported.");
+    }
+}
 
 function process_resources(&$resources_data, $op, $path) {
     $bit = array_shift($path);
