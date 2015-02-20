@@ -111,7 +111,7 @@ fi
 # for PHP/composer. It's a bit of a hack, but there you go.
 nix-env -i cacert
 nix-env -iA nixpkgs.jre
-for i in conveyor-core conveyor-php conveyor-apache conveyor-mysql conveyor-orientdb; do
+for i in conveyor-core conveyor-php conveyor-apache conveyor-mysql conveyor-orientdb conveyor-minify; do
     nix-env -f "$HOME/.conveyor/subscriptions/dogfoodsoftware.com/distro/default.nix" -iA $i
 done
 
