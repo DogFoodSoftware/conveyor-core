@@ -29,11 +29,22 @@ foreach ($raw_install_report as $key => $package_data) {
     if (array_key_exists('meta', $package_data) && array_key_exists('position', $package_data['meta'])) {
         $src_position = $package_data['meta']['position'];
         if (preg_match('|/home/user/\.conveyor/subscriptions/([^/]+/[^/]+).*|', $src_position, $matches)) {
-        // if (preg_match('|\.conveyor/subscriptions/([^/]+/distro)/pkgs/development/interpreters/conveyor-php/default.nix|', $src_position, $matches)) {
-            if (!array_key_exists($matches[1], $install_report)) {
-                $install_report[$matches[1]] = array();
+            $fqn_repository = $matches[1];
+            if (!array_key_exists($fqn_repository, $install_report)) {
+                $install_report[$fqn_repository] = array();
             }
-            array_push($install_report[$matches[1]], $package_data['name']);
+            if (preg_match('/(-(\d+\.\d+.*))$/', $package_data['name'], $matches)) {
+                $version = $matches[2];
+                $name = preg_replace("/-{$version}$/", '', $package_data['name']);
+            }
+            else {
+                $name = $package_data['name'];
+                # TODO: issue warning
+            }
+            $install_report[$fqn_repository][$name] = array('name' => $name);
+            if (!empty($version)) {
+                $install_report[$fqn_repository][$name]['version'] = $version;
+            }
         }
     }
 }
@@ -43,8 +54,8 @@ foreach (glob("$home/.conveyor/subscriptions/*") as $path_a) {
     foreach (glob("$home/.conveyor/subscriptions/{$sub_domain}/*") as $path_b) {
         $name = "{$sub_domain}/".basename($path_b);
         $subscriptions[$name] = array("name" => $name,
-                                  "installed-packages" =>
-                                    array_key_exists($name, $install_report) ? $install_report[$name] : array());
+                                      "installed-packages" =>
+                                      array_key_exists($name, $install_report) ? $install_report[$name] : array());
     }
 }
 # Set development status for the subscriptions.
