@@ -60,7 +60,7 @@ function process_subscriptions(&$subscriptions_data, $op, $path) {
         // Verify the data.
         $response->check_required_field('name', $subscription_data);
         $response->check_required_field('source', $subscription_data);
-        $response->check_extraneous_fields(2, array('development'), $subscription_data);
+        $response->check_extraneous_fields(2, array('development-ready'), $subscription_data);
         
         $subscription_source = $subscription_data['source'];
         if (!preg_match('|^https?://|', $subscription_source)) {
@@ -75,7 +75,7 @@ function process_subscriptions(&$subscriptions_data, $op, $path) {
         if (!is_dir("{$home}/.conveyor/subscriptions/{$sub_domain}")) {
             mkdir("{$home}/.conveyor/subscriptions/{$sub_domain}", 0700, true);
         }
-        if (array_key_exists('development', $subscription_data)) {
+        if (array_key_exists('development-ready', $subscription_data)) {
             # Then we checkout to playground and symlink.
             if (!is_dir("{$home}/playground/{$sub_domain}")) {
                 mkdir("{$home}/playground/{$sub_domain}", 0700, true);
@@ -116,7 +116,7 @@ function process_subscription($fqn_subscription, &$subscription_data, $op, $path
         $pkg_data = $op['value'];
 
         $response->check_required_parameter('name', $pkg_data);
-        $response->check_extraneous_fields(1, array('development', 'version'), $pkg_data);
+        $response->check_extraneous_fields(1, array('development-ready', 'version'), $pkg_data);
 
         list($domain) = explode('/', $fqn_subscription);
         $sub_name = $pkg_data['name'];
@@ -124,7 +124,7 @@ function process_subscription($fqn_subscription, &$subscription_data, $op, $path
         # Since Conveyor compliant nix install packages know where to look
         # for development source, to enable for development, we just check
         # out the source. The install process will use it if available.
-        if (array_key_exists('development', $pkg_data)) {
+        if (array_key_exists('development-ready', $pkg_data)) {
             $gh_org = domain_to_github_org($domain);
             if (!is_dir("{$home}/playground/{$domain}/")) {
                 mkdir("{$home}/playground/{$domain}/", 0700, true);
@@ -163,13 +163,14 @@ function process_subscription($fqn_subscription, &$subscription_data, $op, $path
 } 
 
 function update_package_development_status($fqn_subscription, $package_name, &$package_data, $new_status) {
-    if ($new_status == $package_data['development']) {
+    if ($new_status == $package_data['development-ready']) {
         $response->ok("No change to status.");
     }
-    elseif ($new_status) { # Turn to development.
+    elseif ($new_status) {
+        $response->not_implemented("Changing package 'development-ready' status to 'true' not currently supported.");
     }
     else { # Turn to non-development.
-        $response->not_implemented("Changing package development status to 'false' not currently supported.");
+        $response->not_implemented("Changing package 'development-ready' status to 'false' not currently supported.");
     }
 }
 
@@ -195,7 +196,9 @@ function process_resource($resource, &$resource_data, $op, $path) {
             $src_file = "$home/.conveyor/runtime/{$op['value']}/conf/service-{$resource}.httpd.conf";
             if (file_exists($src_file)) {
                 $target_link = "$home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/service-{$resource}.httpd.conf";
-                unlink($target_link);
+                if (file_exists($target_link)) {
+                    unlink($target_link);
+                }
                 symlink($src_file, $target_link);
             }
             else {
