@@ -131,7 +131,7 @@ function process_subscription($fqn_subscription, &$subscription_data, $op, $path
             }
             exec("cd $home/playground/{$domain}/ && git clone https://github.com/{$gh_org}/{$sub_name}.git", $output, $result);
             if ($result != 0) {
-                $response->server_error("Git checkout failed for '{$gh_org}/{$sub_name}'. ".implode('; ', $output));
+                $response->server_error("Git clone failed for '{$gh_org}/{$sub_name}'. ".implode('; ', $output));
             }
         }
         exec("nix-env -f {$home}/.conveyor/subscriptions/{$fqn_subscription}/default.nix -iA {$sub_name}",
@@ -145,12 +145,13 @@ function process_subscription($fqn_subscription, &$subscription_data, $op, $path
     }
     elseif ($bit == 'installed-packages' && count($path) == 2 && $op['op'] == 'replace') {
         list($package_name, $attribute) = $path;
-        if (!array_key_exists($package_name, $subscription_data)) {
+        if (!array_key_exists($package_name, $subscription_data['installed-packages'])) {
+	    var_dump($subscription_data);
             $response->invalid_request("Could not find package '{$package_name}' in repository '{$fqn_subscription}'.");
         }
         switch ($attribute) {
-        case "development":
-            update_package_development_status($fqn_subscription, $package_name, $subscription_data[$package_name], $op['value']);
+        case "source":
+            update_package_source($fqn_subscription, $package_name, $subscription_data['installed-package'][$package_name], $op['value']);
             break;
         default:
             $response->invalid_request("Invalid package attribute '{$attribute}'.");
@@ -162,15 +163,27 @@ function process_subscription($fqn_subscription, &$subscription_data, $op, $path
     }
 } 
 
-function update_package_development_status($fqn_subscription, $package_name, &$package_data, $new_status) {
-    if ($new_status == $package_data['development-ready']) {
-        $response->ok("No change to status.");
+function update_package_source($fqn_subscription, $package_name, &$package_data, $new_source) {
+    global $response;
+    global $home;
+
+    if ($new_source == $package_data['source']) {
+        $response->ok("No change to source.");
     }
-    elseif ($new_status) {
-        $response->not_implemented("Changing package 'development-ready' status to 'true' not currently supported.");
+    elseif ($new_source == 'distribution') { # Turn to non-development.
+        $response->not_implemented("Changing package 'source' status to 'distro' not currently supported.");        
     }
-    else { # Turn to non-development.
-        $response->not_implemented("Changing package 'development-ready' status to 'false' not currently supported.");
+    else {
+        list($domain) = explode('/', $fqn_subscription);
+        if (!is_dir("$home/playground/$domain")) {
+            mkdir("$home/playground/$domain", 0777, true);
+        }
+        exec("cd $home/playground/{$domain}/ && git clone $new_source", $output, $result);
+        if ($result != 0) {
+            $response->server_error("Git clone failed for '{$domain}/{$new_source}'. ".implode('; ', $output));
+        }
+        echo "HEY:\n\tnix-env -f $home/.conveyor/subscriptions/$fqn_subscription/default.nix -uA $package_name\n";
+        exec("nix-env -f $home/.conveyor/subscriptions/$fqn_subscription/default.nix -uA $package_name");
     }
 }
 
