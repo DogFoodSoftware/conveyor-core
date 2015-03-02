@@ -22,8 +22,10 @@ if (!$response->check_request_ok()) {
 $host_errors = array();
 $host_warnings = array();
 
-# Get data on subscription and installed packages.
+# Get data on subscriptions and installed packages. Also, construct 'sites'
+# data.
 $install_report = array();
+$sites = array();
 $raw_install_report = json_decode(shell_exec('nix-env -q --meta --json'), true);
 foreach ($raw_install_report as $key => $package_data) {
     if (array_key_exists('meta', $package_data) && array_key_exists('position', $package_data['meta'])) {
@@ -44,6 +46,13 @@ foreach ($raw_install_report as $key => $package_data) {
             $install_report[$fqn_repository][$name] = array('name' => $name);
             if (!empty($version)) {
                 $install_report[$fqn_repository][$name]['version'] = $version;
+            }
+            if (array_key_exists('package-type', $package_data['meta'])) {
+                $pkg_type = $package_data['meta']['package-type'];
+                if ($pkg_type == 'site') {
+                    $sites[$name] = array('name' => $name,
+                                          'installed' => is_link("$home/.conveyor/data/conveyor-apache/conf-inc/site-{$name}.httpd.conf"));
+                }
             }
         }
     }
@@ -111,46 +120,6 @@ foreach ($resources as $resource_name => $resource_data) {
     # TODO: check that the link is actually back to one of the providers.
 
     $resources[$resource_name]['provider'] = $provider;
-}
-
-# Process available sites.
-exec('find '.$home.'/.conveyor/runtime -follow -path "*/conf/site-*.httpd.conf" -type f', $site_configs);
-$sites = array();
-foreach ($site_configs as $site_config) {
-    preg_match('|([^/]+/[^/]+)/conf/site-(.+).httpd.conf|', $actual_config, $matches);
-    $package_provider = $matches[1];
-    $name = $matches[2];
-    if (array_key_exists($name, $sites)) {
-        // Multiple providers for the same, just fine.
-        array_push($package_provider, $sites[$name]['package-providers']);
-    }
-    else {
-        $sites[$name] = array('name' => $name,
-                              'package-providers' => array($pacakge_provider),
-                              'provider' => null);
-    }
-}
-# Now set the actual site providers.
-$site_configs = glob("$home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/site-*.httpd.conf");
-foreach ($site_configs as $site_config) {
-    if (!is_link($site_config)) {
-        array_push($host_warnings,
-                   "Appearent site configuration '$site_config' is not a link as expected. Cannot fully evaluate.");
-    }
-    else {
-        $actual_config = readlink($site_config);
-        preg_match('|([^/]+/[^/]+)/conf/site-(.+).httpd.conf|', $actual_config, $matches);
-        $package_provider = $matches[1];
-        $name = $matches[2];
-
-        if (!array_key_exists($name, $sites)) {
-            array_push($host_warnings,
-                       "Site configuration links outside of known conveyor runtime.");
-        }
-        else {
-            $sites[$name] = array('provider'=> $package_provider);
-        }
-    }
 }
 
 if (!file_exists("$home/.conveyor/host-id")) {
