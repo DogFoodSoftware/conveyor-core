@@ -6,8 +6,6 @@
  * <div id="Implementation" data-perspective="implementation" class="blurbSummary grid_12">
  * <div class="blurbTitle">Implementation</div>
  */
-require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/domain-lib.php");
-
 if ($req_item_id != 'this') {
     $response->item_not_found();
 }
@@ -55,7 +53,7 @@ function process_subscriptions(&$subscriptions_data, $op, $path) {
     global $home;
 
     $bit = array_shift($path);
-    if (empty($bit) && $op['op'] == 'add') {
+    if (empty($bit) && $op['op'] == 'add') { // Add a new subscription (to a repo).
         $subscription_data = $op['value'];
         // Verify the data.
         $response->check_required_field('name', $subscription_data);
@@ -116,32 +114,33 @@ function process_subscription($fqn_subscription, &$subscription_data, $op, $path
         $pkg_data = $op['value'];
 
         $response->check_required_parameter('name', $pkg_data);
-        $response->check_extraneous_fields(1, array('development-ready', 'version'), $pkg_data);
+        $response->check_extraneous_fields(1, array('source', 'version'), $pkg_data);
 
         list($domain) = explode('/', $fqn_subscription);
-        $sub_name = $pkg_data['name'];
+        $pkg_name = $pkg_data['name'];
         
         # Since Conveyor compliant nix install packages know where to look
         # for development source, to enable for development, we just check
         # out the source. The install process will use it if available.
-        if (array_key_exists('development-ready', $pkg_data)) {
-            $gh_org = domain_to_github_org($domain);
+        if (array_key_exists('source', $pkg_data)) {
+            $pkg_source = $pkg_data['source'];
             if (!is_dir("{$home}/playground/{$domain}/")) {
                 mkdir("{$home}/playground/{$domain}/", 0700, true);
             }
-            exec("cd $home/playground/{$domain}/ && git clone https://github.com/{$gh_org}/{$sub_name}.git", $output, $result);
+            exec("cd $home/playground/{$domain}/ && git clone $pkg_source", $output, $result);
             if ($result != 0) {
-                $response->server_error("Git clone failed for '{$gh_org}/{$sub_name}'. ".implode('; ', $output));
+                $response->server_error("Git clone failed for '{$fqn_subscription}/{$pkg_name}'. ".implode('; ', $output));
             }
         }
-        exec("nix-env -f {$home}/.conveyor/subscriptions/{$fqn_subscription}/default.nix -iA {$sub_name}",
+        echo "nix-env -f {$home}/.conveyor/subscriptions/{$fqn_subscription}/default.nix -iA {$pkg_name}\n";
+        exec("nix-env -f {$home}/.conveyor/subscriptions/{$fqn_subscription}/default.nix -iA {$pkg_name}",
              $output,
              $result);
         if ($result != 0) {
-            $response->server_error("Install failed for '{$fqn_subscription}/{$sub_name}'");
+            $response->server_error("Install failed for '{$fqn_subscription}/{$pkg_name}'");
         }
         
-        $response->ok("Package '{$fqn_subscription}/{$sub_name}' installed.");
+        $response->ok("Package '{$fqn_subscription}/{$pkg_name}' installed.");
     }
     elseif ($bit == 'installed-packages' && count($path) == 2 && $op['op'] == 'replace') {
         list($package_name, $attribute) = $path;
