@@ -51,6 +51,7 @@ foreach ($raw_install_report as $key => $package_data) {
                 $pkg_type = $package_data['meta']['package-type'];
                 if ($pkg_type == 'site') {
                     $sites[$name] = array('name' => $name,
+                                          'package' => explode('/',$fqn_repository)[0]."/{$name}",
                                           'installed' => is_link("$home/.conveyor/data/conveyor-apache/conf-inc/site-{$name}.httpd.conf"));
                 }
             }

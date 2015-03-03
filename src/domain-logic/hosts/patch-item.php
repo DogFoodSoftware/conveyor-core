@@ -41,6 +41,9 @@ function process_path(&$host_data, $op, $path) {
     case 'resources':
         process_resources($host_data[$bit], $op, $path);
         break;
+    case 'sites':
+        process_sites($host_data[$bit], $op, $path);
+        break;
     default:
         global $response;
         $response->invalid_request("Path '{$op['path']}' invalid.");
@@ -226,6 +229,70 @@ function process_resource($resource, &$resource_data, $op, $path) {
     else {
         $response->invalid_request("Path '{$op['path']}' invalid; no such resource attribute '$bit'.");
     }        
+}
+
+function process_sites(&$sites_data, $op, $path) {
+    global $response;
+
+    $site_name = array_shift($path);
+    if (!array_key_exists($site_name, $sites_data)) {
+        $response->invalid_request("No such site '$site_name'.");
+    }
+
+    if ($op['op'] == 'add' && empty($path)) {
+        $response->invalid_request("Sites are not added directly; add the site package.");
+    }
+    elseif (empty($path)) {
+        $response->invalid_request("Invalid request.");
+    }
+    else {
+        process_site($sites_data[$site_name], $op, $path);
+    }
+}
+
+function process_site(&$site_data, $op, $path) {
+    global $response;
+
+    $attribute = array_shift($path);
+    if (!empty($path)) {
+        $response->invalid_request("Unexpected extra path: '".implode('/', $path))."'.";
+    }
+
+    if ($op['op'] == 'replace' && $attribute == 'installed') {
+        update_site_installation($site_data, $op);
+    }
+}
+
+function update_site_installation(&$site_data, $op) {
+    global $home;
+    global $response;
+
+    $new_install_status = $op['value'];
+    if ($new_install_status == $site_data['installed']) {
+        $response->ok("No change to site.");
+    }
+    elseif ($new_install_status) { // Install it.
+        list($domain, $pkg_name) = explode('/', $site_data['package']);
+        $source_conf = "$home/.conveyor/runtime/{$domain}/{$pkg_name}/conf/site-{$pkg_name}.httpd.conf";
+        if (!file_exists($source_conf)) {
+            $response->server_error("Did not find expected configuration file '$source_conf'.");
+        }
+        $target_link = "$home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/site-{$pkg_name}.httpd.conf";
+        if (file_exists($target_link)) {
+            unlink($target_link);
+        }
+        symlink($source_conf, $target_link);
+
+        # TODO: Restart apache.
+        $response->ok("Site activated. You must manually restart apache.");
+    }
+    else {  // Uninstall it.
+        $target_link = "$home/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc/site-{$pkg_name}.httpd.conf";
+        unlink($target_link);
+
+        # TODO: Restart apache.
+        $response->ok("Site deactivated. You must manually restart apache.");
+    }
 }
 
 $host_data = json_decode(shell_exec("con -q GET $req_path"), true);
