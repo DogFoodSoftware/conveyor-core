@@ -38,7 +38,7 @@ if (!empty($req_parameters['inc-fields'])) {
             $topics_lib = "$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-workflow/runnable/lib/topics-lib.php";
             if (file_exists($topics_lib)) {
                 require $topics_lib;
-                $user['next-topics'] = get_next_topics($user);
+                $user['next-topics'] = TopicsLib::get_next_topics($user);
             }
             else {
                 $response->invalid_request("The host system is not setup to determine 'next-topics'. 'conveyor-workflow' must be installed.");
