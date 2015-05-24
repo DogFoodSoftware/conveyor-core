@@ -4,19 +4,21 @@ Issue management and planning is primarily done with:
 - project phase, and
 - skill set.
 
-In addition, th
+In addition, we also deal with two secondary attributes:
 
-The current availble issues may also be ordered within each project phase
-according to priority. 'Priority' is, however, considered a secondary
-attribute.
-
-Issues are also organized into 'project components' (=~ sub-projects). It is
-sometimes useful to filter issues based on the project component
+- priority and
+- project component.
 
 Issue planners deal with the whole set of issues, making sure issue are fully
 defined and correctly reference other issues. Developers, system admins,
 technical writers and other issues consumers pick off the available issues
 according to their skill set, phase, and priority.
+
+== Issue DB and Management Tools ==
+
+While the process may be used with various tools, we explicitly support Github
++ Codetree. Atlassian's JIRA product is also known to be compatible with the
+process.
 
 == Issue Specification ==
 
@@ -25,4 +27,32 @@ according to their skill set, phase, and priority.
 An issue is considered available if it has no unmet dependencies and is not
 labeled as 'draft'. Any available issue is available to be worked and may be
 selected. Generally workers should prefer issues matching their skill set in
-the 
+the earliest incomplete project phase.
+
+=== Project Phase ===
+
+The project phase define iterative 'goals sets' for the project. "By phase
+one, we will achieve features P and Q, by phase two, we will achieve X and Y."
+Note that we use "phases" rather than dates as we envision planning as a
+bottom up process in which we identify "first this, then that" independent of
+external dates.
+
+In many instances, the phases will be aligned with dates, but this should be
+done after each phase is (more or less) defined. Otherwise, one runs the risk
+of obsucuring "what can be done" with "what must be done".
+
+==== Buckets ====
+
+It is often useful to include or even start with a "feature bucket", which is
+conventionally named after the next target release. E.g., "1.0 Bucket", "2.4
+Bucket", etc. The buckets may be used for initial brainstorming, after which
+the issues are then re-distributed into phases building to the "X.Y Release"
+
+
+
+The current availble issues may also be ordered within each project phase
+according to priority. 'Priority' is, however, considered a secondary
+attribute.
+
+Issues are also organized into 'project components' (=~ sub-projects). It is
+sometimes useful to filter issues based on the project component
