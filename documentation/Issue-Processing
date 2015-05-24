@@ -39,12 +39,23 @@ each month.
 
 Follow on issues may be added inter-sprint, and the idea of "locking down the
 issues" should never deter anyone from improving, clarifying, or breaking down
-an issue. Ideally, that work would all be done before the sprint began, but
-it's often more work than it's work to try and force all that work to the
-front. The lock down is really on the conceptual / goals level of "what's
-going into this release".
+an issue. It's costly to force all that work to the front. Clarifications are
+not considered new work, and breaking down an issue, altough it does create
+new issues in the sprint, is considered just another form of editing.
 
+Of course, if there's a straight up error in the plan, then truly new issues
+may be added and existing issues removed or replaced. The process is meant to
+guide and should not be followed slavishly to the point of incurring sunk work
+costs.
 
+==== Planning Sprints ====
+
+Most sprints fall into one of three categories. "Emergency fixes", "minor
+feature releases", and "major feature releases".
+
+Emergency fixes are non-planned rushes to fix production problems. Since
+emergencies generally intervene at any time, the image is that of being taken
+over. 
 
 ==== Release Planning ====
 
