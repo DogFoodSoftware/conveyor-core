@@ -41,12 +41,20 @@ In many instances, the phases will be aligned with dates, but this should be
 done after each phase is (more or less) defined. Otherwise, one runs the risk
 of obsucuring "what can be done" with "what must be done".
 
-==== Buckets ====
+==== Release Planning ====
 
-It is often useful to include or even start with a "feature bucket", which is
-conventionally named after the next target release. E.g., "1.0 Bucket", "2.4
-Bucket", etc. The buckets may be used for initial brainstorming, after which
-the issues are then re-distributed into phases building to the "X.Y Release"
+In most cases, planning begins with a "X.Y Release". Release planning may
+begin with brainstorming and sorting issues for a particular release. The
+"next release" is often broken down into chunks which prioritize and / or
+group issues into internal milestones. Future (post-next) releases may be
+reasonably left as otherwise unsorted issue buckets.
+
+==== Feature Groups ====
+
+While the basic idea of the project phase is to create iterative (though
+sometimes internal) releases, only the public releases actually need to be
+iterative. Internal releases / milestones may be developed in parallel and,
+for instance, it's perfectly fine
 
 
 
