@@ -34,14 +34,15 @@ the earliest incomplete project phase.
 Sprints are planned on a month by month basis. Ideally, issues for a given
 sprint are set a couple days before or after the first of the month. Issues
 may be updated mid-sprint in the case where external factors change
-significancly, though ideally the issues are locked in at the beginning of
+significancly, though ideally the issues are locked down at the beginning of
 each month.
 
 Follow on issues may be added inter-sprint, and the idea of "locking down the
 issues" should never deter anyone from improving, clarifying, or breaking down
 an issue. Ideally, that work would all be done before the sprint began, but
 it's often more work than it's work to try and force all that work to the
-front.
+front. The lock down is really on the conceptual / goals level of "what's
+going into this release".
 
 
 
