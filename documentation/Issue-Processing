@@ -1,0 +1,15 @@
+Issue management and planning is primarily done with:
+
+- availability,
+- project phase,
+- skill set, and
+- project component.
+
+The current availble issues may also be ordered within each project phase
+according to priority. 'Priority' is, however, considered a secondary
+attribute.
+
+Issue planners deal with the whole set of issues, making sure issue are filly
+defined and correctly reference other issues. Developers, system admins,
+technical writers and other issues consumers pick off the available issues
+according to their skill set, phase, and priority.
