@@ -56,8 +56,16 @@ relationships and resources available.
 
 ==== Alpha, Beta, Gold ====
 
-With regard to an initial product plan in particular, it is often useful to
-adopt an alpha, beta, gold plan. The "1.
+With any release involving substantial structural changes or major feature
+additions, and especially with regard to the "1.0 Release", it is often useful
+to adopt an alpha, beta, gold plan.
+
+First, the "X.Y Release" feature set is developed. This includes use case
+support, key screens, basic data model, and other high level issues. The "X.Y
+Release" milestone / phase is the gold release target for the cycle.
+
+ Ideally,
+the issues would be set by the "X.Y Beta" milestone—discussed below—
 
 ==== Feature Groups ====
 
