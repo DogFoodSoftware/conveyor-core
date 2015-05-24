@@ -58,8 +58,7 @@ relationships and resources available.
 
 In particular, breaking the release goals into "MVP", "Bonus" and "Release"
 milestones can help with setting priorities and resource planning. Note that
-this roughly corresponds to an "Alpha, Beta, Gold" paradigm. I'm a fan of
-descriptive titles.
+this roughly corresponds to an "Alpha, Beta, Gold" paradigm.
 
 The process begins by talking about the release goals, which are captured in
 the "X.Y Release" milestone issues, or may be immediately sorted into the "X.Y
@@ -72,6 +71,15 @@ milestone. All other user features are sorted to the Bonus
 milestone. Optimizations, polish, documentation as well as test and "external"
 issues (e.g.: license acquisitions) are generally left to the Release
 milestone, though there is no hard and fast rule.
+
+Note that he difference between MVP-Bonus-Release and Alpha-Beta-Gold
+
+Note that workers may take any available issue, so it's not necessary that the
+issues be strictly serial. Generally, any available MVP issues should be
+preferred over Bonus issues. It is perfectly acceptable that MVP issues depend
+on Bonus issues, as dependency trumps feature priority. It's also fine for
+issue planners to classify an issue in the MVP because it's required for
+another issue which is in the MVP set.
 
 ==== Feature Groups ====
 
