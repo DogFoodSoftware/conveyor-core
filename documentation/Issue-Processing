@@ -1,15 +1,28 @@
 Issue management and planning is primarily done with:
 
 - availability,
-- project phase,
-- skill set, and
-- project component.
+- project phase, and
+- skill set.
+
+In addition, th
 
 The current availble issues may also be ordered within each project phase
 according to priority. 'Priority' is, however, considered a secondary
 attribute.
 
-Issue planners deal with the whole set of issues, making sure issue are filly
+Issues are also organized into 'project components' (=~ sub-projects). It is
+sometimes useful to filter issues based on the project component
+
+Issue planners deal with the whole set of issues, making sure issue are fully
 defined and correctly reference other issues. Developers, system admins,
 technical writers and other issues consumers pick off the available issues
 according to their skill set, phase, and priority.
+
+== Issue Specification ==
+
+=== Availability ===
+
+An issue is considered available if it has no unmet dependencies and is not
+labeled as 'draft'. Any available issue is available to be worked and may be
+selected. Generally workers should prefer issues matching their skill set in
+the 
