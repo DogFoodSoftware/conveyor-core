@@ -49,6 +49,16 @@ begin with brainstorming and sorting issues for a particular release. The
 group issues into internal milestones. Future (post-next) releases may be
 reasonably left as otherwise unsorted issue buckets.
 
+Upcoming releases, and most especially the next release are, especially for
+larger projects with many issues, broken into smaller phases. The phases may
+target both iterative and parallel development depending on the feature
+relationships and resources available.
+
+==== Alpha, Beta, Gold ====
+
+With regard to an initial product plan in particular, it is often useful to
+adopt an alpha, beta, gold plan. The "1.
+
 ==== Feature Groups ====
 
 While the basic idea of the project phase is to create iterative (though
