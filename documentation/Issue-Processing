@@ -70,18 +70,8 @@ Once a workable first draft of goals and obvious work is defined, the issues
 are reviewed. Absolutely necessary user features are placed in the MVP
 milestone. All other user features are sorted to the Bonus
 milestone. Optimizations, polish, documentation as well as test and "external"
-issues such as license acquisition,
-
-the issues
-are sorted into "X.Y MVP" and "X.Y Bonus" milestones. The alpha issues
-essentially describe the "minimum viable product" features. The features
-without which the release is a fail.
-
-All the non-MVP features go into the beta. Note that the ration between alpha
-and beta features can vary
-
- Ideally,
-the issues would be set by the "X.Y Beta" milestone—discussed below—
+issues (e.g.: license acquisitions) are generally left to the Release
+milestone, though there is no hard and fast rule.
 
 ==== Feature Groups ====
 
