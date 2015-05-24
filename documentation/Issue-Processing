@@ -54,19 +54,26 @@ larger projects with many issues, broken into smaller phases. The phases may
 target both iterative and parallel development depending on the feature
 relationships and resources available.
 
-==== Alpha, Beta, Gold ====
+==== MVP, Bonus, and Release ====
 
-With any release involving substantial structural changes or major feature
-additions, and especially with regard to the "1.0 Release", it is often useful
-to adopt an alpha, beta, gold plan.
+In particular, breaking the release goals into "MVP", "Bonus" and "Release"
+milestones can help with setting priorities and resource planning. Note that
+this roughly corresponds to an "Alpha, Beta, Gold" paradigm. I'm a fan of
+descriptive titles.
 
-First, the "X.Y Release" feature set is developed. This includes use case
-support, key screens, basic data model, and other high level issues. The "X.Y
-Release" milestone / phase is the gold release target for the cycle. This is
-initially populated with the foreseeable / hoped-for release goals.
+The process begins by talking about the release goals, which are captured in
+the "X.Y Release" milestone issues, or may be immediately sorted into the "X.Y
+MVP" and "X.Y Bonus" milestones. Either way, the goal is to enumerate a good
+portion of the foreseeable or hoped-for goals.
 
 Once a workable first draft of goals and obvious work is defined, the issues
-are sorted into "X.Y Alpha" and "X.Y Beta" milestones. The alpha issues
+are reviewed. Absolutely necessary user features are placed in the MVP
+milestone. All other user features are sorted to the Bonus
+milestone. Optimizations, polish, documentation as well as test and "external"
+issues such as license acquisition,
+
+the issues
+are sorted into "X.Y MVP" and "X.Y Bonus" milestones. The alpha issues
 essentially describe the "minimum viable product" features. The features
 without which the release is a fail.
 
