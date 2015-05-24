@@ -72,7 +72,11 @@ milestone. Optimizations, polish, documentation as well as test and "external"
 issues (e.g.: license acquisitions) are generally left to the Release
 milestone, though there is no hard and fast rule.
 
-Note that he difference between MVP-Bonus-Release and Alpha-Beta-Gold
+Where MVP-Bonus-Release and Alpha-Beta-Gold differ is in issue
+sequencing. Given an available MVP issue and an available Bonus issues, the
+MVP issue should generally be prioritiezed. Beyond that rule of thumb, there
+is no fundamental rule for prioritizing issues. A reasonable effort to map
+dependencies is made, and then workers choose their next issue
 
 Note that workers may take any available issue, so it's not necessary that the
 issues be strictly serial. Generally, any available MVP issues should be
