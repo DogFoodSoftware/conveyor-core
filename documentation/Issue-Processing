@@ -62,7 +62,16 @@ to adopt an alpha, beta, gold plan.
 
 First, the "X.Y Release" feature set is developed. This includes use case
 support, key screens, basic data model, and other high level issues. The "X.Y
-Release" milestone / phase is the gold release target for the cycle.
+Release" milestone / phase is the gold release target for the cycle. This is
+initially populated with the foreseeable / hoped-for release goals.
+
+Once a workable first draft of goals and obvious work is defined, the issues
+are sorted into "X.Y Alpha" and "X.Y Beta" milestones. The alpha issues
+essentially describe the "minimum viable product" features. The features
+without which the release is a fail.
+
+All the non-MVP features go into the beta. Note that the ration between alpha
+and beta features can vary
 
  Ideally,
 the issues would be set by the "X.Y Beta" milestone—discussed below—
