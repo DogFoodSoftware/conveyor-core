@@ -80,10 +80,11 @@ issue selection.
 The other difference between MVP-Bonus-Release and Alpha-Beta-Gold mindset is
 that there is never a hard feature lock. Issue managers may reduce Bonus
 features—often by moving the issues to a future release—in order to meet
-delivery dates. Non-volatile feature additions may be planned for release. The
-plan is not going to be perfect
+delivery dates. Non-volatile feature additions may be planned for release.
 
 ==== Other Milestones ====
 
-The MVP-Bonus-Release approach may be augmentetd or replaced by other
-approaches and generally 
+Planning projects is messy, so feel free to augment and replace the standard
+milestones as necessary. Add dditional iterations for big releases. Break big
+lists up into related feature sets. If the team understands the basic
+priorities in however the "phases" are expressed, then planners should neithe
