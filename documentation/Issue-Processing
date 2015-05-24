@@ -1,7 +1,7 @@
 Issue management and planning is primarily done with:
 
 - availability,
-- , and
+- sprint, and
 - skill set.
 
 In addition, we also deal with two secondary attributes:
@@ -29,13 +29,9 @@ labeled as 'draft'. Any available issue is available to be worked and may be
 selected. Generally workers should prefer issues matching their skill set in
 the earliest incomplete project phase.
 
-=== Project Phase ===
+=== Target Date ===
 
-The project phase define iterative 'goals sets' for the project. "By phase
-one, we will achieve features P and Q, by phase two, we will achieve X and Y."
-Note that we use "phases" rather than dates as we envision planning as a
-bottom up process in which we identify "first this, then that" independent of
-external dates.
+The target dates are generally set at the end of each month.
 
 ==== Release Planning ====
 
