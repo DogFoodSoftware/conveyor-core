@@ -75,28 +75,10 @@ milestone, though there is no hard and fast rule.
 Where MVP-Bonus-Release and Alpha-Beta-Gold differ is in issue
 sequencing. Given an available MVP issue and an available Bonus issues, the
 MVP issue should generally be prioritiezed. Beyond that rule of thumb, there
-is no fundamental rule for prioritizing issues. A reasonable effort to map
-dependencies is made, and then workers choose their next issue
+is no fundamental rule for prioritizing issues. Workers are free to choose any
+available issue.
 
-Note that workers may take any available issue, so it's not necessary that the
-issues be strictly serial. Generally, any available MVP issues should be
-preferred over Bonus issues. It is perfectly acceptable that MVP issues depend
-on Bonus issues, as dependency trumps feature priority. It's also fine for
-issue planners to classify an issue in the MVP because it's required for
-another issue which is in the MVP set.
+==== Other Milestones ====
 
-==== Feature Groups ====
-
-While the basic idea of the project phase is to create iterative (though
-sometimes internal) releases, only the public releases actually need to be
-iterative. Internal releases / milestones may be developed in parallel and,
-for instance, it's perfectly fine
-
-
-
-The current availble issues may also be ordered within each project phase
-according to priority. 'Priority' is, however, considered a secondary
-attribute.
-
-Issues are also organized into 'project components' (=~ sub-projects). It is
-sometimes useful to filter issues based on the project component
+The MVP-Bonus-Release approach may be augmentetd or replaced by other
+approaches and generally 
