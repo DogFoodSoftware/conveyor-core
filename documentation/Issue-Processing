@@ -3,7 +3,7 @@
     Issues are processed according to:
     <ul>
       <li>availability,</li>
-      <li>skill set, and<li>
+      <li>skill set, and</li>
       <li>sprint.</li>
     </ul>
     This allows an individual worker to quickly see those issues which need
@@ -26,43 +26,63 @@
     repository of choice for open source projects. GitHub users may make
     reference to and consume the GitHub issues as they would with any other
     GitHub project without concern as to the Conveyor planning framework.
-  </div>
-  <div class="p">
     GitHub also has a mature and usable API which allows us to integrate
     GitHub with standard Conveyor and third party tools.
   </div>
+  <div class="p">
+    GitHub's issue model is essentially forward compatible with the Conveyor
+    model, which adds two key concepts. First, Conveyor projects are not
+    limited to a single GitHub project, which may be referred to as
+    sub-projects or components. Second, Conveyor requires isuses express
+    dependency in order to determine availability.
+  </div>
+  <div class="p">
+    Enter CodeTree. CodeTree allows us to create a project which merges the
+    issues from any number of GitHub projects into a single group. When
+    organized by milestones, issues from different projects with the same
+    milestone (name) are presented together by milestone, just as we would
+    like for the Conveyor sprint planning. Finally, CodeTree supports issue
+    dependency through the addition of a 'needs' keyword, e.g.: <code>needs
+    Organization/gh-project#3</code>.
+  </div>
 </section><!-- #Management-Tools -->
+<section id="Issue-Specification">
+  <h1>Issue Specification</h1>
+  <h2>Availability</h2>
+  <div class="p">
+    An issue is considered available if it has no unmet dependencies and is
+    not labeled as 'draft'. Any available issue is available to be worked and
+    may be selected. Generally workers should prefer issues matching their
+    skill set in the earliest incomplete project phase.
+  </div>
+  <h2>Sprints</h2>
+  <div class="p">
+    Sprints are planned on a month by month basis. Ideally, issues for a given
+    sprint are set a couple days before or after the first of the
+    month. Issue workers are not 
 
 
-== Issue Specification ==
 
-=== Availability ===
-
-An issue is considered available if it has no unmet dependencies and is not
-labeled as 'draft'. Any available issue is available to be worked and may be
-selected. Generally workers should prefer issues matching their skill set in
-the earliest incomplete project phase.
-
-=== Sprints ===
-
-Sprints are planned on a month by month basis. Ideally, issues for a given
-sprint are set a couple days before or after the first of the month. Issues
-may be updated mid-sprint in the case where external factors change
-significancly, though ideally the issues are locked down at the beginning of
-each month.
-
-Follow on issues may be added inter-sprint, and the idea of "locking down the
-issues" should never deter anyone from improving, clarifying, or breaking down
-an issue. It's costly to force all that work to the front. Clarifications are
-not considered new work, and breaking down an issue, altough it does create
-new issues in the sprint, is considered just another form of editing.
-
-Of course, if there's a straight up error in the plan, then truly new issues
-may be added and existing issues removed or replaced. The process is meant to
-guide and should not be followed slavishly to the point of incurring sunk work
-costs.
-
-==== Planning Sprints ====
+Issues may be updated mid-sprint in the case where external factors
+    change significancly, though ideally the issues are locked down at the
+    beginning of each month.
+  </div>
+  <div class="p">
+    Follow on issues may be added inter-sprint, and the idea of "locking down
+    the issues" should never deter anyone from improving, clarifying, or
+    breaking down an issue. It's costly to force all that work to the
+    front. Clarifications are not considered new work, and breaking down an
+    issue, altough it does create new issues in the sprint, is considered just
+    another form of editing.
+  </div>
+  <div class="p">
+    Of course, if there's a straight up error in the plan, then truly new
+    issues may be added and existing issues removed or replaced. The process
+    is meant to guide and should not be followed slavishly to the point of
+    incurring sunk work costs.
+  </div>
+  <h3>Planning Sprints</h3>
+  <div class="p">
 
 Most sprints fall into one of three categories. "Emergency fixes", "minor
 feature releases", and "major feature releases".
