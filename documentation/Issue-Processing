@@ -8,25 +8,31 @@
     </ul>
     This allows an individual worker to quickly see those issues which need
     their skillset, are available to be worked, ordered by their assigned
-    sprints.
+    sprints.  Issue planners line up issue for consumption by workers in such
+    a way as to efficiently move the project towards a completed final
+    product.
+  </div>
+</section><!-- #Overview -->
+<section id="Management-Tools">
+  <h1>Management Tools</h1>
+  <div class="p">
+    While the process itself has been written be laregly tool agnostic, we do
+    recommend a particular tool set for green field development. Those wishing
+    to adapt the process to an alternate tool chain may wish to take note of
+    the recommended tool set implementation.
   </div>
   <div class="p">
-    Issue planners line up issue for consumption by workers in such a way as
-    to efficiently move the project towards a completed final product.
+    GitHub is the recommended issue repository. GitHub is the defacto
+    repository of choice for open source projects. GitHub users may make
+    reference to and consume the GitHub issues as they would with any other
+    GitHub project without concern as to the Conveyor planning framework.
   </div>
-</section>
+  <div class="p">
+    GitHub also has a mature and usable API which allows us to integrate
+    GitHub with standard Conveyor and third party tools.
+  </div>
+</section><!-- #Management-Tools -->
 
-
-Issue planners deal with the whole set of issues, making sure issue are fully
-defined and correctly reference other issues. Developers, system admins,
-technical writers and other issues consumers pick off the available issues
-according to their skill set, phase, and priority.
-
-== Issue DB and Management Tools ==
-
-While the process may be used with various tools, we explicitly support Github
-+ Codetree. Atlassian's JIRA product is also known to be compatible with the
-process.
 
 == Issue Specification ==
 
