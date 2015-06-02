@@ -1,13 +1,21 @@
-Issue management and planning is primarily done with:
+<section id="Overview">
+  <div class="p">
+    Issues are processed according to:
+    <ul>
+      <li>availability,</li>
+      <li>skill set, and<li>
+      <li>sprint.</li>
+    </ul>
+    This allows an individual worker to quickly see those issues which need
+    their skillset, are available to be worked, ordered by their assigned
+    sprints.
+  </div>
+  <div class="p">
+    Issue planners line up issue for consumption by workers in such a way as
+    to efficiently move the project towards a completed final product.
+  </div>
+</section>
 
-- availability,
-- sprint, and
-- skill set.
-
-In addition, we also deal with two secondary attributes:
-
-- priority and
-- project component.
 
 Issue planners deal with the whole set of issues, making sure issue are fully
 defined and correctly reference other issues. Developers, system admins,
@@ -53,9 +61,7 @@ costs.
 Most sprints fall into one of three categories. "Emergency fixes", "minor
 feature releases", and "major feature releases".
 
-Emergency fixes are non-planned rushes to fix production problems. Since
-emergencies generally intervene at any time, the image is that of being taken
-over. 
+Emergency fixes are non-planned rushes to fix production problems. Once in
 
 ==== Release Planning ====
 
