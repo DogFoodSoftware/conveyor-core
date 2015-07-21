@@ -3,7 +3,7 @@ Conveyor-Core
 
 Bootstrap and core software components for Conveyor.
 
-'''These instructions aren't necessarily true yet.''' :)
+**These instructions aren't necessarily true yet.** :)
 
 ## Get the VM
 
