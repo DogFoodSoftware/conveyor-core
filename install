@@ -95,3 +95,4 @@ sudo -u vagrant git clone -b $CONVEYOR_VER --depth 1 git@github.com:${GITHUB_REF
 # now re-mount the new handler to override this, but you have to start
 # somewhere.)
 # sudo ln -s "$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/conf/service-hosts.httpd.conf" "$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc"
+sudo ln -s "$HOME/playground/DogFoodSoftware/conveyor-core/conf/service-documentation.nginx.conf" /etc/nginx/conf.d
