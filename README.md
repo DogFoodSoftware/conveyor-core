@@ -18,7 +18,7 @@ Then head to [http://192.168.33.10/] to view the dashboard.
 
 ## Install to Host
 
-We recommend developers interact primarily with the VM. If you're Ubuntu, you could probably install to a physical host and it would be fine. If you have determined you want/need to install to a physical host, first grab the core packages:
+We recommend developers interact primarily with the VM. You can probably install the Conveyor system to any Ubuntu 'trusty' / 14.04 system. To do so:
 
 ```
 su

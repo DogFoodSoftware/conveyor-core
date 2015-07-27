@@ -6,8 +6,9 @@ set -e
 #  * <div id="Default-Values" class="section">
 #  * <div class="section-header"><span>Default Values</span></div>
 #  */
-CONVEYOR_REPO=https://github.com/DogFoodSoftware/conveyor-core.git
+GITHUB_REF=DogFoodSoftware/conveyor-core
 CONVEYOR_PLAYGROUND="$HOME/playground"
+CONVEYOR_VER="master"
 # /**
 #  * </div><!-- #Default-Values.section -->
 #  *
@@ -29,54 +30,35 @@ function usage() {
     echo "  to install on self-supported or experimental distros as well as to attempt (a"
     echo "  rather simple) repair of a broken or incomplete install."
     echo
-    echo "--attempt-nix-install"
-    echo "  Will attempt automated nix install if necessary."
-    # echo
-    # echo "--checkout-version|--cv"
-    # echo "  Specifies the version to use. Note, the nix and git install each use independent"
-    # echo "  versions; even for two that would produce the same runtime."
-    # echo
-    # echo "--playground|-p"
-    # echo "  Specifies the location of playground.
+    echo "--checkout-version|-c"
+    echo "  Specifies the version to use. Note, the nix and git install each use independent"
+    echo "  versions; even for two that would produce the same runtime."
+    echo
+    echo "--playground|-p <dir>"
+    echo "  Specifies the location of playground."
     echo
 }
 
 FORCE_CORE=false
-ATTEMPT_NIX_INSTALL=false
 FORCE_DISTRO=false
 
-TMP=`getopt --name=$0 -a --longoptions=force-core,force-distro,attempt-nix-install -o f -- $@`
+TMP=`getopt --name=$0 -a --longoptions=force,playground -o f,p -- $@`
 eval set -- $TMP
 
 until [ $1 == -- ]; do
     case "$1" in
-	-f)
-	    FORCE_CORE=true
-	    FORCE_DISTRO=true;;
-	--force-core)
+	-f|--force)
 	    FORCE_CORE=true;;
-	--attempt-nix-install)
-	    ATTEMPT_NIX_INSTALL=true;;
-	--force-distro)
-	    FORCE_DISTRO=true;;
+	-p|--playground)
+	    CONVEYOR_PLAYGROUND="$2"
+	    shift;;
+	-c|--checkout-version)
+	    CHECKOUT_VERSION="$2"
+	    shift;;
     esac
     shift
 done
 shift
-
-DISTRO_INSTALL_OPTIONS=""
-if [[ $FORCE_DISTRO == true ]]; then
-    DISTRO_INSTALL_OPTIONS="--force"
-fi
-if [[ $ATTEMPT_NIX_INSTALL == true ]]; then
-    DISTRO_INSTALL_OPTIONS="$DISTRO_INSTALL_OPTIONS --attempt-nix-install"
-fi
-
-# May be link or directory.
-if [[ ! -e "$HOME/.conveyor/subscriptions/dogfoodsoftware.com/distro" ]]; then
-    bash <(curl https://raw.githubusercontent.com/DogFoodSoftware/distro/master/install) $DISTRO_INSTALL_OPTIONS
-fi
-source $HOME/.nix-profile/etc/profile.d/nix.sh
 
 PREREQUISITES_GOOD=true
 # Need to be able to 'sudo' root for certain operations.  TODO: with
@@ -89,7 +71,9 @@ if [[ `sudo -n echo foo 2>/dev/null` != 'foo' ]]; then
     PREREQUISITES_GOOD='false'
 fi
 if [[ $PREREQUISITES_GOOD != 'true' ]]; then
-    echo "Consider using using the Conveyor vagrant VM: TODO".
+    echo "Consider using using the Conveyor vagrant VM:".
+    echo "  curl -o Vagrantfile -fsSL https://raw.githubusercontent.com/DogFoodSoftware/conveyor-core/master/Vagrantfile"
+    echo "  vagrant up"
     exit 1
 fi
 # TODO: do a dry run to check whether we can connect to the git repo.
@@ -97,27 +81,17 @@ fi
 #  * </div><!-- #Prerequisite-Checks.section -->
 #  */
 
-if nix-env --query --out-path conveyor-core 2>/dev/null; then
-    if [[ $FORCE != 'true' ]]; then
-	echo "Conveyor-Core already installed. Bailing out." >&2
-	exit 2
-    else # It is forced; essentiall will check and possibly repair
-	 # initial setup.
-	echo "Found existing installation. Checking setup..."
-    fi
+if [ ! -d "$CONVEYOR_PLAYGROUND" ]; then
+    mkdir -p "$CONVEYOR_PLAYGROUND"
 fi
 
-# We need to make the cacert available through our user's nix-profile
-# for PHP/composer. It's a bit of a hack, but there you go.
-nix-env -i cacert
-nix-env -iA nixpkgs.jre
-for i in conveyor-core conveyor-php conveyor-apache conveyor-mysql conveyor-orientdb conveyor-minify; do
-    nix-env -f "$HOME/.conveyor/subscriptions/dogfoodsoftware.com/distro/default.nix" -iA $i
-done
+cd "$CONVEYOR_PLAYGROUND"
+echo sudo -u vagrant git clone -b $CONVEYOR_VER --depth 1 git@github.com:${GITHUB_REF}.git $GITHUB_REF
+sudo -u vagrant git clone -b $CONVEYOR_VER --depth 1 git@github.com:${GITHUB_REF}.git $GITHUB_REF
 
 # Normally, we use conveyor itself to 'mount' service handlers, but this
 # requires the service handler for the 'hosts' already be setup, so we have to
 # tackle that one manually. (Note, if a different handler is desired, they can
 # now re-mount the new handler to override this, but you have to start
 # somewhere.)
-ln -s "$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/conf/service-hosts.httpd.conf" "$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc"
+# sudo ln -s "$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/conf/service-hosts.httpd.conf" "$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc"
