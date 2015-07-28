@@ -5,9 +5,9 @@
  * <div id="Implementation" data-perspective="coding" class="blurbSummary grid_12">
  * <div class="blurbTitle">Implementation</div>
  */
-require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/authorization-lib.php");
+require("lib/authorization-lib.php");
 
-$file_path = "$home/.conveyor/data/dogfoodsoftware.com/conveyor-core/documentation/$req_item_id";
+$file_path = "/home/vagrant/documentation/$req_item_id";
 
 if (!file_exists($file_path)) {
     $msg = "404: Did not find '$req_path'.";

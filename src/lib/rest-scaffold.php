@@ -1,5 +1,5 @@
 <?php
-require("$home/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/runnable/lib/response-lib.php");
+require("lib/response-lib.php");
 /**
  * <div class="p">
  *   The scaffold is intended to be called once from the initial REST
