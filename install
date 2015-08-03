@@ -86,7 +86,7 @@ if [ ! -d "$CONVEYOR_PLAYGROUND" ]; then
 fi
 
 cd "$CONVEYOR_PLAYGROUND"
-git clone -b $CONVEYOR_VER --depth 1 git@github.com:${GITHUB_REF}.git $GITHUB_REF
+git clone -b $CONVEYOR_VER --depth 1 https://github.com/${GITHUB_REF}.git $GITHUB_REF
 
 # Normally, we use conveyor itself to 'mount' service handlers, but this
 # requires the service handler for the 'hosts' already be setup, so we have to
