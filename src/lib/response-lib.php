@@ -298,14 +298,14 @@ class Response {
 
             if ($this->output == self::OUTPUT_HTML) {
                 header("Content-Type: text/html");
-                $template_path = apache_getenv('TEMPLATE_PATH');
-                if (!empty($template_path)) {
-                    require("$template_path/page_open.php");
-                    $breadcrumb = $this->get_data['document']['breadcrumb'];
+                $template_prefix = '/home/vagrant/playground/DogFoodSoftware/conveyor-core/src/ui/documentation-default-';
+                # TODO: in future, read config file or something
+                require("{$template_prefix}page-open.php");
 
-                    $this->_output_breadcrumb();
-                    $this->_output_page_header();
-                }
+                $breadcrumb = $this->get_data['document']['breadcrumb'];
+                $this->_output_breadcrumb();
+                $this->_output_page_header();
+
                 if (!empty($this->output_field)) {
                     
                     echo $this->_decompose($this->output_field, $this->get_data());
@@ -314,10 +314,9 @@ class Response {
                 else {
                     echo "TODO!";
                 }
-                if (!empty($template_path)) {
-                    $this->_output_breadcrumb();
-                    require("$template_path/page_close.php");
-                }
+
+                $this->_output_breadcrumb();
+                require("{$template_prefix}page-close.php");
             }
             else { // JSON should be only option, and in any case
                    // we'll takes default
