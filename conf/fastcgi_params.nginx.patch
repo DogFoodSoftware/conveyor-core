@@ -1,0 +1,10 @@
+--- /etc/nginx/fastcgi_params	2014-03-04 22:25:36.000000000 +0000
++++ /etc/nginx/fastcgi_params.new	2015-08-04 05:25:02.412295364 +0000
+@@ -3,7 +3,6 @@
+ fastcgi_param	CONTENT_TYPE		$content_type;
+ fastcgi_param	CONTENT_LENGTH		$content_length;
+ 
+-fastcgi_param	SCRIPT_FILENAME		$request_filename;
+ fastcgi_param	SCRIPT_NAME		$fastcgi_script_name;
+ fastcgi_param	REQUEST_URI		$request_uri;
+ fastcgi_param	DOCUMENT_URI		$document_uri;
