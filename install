@@ -86,7 +86,12 @@ if [ ! -d "$CONVEYOR_PLAYGROUND" ]; then
 fi
 
 cd "$CONVEYOR_PLAYGROUND"
+# We checkout via HTTPS in case the 'ssh-agent' isn't available when
+# the script is run; such as when the script is run with an alternate
+# user using 'sudo'.
 git clone -b $CONVEYOR_VER --depth 1 https://github.com/${GITHUB_REF}.git $GITHUB_REF
+# But then swtich to SSH for easy updates for those with authorized keys.
+git remote set-url origin git@github.com:${GITHUB_REF}.git
 
 # Normally, we use conveyor itself to 'mount' service handlers, but this
 # requires the service handler for the 'hosts' already be setup, so we have to
