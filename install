@@ -91,6 +91,7 @@ cd "$CONVEYOR_PLAYGROUND"
 # user using 'sudo'.
 git clone -b $CONVEYOR_VER --depth 1 https://github.com/${GITHUB_REF}.git $GITHUB_REF
 # But then swtich to SSH for easy updates for those with authorized keys.
+cd "$GITHUB_REF"
 git remote set-url origin git@github.com:${GITHUB_REF}.git
 
 # Normally, we use conveyor itself to 'mount' service handlers, but this
