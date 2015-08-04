@@ -95,5 +95,5 @@ git clone -b $CONVEYOR_VER --depth 1 https://github.com/${GITHUB_REF}.git $GITHU
 # somewhere.)
 # sudo ln -s "$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/conf/service-hosts.httpd.conf" "$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc"
 ln -s "$HOME/playground/DogFoodSoftware/conveyor-core/conf/service-documentation.nginx.conf" /etc/nginx/services
-patch $HOME/playground/DogFoodSoftware/conveyor-core/conf/fastcgi_params.nginx.patch
+patch /etc/nginx/fastcgi_params $HOME/playground/DogFoodSoftware/conveyor-core/conf/fastcgi_params.nginx.patch
 
