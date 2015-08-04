@@ -8,6 +8,7 @@ set -e
 #  */
 GITHUB_REF=DogFoodSoftware/conveyor-core
 CONVEYOR_PLAYGROUND="$HOME/playground"
+CONVEYOR_DATA="$HOME/data"
 CONVEYOR_VER="master"
 # /**
 #  * </div><!-- #Default-Values.section -->
@@ -81,9 +82,11 @@ fi
 #  * </div><!-- #Prerequisite-Checks.section -->
 #  */
 
-if [ ! -d "$CONVEYOR_PLAYGROUND" ]; then
-    mkdir -p "$CONVEYOR_PLAYGROUND"
-fi
+for i in "$CONVEYOR_PLAYGROUND" "$CONVEYOR_DATA/files"; do
+    if [ ! -d "$i" ]; then
+	mkdir -p "$i"
+    fi
+done
 
 cd "$CONVEYOR_PLAYGROUND"
 # We checkout via HTTPS in case the 'ssh-agent' isn't available when
