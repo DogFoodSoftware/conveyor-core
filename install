@@ -103,7 +103,9 @@ git remote set-url origin git@github.com:${GITHUB_REF}.git
 # now re-mount the new handler to override this, but you have to start
 # somewhere.)
 # sudo ln -s "$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/conf/service-hosts.httpd.conf" "$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc"
-ln -s "$HOME/playground/DogFoodSoftware/conveyor-core/conf/service-documentation.nginx.conf" /etc/nginx/services
+for i in `ls $HOME/playground/DogFoodSoftware/conveyor-core/conf/service-*.nginx.conf`; do
+    ln -s "i" /etc/nginx/services
+done
 patch /etc/nginx/fastcgi_params $HOME/playground/DogFoodSoftware/conveyor-core/conf/fastcgi_params.nginx.patch
 sudo service nginx restart
 
