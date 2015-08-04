@@ -1,0 +1,11 @@
+--- php.ini~	2015-07-28 03:04:07.092925043 +0000
++++ php.ini	2015-07-28 02:58:52.300935607 +0000
+@@ -702,6 +702,8 @@
+ ; Paths and Directories ;
+ ;;;;;;;;;;;;;;;;;;;;;;;;;
+ 
++include_path = ".:/usr/share/php:/usr/share/pear:/home/vagrant/playground/DogFoodSoftware/conveyor-core/runnable"
++
+ ; UNIX: "/path1:/path2"
+ ;include_path = ".:/usr/share/php"
+ ;
