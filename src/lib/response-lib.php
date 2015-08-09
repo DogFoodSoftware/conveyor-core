@@ -298,25 +298,37 @@ class Response {
 
             if ($this->output == self::OUTPUT_HTML) {
                 header("Content-Type: text/html");
-                $template_prefix = '/home/vagrant/playground/DogFoodSoftware/conveyor-core/src/ui/documentation-default-';
                 # TODO: in future, read config file or something
-                require("{$template_prefix}page-open.php");
+                $template_prefix = '/home/vagrant/data/conf/html/template-page';
+                $domain = 'default';
+                $template_page_open = "${template_prefix}-open-{$domain}.php";
+                $template_page_close = "${template_prefix}-close-{$domain}.php";
 
-                $breadcrumb = $this->get_data['document']['breadcrumb'];
+                if (!file_exists($template_page_open) || !file_exists($template_page_close)) {
+                    $template_page_open = "${template_prefix}-open-default.php";
+                    $template_page_close = "${template_prefix}-close-default.php";
+                }
+                require($template_page_open);
+
+ob_start();
+var_dump($this->get_data());
+$contents = ob_get_contents();
+ob_end_clean();
+error_log($contents);
+
+                $breadcrumb = $this->get_data()['document']['breadcrumb'];
                 $this->_output_breadcrumb();
                 $this->_output_page_header();
 
-                if (!empty($this->output_field)) {
-                    
+                if (!empty($this->output_field)) {                
                     echo $this->_decompose($this->output_field, $this->get_data());
-
                 }
                 else {
                     echo "TODO!";
                 }
-
+                
                 $this->_output_breadcrumb();
-                require("{$template_prefix}page-close.php");
+                require($template_page_close);
             }
             else { // JSON should be only option, and in any case
                    // we'll takes default
