@@ -84,6 +84,7 @@ fi
 
 for i in "$CONVEYOR_PLAYGROUND" \
          "$CONVEYOR_DATA/files" \
+         "$CONVEYOR_DATA/data/conf/html/ui" \
          "$CONVYEOR_DATA/apps"; do
     if [ ! -d "$i" ]; then
 	mkdir -p "$i"
@@ -99,10 +100,14 @@ git clone -b $CONVEYOR_VER --depth 1 https://github.com/${GITHUB_REF}.git $GITHU
 cd "$GITHUB_REF"
 git remote set-url origin git@github.com:${GITHUB_REF}.git
 
-# sudo ln -s "$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/conf/service-hosts.httpd.conf" "$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc"
-
 PROJECT_HOME="${CONVEYOR_PLAYGROUND}/${GITHUB_REF}"
 
+# Link in the HTML template pages.
+for i in `${PROJECT_HOME}/conf/html/template-page-*.php`; do
+    ln -s "$i" $HOME/data/conf/html/
+done
+
+# Link in the REST service configurations.
 for i in `ls ${PROJECT_HOME}/conf/service-*.nginx.conf`; do
     ln -s "$i" /etc/nginx/services
 done
