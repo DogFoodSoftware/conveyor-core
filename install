@@ -82,7 +82,9 @@ fi
 #  * </div><!-- #Prerequisite-Checks.section -->
 #  */
 
-for i in "$CONVEYOR_PLAYGROUND" "$CONVEYOR_DATA/files"; do
+for i in "$CONVEYOR_PLAYGROUND" \
+         "$CONVEYOR_DATA/files" \
+         "$CONVYEOR_DATA/apps"; do
     if [ ! -d "$i" ]; then
 	mkdir -p "$i"
     fi
@@ -97,13 +99,11 @@ git clone -b $CONVEYOR_VER --depth 1 https://github.com/${GITHUB_REF}.git $GITHU
 cd "$GITHUB_REF"
 git remote set-url origin git@github.com:${GITHUB_REF}.git
 
-# Normally, we use conveyor itself to 'mount' service handlers, but this
-# requires the service handler for the 'hosts' already be setup, so we have to
-# tackle that one manually. (Note, if a different handler is desired, they can
-# now re-mount the new handler to override this, but you have to start
-# somewhere.)
 # sudo ln -s "$HOME/.conveyor/runtime/dogfoodsoftware.com/conveyor-core/conf/service-hosts.httpd.conf" "$HOME/.conveyor/data/dogfoodsoftware.com/conveyor-apache/conf-inc"
-for i in `ls $HOME/playground/DogFoodSoftware/conveyor-core/conf/service-*.nginx.conf`; do
+
+PROJECT_HOME="${CONVEYOR_PLAYGROUND}/${GITHUB_REF}"
+
+for i in `ls ${PROJECT_HOME}/conf/service-*.nginx.conf`; do
     ln -s "$i" /etc/nginx/services
 done
 patch /etc/nginx/fastcgi_params $HOME/playground/DogFoodSoftware/conveyor-core/conf/fastcgi_params.nginx.patch
