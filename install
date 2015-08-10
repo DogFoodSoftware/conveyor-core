@@ -103,7 +103,7 @@ git remote set-url origin git@github.com:${GITHUB_REF}.git
 PROJECT_HOME="${CONVEYOR_PLAYGROUND}/${GITHUB_REF}"
 
 # Link in the HTML template pages.
-for i in `${PROJECT_HOME}/conf/html/template-page-*.php`; do
+for i in `ls ${PROJECT_HOME}/conf/html/template-page-*.php`; do
     ln -s "$i" $HOME/data/conf/html/
 done
 
