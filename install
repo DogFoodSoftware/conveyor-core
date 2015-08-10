@@ -83,7 +83,8 @@ fi
 #  */
 
 for i in "$CONVEYOR_PLAYGROUND" \
-         "$CONVEYOR_DATA/files" \
+         "$CONVEYOR_DATA/files/css" \
+         "$CONVEYOR_DATA/files/js" \
          "$CONVEYOR_DATA/conf/html/ui" \
          "$CONVEYOR_DATA/apps"; do
     if [ ! -d "$i" ]; then
@@ -125,3 +126,19 @@ curl -fsSL https://raw.githubusercontent.com/DogFoodSoftware/conveyor-minify/mas
 # In order te got the 'vagrant' environment variables set (e.g., 'sudo' would leave $HOME=/root)
 sudo su - vagrant -c "bash $PWD/install.tmp"
 rm install.tmp
+
+# Grab default JS.
+
+cd "$CONVEYOR_DATA/files/js"
+curl -fsSL http://code.jquery.com/jquery-2.1.4.js > jquery-2.1.4.js
+curl -fsSL https://raw.githubusercontent.com/HenrikJoreteg/ICanHaz.js/9b40b59d7ace192741546a2399da3de0cb5ba44f/ICanHaz.js > ICanHaz-0.10.2.js
+curl -fsSL https://raw.githubusercontent.com/garand/sticky/7136048f53d11bd2f483fb912e40fda68d99c44a/jquery.sticky.js > jquery.sticky-1.0.3.js
+
+# Setup Bootstrap
+cd "$CONVEYOR_DATA/apps"
+if [ -d 'twitter-bootstrap' ]; the
+    rm -rf twitter-bootstrap
+fi
+BOOTSTRAP_REV="ab412b2404d12a3c55d1c4b798bd42ef32e80fab"
+git clone -o ${BOOTSTRAP_REV} --depth 1 https://github.com/twbs/bootstrap.git bootstrap
+ln -s "$CONVEYOR_DATA/apps/bootstrap/dist/js/bootstrap.js" "$CONVEYOR_DATA/files/js/bootstrap-3.3.5.js"
