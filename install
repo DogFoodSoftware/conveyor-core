@@ -112,6 +112,7 @@ done
 for i in `ls ${PROJECT_HOME}/conf/service-*.nginx.conf`; do
     ln -s "$i" /etc/nginx/services
 done
+ln -s "${PROJECT_HOME}/conf/default.minify.php $HOME/data/conf/html/"
 patch /etc/nginx/fastcgi_params $HOME/playground/DogFoodSoftware/conveyor-core/conf/fastcgi_params.nginx.patch
 sudo service nginx restart
 
