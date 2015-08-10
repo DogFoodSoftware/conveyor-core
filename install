@@ -84,7 +84,7 @@ fi
 
 for i in "$CONVEYOR_PLAYGROUND" \
          "$CONVEYOR_DATA/files" \
-         "$CONVEYOR_DATA/data/conf/html/ui" \
+         "$CONVEYOR_DATA/conf/html/ui" \
          "$CONVEYOR_DATA/apps"; do
     if [ ! -d "$i" ]; then
 	mkdir -p "$i"
