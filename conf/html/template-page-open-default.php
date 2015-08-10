@@ -15,7 +15,7 @@
   <?php } ?>
 
   <link rel="shortcut icon" href="/style/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="/minify/?g=css" />
+  <link rel="stylesheet" href="/minify/?g=default-css" />
   <link rel="stylesheet" href="/superslides.css" />
   <link rel="stylesheet" href="style/main.css" />
 

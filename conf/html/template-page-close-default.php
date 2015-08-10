@@ -36,7 +36,10 @@
 <!-- Bootstrap core JavaScript
      ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="/minify/?g=js&debug=1"></script>
+<script src="/minify/?g=default-js"></script>
+<!-- 'Debug' mode prevents the JS file from being compressed to a single blob 
+      and retains the file and line numbers. -->
+<!-- script src="/minify/?g=default-js&debug=1"></script -->
 <script src="optcon.js"></script>
 <!-- from Bootstrap template
 <script src="../../assets/js/docs.min.js"></script>

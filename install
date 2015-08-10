@@ -118,3 +118,10 @@ sudo service nginx restart
 patch /etc/php5/fpm/php.ini $HOME/playground/DogFoodSoftware/conveyor-core/conf/php5-fpm-ini.patch
 sudo service php5-fpm restart
 
+# Want to do:
+# sudo -u vagrant bash -c <(curl -fsSL https://raw...)
+# but the user flipping breaks with "can't read /dev/fd/63"; using 'bash -c "$(...)"' messes up the $HOME replacement.
+curl -fsSL https://raw.githubusercontent.com/DogFoodSoftware/conveyor-minify/master/install > install.tmp
+# In order te got the 'vagrant' environment variables set (e.g., 'sudo' would leave $HOME=/root)
+sudo su - vagrant -c "bash $PWD/install.tmp"
+rm install.tmp
