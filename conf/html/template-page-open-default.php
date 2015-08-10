@@ -8,7 +8,11 @@
   <meta name="description" content="Liquid Labs company home page.">
   <meta name="author" content="Zane Rockenbaugh">
 
-  <title>Liquid Labs: <?= $response->get_data()['document']['title'] ?></title>
+  <?php
+  if (array_key_exists('title', $response->get_data()['document'])) {
+  ?>
+  <title><?= $response->get_data()['document']['title'] ?></title>
+  <?php } ?>
 
   <link rel="shortcut icon" href="/style/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/minify/?g=css" />

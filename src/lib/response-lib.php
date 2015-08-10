@@ -309,15 +309,11 @@ class Response {
                     $template_page_close = "${template_prefix}-close-default.php";
                 }
                 require($template_page_open);
-
-ob_start();
-var_dump($this->get_data());
-$contents = ob_get_contents();
-ob_end_clean();
-error_log($contents);
-
-                $breadcrumb = $this->get_data()['document']['breadcrumb'];
-                $this->_output_breadcrumb();
+                
+                if (array_key_exists('breadcrumb', $this->get_data()['document'])) {
+                    $breadcrumb = $this->get_data()['document']['breadcrumb'];
+                    $this->_output_breadcrumb();
+                }
                 $this->_output_page_header();
 
                 if (!empty($this->output_field)) {                
@@ -327,7 +323,9 @@ error_log($contents);
                     echo "TODO!";
                 }
                 
-                $this->_output_breadcrumb();
+                if (isset($breadcrumb)) {
+                    $this->_output_breadcrumb();
+                }
                 require($template_page_close);
             }
             else { // JSON should be only option, and in any case
@@ -397,9 +395,11 @@ error_log($contents);
     }
 
     function _output_page_header() {
-        $title = $this->get_data()['document']['title'];
-        if (!empty($title)) {
-            echo "<div class=\"page-header\">{$title}</div>\n";
+        if (array_key_exists('title', $this->get_data()['document'])) {
+            $title = $this->get_data()['document']['title'];
+            if (!empty($title)) {
+                echo "<div class=\"page-header\">{$title}</div>\n";
+            }
         }
     }
 }
