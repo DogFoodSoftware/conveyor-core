@@ -137,7 +137,7 @@ curl -fsSL https://raw.githubusercontent.com/garand/sticky/7136048f53d11bd2f483f
 
 # Setup Bootstrap
 cd "$CONVEYOR_DATA/apps"
-if [ -d 'twitter-bootstrap' ]; the
+if [ -d 'twitter-bootstrap' ]; then
     rm -rf twitter-bootstrap
 fi
 BOOTSTRAP_REV="ab412b2404d12a3c55d1c4b798bd42ef32e80fab"
