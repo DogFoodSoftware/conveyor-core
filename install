@@ -151,5 +151,5 @@ cd "$CONVEYOR_PLAYGROUND"
 git clone https://github.com/Liquid-Labs/bi-curious.git Liquid-Labs/bi-curious
 cd Liquid-Labs/bi-curious
 git remote set-url origin git@github.com:Liquid-Labs/bi-curious.git
-npm install -g less
+sudo npm install -g less
 lessc master.less > $HOME/data/files/css/master.css
