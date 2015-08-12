@@ -10,6 +10,7 @@ GITHUB_REF=DogFoodSoftware/conveyor-core
 CONVEYOR_PLAYGROUND="$HOME/playground"
 CONVEYOR_DATA="$HOME/data"
 CONVEYOR_VER="master"
+PROJECT_HOME="${CONVEYOR_PLAYGROUND}/${GITHUB_REF}"
 # /**
 #  * </div><!-- #Default-Values.section -->
 #  *
@@ -101,8 +102,6 @@ git clone -b $CONVEYOR_VER --depth 1 https://github.com/${GITHUB_REF}.git $GITHU
 cd "$GITHUB_REF"
 git remote set-url origin git@github.com:${GITHUB_REF}.git
 
-PROJECT_HOME="${CONVEYOR_PLAYGROUND}/${GITHUB_REF}"
-
 # Link in the HTML template pages.
 for i in `ls ${PROJECT_HOME}/conf/html/template-page-*.php`; do
     ln -s "$i" $HOME/data/conf/html/
@@ -112,7 +111,7 @@ done
 for i in `ls ${PROJECT_HOME}/conf/service-*.nginx.conf`; do
     ln -s "$i" /etc/nginx/services
 done
-ln -s "${PROJECT_HOME}/conf/default.minify.php $HOME/data/conf/html/"
+ln -s "${PROJECT_HOME}/conf/default.minify.php" "$HOME/data/conf/html/"
 patch /etc/nginx/fastcgi_params $HOME/playground/DogFoodSoftware/conveyor-core/conf/fastcgi_params.nginx.patch
 sudo service nginx restart
 
