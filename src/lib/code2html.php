@@ -1,5 +1,4 @@
-<?php
-/**
+<?php /**
 <div class="p">
   Defines library method <code>code2html</code> to process
   documentation requests for code files. After processing,
@@ -51,6 +50,7 @@ function code2html($file_path) {
     */
     $minExpandSize = 5;
     $inDoc = false; // track state
+    $show_php = false;
     $doc_style = 'unknown'; // can be 'unknown', 'plain', or 'html'
     $i = 0; // count lines
     $codeCount = 0;
@@ -66,15 +66,29 @@ function code2html($file_path) {
        </div>
     */
     function code_close($codeCount, $currCodeId, $minExpandSize) {
-	echo '</pre></div>'."\n";
-	// if the $codeCount is greater than 6, then apply the 'long' modifier,
-	// which sets the initial height
-	if ($codeCount > $minExpandSize)
-	    echo "<script>$('#".$currCodeId."').addClass('long').resizable_block();</script>";
+        echo '</pre></div>'."\n";
+        // if the $codeCount is greater than 6, then apply the 'long' modifier,
+        // which sets the initial height
+        if ($codeCount > $minExpandSize)
+            echo "<script>$('#".$currCodeId."').addClass('long').resizable_block();</script>";
     }
+      
+    function output_code($line, $show_php) {
+        if ($show_php) {
+            echo htmlspecialchars("<?php\n");
+        }
+        echo htmlspecialchars($line)."\n";
+
+        return false;
+    }
+
     foreach ($lines as $line) {
 	// first, process the state changes
 	if (preg_match('=^\s*(<\?php\s+)?(#\s*)?/\*\*\s*$=', $line)) {
+        // If we start with '<?php', nice to hide, but we do want to show it at start of implementation.
+        if (preg_match('=^\s*<\?php\s+=', $line)) {
+            $show_php = true;
+        }
 	    $inDoc = true;
 	    $doc_style = 'unknown';
 	    if ($i > 0) {
@@ -97,7 +111,7 @@ function code2html($file_path) {
 	    $currCodeId = 'codeBlock'.$i;
 	    echo '<div class="prettyprintBox resizable-block-widget"><pre id="'.$currCodeId.'" class="prettyprint linenums:'.($i + 1).'">'."\n";
 	    $codeCount = -1; // start at -1 because we don't want to count this line, but '$codeCount' will be incremented
-	    echo htmlspecialchars($line)."\n";
+	    $show_php = output_code($line, $show_php);
 	}
 	// Otherwise, process the line according to the state. In doc-mode, remove
 	// leading stars and spaces to make compatibla with Java-style docs set-off.
@@ -119,11 +133,11 @@ function code2html($file_path) {
 	    $real_line = preg_replace('/^#?\s*\*?\s*/', '', $line);
 	    
 	    if ($doc_style == 'plain')
-		echo htmlspecialchars($real_line)."\n";
+            $show_php = output_code($real_line, $show_php);
 	    else echo $real_line."\n";
 	}
 	else {// in code
-		echo htmlspecialchars($line)."\n";
+		$show_php = output_code($line, $show_php);
 	}
 	$i += 1;
 	if (!$inDoc) $codeCount += 1;
