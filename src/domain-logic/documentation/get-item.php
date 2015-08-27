@@ -6,6 +6,7 @@
  * <div class="blurbTitle">Implementation</div>
  */
 require("lib/authorization-lib.php");
+require("lib/code2html.php");
 
 $file_path = "/home/vagrant/documentation/$req_item_id";
 
@@ -46,7 +47,14 @@ else {
         }
     }
     else {
-        $document_contents = file_get_contents($file_path);    
+        if (preg_match('|/src/|', $file_path)) {
+            ob_start();
+            code2html($file_path);
+            $document_contents = ob_get_clean();
+        }
+        else {
+            $document_contents = file_get_contents($file_path);
+        }
         $document = array('contents' => $document_contents);
         if (preg_match('/^\s*<!--\s+breadcrumb:\s*((\/?[\(\)\w |-]+))\s*-->\s*$/m', $document_contents, $matches)) {
             $breadcrumb_spec = $matches[1];

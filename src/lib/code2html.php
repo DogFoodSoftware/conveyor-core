@@ -93,7 +93,7 @@ function code2html($file_path) {
 	    $inDoc = false;
 	    $codeCount = -1; // start at -1 because we don't want to count this line, but '$codeCount' will be incremented
 	}
-	else if ($i == 0 &&) { // if we don't start with the special <?php /**, then the first line is treated as code
+	else if ($i == 0) { // if we don't start with the special <?php /**, then the first line is treated as code
 	    $currCodeId = 'codeBlock'.$i;
 	    echo '<div class="prettyprintBox resizable-block-widget"><pre id="'.$currCodeId.'" class="prettyprint linenums:'.($i + 1).'">'."\n";
 	    $codeCount = -1; // start at -1 because we don't want to count this line, but '$codeCount' will be incremented
