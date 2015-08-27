@@ -1,26 +1,28 @@
 <?php
 /**
 <div class="p">
-Defines library method <code>code2html</code> to process documentation
-requests for code files. After processing, documentation sections, such as
-this, will appear part of the HTML page and code chunks between documentation
-will appear as syntax highlighted, numbered blocks.
+  Defines library method <code>code2html</code> to process
+  documentation requests for code files. After processing,
+  documentation sections, such as this, will appear part of the HTML
+  page and code chunks between documentation will appear as syntax
+  highlighted, numbered blocks.
 </div>
 <div class="p" data-todo="Link to an example.">
-  To process a source code page, embedded HTML elements are extracted and
-  copied directly to the output. The remainder of the source file (more or
-  less non-comment source) is embedded in HTML elements suitable for
-  processing by the 'prettify' JS library. This results in nicely formatted
-  HTML output that interleaves the embedded HTML with 'prettified' source
-  code. <span data-todo="Link to template docs or something.">The output is
-  embedded in the standard header / footer template.</span>
+  To process a source code page, embedded HTML elements are extracted
+  and copied directly to the output. The remainder of the source file
+  (more or less non-comment source) is embedded in HTML elements
+  suitable for processing by the 'prettify' JS library. This results
+  in nicely formatted HTML output that interleaves the embedded HTML
+  with 'prettified' source code. <span data-todo="Link to template
+  docs or something.">The output is embedded in the standard header /
+  footer template.</span>
 </div>
 <div class="subHeader">Code Resize Notes</div>
 <div class="p">
-The resize handle must be within the resizable item. It seems there is some
-interaction with the PRE element, however, because the container won't resize
-even when the height is left unspecified which should, I believe, result in
-auto-resizing behavior.
+  The resize handle must be within the resizable item. It seems there
+  is some interaction with the PRE element, however, because the
+  container won't resize even when the height is left unspecified
+  which should, I believe, result in auto-resizing behavior.
 </div>
 <div class="p">
   One other (seeming) idosyncrosy to note: you can't place the drag-handle image
@@ -31,11 +33,7 @@ auto-resizing behavior.
   children.
 </div>
 */
-define('KWIKI_SHOW_SOURCE', 'show source');
-define('KWIKI_HIDE_SOURCE', 'hide source');
-// TODO: in future, support 'collapse source' as well; perhaps turn into bit mask
-
-function code2html($file_path, $show_source=KWIKI_SHOW_SOURCE) {
+function code2html($file_path) {
     echo '<div class="grid_12">'."\n";
     /**
        <div class="p">
@@ -63,11 +61,11 @@ function code2html($file_path, $show_source=KWIKI_SHOW_SOURCE) {
        <div class="p">
        The code blocks are analyzed for length and those longer that
        <code>$minExpandSize</code> are annotated with an expandable control allowing
-       viewers to expand the code block size. The <code>codeClose()</code> function
+       viewers to expand the code block size. The <code>code_close()</code> function
        makes the determination.
        </div>
     */
-    function codeClose($codeCount, $currCodeId, $minExpandSize) {
+    function code_close($codeCount, $currCodeId, $minExpandSize) {
 	echo '</pre></div>'."\n";
 	// if the $codeCount is greater than 6, then apply the 'long' modifier,
 	// which sets the initial height
@@ -79,8 +77,8 @@ function code2html($file_path, $show_source=KWIKI_SHOW_SOURCE) {
 	if (preg_match('=^\s*(<\?php\s+)?(#\s*)?/\*\*\s*$=', $line)) {
 	    $inDoc = true;
 	    $doc_style = 'unknown';
-	    if ($i > 0 && $show_source == KWIKI_SHOW_SOURCE) {
-		codeClose($codeCount, $currCodeId, $minExpandSize);
+	    if ($i > 0) {
+		code_close($codeCount, $currCodeId, $minExpandSize);
 		$codeCount = 0;
 	    }
 	}
@@ -88,16 +86,14 @@ function code2html($file_path, $show_source=KWIKI_SHOW_SOURCE) {
 	    // we only want to open a code block if there's any code left... in
 	    // other words, check for last line or last line blank (this isn't
 	    // foolproof but allows us to work around the issue for now)
-	    if ($i + 1 < count($lines) && ($i + 2 < count($lines) || strlen(trim($lines[$i + 1])) > 0) &&
-		$show_source == KWIKI_SHOW_SOURCE) {
+	    if ($i + 1 < count($lines) && ($i + 2 < count($lines) || strlen(trim($lines[$i + 1])) > 0)) {
 		$currCodeId = 'codeBlock'.$i;
 		echo '<div class="prettyprintBox resizable-block-widget"><pre id="'.$currCodeId.'" class="prettyprint linenums:'.($i + 2).'">'."\n";
 	    }
 	    $inDoc = false;
 	    $codeCount = -1; // start at -1 because we don't want to count this line, but '$codeCount' will be incremented
 	}
-	else if ($i == 0 && // if we don't start with the special <?php /**, then the first line is treated as code
-		 $show_source == KWIKI_SHOW_SOURCE) { 
+	else if ($i == 0 &&) { // if we don't start with the special <?php /**, then the first line is treated as code
 	    $currCodeId = 'codeBlock'.$i;
 	    echo '<div class="prettyprintBox resizable-block-widget"><pre id="'.$currCodeId.'" class="prettyprint linenums:'.($i + 1).'">'."\n";
 	    $codeCount = -1; // start at -1 because we don't want to count this line, but '$codeCount' will be incremented
@@ -127,7 +123,6 @@ function code2html($file_path, $show_source=KWIKI_SHOW_SOURCE) {
 	    else echo $real_line."\n";
 	}
 	else {// in code
-	    if ($show_source == KWIKI_SHOW_SOURCE)
 		echo htmlspecialchars($line)."\n";
 	}
 	$i += 1;
@@ -139,8 +134,8 @@ function code2html($file_path, $show_source=KWIKI_SHOW_SOURCE) {
        the page closing stuff.
        </div>
     */
-    if (!$inDoc && $show_source == KWIKI_SHOW_SOURCE) {
-	codeClose($codeCount, $currCodeId, $minExpandSize);
+    if (!$inDoc) {
+	code_close($codeCount, $currCodeId, $minExpandSize);
 	$codeCount = 0;
     }
     echo '
