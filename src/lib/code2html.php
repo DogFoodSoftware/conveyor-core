@@ -69,8 +69,34 @@ function code2html($file_path) {
         echo '</pre></div>'."\n";
         // if the $codeCount is greater than 6, then apply the 'long' modifier,
         // which sets the initial height
-        if ($codeCount > $minExpandSize)
-            echo "<script>$('#".$currCodeId."').addClass('long').resizable_block();</script>";
+        if ($codeCount > $minExpandSize) {
+            // What's all this? Well, it's actually pretty trick to
+            // get jQuery UI 'resizable' to work with scrolling
+            // content and get the proper containment. We follow the
+            // solution below for the scroll problem. For the
+            // containment, we reference the inner 'linenums' which
+            // (seemingly) must be referenced as a selector. Using
+            // searching with the 'this' context fails to give the
+            // proper results.
+            // http://stackoverflow.com/questions/3858460/jquery-ui-resizable-with-scroll-bars
+            echo "<script>$('#".$currCodeId."').addClass('long').css('height', '5em');
+$(document).ready(function() {
+$('#".$currCodeId."')
+  .wrap('<div/>')
+    .css({'overflow':'hidden'})
+      .parent()
+        .css({'display':'block',
+              'overflow':'hidden',
+              'height':function(){return $('.prettyprint',this).height();}
+
+        }).resizable({handles:'s', containment: '#".$currCodeId." .linenums' })
+                .find('.prettyprint')
+                  .css({overflow:'auto',
+                        width:'100%',
+                        height:'100%'});
+});
+</script>";
+        }
     }
       
     function output_code($line, $show_php) {
@@ -102,7 +128,7 @@ function code2html($file_path) {
 	    // foolproof but allows us to work around the issue for now)
 	    if ($i + 1 < count($lines) && ($i + 2 < count($lines) || strlen(trim($lines[$i + 1])) > 0)) {
 		$currCodeId = 'codeBlock'.$i;
-		echo '<div class="prettyprintBox resizable-block-widget"><pre id="'.$currCodeId.'" class="prettyprint linenums:'.($i + 2).'">'."\n";
+		echo '<div class="prettyprintBox resizable-block-widget"><pre id="'.$currCodeId.'" class="prettyprint linenums:'.($i + ($show_php ? 1 : 2)).'">'."\n";
 	    }
 	    $inDoc = false;
 	    $codeCount = -1; // start at -1 because we don't want to count this line, but '$codeCount' will be incremented

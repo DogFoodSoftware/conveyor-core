@@ -14,6 +14,7 @@
   <title><?= $response->get_data()['document']['title'] ?></title>
   <?php } ?>
 
+  <script src="/minify/?g=jquery-js"></script>
   <link rel="shortcut icon" href="/style/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/minify/?g=default-css" />
   <link rel="stylesheet" href="/superslides.css" />
