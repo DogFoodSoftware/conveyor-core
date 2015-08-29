@@ -90,7 +90,7 @@ $(document).ready(function() {
   var container = $('<div>&npbs;</div>')
       .attr('id', 'container".$currCodeId."')
       .height(refEl.height() + 10)
-      .width(refEl.width())
+      .width((refEl.parent().parent().width() + 4) + 'px')
       .css({position: 'absolute',
             visibility: 'hidden', 
             top: refPos.top + 'px', 
