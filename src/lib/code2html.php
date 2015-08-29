@@ -64,6 +64,23 @@ function code2html($file_path) {
        viewers to expand the code block size. The <code>code_close()</code> function
        makes the determination.
        </div>
+       <div class="p">
+       The bit with <code>.wrap(...)</code> is to <a
+       href="http://stackoverflow.com/questions/3858460/jquery-ui-resizable-with-scroll-bars">get
+       <code>resizable()</code> working with scroll bars</a>.
+       </div>
+       <div class="p">
+       The fiddly bit the <code>$refEl</code> as about getting the
+       expansion 'container' properly set up. It seems like there
+       should be a more elegant solution, but the
+       <code>linenums</code> class within each
+       <code>prettyprint</code> is 'almost' the right size, except we
+       have to account for the border and padding of the containing
+       elements. So, we create a hidden element pinned in position
+       with the correct size. We can't just reference the containing
+       elements as the container because we want to have our code
+       blocks initially smaller so the reader focuses on the words.
+       </div>
     */
     function code_close($codeCount, $currCodeId, $minExpandSize) {
         echo '</pre></div>'."\n";
@@ -78,19 +95,15 @@ function code2html($file_path) {
             // (seemingly) must be referenced as a selector. Using
             // searching with the 'this' context fails to give the
             // proper results.
-            // http://stackoverflow.com/questions/3858460/jquery-ui-resizable-with-scroll-bars
+            // 
             echo "<script>$('#".$currCodeId."').addClass('long').css('height', '5em');
 $(document).ready(function() {
-  /* supress small border to get expansion working right; problem is
-     jquery plugin limits the 'containment' to something, so we can't do
-     'something + 4px' easily.
-  */
-  var refEl = $('#".$currCodeId." .linenums');
-  var refPos = refEl.position();
+  var \$refEl = $('#".$currCodeId." .linenums');
+  var refPos = \$refEl.position();
   var container = $('<div>&npbs;</div>')
       .attr('id', 'container".$currCodeId."')
-      .height(refEl.height() + 10)
-      .width((refEl.parent().parent().width() + 4) + 'px')
+      .height(\$refEl.height() + 10)
+      .width((\$refEl.parent().parent().width() + 4) + 'px')
       .css({position: 'absolute',
             visibility: 'hidden', 
             top: refPos.top + 'px', 
