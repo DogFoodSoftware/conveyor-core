@@ -81,19 +81,34 @@ function code2html($file_path) {
             // http://stackoverflow.com/questions/3858460/jquery-ui-resizable-with-scroll-bars
             echo "<script>$('#".$currCodeId."').addClass('long').css('height', '5em');
 $(document).ready(function() {
-$('#".$currCodeId."')
-  .wrap('<div/>')
-    .css({'overflow':'hidden'})
-      .parent()
-        .css({'display':'block',
-              'overflow':'hidden',
-              'height':function(){return $('.prettyprint',this).height();}
+  /* supress small border to get expansion working right; problem is
+     jquery plugin limits the 'containment' to something, so we can't do
+     'something + 4px' easily.
+  */
+  var refEl = $('#".$currCodeId." .linenums');
+  var refPos = refEl.position();
+  var container = $('<div>&npbs;</div>')
+      .attr('id', 'container".$currCodeId."')
+      .height(refEl.height() + 10)
+      .width(refEl.width())
+      .css({position: 'absolute',
+            visibility: 'hidden', 
+            top: refPos.top + 'px', 
+            left: refPos.left + 'px'});
+  $('#".$currCodeId."').parent().append(container);
+  $('#".$currCodeId."')
+    .wrap('<div/>')
+      .css({'overflow':'hidden'})
+        .parent()
+          .css({'display':'block',
+                'overflow':'hidden',
+                'height':function(){return $('.prettyprint',this).height();}
 
-        }).resizable({handles:'s', containment: '#".$currCodeId." .linenums' })
-                .find('.prettyprint')
-                  .css({overflow:'auto',
-                        width:'100%',
-                        height:'100%'});
+          }).resizable({handles:'s', containment: '#container".$currCodeId."' })
+                  .find('.prettyprint')
+                    .css({overflow:'auto',
+                          width:'100%',
+                          height:'100%'});
 });
 </script>";
         }
@@ -135,7 +150,7 @@ $('#".$currCodeId."')
 	}
 	else if ($i == 0) { // if we don't start with the special <?php /**, then the first line is treated as code
 	    $currCodeId = 'codeBlock'.$i;
-	    echo '<div class="prettyprintBox resizable-block-widget"><pre id="'.$currCodeId.'" class="prettyprint linenums:'.($i + 1).'">'."\n";
+	    echo '<div id="'.$currCodeId.'" class="prettyprintBox resizable-block-widget"><pre class="prettyprint linenums:'.($i + 1).'">'."\n";
 	    $codeCount = -1; // start at -1 because we don't want to count this line, but '$codeCount' will be incremented
 	    $show_php = output_code($line, $show_php);
 	}
