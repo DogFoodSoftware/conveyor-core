@@ -108,7 +108,7 @@ $(document).ready(function() {
             visibility: 'hidden', 
             top: refPos.top + 'px', 
             left: refPos.left + 'px'});
-  $('#".$currCodeId."').parent().append(container);
+
   $('#".$currCodeId."')
     .wrap('<div/>')
       .css({'overflow':'hidden'})
@@ -117,11 +117,13 @@ $(document).ready(function() {
                 'overflow':'hidden',
                 'height':function(){return $('.prettyprint',this).height();}
 
-          }).resizable({handles:'s', containment: '#container".$currCodeId."' })
-                  .find('.prettyprint')
-                    .css({overflow:'auto',
-                          width:'100%',
-                          height:'100%'});
+          })
+          .resizable({handles:'s' })
+          .css({maxHeight: \$refEl.height() + 14 + 'px'})
+          .find('.prettyprint')
+          .css({overflow:'auto',
+                width:'100%',
+                height:'100%'});
 });
 </script>";
         }
