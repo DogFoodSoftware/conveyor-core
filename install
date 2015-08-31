@@ -152,3 +152,6 @@ cd Liquid-Labs/bi-curious
 git remote set-url origin git@github.com:Liquid-Labs/bi-curious.git
 sudo npm install -g less
 lessc src/less/master.less > $HOME/data/files/css/master.css
+mkdir -p $HOME/data/files/images
+# TODO: should go ahead and add root-level project for name spacing?
+ln -s $HOME/playground/Liquid-Labs/bi-curious/files/images/* $HOME/data/files/images
