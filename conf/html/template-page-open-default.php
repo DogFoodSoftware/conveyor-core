@@ -34,7 +34,7 @@
         <div class="container-fluid">
             <div class="row inverse">
 	        <div class="col-xs-12 col-sm-6">
-	            <a style="padding-top: 5px; padding-bottom: 8px" href="/"><img src="/images/liquid-labs-text-only-white.svg" /></a>
+	            <a class="logo-bug" style="padding-top: 5px; padding-bottom: 8px" href="/"><img src="/images/liquid-labs-text-only-white.svg" /></a>
 	            <a class="resource-bug" href="/<?= $req_resource ?>">/<?= $req_resource ?></a>
 	        </div>
 	        <div class="cols-sm-6 hidden-xs pull-right">
@@ -51,13 +51,15 @@ if (array_key_exists('breadcrumbs', $response->get_data()['document'])) {
     $breadcrumbs = $response->get_data()['document']['breadcrumbs'];
 ?>
             <div class="col-xs-12">
+                <ol class="breadcrumbs">
 <?php
   $string = '';
   foreach ($breadcrumbs as $crumb) {
-      $string = $string.'<a href="'.$crumb['path'].'">/'.$crumb['name'].'</a>';
+      $string = $string.'<li><a href="'.$crumb['path'].'">/'.$crumb['name'].'</a></li>'."\n";
   }
   echo "$string";
 ?>
+                </ol>
             </div>
 <?php } ?>
         </div><!-- .container-fluid -->
