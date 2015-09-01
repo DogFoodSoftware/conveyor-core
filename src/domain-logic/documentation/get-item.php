@@ -56,46 +56,41 @@ else {
             $document_contents = file_get_contents($file_path);
         }
         $document = array('contents' => $document_contents);
-        $breadcrumbs = array();
-        if (preg_match('/^\s*<!--\s+breadcrumbs:\s*((\/?[\(\)\w |-]+))\s*-->\s*$/m', $document_contents, $matches)) {
-            $breadcrumbs_spec = $matches[1];
-            if (!empty($breadcrumbs_spec)) {
-                $crumb_specs = explode('|', $breadcrumbs_spec);
-            }
-        }
-        else if ($req_resource == 'documentation') {
-            $crumb_specs = explode('/', $req_path);
-            array_shift($crumb_specs); # remove '' entry from the leading '/'
-        }
+    }
 
-        if (isset($crumb_specs)) {
-            $document['title'] = array_pop($crumb_specs);
-            if ($req_resource == 'documentation') {
-                foreach ($crumb_specs as $index => $directory) {
-                    $crumb = array('path' => str_repeat('../', count($crumb_specs) - ($index + 1)),
-                                   'name' => $directory);
-                    array_push($breadcrumbs, $crumb);
-                }
-            }
-            else {
-                foreach ($crumb_specs as $crumb_spec) {
-                    if (preg_match('/\(([^\)]+)\)?(.+)/', $crumb_spec, $matches)) {
-                        $crumb = array('path' => $matches[1],
-                                       'name' => $matches[2]);
-                        if (empty($crumb['path'])) {
-                            $crumb['path'] = $name;
-                        }
-                        array_push($breadcrumbs, $crumb);
-                    }
-                    // TODO: else add warning to response
-                }
-            }
-            $document['breadcrumbs'] = $breadcrumbs;
-        }
-        else { // No breadcrumbs def, let's divine the title.
-            $document['title'] = basename($req_path);
+    $crumb_specs = array();
+    if (preg_match('/^\s*<!--\s+breadcrumbs:\s*((\/?[\(\)\w |-]+))\s*-->\s*$/m', $document_contents, $matches)) {
+        $breadcrumbs_spec = $matches[1];
+        if (!empty($breadcrumbs_spec)) {
+            $crumb_specs = explode('|', $breadcrumbs_spec);
         }
     }
+    if (empty($crumb_specs)) {
+        $path_bits = explode('/', preg_replace('|/$|', '', $req_path));
+        array_shift($path_bits); # remove '' entry from the leading '/'
+        foreach ($path_bits as $index => $path_bit) {
+            array_push($crumb_specs,
+                       ($index + 1 < count($path_bits) ?
+                        '('.str_repeat('../', count($path_bits) - ($index + 1)).'.)':'')
+                       .$path_bit);
+        }
+    }
+
+    $document['title'] = array_pop($crumb_specs);
+    $breadcrumbs = array();
+    foreach ($crumb_specs as $crumb_spec) {
+        if (preg_match('/\(([^\)]+)\)?(.+)/', $crumb_spec, $matches)) {
+            $crumb = array('path' => $matches[1],
+                           'name' => $matches[2]);
+            if (empty($crumb['path'])) {
+                $crumb['path'] = $name;
+            }
+            array_push($breadcrumbs, $crumb);
+        }
+        // TODO: else add warning to response
+    }
+
+    $document['breadcrumbs'] = $breadcrumbs;
 
     $response->ok('Document retrieved.', array("document" => $document));
 }
