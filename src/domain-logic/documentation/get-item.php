@@ -26,13 +26,9 @@ else {
         if ($dh = opendir($file_path)) {
             $document_contents .= "<ul>\n";
             while (($file = readdir($dh)) !== false) {
-                if (!preg_match("/^\./", $file)) {
-                    if (is_dir("{$file_path}{$file}")) {
-                        $document_contents .= '<li><a href="'.$req_path.$file.'">'.human_out($file)."</a></li>\n";
-                    }
-                    else {
-                        $document_contents .= '<li><a href="'.$req_path.'/'.$file.'">'.human_out($file)."</a></li>\n";
-                    }
+                if (!(preg_match("/^\./", $file) || preg_match('/~$/', $file))) {
+                    $url_path = $req_path.(preg_match('|/$/', $req_path) ? '' : '/').$file;
+                    $document_contents .= '<li><a href="'.$url_path.'">'.human_out($file)."</a></li>\n";
                 }
             }
             closedir($dh);
@@ -68,6 +64,7 @@ else {
     if (empty($crumb_specs)) {
         $path_bits = explode('/', preg_replace('|/$|', '', $req_path));
         array_shift($path_bits); # remove '' entry from the leading '/'
+        array_shift($path_bits); # remove the resource path; already handled in the resource bug
         foreach ($path_bits as $index => $path_bit) {
             array_push($crumb_specs,
                        ($index + 1 < count($path_bits) ?
