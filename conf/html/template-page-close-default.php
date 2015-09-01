@@ -3,32 +3,12 @@
 </div><!-- #nonFooter -->
 <div class="clear"></div>
 <div id="footer" class="text-center container-fluid">
-  <div id="Contact-Icons" class="about-row row text-center optcon-closed optcon-push-up">
-    <div class="col-xs-6 col-sm-2">
-      <a href="#"><span class="bi-icon bi-icon-podcast"></span></a>
-    </div>
-    <div class="col-xs-6 col-sm-2">
-      <a href="#"><span class="bi-icon-social bi-icon-rss"></span></a>
-    </div>
-    <div class="col-xs-6 col-sm-2">
-      <a href="#"><span class="bi-icon-social bi-icon-github"></span></a>
-    </div>
-    <div class="col-xs-6 col-sm-2">
-      <a href="#"><span class="bi-icon-social bi-icon-twitter"></span></a>
-    </div>
-    <div class="col-xs-6 col-sm-2">
-      <a href="#"><span class="bi-icon-social bi-icon-facebook"></span></a>
-    </div>
-    <div class="col-xs-6 col-sm-2">
-      <a href="#"><span class="bi-icon-social bi-icon-gplus"></span></a>
-    </div>
-  </div><!-- .about-row -->
   <div class="row">
     <div class="col-xs-12">
-      <a href="#Contact-Icons" class="optcon-control">contact</a> | <a href="legal.html">legal</a> | <a href="credits.html">credits</a>
+      <a href="legal.html">legal</a> | <a href="credits.html">credits</a>
     </div>
     <div class="col-xs-12">
-      &copy; 2001-2014, Liquid Labs, L.L.C.
+      &copy;
     </div>
   </div>
 </div><!--#footer -->

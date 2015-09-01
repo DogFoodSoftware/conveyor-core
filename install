@@ -155,3 +155,5 @@ lessc src/less/master.less > $HOME/data/files/css/master.css
 mkdir -p $HOME/data/files/images
 # TODO: should go ahead and add root-level project for name spacing?
 ln -s $HOME/playground/Liquid-Labs/bi-curious/files/images/* $HOME/data/files/images
+mkdir -p $HOME/data/fonts
+ln -s $CONVEYOR_DATA/apps/bootstrap/fonts/* $CONVEYOR_DATA/files/fonts

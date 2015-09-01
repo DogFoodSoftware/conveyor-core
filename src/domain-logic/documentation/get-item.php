@@ -56,12 +56,28 @@ else {
             $document_contents = file_get_contents($file_path);
         }
         $document = array('contents' => $document_contents);
-        if (preg_match('/^\s*<!--\s+breadcrumb:\s*((\/?[\(\)\w |-]+))\s*-->\s*$/m', $document_contents, $matches)) {
-            $breadcrumb_spec = $matches[1];
-            if (!empty($breadcrumb_spec)) {
-                $breadcrumb = array();
-                $crumb_specs = explode('|', $breadcrumb_spec);
-                $document['title'] = array_pop($crumb_specs);
+        $breadcrumbs = array();
+        if (preg_match('/^\s*<!--\s+breadcrumbs:\s*((\/?[\(\)\w |-]+))\s*-->\s*$/m', $document_contents, $matches)) {
+            $breadcrumbs_spec = $matches[1];
+            if (!empty($breadcrumbs_spec)) {
+                $crumb_specs = explode('|', $breadcrumbs_spec);
+            }
+        }
+        else if ($req_resource == 'documentation') {
+            $crumb_specs = explode('/', $req_path);
+            array_shift($crumb_specs); # remove '' entry from the leading '/'
+        }
+
+        if (isset($crumb_specs)) {
+            $document['title'] = array_pop($crumb_specs);
+            if ($req_resource == 'documentation') {
+                foreach ($crumb_specs as $index => $directory) {
+                    $crumb = array('path' => str_repeat('../', count($crumb_specs) - ($index + 1)),
+                                   'name' => $directory);
+                    array_push($breadcrumbs, $crumb);
+                }
+            }
+            else {
                 foreach ($crumb_specs as $crumb_spec) {
                     if (preg_match('/\(([^\)]+)\)?(.+)/', $crumb_spec, $matches)) {
                         $crumb = array('path' => $matches[1],
@@ -69,15 +85,14 @@ else {
                         if (empty($crumb['path'])) {
                             $crumb['path'] = $name;
                         }
-                        array_push($breadcrumb, $crumb);
+                        array_push($breadcrumbs, $crumb);
                     }
-                    // else add warning to response
+                    // TODO: else add warning to response
                 }
-                $document['breadcrumb'] = $breadcrumb;
-                
             }
+            $document['breadcrumbs'] = $breadcrumbs;
         }
-        else { // No breadcrumb def, let's divine the title.
+        else { // No breadcrumbs def, let's divine the title.
             $document['title'] = basename($req_path);
         }
     }

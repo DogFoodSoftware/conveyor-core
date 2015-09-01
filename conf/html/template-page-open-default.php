@@ -30,22 +30,36 @@
 <body role="document">
 <div id="nonFooter">
 <div id="content">
-  <nav id="navbar" class="sticky" role="navigation">
-    <div class="container-fluid">
-      <div class="row inverse">
-	<div class="col-xs-12 col-sm-6">
-	  <a style="padding-top: 5px; padding-bottom: 8px" href="/"><img src="/images/liquid-labs-text-only-white.svg" /></a>
-	  <a class="resource-bug" href="/<?= $req_resource ?>">/<?= $req_resource ?></a>
-	</div>
-	<div class="cols-sm-6 hidden-xs pull-right">
-	  <form class="navbar-form" role="search">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search">
+    <nav id="navbar" class="sticky" role="navigation">
+        <div class="container-fluid">
+            <div class="row inverse">
+	        <div class="col-xs-12 col-sm-6">
+	            <a style="padding-top: 5px; padding-bottom: 8px" href="/"><img src="/images/liquid-labs-text-only-white.svg" /></a>
+	            <a class="resource-bug" href="/<?= $req_resource ?>">/<?= $req_resource ?></a>
+	        </div>
+	        <div class="cols-sm-6 hidden-xs pull-right">
+	            <form class="navbar-form" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+	            </form>
+	        </div>
             </div>
-            <button type="submit" class="btn btn-default"><span class="bi-icon bi-icon-search"></span></button>
-	  </form>
-	</div>
-      </div>
-    </div>
-  </nav>
-  <div role="main" class="container-fluid">
+<?php
+if (array_key_exists('breadcrumbs', $response->get_data()['document'])) {
+    $breadcrumbs = $response->get_data()['document']['breadcrumbs'];
+?>
+            <div class="col-xs-12">
+<?php
+  $string = '';
+  foreach ($breadcrumbs as $crumb) {
+      $string = $string.'<a href="'.$crumb['path'].'">/'.$crumb['name'].'</a>';
+  }
+  echo "$string";
+?>
+            </div>
+<?php } ?>
+        </div><!-- .container-fluid -->
+    </nav><!-- #navbar -->
+    <div role="main" class="container-fluid">
