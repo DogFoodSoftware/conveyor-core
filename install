@@ -86,6 +86,7 @@ fi
 for i in "$CONVEYOR_PLAYGROUND" \
          "$CONVEYOR_DATA/files/css" \
          "$CONVEYOR_DATA/files/js" \
+         "$CONVEYOR_DATA/files/fonts" \
          "$CONVEYOR_DATA/conf/html/ui" \
          "$CONVEYOR_DATA/apps"; do
     if [ ! -d "$i" ]; then
