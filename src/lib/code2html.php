@@ -1,52 +1,22 @@
 <?php /**
 <div class="p">
-  Defines library method <code>code2html</code> to process
-  documentation requests for code files. After processing,
-  documentation sections, such as this, will appear part of the HTML
-  page and code chunks between documentation will appear as syntax
-  highlighted, numbered blocks.
-</div>
-<div class="p" data-todo="Link to an example.">
-  To process a source code page, embedded HTML elements are extracted
-  and copied directly to the output. The remainder of the source file
-  (more or less non-comment source) is embedded in HTML elements
-  suitable for processing by the 'prettify' JS library. This results
-  in nicely formatted HTML output that interleaves the embedded HTML
-  with 'prettified' source code. <span data-todo="Link to template
-  docs or something.">The output is embedded in the standard header /
-  footer template.</span>
-</div>
-<div class="subHeader">Code Resize Notes</div>
-<div class="p">
-  The resize handle must be within the resizable item. It seems there
-  is some interaction with the PRE element, however, because the
-  container won't resize even when the height is left unspecified
-  which should, I believe, result in auto-resizing behavior.
-</div>
-<div class="p">
-  One other (seeming) idosyncrosy to note: you can't place the drag-handle image
-  inside the drag handle div, it has to be used as a background to the div;
-  the problem is that if the image is it's own element in the div, you cannot
-  actually grab where the image is, it hides the div and is not itself part of
-  the drag handle. I.e., the drag handle element must not have any (visible)
-  children.
+  Here we define library method <code>code2html</code> to process
+  documentation requests for 'src' files. This will display any file
+  as a series of documentation blocks interspersed with the literal
+  code blocks, nicely formatted and resizable.
 </div>
 */
 function code2html($file_path) {
     echo '<div class="grid_12">'."\n";
-    /**
-       <div class="p">
-       It's now time to process the file itself. The basic idea is to iterate over
-       the lines, looking for the documentation opening and closing
-       markers. Documentation is extracted the rest is treated as code and placed
-       into 'prettyprint' classes to be processed by
-       <a href="https://code.google.com/p/google-code-prettify/">Google's pretty print JS</a>.
-       </div>
-       <div class="p">
-       There are basically two states: '$inDoc' and '!$inDoc' == 'in code'. In
-       order to keep the line numbers in the code blocks correct, we count the lines
-       as we process them.
-       </div>
+/**
+<div class="p">
+  The basic idea is to iterate over each line, looking for the
+  documentation opening and closing markers. Documentation is
+  extracted as HTML or plain text. Non-documentation is placed into
+  <code>prettyprint</code> blocks processed by <a
+  href="https://code.google.com/p/google-code-prettify/">Google's
+  pretty print JS</a>.
+</div>
     */
     $minExpandSize = 5;
     $inDoc = false; // track state
@@ -64,38 +34,26 @@ function code2html($file_path) {
        viewers to expand the code block size. The <code>code_close()</code> function
        makes the determination.
        </div>
-       <div class="p">
-       The bit with <code>.wrap(...)</code> is to <a
-       href="http://stackoverflow.com/questions/3858460/jquery-ui-resizable-with-scroll-bars">get
-       <code>resizable()</code> working with scroll bars</a>.
-       </div>
-       <div class="p">
-       The fiddly bit the <code>$refEl</code> as about getting the
-       expansion 'container' properly set up. It seems like there
-       should be a more elegant solution, but the
-       <code>linenums</code> class within each
-       <code>prettyprint</code> is 'almost' the right size, except we
-       have to account for the border and padding of the containing
-       elements. So, we create a hidden element pinned in position
-       with the correct size. We can't just reference the containing
-       elements as the container because we want to have our code
-       blocks initially smaller so the reader focuses on the words.
-       </div>
     */
     function code_close($codeCount, $currCodeId, $minExpandSize) {
         echo '</pre></div>'."\n";
         // if the $codeCount is greater than 6, then apply the 'long' modifier,
         // which sets the initial height
         if ($codeCount > $minExpandSize) {
-            // What's all this? Well, it's actually pretty trick to
-            // get jQuery UI 'resizable' to work with scrolling
-            // content and get the proper containment. We follow the
-            // solution below for the scroll problem. For the
-            // containment, we reference the inner 'linenums' which
-            // (seemingly) must be referenced as a selector. Using
-            // searching with the 'this' context fails to give the
-            // proper results.
-            // 
+/**
+<div class="p">
+  The element ID tracked by <code>$currCodeId</code> is the
+  <code>pre</code> within the <code>.prettyPrintBox</code>. It's the
+  <code>.prettyPrintBox</code> we actually target with the resizable
+  (<code>parent()</code>). We set the <code>height</code> to keep the
+  longer code block from breaking up the narrative documentation, and
+  the <code>maxHeight</code> to limit the resizable to 'as much as
+  needed'. The hard coded '14' is good enough for now, but could be
+  made dynamic. Finally, we have to set the
+  <code>pre.prettyprint</code> <code>height: '100%'</code> so that it
+  will 'fill up' the containing box as it expands.
+</div>
+*/
             echo "<script>$(window).load(function() {
   var \$refEl = $('#".$currCodeId." .linenums');
 
