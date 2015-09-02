@@ -25,11 +25,11 @@
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug - - >
 <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 -->
+<script src="https://cdn.rawgit.com/google/code-prettify/2184f477a015467cab1b2be8742d58133609a9a9/src/run_prettify.js"></script>
 <script>
 $(document).ready(function(){
     $(".sticky").sticky({topSpacing:0});
   });
-  prettyPrint();
 
 // Cache selectors
 var $topMenu = $("#navbar.scroll-aware");

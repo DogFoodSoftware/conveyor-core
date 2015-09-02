@@ -134,11 +134,6 @@ cd "$CONVEYOR_DATA/files/js"
 curl -fsSL http://code.jquery.com/jquery-2.1.4.js > jquery-2.1.4.js
 curl -fsSL https://raw.githubusercontent.com/HenrikJoreteg/ICanHaz.js/9b40b59d7ace192741546a2399da3de0cb5ba44f/ICanHaz.js > ICanHaz-0.10.2.js
 curl -fsSL https://raw.githubusercontent.com/garand/sticky/7136048f53d11bd2f483fb912e40fda68d99c44a/jquery.sticky.js > jquery.sticky-1.0.3.js
-sudo su - vagrant -c 'mkdir -p ~/tmp/gp'
-sudo su - vagrant -c 'cd ~/tmp/gp && curl -fsSL https://github.com/google/code-prettify/blob/master/distrib/prettify-small.tar.bz2?raw=true | tar xj'
-sudo su - vagrant -c 'cp ~/tmp/gp/google-code-prettify/*.css $HOME/data/files/css'
-sudo su - vagrant -c 'cp ~/tmp/gp/google-code-prettify/*.js $HOME/data/files/js'
-sudo su - vagrant -c 'rm -rf ~/tmp/gp'
 
 # Setup Bootstrap
 cd "$CONVEYOR_DATA/apps"

@@ -96,36 +96,16 @@ function code2html($file_path) {
             // searching with the 'this' context fails to give the
             // proper results.
             // 
-            echo "<script>$('#".$currCodeId."').addClass('long').css('height', '5em');
-$(document).ready(function() {
+            echo "<script>$(window).load(function() {
   var \$refEl = $('#".$currCodeId." .linenums');
-  var refPos = \$refEl.position();
-  var container = $('<div>&npbs;</div>')
-      .attr('id', 'container".$currCodeId."')
-      .height(\$refEl.height() + 10)
-      .width((\$refEl.parent().parent().width() + 4) + 'px')
-      .css({position: 'absolute',
-            visibility: 'hidden', 
-            top: refPos.top + 'px', 
-            left: refPos.left + 'px'});
 
   $('#".$currCodeId."')
-    .wrap('<div/>')
-      .css({'overflow':'hidden'})
-        .parent()
-          .css({'display':'block',
-                'overflow':'hidden',
-                'height':function(){return $('.prettyprint',this).height();}
-
-          })
-          .resizable({handles:'s' })
-          .css({maxHeight: \$refEl.height() + 14 + 'px'})
-          .find('.prettyprint')
-          .css({overflow:'auto',
-                width:'100%',
-                height:'100%'});
-});
-</script>";
+    .parent()
+    .resizable({handles: 's'})
+    .css({height: '5em',overflow:'hidden',maxHeight: (Math.round(\$refEl.height()) + 14) + 'px'})
+    .find('.prettyprint')
+    .css({height:'100%',overflow:'auto'});
+});</script>";
         }
     }
       
