@@ -62,6 +62,18 @@ until [ $1 == -- ]; do
 done
 shift
 
+source /etc/environment
+if [ -z $PLAYGROUND ]; then
+    # Assume none of the conveyor vars are set.
+    echo "export CON_USER=$USER" >> /etc/environment
+    echo "export PLAYGROUND=/home/\$CON_USER/playground" >> /etc/environment
+    echo "export RUNTIME_HOME=/home/\$CON_USER/runtime" >> /etc/environment
+    echo "export DOCUMENTATION_HOME=/home/\$CON_USER/documentation" >> /etc/environment
+    echo "export CONVEYOR_CORE=\$PLAYGROUND/DogFoodSoftware/conveyor-core" >> /etc/environment
+
+    source /etc/environment
+fi
+
 PREREQUISITES_GOOD=true
 # Need to be able to 'sudo' root for certain operations.  TODO: with
 # the adoption of nix, some of the original motives for this are no
@@ -102,6 +114,15 @@ git clone -b $CONVEYOR_VER --depth 1 https://github.com/${GITHUB_REF}.git $GITHU
 # But then swtich to SSH for easy updates for those with authorized keys.
 cd "$GITHUB_REF"
 git remote set-url origin git@github.com:${GITHUB_REF}.git
+source $CONVEYOR_CORE/src/lib/conveyor-libs.sh
+
+con_safe_mkdir \
+    $DOCUMENTATION_HOME \
+    $DOCUMENTATION_HOME/src \
+    $RUNTIME_HOME \
+    $RUNTIME_HOME/logs \
+    $RUNTIME_HOME/logs/environment \
+    /home/$CON_USER/bin
 
 # Link in the HTML template pages.
 for i in `ls ${PROJECT_HOME}/conf/html/template-page-*.php`; do
