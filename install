@@ -106,8 +106,40 @@ for i in "$PLAYGROUND" \
     fi
 done
 
+echo "Updating and installing node..."
+# Add repo for node 0.12
+INSTALL_TRY=0
+MAX_TRY=3
+NODE_12_SETUP=1 # false in bash
+set +e
+# Appearently 'apt-get update' can get tripped up on a race condition.
+# http://askubuntu.com/questions/553765/failed-to-fetch-update-on-ubuntu-14-04-lts-trusty-tahr
+while [ ! $NODE_12_SETUP ]; do
+    curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash -
+    if [ ! $? ]; then
+	INSTALL_TRY=$(($INSTALL_TRY + 1))
+	# Yes, this 'if' makes the while check redundant, but we keep
+	# for readability.
+	if [ $INSTALL_TRY -ge $MAX_TRY ]; then
+	    echo "Could not install nodesource." >&2
+	    exit 1
+	else
+	    sudo rm /var/lib/apt/lists/* -vf
+	fi
+    else
+	NODE_12_SETUP=0 # bash for true
+    fi
+done
+set -e
 sudo apt-get update
-sudo apt-get install -y git nginx node npm php5-fpm
+# 'build-essential' and 'g++' are used in some npm installs.
+WEB_SERVICES="build-essential g++ nodejs nginx npm php5-fpm git"
+sudo apt-get install -y $WEB_SERVICES
+
+# Create symbolic link between nodejs and node
+# This is done because some older programs still 
+# call nodejs with an older syntax 
+sudo ln -s /usr/bin/nodejs /usr/bin/node
 
 cd "$PLAYGROUND"
 # We checkout via HTTPS in case the 'ssh-agent' isn't available when
@@ -146,13 +178,7 @@ sudo service nginx restart
 sudo patch /etc/php5/fpm/php.ini $HOME/playground/DogFoodSoftware/conveyor-core/conf/php5-fpm-ini.patch
 sudo service php5-fpm restart
 
-# Want to do:
-# sudo -u vagrant bash -c <(curl -fsSL https://raw...)
-# but the user flipping breaks with "can't read /dev/fd/63"; using 'bash -c "$(...)"' messes up the $HOME replacement.
-curl -fsSL https://raw.githubusercontent.com/DogFoodSoftware/conveyor-minify/master/install > minify-install.tmp
-# In order te got the 'vagrant' environment variables set (e.g., 'sudo' would leave $HOME=/root)
-sudo su - vagrant -c "bash $PWD/minify-install.tmp"
-rm minify-install.tmp
+bash -c $(curl -fsSL https://raw.githubusercontent.com/DogFoodSoftware/conveyor-minify/master/install)
 
 # Grab default JS.
 
