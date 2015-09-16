@@ -222,4 +222,4 @@ ln -s $HOME/playground/Liquid-Labs/bi-curious/files/images/* $HOME/data/files/im
 mkdir -p $HOME/data/fonts
 ln -s $CONVEYOR_DATA/apps/bootstrap/fonts/* $CONVEYOR_DATA/files/fonts
 
-con_doc_link $CONVEYOR_CORE/documentation
+con_doc_link $CONVEYOR_CORE/documentation /DogFoodSoftware.conveyor-core

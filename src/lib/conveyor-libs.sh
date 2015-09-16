@@ -26,15 +26,16 @@ function con_doc_link {
 
     source /etc/environment # defines $DOCUMENTATION_HOME
 
+    if [ ! -d "$DOCUMENTATION_HOME/$PATH_OFFSET" ]; then
+	mkdir "$DOCUMENTATION_HOME/$PATH_OFFSET"
+    fi
+
     local SAVEIFS=$IFS
     IFS=$(echo -en "\n\b")
 
     for i in `ls $SOURCE_ROOT`; do
 	IOFFSET="$PATH_OFFSET/$i"
 	if [ -d "$SOURCE_ROOT/$i" ]; then
-	    if [ ! -d "$DOCUMENTATION_HOME/$IOFFSET" ]; then
-		mkdir "$DOCUMENTATION_HOME/$IOFFSET"
-	    fi
 	    con_doc_link "$SOURCE_ROOT/$i" "$IOFFSET"
 	else
 	    if [ ! -f "$DOCUMENTATION_HOME/$IOFFSET" ]; then
