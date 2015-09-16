@@ -178,7 +178,11 @@ sudo service nginx restart
 sudo patch /etc/php5/fpm/php.ini $HOME/playground/DogFoodSoftware/conveyor-core/conf/php5-fpm-ini.patch
 sudo service php5-fpm restart
 
-bash -c $(curl -fsSL https://raw.githubusercontent.com/DogFoodSoftware/conveyor-minify/master/install)
+# not sure why, but direct install not working (2015-09-16)
+# bash -c $(curl -fsSL https://raw.githubusercontent.com/DogFoodSoftware/conveyor-minify/master/install)
+curl -fsSL https://raw.githubusercontent.com/DogFoodSoftware/conveyor-minify/master/install > minify-install.tmp
+bash minify-install.tmp
+rm minify-install.tmp
 
 # Grab default JS.
 
