@@ -132,11 +132,11 @@ for i in `ls ${PROJECT_HOME}/conf/html/template-page-*.php`; do
 done
 
 # Link in the REST service configurations.
-mkdir -p /etc/nginx/services
+sudo mkdir -p /etc/nginx/services
+sudo chown -R vagrant:vagrant /etc/nginx/service
 for i in `ls ${PROJECT_HOME}/conf/service-*.nginx.conf`; do
     ln -s "$i" /etc/nginx/services
 done
-chown -r vagrant:vagrant /etc/nginx/service
 ln -s "${PROJECT_HOME}/conf/default.minify.php" "$HOME/data/conf/html/"
 sudo patch /etc/nginx/fastcgi_params $HOME/playground/DogFoodSoftware/conveyor-core/conf/fastcgi_params.nginx.patch
 sudo service nginx restart
