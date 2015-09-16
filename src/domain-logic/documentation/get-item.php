@@ -16,6 +16,7 @@ function human_out($in) {
     return $out;
 }
 
+$document_contents = '';
 if (!file_exists($file_path)) {
     $msg = "404: Did not find '$req_path'.";
     $response->set_data(array("document" => array('contents' => $msg)));
@@ -27,7 +28,7 @@ else {
             $document_contents .= "<ul>\n";
             while (($file = readdir($dh)) !== false) {
                 if (!(preg_match("/^\./", $file) || preg_match('/~$/', $file))) {
-                    $url_path = $req_path.(preg_match('|/$/', $req_path) ? '' : '/').$file;
+                    $url_path = $req_path.(preg_match('|/$|', $req_path) ? '' : '/').$file;
                     $document_contents .= '<li><a href="'.$url_path.'">'.human_out($file)."</a></li>\n";
                 }
             }

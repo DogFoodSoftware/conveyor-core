@@ -2,7 +2,7 @@
 
 $files_dir = '/home/vagrant/data/files';
 $jquery = array("$files_dir/js/jquery-2.1.4.js",
-                "$files_dir/js/jquery-ui.js");
+                "$files_dir/js/jquery-ui-1.11.4.js");
 $js = array_slice(
     array_unique(
         array_merge($jquery,
