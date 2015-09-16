@@ -30,15 +30,13 @@ function con_doc_link {
     IFS=$(echo -en "\n\b")
 
     for i in `ls $SOURCE_ROOT`; do
+	IOFFSET="$PATH_OFFSET/$i"
 	if [ -d "$SOURCE_ROOT/$i" ]; then
-	    PATH_OFFSET="$PATH_OFFSET/$i"
-	    if [ ! -d "$DOCUMENTATION_HOME/$i" ]; then
-		mkdir "$DOCUMENTATION_HOME/$i"
+	    if [ ! -d "$DOCUMENTATION_HOME/$IOFFSET" ]; then
+		mkdir "$DOCUMENTATION_HOME/$IOFFSET"
 	    fi
-	    con_doc_link "$SOURCE_ROOT/$i" "$PATH_OFFSET"
+	    con_doc_link "$SOURCE_ROOT/$i" "$IOFFSET"
 	else
-	    echo "is link"
-	    IOFFSET="$PATH_OFFSET/$i"
 	    if [ ! -f "$DOCUMENTATION_HOME/$IOFFSET" ]; then
 		ln -s "$SOURCE_ROOT/$i" "${DOCUMENTATION_HOME}$IOFFSET"
 	    fi
