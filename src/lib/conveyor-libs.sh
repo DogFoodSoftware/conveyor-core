@@ -13,7 +13,6 @@ function con_safe_mkdir {
     until [ -z $1 ]; do
        if [[ ! -d $1 ]]; then
            sudo -u $CON_USER mkdir $1
-	   # ? chgrp www-data $1
        fi
        shift
     done
@@ -27,7 +26,7 @@ function con_doc_link {
     source /etc/environment # defines $DOCUMENTATION_HOME
 
     if [ ! -d "$DOCUMENTATION_HOME/$PATH_OFFSET" ]; then
-	mkdir "$DOCUMENTATION_HOME/$PATH_OFFSET"
+	sudo -u $CON_USER mkdir "$DOCUMENTATION_HOME/$PATH_OFFSET"
     fi
 
     local SAVEIFS=$IFS
