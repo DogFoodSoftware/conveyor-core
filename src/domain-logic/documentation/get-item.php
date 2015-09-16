@@ -12,7 +12,7 @@ $file_path = "/home/vagrant/documentation/$req_item_id";
 
 function human_out($in) {
     $out = preg_replace('/-/', ' ', $in);
-    $out = preg_replace('/\.[^.]+$/', '', $out);
+    $out = preg_replace('/\.[html|md]+$/', '', $out);
     return $out;
 }
 
