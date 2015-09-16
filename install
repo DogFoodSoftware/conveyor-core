@@ -107,7 +107,7 @@ for i in "$PLAYGROUND" \
 done
 
 sudo apt-get update
-sudo apt-get install -y git nginx npm php5-fpm
+sudo apt-get install -y git nginx node npm php5-fpm
 
 cd "$PLAYGROUND"
 # We checkout via HTTPS in case the 'ssh-agent' isn't available when
