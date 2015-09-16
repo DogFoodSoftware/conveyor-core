@@ -58,7 +58,7 @@ else {
         }
         else {
             if (preg_match('/\.html$/', $file_path)) {
-                $document_contents .= '<iframe id="extern-html" src="/files/'.basename($file_path).'" style="width: 100%; height: 100%"></iframe>';
+                $document_contents .= '<iframe id="extern-html" src="/files/misc/'.basename($file_path).'" style="width: 100%; height: 100%"></iframe>';
                 $document_contents .= '<script>$("#extern-html").load(function() { $(this).height($(this).contents().find("html").height());});</script>';
             }
             else {
