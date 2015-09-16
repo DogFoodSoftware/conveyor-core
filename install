@@ -133,7 +133,7 @@ done
 set -e
 sudo apt-get update
 # 'build-essential' and 'g++' are used in some npm installs.
-WEB_SERVICES="build-essential g++ nodejs nginx npm php5-fpm git"
+WEB_SERVICES="build-essential g++ nodejs nginx npm php5-fpm git unzip"
 sudo apt-get install -y $WEB_SERVICES
 
 # Create symbolic link between nodejs and node
@@ -186,6 +186,13 @@ cd "$CONVEYOR_DATA/files/js"
 curl -fsSL http://code.jquery.com/jquery-2.1.4.js > jquery-2.1.4.js
 curl -fsSL https://raw.githubusercontent.com/HenrikJoreteg/ICanHaz.js/9b40b59d7ace192741546a2399da3de0cb5ba44f/ICanHaz.js > ICanHaz-0.10.2.js
 curl -fsSL https://raw.githubusercontent.com/garand/sticky/7136048f53d11bd2f483fb912e40fda68d99c44a/jquery.sticky.js > jquery.sticky-1.0.3.js
+# Setting up jquery UI is a bit more involved
+mkdir -p ~/tmp
+cd ~/tmp
+curl -fsSL http://jqueryui.com/resources/download/jquery-ui-1.11.4.zip > jquery-ui-1.11.4.zip
+unzip jquery-ui-1.11.4.zip
+cd jquery-ui-1.11.4
+cp jquery-ui.js "$CONVEYOR_DATA/files/js/jquery-ui-1.11.4.js"
 
 # Setup Bootstrap
 cd "$CONVEYOR_DATA/apps"
