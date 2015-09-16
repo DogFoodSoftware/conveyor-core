@@ -2,6 +2,9 @@
 
 set -e
 
+# expects to run as root
+# TODO: tes th
+
 # /**
 #  * <div id="Default-Values" class="section">
 #  * <div class="section-header"><span>Default Values</span></div>
@@ -44,16 +47,13 @@ function usage() {
 FORCE_CORE=false
 FORCE_DISTRO=false
 
-TMP=`getopt --name=$0 -a --longoptions=force,playground -o f,p -- $@`
+TMP=`getopt --name=$0 -a --longoptions=force -o f -- $@`
 eval set -- $TMP
 
 until [ $1 == -- ]; do
     case "$1" in
 	-f|--force)
 	    FORCE_CORE=true;;
-	-p|--playground)
-	    CONVEYOR_PLAYGROUND="$2"
-	    shift;;
 	-c|--checkout-version)
 	    CHECKOUT_VERSION="$2"
 	    shift;;
@@ -61,18 +61,6 @@ until [ $1 == -- ]; do
     shift
 done
 shift
-
-source /etc/environment
-if [ -z $PLAYGROUND ]; then
-    # Assume none of the conveyor vars are set.
-    echo "export CON_USER=$USER" >> /etc/environment
-    echo "export PLAYGROUND=/home/\$CON_USER/playground" >> /etc/environment
-    echo "export RUNTIME_HOME=/home/\$CON_USER/runtime" >> /etc/environment
-    echo "export DOCUMENTATION_HOME=/home/\$CON_USER/documentation" >> /etc/environment
-    echo "export CONVEYOR_CORE=\$PLAYGROUND/DogFoodSoftware/conveyor-core" >> /etc/environment
-
-    source /etc/environment
-fi
 
 PREREQUISITES_GOOD=true
 # Need to be able to 'sudo' root for certain operations.  TODO: with
@@ -94,6 +82,18 @@ fi
 # /**
 #  * </div><!-- #Prerequisite-Checks.section -->
 #  */
+
+source /etc/environment
+if [ -z $PLAYGROUND ]; then
+    # Assume none of the conveyor vars are set.
+    sudo echo "export CON_USER=$USER" >> /etc/environment
+    sudo echo "export PLAYGROUND=/home/\$CON_USER/playground" >> /etc/environment
+    sudo echo "export RUNTIME_HOME=/home/\$CON_USER/runtime" >> /etc/environment
+    sudo echo "export DOCUMENTATION_HOME=/home/\$CON_USER/documentation" >> /etc/environment
+    sudo echo "export CONVEYOR_CORE=\$PLAYGROUND/DogFoodSoftware/conveyor-core" >> /etc/environment
+
+    sudo source /etc/environment
+fi
 
 for i in "$CONVEYOR_PLAYGROUND" \
          "$CONVEYOR_DATA/files/css" \
