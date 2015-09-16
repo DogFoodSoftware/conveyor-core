@@ -134,7 +134,7 @@ done
 
 # Link in the REST service configurations.
 sudo mkdir -p /etc/nginx/services
-sudo chown -R vagrant:vagrant /etc/nginx/service
+sudo chown -R vagrant:vagrant /etc/nginx/services
 for i in `ls ${PROJECT_HOME}/conf/service-*.nginx.conf`; do
     ln -s "$i" /etc/nginx/services
 done
