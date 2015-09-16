@@ -10,10 +10,10 @@ set -e
 #  * <div class="section-header"><span>Default Values</span></div>
 #  */
 GITHUB_REF=DogFoodSoftware/conveyor-core
-CONVEYOR_PLAYGROUND="$HOME/playground"
+PLAYGROUND="$HOME/playground"
 CONVEYOR_DATA="$HOME/data"
 CONVEYOR_VER="master"
-PROJECT_HOME="${CONVEYOR_PLAYGROUND}/${GITHUB_REF}"
+PROJECT_HOME="${PLAYGROUND}/${GITHUB_REF}"
 # /**
 #  * </div><!-- #Default-Values.section -->
 #  *
@@ -84,18 +84,18 @@ fi
 #  */
 
 source /etc/environment
-if [ -z $PLAYGROUND ]; then
+if [ -z $CON_USER ]; then
     # Assume none of the conveyor vars are set.
-    sudo echo "export CON_USER=$USER" >> /etc/environment
-    sudo echo "export PLAYGROUND=/home/\$CON_USER/playground" >> /etc/environment
-    sudo echo "export RUNTIME_HOME=/home/\$CON_USER/runtime" >> /etc/environment
-    sudo echo "export DOCUMENTATION_HOME=/home/\$CON_USER/documentation" >> /etc/environment
-    sudo echo "export CONVEYOR_CORE=\$PLAYGROUND/DogFoodSoftware/conveyor-core" >> /etc/environment
-
-    sudo source /etc/environment
+    sudo bash -c "echo 'export CON_USER=$USER' >> /etc/environment"
+    sudo bash -c "echo 'export PLAYGROUND=/home/\$CON_USER/playground' >> /etc/environment"
+    sudo bash -c "echo 'export RUNTIME_HOME=/home/\$CON_USER/runtime' >> /etc/environment"
+    sudo bash -c "echo 'export DOCUMENTATION_HOME=/home/\$CON_USER/documentation' >> /etc/environment"
+    sudo bash -c "echo 'export CONVEYOR_CORE=\$PLAYGROUND/DogFoodSoftware/conveyor-core' >> /etc/environment"
+    
+    source /etc/environment
 fi
 
-for i in "$CONVEYOR_PLAYGROUND" \
+for i in "$PLAYGROUND" \
          "$CONVEYOR_DATA/files/css" \
          "$CONVEYOR_DATA/files/js" \
          "$CONVEYOR_DATA/files/fonts" \
@@ -106,7 +106,7 @@ for i in "$CONVEYOR_PLAYGROUND" \
     fi
 done
 
-cd "$CONVEYOR_PLAYGROUND"
+cd "$PLAYGROUND"
 # We checkout via HTTPS in case the 'ssh-agent' isn't available when
 # the script is run; such as when the script is run with an alternate
 # user using 'sudo'.
@@ -166,7 +166,7 @@ git clone -o ${BOOTSTRAP_REV} --depth 1 https://github.com/twbs/bootstrap.git bo
 ln -s "$CONVEYOR_DATA/apps/bootstrap/dist/js/bootstrap.js" "$CONVEYOR_DATA/files/js/bootstrap-3.3.5.js"
 
 # Setup default style, Liquid-Labs/bi-curious
-cd "$CONVEYOR_PLAYGROUND"
+cd "$PLAYGROUND"
 # BI_CURIOUS_REV="099c6b6bc393fb8e0a4ba9f006197c27f37ecd43"
 # git clone -o ${BI_CURIOUS_REV} --depth 1 https://github.com/Liquid-Labs/bi-curious.git bi-curious
 git clone https://github.com/Liquid-Labs/bi-curious.git Liquid-Labs/bi-curious
