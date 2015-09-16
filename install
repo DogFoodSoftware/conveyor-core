@@ -221,3 +221,5 @@ mkdir -p $HOME/data/files/images
 ln -s $HOME/playground/Liquid-Labs/bi-curious/files/images/* $HOME/data/files/images
 mkdir -p $HOME/data/fonts
 ln -s $CONVEYOR_DATA/apps/bootstrap/fonts/* $CONVEYOR_DATA/files/fonts
+
+con_doc_link $CONVEYOR_CORE/documentation

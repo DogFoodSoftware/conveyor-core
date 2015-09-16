@@ -24,10 +24,17 @@ if (!file_exists($file_path)) {
 }
 else {
     if (is_dir($file_path)) {
+        $intro_path = $file_path."_intro";
+        if (file_exists($intro_path)) {
+            $document_contents .= '<div class="dir-intro">'."\n";
+            $document_contents .= file_get_contents($intro_path);
+            $document_contents .= "</div><!-- .dir-intro -->\n";
+        }
+
         if ($dh = opendir($file_path)) {
             $document_contents .= "<ul>\n";
             while (($file = readdir($dh)) !== false) {
-                if (!(preg_match("/^\./", $file) || preg_match('/~$/', $file))) {
+                if (!(preg_match("/^[._]/", $file) || preg_match('/~$/', $file))) {
                     $url_path = $req_path.(preg_match('|/$|', $req_path) ? '' : '/').$file;
                     $document_contents .= '<li><a href="'.$url_path.'">'.human_out($file)."</a></li>\n";
                 }
@@ -50,7 +57,13 @@ else {
             $document_contents = ob_get_clean();
         }
         else {
-            $document_contents = file_get_contents($file_path);
+            if (preg_match('/\.html$/', $file_path)) {
+                $document_contents .= '<iframe id="extern-html" src="/files/'.basename($file_path).'" style="width: 100%; height: 100%"></iframe>';
+                $document_contents .= '<script>$("#extern-html").load(function() { $(this).height($(this).contents().find("html").height());});</script>';
+            }
+            else {
+                $document_contents .= file_get_contents($file_path);
+            }
         }
         $document = array('contents' => $document_contents);
     }
