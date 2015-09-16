@@ -106,6 +106,8 @@ for i in "$PLAYGROUND" \
     fi
 done
 
+sudo apt-get install -y git
+
 cd "$PLAYGROUND"
 # We checkout via HTTPS in case the 'ssh-agent' isn't available when
 # the script is run; such as when the script is run with an alternate
