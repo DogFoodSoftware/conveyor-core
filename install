@@ -153,7 +153,6 @@ source $CONVEYOR_CORE/src/lib/conveyor-libs.sh
 
 con_safe_mkdir \
     $DOCUMENTATION_HOME \
-    $DOCUMENTATION_HOME/src \
     $RUNTIME_HOME \
     $RUNTIME_HOME/logs \
     $RUNTIME_HOME/logs/environment \
