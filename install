@@ -222,3 +222,4 @@ mkdir -p $HOME/data/fonts
 ln -s $CONVEYOR_DATA/apps/bootstrap/fonts/* $CONVEYOR_DATA/files/fonts
 
 con_doc_link $CONVEYOR_CORE/documentation /DogFoodSoftware.conveyor-core
+ln -s $HOME/playground/DogFoodSoftware/conveyor-core $DOCUMENTATION_HOME/DogFoodSoftware.conveyor-core/src'
