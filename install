@@ -84,13 +84,15 @@ fi
 #  */
 
 source /etc/environment
-if [ -z $CON_USER ]; then
-    # Assume none of the conveyor vars are set.
+if [ -z $CON_USER ]; then # Assume none of the conveyor vars are set.
+    # Note that variable expansion does NOT work in /etc/environment.
+    # https://help.ubuntu.com/community/EnvironmentVariables#A.2Fetc.2Fenvironment
+    PLAYGROUND=/home/$USER/playground
     sudo bash -c "echo 'export CON_USER=$USER' >> /etc/environment"
-    sudo bash -c "echo 'export PLAYGROUND=/home/\$CON_USER/playground' >> /etc/environment"
-    sudo bash -c "echo 'export RUNTIME_HOME=/home/\$CON_USER/runtime' >> /etc/environment"
-    sudo bash -c "echo 'export DOCUMENTATION_HOME=/home/\$CON_USER/documentation' >> /etc/environment"
-    sudo bash -c "echo 'export CONVEYOR_CORE=\$PLAYGROUND/DogFoodSoftware/conveyor-core' >> /etc/environment"
+    sudo bash -c "echo 'export PLAYGROUND=/home/$USER/playground' >> /etc/environment"
+    sudo bash -c "echo 'export RUNTIME_HOME=/home/$USER/runtime' >> /etc/environment"
+    sudo bash -c "echo 'export DOCUMENTATION_HOME=/home/$USER/documentation' >> /etc/environment"
+    sudo bash -c "echo 'export CONVEYOR_CORE=$PLAYGROUND/DogFoodSoftware/conveyor-core' >> /etc/environment"
     
     source /etc/environment
 fi
