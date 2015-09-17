@@ -1,0 +1,6 @@
+<div class="p">
+  Welcome to the Conveyor documentation root. You will find reference
+  to all properly implemented Conveyor projects installed on this host
+  below. If you don't know where to start, reference the <a
+  href="DogFoodSoftware.conveyor-core/">Conveyor Core</a> project.
+</div>
