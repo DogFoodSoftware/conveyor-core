@@ -36,6 +36,10 @@ else {
             while (($file = readdir($dh)) !== false) {
                 if (!(preg_match("/^[._]/", $file) || preg_match('/~$/', $file))) {
                     $url_path = $req_path.(preg_match('|/$|', $req_path) ? '' : '/').$file;
+                    # '$file_path' never has a trailing '/'
+		    if (is_dir($file_path.'/'.$file)) {
+                        $url_path .= '/'; # without '/' on dirs, '../' URLs get messed up.
+                    }
                     $document_contents .= '<li><a href="'.$url_path.'">'.human_out($file)."</a></li>\n";
                 }
             }
