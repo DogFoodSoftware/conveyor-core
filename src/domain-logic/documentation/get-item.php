@@ -79,14 +79,18 @@ else {
             $crumb_specs = explode('|', $breadcrumbs_spec);
         }
     }
-    if (empty($crumb_specs)) {
+    if (empty($crumb_specs)) { # then generate automatic breadcrumbs based on URL
         $path_bits = explode('/', preg_replace('|/$|', '', $req_path));
         array_shift($path_bits); # remove '' entry from the leading '/'
         array_shift($path_bits); # remove the resource path; already handled in the resource bug
+        $relative_offset = 2;
+	if (is_dir($file_path)) {
+            $relative_offset = 1;
+        }
         foreach ($path_bits as $index => $path_bit) {
             array_push($crumb_specs,
                        ($index + 1 < count($path_bits) ?
-                        '('.str_repeat('../', count($path_bits) - ($index + 1)).'.)':'')
+                        '('.str_repeat('../', count($path_bits) - ($index + $relative_offset)).'.)':'')
                        .$path_bit);
         }
     }

@@ -196,6 +196,7 @@ curl -fsSL http://jqueryui.com/resources/download/jquery-ui-1.11.4.zip > jquery-
 unzip jquery-ui-1.11.4.zip
 cd jquery-ui-1.11.4
 cp jquery-ui.js "$CONVEYOR_DATA/files/js/jquery-ui-1.11.4.js"
+cp jquery-ui.css "$CONVEYOR_DATA/files/css/jquery-ui-1.11.4.css"
 
 # Setup Bootstrap
 cd "$CONVEYOR_DATA/apps"
