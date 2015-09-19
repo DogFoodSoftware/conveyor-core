@@ -32,19 +32,40 @@ else {
         }
 
         if ($dh = opendir($file_path)) {
-            $document_contents .= "<ul>\n";
+            $files = array();
+            $dirs = array();
             while (($file = readdir($dh)) !== false) {
-                if (!(preg_match("/^[._]/", $file) || preg_match('/~$/', $file))) {
-                    $url_path = $req_path.(preg_match('|/$|', $req_path) ? '' : '/').$file;
+                if (!(preg_match("/^[._]/", $file) 
+                      || preg_match('/~$/', $file))) {
                     # '$file_path' never has a trailing '/'
-		    if (is_dir($file_path.'/'.$file)) {
-                        $url_path .= '/'; # without '/' on dirs, '../' URLs get messed up.
-                    }
-                    $document_contents .= '<li><a href="'.$url_path.'">'.human_out($file)."</a></li>\n";
+                    is_dir($file_path.'/'.$file) ?
+                           array_push($dirs, $file) :
+                           array_push($files, $file);
                 }
             }
             closedir($dh);
-            $document_contents .= "</ul>\n";
+            sort($files, SORT_NATURAL);
+            sort($dirs, SORT_NATURAL);
+
+            if (count($dirs) > 0) {
+                $document_contents .= "<h2>Sub-Categories</h2>";
+                $document_contents .= "<ul>\n";
+                foreach ($dirs as $dir) {
+                    $url_path = $req_path.(preg_match('|/$|', $req_path) ? '' : '/').$dir.'/';
+                    $document_contents .= '<li><a href="'.$url_path.'">'.human_out($dir)."/</a></li>\n";
+                }
+                $document_contents .= "</ul>\n";
+            }
+
+            if (count($files) > 0) {
+                $document_contents .= "<h2>Files</h2>";
+                $document_contents .= "<ul>\n";
+                foreach ($files as $file) {
+                    $url_path = $req_path.(preg_match('|/$|', $req_path) ? '' : '/').$file;
+                    $document_contents .= '<li><a href="'.$url_path.'">'.human_out($file)."</a></li>\n";
+                }
+                $document_contents .= "</ul>\n";
+            }
 
             $document = array('contents' => $document_contents);
         }
