@@ -1,0 +1,9 @@
+<div class="p">
+Specifications describe the <em>goals</em> of implementation and the
+
+As a style issue, I like to right specs in terms of "this is the spec
+for the release", and then implementation catches up. Which this more
+or less does, but good to be explicit. This is the spec document, and
+then we capture the diff between current implementation and next spec
+in issues, other documents, and comments on the spec. Once todo is
+done, the code is rel
