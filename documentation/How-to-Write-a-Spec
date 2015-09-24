@@ -30,7 +30,8 @@
 <div class="p">
   A release is written, from the draft stage onward, primarily as if
   it described an existing, implemented system. I.e., as if it were a
-  release specification.
+  release specification. That being said, a specification may include
+  non-normative "Next Steps" or "Future Goals" sections or asides.
 </div>
 <div class="p" id="re-todos">
   It's fine to insert placeholders and even text (typically set off by
