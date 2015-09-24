@@ -1,5 +1,9 @@
 <div class="p">
-Specifications describe the <em>goals</em> of implementation and the
+  A specification specifies the <em>goals of implementation</em>,
+  which becomes a <em>normative description of a production
+  release</em>. A <em>draft</em> specification is not yet implemented
+  and may potentially change. A <em>release draft</em> is thought to
+  be internally consistent and complete and is not expected to change. A <div>final draft</div> is one that is fully implemented and 
 
 As a style issue, I like to right specs in terms of "this is the spec
 for the release", and then implementation catches up. Which this more
