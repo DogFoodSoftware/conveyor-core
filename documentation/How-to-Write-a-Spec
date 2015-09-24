@@ -28,7 +28,30 @@
 </div>
 <h2>Language and Context</h2>
 <div class="p">
-  The language of a specification is definite, describing the release
-  as if it existed and was properly implemented. A draft release may
+  A release is written, from the draft stage onward, primarily as if
+  it described an existing, implemented system. I.e., as if it were a
+  release specification.
 </div>
-
+<div class="p" id="re-todos">
+  It's fine to insert placeholders and even text (typically set off by
+  a 'TODO:') addressing the authors directly, such as "TODO: describe
+  XYZ here." Such would be considered a type of issue, easy to capture
+  while writing the specification. But typically the language of draft
+  spects is describing what will be in the release, just doing so in
+  the present tense.
+</div>
+<div class="p">
+  The difference between a non-final draft specification and the
+  current state of implementation should be entirely captured in
+  durable issues or comments. Precisely how isn't important, though we
+  contemplate three basic types when writing this document:
+  <ul>
+    <li>'TODO' notes in the draft specification
+      as <a href="#re-todos">mentioned above,</li>
+    <li>meta-comments which preserve a thread and are resolvable, such
+      as thoses implemented by Google Docs as of September 2015,
+      and</li>
+    <li>issue captured in an issue tracker such as Github, Jira,
+      etc.</li>
+  </ul>
+</div>
