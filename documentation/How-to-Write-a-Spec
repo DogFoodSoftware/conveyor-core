@@ -4,21 +4,31 @@
   release</em>. I.e., for a pre-release implementation, the spec is a
   roadmap. After release, it becomes a definitive record.
 </div>
+<h2>Specification Lifecycle</h2>
+<h3>Draft</h3>
+<div class="p">
+  A <em>draft</em> specification is not yet implemented and may
+  potentially change. A draft need not be complete, but there should
+  exist documented, actionable items (issues or comments) detailing
+  what needs to be done to make it complete.
+<div class="p">
+  A <em>final draft</em> is thought to be internally consistent and
+  complete and is not expected to change. I.e., a draft because until
+  implemented in fact, the spec is considered not fully verified, but
+  final because all outstanding issues and comments regarding the
+  specification itself have been fully resolved.
+</div>
+<h3>Release</h3>
+<div class="p">
+  A <em>release specification</em> is believe to fully conform to a
+  release that is ready for or in production release. A release
+  specification may still be changed to address bugs within the
+  specification itself and to keep it in conformance with the
+  releassed code. In practice this should be exceedingly rare.
+</div>
 <h2>Language and Context</h2>
 <div class="p">
   The language of a specification is definite, describing the release
   as if it existed and was properly implemented. A draft release may
 </div>
-<h2>Specification Lifecycle</h2>
-<div class="p">
-  A <em>draft</em> specification is not yet implemented
-  and may potentially change. A <em>final draft</em> is thought to
-  be internally consistent and complete and is not expected to change.
-</div>
 
-As a style issue, I like to right specs in terms of "this is the spec
-for the release", and then implementation catches up. Which this more
-or less does, but good to be explicit. This is the spec document, and
-then we capture the diff between current implementation and next spec
-in issues, other documents, and comments on the spec. Once todo is
-done, the code is rel
