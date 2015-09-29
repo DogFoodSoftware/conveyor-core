@@ -205,14 +205,14 @@ cd "$CONVEYOR_DATA/apps"
 if [ -d 'twitter-bootstrap' ]; then
     rm -rf twitter-bootstrap
 fi
-BOOTSTRAP_REV="ab412b2404d12a3c55d1c4b798bd42ef32e80fab"
-git clone -o ${BOOTSTRAP_REV} --depth 1 https://github.com/twbs/bootstrap.git bootstrap
+BOOTSTRAP_REV="v3.3.5"
+git clone -b ${BOOTSTRAP_REV} --depth 1 https://github.com/twbs/bootstrap.git bootstrap
 ln -s "$CONVEYOR_DATA/apps/bootstrap/dist/js/bootstrap.js" "$CONVEYOR_DATA/files/js/bootstrap-3.3.5.js"
 
 # Setup default style, Liquid-Labs/bi-curious
 cd "$PLAYGROUND"
-# BI_CURIOUS_REV="099c6b6bc393fb8e0a4ba9f006197c27f37ecd43"
-# git clone -o ${BI_CURIOUS_REV} --depth 1 https://github.com/Liquid-Labs/bi-curious.git bi-curious
+# BI_CURIOUS_REV="master"
+# git clone -b ${BI_CURIOUS_REV} --depth 1 https://github.com/Liquid-Labs/bi-curious.git bi-curious
 git clone https://github.com/Liquid-Labs/bi-curious.git Liquid-Labs/bi-curious
 cd Liquid-Labs/bi-curious
 git remote set-url origin git@github.com:Liquid-Labs/bi-curious.git
