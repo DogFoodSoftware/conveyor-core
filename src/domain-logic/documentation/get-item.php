@@ -122,7 +122,7 @@ else {
         }
     }
 
-    $document['title'] = array_pop($crumb_specs);
+    $document['title'] = human_out(array_pop($crumb_specs));
     $breadcrumbs = array();
     foreach ($crumb_specs as $crumb_spec) {
         if (preg_match('/\(([^\)]+)\)?(.+)/', $crumb_spec, $matches)) {
