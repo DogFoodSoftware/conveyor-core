@@ -7,6 +7,8 @@
  */
 require("lib/authorization-lib.php");
 require("lib/code2html.php");
+# TODO: this is shit; current thinking is to fix with composer.
+require("/home/vagrant/data/apps/parsedown/Parsedown.php");
 
 $file_path = "/home/vagrant/documentation/$req_item_id";
 
@@ -86,7 +88,11 @@ else {
                 $document_contents .= '<iframe id="extern-html" src="/files/misc/'.basename($file_path).'" style="width: 100%; height: 100%"></iframe>';
                 $document_contents .= '<script>$("#extern-html").load(function() { $(this).height($(this).contents().find("html").height());});</script>';
             }
-            else {
+            else if (preg_match('/\.md$/', $file_path)) {
+                $Parsedown = new Parsedown();
+                $document_contents .= $Parsedown->text(file_get_contents($file_path));
+            }
+            else { // Assume a 'partial' HTML file to be inserted as is in template.
                 $document_contents .= file_get_contents($file_path);
             }
         }

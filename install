@@ -202,8 +202,8 @@ cp jquery-ui.css "$CONVEYOR_DATA/files/css/jquery-ui-1.11.4.css"
 
 # Setup Bootstrap
 cd "$CONVEYOR_DATA/apps"
-if [ -d 'twitter-bootstrap' ]; then
-    rm -rf twitter-bootstrap
+if [ -d 'bootstrap' ]; then
+    rm -rf bootstrap
 fi
 BOOTSTRAP_REV="v3.3.5"
 git clone -b ${BOOTSTRAP_REV} --depth 1 https://github.com/twbs/bootstrap.git bootstrap
@@ -223,6 +223,15 @@ mkdir -p $HOME/data/files/images
 ln -s $HOME/playground/Liquid-Labs/bi-curious/files/images/* $HOME/data/files/images
 mkdir -p $HOME/data/fonts
 ln -s $CONVEYOR_DATA/apps/bootstrap/fonts/* $CONVEYOR_DATA/files/fonts
+
+# Setup third party PHP lib... TODO: pretty sure we will want to
+# switch to composer and drop this stuff.
+cd "$CONVEYOR_DATA/apps"
+if [ -d 'parsedown' ]; then
+    rm -rf parsedown
+fi
+mkdir parsedown
+curl -f https://github.com/erusev/parsedown/blob/3ebbd730b5c2cf5ce78bc1bf64071407fc6674b7/Parsedown.php > parsedown/Parsedown.php
 
 con_doc_link $CONVEYOR_CORE/documentation /DogFoodSoftware.conveyor-core
 ln -s $HOME/playground/DogFoodSoftware/conveyor-core $DOCUMENTATION_HOME/DogFoodSoftware.conveyor-core/src
