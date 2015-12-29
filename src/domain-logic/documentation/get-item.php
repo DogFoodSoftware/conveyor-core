@@ -26,7 +26,7 @@ if (!file_exists($file_path)) {
 }
 else {
     if (is_dir($file_path)) {
-        $intro_path = $file_path."_intro";
+        $intro_path = $file_path.(preg_match('|/$|', $file_path) ?'':'/')."_intro";
         if (file_exists($intro_path)) {
             $document_contents .= '<div class="dir-intro">'."\n";
             $document_contents .= file_get_contents($intro_path);
