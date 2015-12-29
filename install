@@ -101,6 +101,7 @@ for i in "$PLAYGROUND" \
          "$CONVEYOR_DATA/files/css" \
          "$CONVEYOR_DATA/files/js" \
          "$CONVEYOR_DATA/files/fonts" \
+         "$CONVEYOR_DATA/files/svg" \
          "$CONVEYOR_DATA/conf/html/ui" \
          "$CONVEYOR_DATA/apps"; do
     if [ ! -d "$i" ]; then
