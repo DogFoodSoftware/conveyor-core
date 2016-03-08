@@ -77,7 +77,7 @@ if ($topMenu.length > 0) {
     });
 }
 </script>
-<script src="/jquery.superslides.min.js"></script>
+<!-- script src="/jquery.superslides.min.js"></script>
 <script>
     $(document).ready(function(){
         /* Superslides is close and the closest we've found four our
@@ -121,7 +121,7 @@ if ($topMenu.length > 0) {
                 'scrollable': true});
 
                 });
-</script>
+</script -->
 </body>
 </html>
 
