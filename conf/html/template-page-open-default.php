@@ -17,7 +17,6 @@
   <script src="/minify/?g=jquery-js"></script>
   <link rel="shortcut icon" href="/style/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/minify/?g=default-css" />
-  <link rel="stylesheet" href="/superslides.css" />
   <link rel="stylesheet" href="style/main.css" />
 
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
