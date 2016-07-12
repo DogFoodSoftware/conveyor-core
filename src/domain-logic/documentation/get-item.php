@@ -32,6 +32,12 @@ else {
             $document_contents .= file_get_contents($intro_path);
             $document_contents .= "</div><!-- .dir-intro -->\n";
         }
+        else if (file_exists($intro_path.'.md')) {
+            $document_contents .= '<div class="dir-intro">'."\n";
+            $Parsedown = new Parsedown();
+            $document_contents .= $Parsedown->text(file_get_contents($intro_path.'.md'));
+            $document_contents .= "</div><!-- .dir-intro -->\n";
+	}
 
         if ($dh = opendir($file_path)) {
             $files = array();
